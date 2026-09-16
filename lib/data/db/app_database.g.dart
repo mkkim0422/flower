@@ -3451,6 +3451,21 @@ class $SettingsTable extends Settings with TableInfo<$SettingsTable, Setting> {
     requiredDuringInsert: false,
     defaultValue: const Constant(0),
   );
+  static const VerificationMeta _homeGridMeta = const VerificationMeta(
+    'homeGrid',
+  );
+  @override
+  late final GeneratedColumn<bool> homeGrid = GeneratedColumn<bool>(
+    'home_grid',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("home_grid" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -3461,6 +3476,7 @@ class $SettingsTable extends Settings with TableInfo<$SettingsTable, Setting> {
     onboardingDone,
     plantnetDay,
     plantnetCount,
+    homeGrid,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -3528,6 +3544,12 @@ class $SettingsTable extends Settings with TableInfo<$SettingsTable, Setting> {
         ),
       );
     }
+    if (data.containsKey('home_grid')) {
+      context.handle(
+        _homeGridMeta,
+        homeGrid.isAcceptableOrUnknown(data['home_grid']!, _homeGridMeta),
+      );
+    }
     return context;
   }
 
@@ -3571,6 +3593,10 @@ class $SettingsTable extends Settings with TableInfo<$SettingsTable, Setting> {
         DriftSqlType.int,
         data['${effectivePrefix}plantnet_count'],
       )!,
+      homeGrid: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}home_grid'],
+      )!,
     );
   }
 
@@ -3594,6 +3620,9 @@ class Setting extends DataClass implements Insertable<Setting> {
   /// PlantNet 일 호출 카운터 (5-2): yyyymmdd 정수 + 당일 호출 수
   final int plantnetDay;
   final int plantnetCount;
+
+  /// 홈 내 식물 목록 보기: true = 앨범(2열), false = 목록
+  final bool homeGrid;
   const Setting({
     required this.id,
     required this.notifyHour,
@@ -3603,6 +3632,7 @@ class Setting extends DataClass implements Insertable<Setting> {
     required this.onboardingDone,
     required this.plantnetDay,
     required this.plantnetCount,
+    required this.homeGrid,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -3621,6 +3651,7 @@ class Setting extends DataClass implements Insertable<Setting> {
     map['onboarding_done'] = Variable<bool>(onboardingDone);
     map['plantnet_day'] = Variable<int>(plantnetDay);
     map['plantnet_count'] = Variable<int>(plantnetCount);
+    map['home_grid'] = Variable<bool>(homeGrid);
     return map;
   }
 
@@ -3636,6 +3667,7 @@ class Setting extends DataClass implements Insertable<Setting> {
       onboardingDone: Value(onboardingDone),
       plantnetDay: Value(plantnetDay),
       plantnetCount: Value(plantnetCount),
+      homeGrid: Value(homeGrid),
     );
   }
 
@@ -3653,6 +3685,7 @@ class Setting extends DataClass implements Insertable<Setting> {
       onboardingDone: serializer.fromJson<bool>(json['onboardingDone']),
       plantnetDay: serializer.fromJson<int>(json['plantnetDay']),
       plantnetCount: serializer.fromJson<int>(json['plantnetCount']),
+      homeGrid: serializer.fromJson<bool>(json['homeGrid']),
     );
   }
   @override
@@ -3667,6 +3700,7 @@ class Setting extends DataClass implements Insertable<Setting> {
       'onboardingDone': serializer.toJson<bool>(onboardingDone),
       'plantnetDay': serializer.toJson<int>(plantnetDay),
       'plantnetCount': serializer.toJson<int>(plantnetCount),
+      'homeGrid': serializer.toJson<bool>(homeGrid),
     };
   }
 
@@ -3679,6 +3713,7 @@ class Setting extends DataClass implements Insertable<Setting> {
     bool? onboardingDone,
     int? plantnetDay,
     int? plantnetCount,
+    bool? homeGrid,
   }) => Setting(
     id: id ?? this.id,
     notifyHour: notifyHour ?? this.notifyHour,
@@ -3688,6 +3723,7 @@ class Setting extends DataClass implements Insertable<Setting> {
     onboardingDone: onboardingDone ?? this.onboardingDone,
     plantnetDay: plantnetDay ?? this.plantnetDay,
     plantnetCount: plantnetCount ?? this.plantnetCount,
+    homeGrid: homeGrid ?? this.homeGrid,
   );
   Setting copyWithCompanion(SettingsCompanion data) {
     return Setting(
@@ -3713,6 +3749,7 @@ class Setting extends DataClass implements Insertable<Setting> {
       plantnetCount: data.plantnetCount.present
           ? data.plantnetCount.value
           : this.plantnetCount,
+      homeGrid: data.homeGrid.present ? data.homeGrid.value : this.homeGrid,
     );
   }
 
@@ -3726,7 +3763,8 @@ class Setting extends DataClass implements Insertable<Setting> {
           ..write('backupUserId: $backupUserId, ')
           ..write('onboardingDone: $onboardingDone, ')
           ..write('plantnetDay: $plantnetDay, ')
-          ..write('plantnetCount: $plantnetCount')
+          ..write('plantnetCount: $plantnetCount, ')
+          ..write('homeGrid: $homeGrid')
           ..write(')'))
         .toString();
   }
@@ -3741,6 +3779,7 @@ class Setting extends DataClass implements Insertable<Setting> {
     onboardingDone,
     plantnetDay,
     plantnetCount,
+    homeGrid,
   );
   @override
   bool operator ==(Object other) =>
@@ -3753,7 +3792,8 @@ class Setting extends DataClass implements Insertable<Setting> {
           other.backupUserId == this.backupUserId &&
           other.onboardingDone == this.onboardingDone &&
           other.plantnetDay == this.plantnetDay &&
-          other.plantnetCount == this.plantnetCount);
+          other.plantnetCount == this.plantnetCount &&
+          other.homeGrid == this.homeGrid);
 }
 
 class SettingsCompanion extends UpdateCompanion<Setting> {
@@ -3765,6 +3805,7 @@ class SettingsCompanion extends UpdateCompanion<Setting> {
   final Value<bool> onboardingDone;
   final Value<int> plantnetDay;
   final Value<int> plantnetCount;
+  final Value<bool> homeGrid;
   const SettingsCompanion({
     this.id = const Value.absent(),
     this.notifyHour = const Value.absent(),
@@ -3774,6 +3815,7 @@ class SettingsCompanion extends UpdateCompanion<Setting> {
     this.onboardingDone = const Value.absent(),
     this.plantnetDay = const Value.absent(),
     this.plantnetCount = const Value.absent(),
+    this.homeGrid = const Value.absent(),
   });
   SettingsCompanion.insert({
     this.id = const Value.absent(),
@@ -3784,6 +3826,7 @@ class SettingsCompanion extends UpdateCompanion<Setting> {
     this.onboardingDone = const Value.absent(),
     this.plantnetDay = const Value.absent(),
     this.plantnetCount = const Value.absent(),
+    this.homeGrid = const Value.absent(),
   });
   static Insertable<Setting> custom({
     Expression<int>? id,
@@ -3794,6 +3837,7 @@ class SettingsCompanion extends UpdateCompanion<Setting> {
     Expression<bool>? onboardingDone,
     Expression<int>? plantnetDay,
     Expression<int>? plantnetCount,
+    Expression<bool>? homeGrid,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -3804,6 +3848,7 @@ class SettingsCompanion extends UpdateCompanion<Setting> {
       if (onboardingDone != null) 'onboarding_done': onboardingDone,
       if (plantnetDay != null) 'plantnet_day': plantnetDay,
       if (plantnetCount != null) 'plantnet_count': plantnetCount,
+      if (homeGrid != null) 'home_grid': homeGrid,
     });
   }
 
@@ -3816,6 +3861,7 @@ class SettingsCompanion extends UpdateCompanion<Setting> {
     Value<bool>? onboardingDone,
     Value<int>? plantnetDay,
     Value<int>? plantnetCount,
+    Value<bool>? homeGrid,
   }) {
     return SettingsCompanion(
       id: id ?? this.id,
@@ -3826,6 +3872,7 @@ class SettingsCompanion extends UpdateCompanion<Setting> {
       onboardingDone: onboardingDone ?? this.onboardingDone,
       plantnetDay: plantnetDay ?? this.plantnetDay,
       plantnetCount: plantnetCount ?? this.plantnetCount,
+      homeGrid: homeGrid ?? this.homeGrid,
     );
   }
 
@@ -3858,6 +3905,9 @@ class SettingsCompanion extends UpdateCompanion<Setting> {
     if (plantnetCount.present) {
       map['plantnet_count'] = Variable<int>(plantnetCount.value);
     }
+    if (homeGrid.present) {
+      map['home_grid'] = Variable<bool>(homeGrid.value);
+    }
     return map;
   }
 
@@ -3871,7 +3921,8 @@ class SettingsCompanion extends UpdateCompanion<Setting> {
           ..write('backupUserId: $backupUserId, ')
           ..write('onboardingDone: $onboardingDone, ')
           ..write('plantnetDay: $plantnetDay, ')
-          ..write('plantnetCount: $plantnetCount')
+          ..write('plantnetCount: $plantnetCount, ')
+          ..write('homeGrid: $homeGrid')
           ..write(')'))
         .toString();
   }
@@ -6663,6 +6714,7 @@ typedef $$SettingsTableCreateCompanionBuilder =
       Value<bool> onboardingDone,
       Value<int> plantnetDay,
       Value<int> plantnetCount,
+      Value<bool> homeGrid,
     });
 typedef $$SettingsTableUpdateCompanionBuilder =
     SettingsCompanion Function({
@@ -6674,6 +6726,7 @@ typedef $$SettingsTableUpdateCompanionBuilder =
       Value<bool> onboardingDone,
       Value<int> plantnetDay,
       Value<int> plantnetCount,
+      Value<bool> homeGrid,
     });
 
 class $$SettingsTableFilterComposer
@@ -6723,6 +6776,11 @@ class $$SettingsTableFilterComposer
 
   ColumnFilters<int> get plantnetCount => $composableBuilder(
     column: $table.plantnetCount,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get homeGrid => $composableBuilder(
+    column: $table.homeGrid,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -6775,6 +6833,11 @@ class $$SettingsTableOrderingComposer
     column: $table.plantnetCount,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<bool> get homeGrid => $composableBuilder(
+    column: $table.homeGrid,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$SettingsTableAnnotationComposer
@@ -6824,6 +6887,9 @@ class $$SettingsTableAnnotationComposer
     column: $table.plantnetCount,
     builder: (column) => column,
   );
+
+  GeneratedColumn<bool> get homeGrid =>
+      $composableBuilder(column: $table.homeGrid, builder: (column) => column);
 }
 
 class $$SettingsTableTableManager
@@ -6862,6 +6928,7 @@ class $$SettingsTableTableManager
                 Value<bool> onboardingDone = const Value.absent(),
                 Value<int> plantnetDay = const Value.absent(),
                 Value<int> plantnetCount = const Value.absent(),
+                Value<bool> homeGrid = const Value.absent(),
               }) => SettingsCompanion(
                 id: id,
                 notifyHour: notifyHour,
@@ -6871,6 +6938,7 @@ class $$SettingsTableTableManager
                 onboardingDone: onboardingDone,
                 plantnetDay: plantnetDay,
                 plantnetCount: plantnetCount,
+                homeGrid: homeGrid,
               ),
           createCompanionCallback:
               ({
@@ -6882,6 +6950,7 @@ class $$SettingsTableTableManager
                 Value<bool> onboardingDone = const Value.absent(),
                 Value<int> plantnetDay = const Value.absent(),
                 Value<int> plantnetCount = const Value.absent(),
+                Value<bool> homeGrid = const Value.absent(),
               }) => SettingsCompanion.insert(
                 id: id,
                 notifyHour: notifyHour,
@@ -6891,6 +6960,7 @@ class $$SettingsTableTableManager
                 onboardingDone: onboardingDone,
                 plantnetDay: plantnetDay,
                 plantnetCount: plantnetCount,
+                homeGrid: homeGrid,
               ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))

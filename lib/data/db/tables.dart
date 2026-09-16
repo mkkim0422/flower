@@ -173,6 +173,9 @@ class Settings extends Table {
   IntColumn get plantnetDay => integer().withDefault(const Constant(0))();
   IntColumn get plantnetCount => integer().withDefault(const Constant(0))();
 
+  /// 홈 내 식물 목록 보기: true = 앨범(2열), false = 목록
+  BoolColumn get homeGrid => boolean().withDefault(const Constant(true))();
+
   @override
   Set<Column> get primaryKey => {id};
 }

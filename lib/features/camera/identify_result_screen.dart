@@ -325,8 +325,10 @@ class _Unavailable extends StatelessWidget {
         '식물을 찾지 못했어요',
         '잎 전체가 나오게 다시 찍거나, 이름 검색으로 등록해 보세요',
       ),
-      UnavailableReason.modelMissing ||
-      UnavailableReason.apiError => ('지금은 식별을 할 수 없어요', '이름 검색으로 등록해 보세요'),
+      UnavailableReason.modelMissing || UnavailableReason.apiError => (
+        '지금은 식별을 할 수 없어요',
+        '식별 서버 연결이 아직 설정되지 않았어요. 이름 검색으로 등록해 보세요',
+      ),
     };
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,

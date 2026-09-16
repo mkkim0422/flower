@@ -25,7 +25,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.executor);
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -41,6 +41,9 @@ class AppDatabase extends _$AppDatabase {
       if (from < 2) {
         await m.addColumn(settings, settings.plantnetDay);
         await m.addColumn(settings, settings.plantnetCount);
+      }
+      if (from < 3) {
+        await m.addColumn(settings, settings.homeGrid);
       }
     },
     beforeOpen: (details) async {

@@ -8,8 +8,10 @@ import '../../app/theme.dart';
 import '../../app/widgets/app_button.dart';
 import '../../app/widgets/empty_state.dart';
 import '../../app/widgets/plant_card.dart';
+import '../../app/widgets/plant_grid_card.dart';
 import '../../app/widgets/today_check_tile.dart';
 import '../../data/repositories/plant_repository.dart';
+import '../../data/repositories/settings_repository.dart';
 import 'soil_check_sheet.dart';
 
 /// HOME-01
@@ -22,7 +24,6 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   final Set<int> _selected = {};
-  bool _bySpace = false;
 
   Future<void> _openSoilCheck(List<PlantEntry> entries) async {
     if (entries.isEmpty) return;
@@ -38,6 +39,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final now = DateTime.now();
     final dateLabel = DateFormat('M월 d일 EEEE', 'ko_KR').format(now);
     final plantsAsync = ref.watch(plantsProvider);
+    final grid = ref.watch(settingsProvider).value?.homeGrid ?? true;
 
     return Scaffold(
       body: SafeArea(
@@ -59,7 +61,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   Expanded(
                     child: EmptyState(
                       title: '첫 식물을 등록해 보세요',
-                      description: '이름을 검색하거나 사진을 찍어 등록할 수 있어요',
+                      description: '사진을 찍으면 품종과 물주기를 알려드려요',
                       actionLabel: '식물 추가',
                       onAction: () => context.push(AppRoutes.add),
                     ),
@@ -73,137 +75,171 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             final selectedEntries = due
                 .where((e) => _selected.contains(e.plant.id))
                 .toList();
+            final bottomInset =
+                AppSize.tabBarHeight +
+                AppSize.cameraButtonOverlap +
+                MediaQuery.paddingOf(context).bottom;
 
             return Stack(
               children: [
-                ListView(
-                  padding: EdgeInsets.only(
-                    left: AppSpace.screenH,
-                    right: AppSpace.screenH,
-                    bottom:
-                        AppSize.tabBarHeight +
-                        AppSize.cameraButtonOverlap +
-                        MediaQuery.paddingOf(context).bottom +
-                        (selectedEntries.isNotEmpty
-                            ? AppSize.stickyBar
-                            : AppSpace.xl),
-                  ),
-                  children: [
-                    _Header(dateLabel: dateLabel, padded: false),
-                    const SizedBox(height: AppSpace.section),
-
-                    // 섹션1: 오늘 확인
-                    if (due.isNotEmpty) ...[
-                      Row(
+                CustomScrollView(
+                  slivers: [
+                    SliverPadding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppSpace.screenH,
+                      ),
+                      sliver: SliverList.list(
                         children: [
-                          Expanded(
-                            child: Text(
-                              '확인할 식물 ${due.length}',
-                              style: AppText.title.copyWith(
-                                color: c.textPrimary,
-                              ),
+                          _Header(dateLabel: dateLabel, padded: false),
+                          const SizedBox(height: AppSpace.section),
+                          if (due.isNotEmpty) ...[
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    '확인할 식물 ${due.length}',
+                                    style: AppText.title.copyWith(
+                                      color: c.textPrimary,
+                                    ),
+                                  ),
+                                ),
+                                AppButton.text(
+                                  label: _selected.length == due.length
+                                      ? '선택 해제'
+                                      : '전체 선택',
+                                  onPressed: () => setState(() {
+                                    if (_selected.length == due.length) {
+                                      _selected.clear();
+                                    } else {
+                                      _selected
+                                        ..clear()
+                                        ..addAll(due.map((e) => e.plant.id));
+                                    }
+                                  }),
+                                ),
+                              ],
                             ),
-                          ),
-                          AppButton.text(
-                            label: _selected.length == due.length
-                                ? '선택 해제'
-                                : '전체 선택',
-                            onPressed: () => setState(() {
-                              if (_selected.length == due.length) {
-                                _selected.clear();
-                              } else {
-                                _selected
-                                  ..clear()
-                                  ..addAll(due.map((e) => e.plant.id));
-                              }
-                            }),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: AppSpace.md),
-                      for (final e in due) ...[
-                        TodayCheckTile(
-                          nickname: e.plant.nickname,
-                          spaceName: e.space?.name ?? e.displaySpeciesName,
-                          photoPath: e.plant.photoPath,
-                          selected: _selected.contains(e.plant.id),
-                          onToggle: () => setState(() {
-                            if (!_selected.remove(e.plant.id)) {
-                              _selected.add(e.plant.id);
-                            }
-                          }),
-                          onTap: () => _openSoilCheck([e]),
-                        ),
-                        const SizedBox(height: AppSpace.cardGap),
-                      ],
-                      const SizedBox(
-                        height: AppSpace.section - AppSpace.cardGap,
-                      ),
-                    ] else ...[
-                      Container(
-                        padding: const EdgeInsets.all(AppSpace.cardPadding),
-                        decoration: BoxDecoration(
-                          color: c.primaryContainer,
-                          borderRadius: BorderRadius.circular(AppRadius.card),
-                        ),
-                        child: Row(
-                          children: [
-                            Icon(Icons.check_circle_rounded, color: c.primary),
-                            const SizedBox(width: AppSpace.md),
-                            Expanded(
-                              child: Text(
-                                '오늘 확인할 식물이 없어요',
-                                style: AppText.bodyStrong.copyWith(
-                                  color: c.primary,
+                            const SizedBox(height: AppSpace.md),
+                            for (final e in due) ...[
+                              TodayCheckTile(
+                                nickname: e.plant.nickname,
+                                spaceName:
+                                    e.space?.name ?? e.displaySpeciesName,
+                                photoPath: e.plant.photoPath,
+                                selected: _selected.contains(e.plant.id),
+                                onToggle: () => setState(() {
+                                  if (!_selected.remove(e.plant.id)) {
+                                    _selected.add(e.plant.id);
+                                  }
+                                }),
+                                onTap: () => _openSoilCheck([e]),
+                              ),
+                              const SizedBox(height: AppSpace.cardGap),
+                            ],
+                            const SizedBox(
+                              height: AppSpace.section - AppSpace.cardGap,
+                            ),
+                          ] else ...[
+                            Container(
+                              padding: const EdgeInsets.all(
+                                AppSpace.cardPadding,
+                              ),
+                              decoration: BoxDecoration(
+                                color: c.primaryContainer,
+                                borderRadius: BorderRadius.circular(
+                                  AppRadius.card,
                                 ),
                               ),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.check_circle_rounded,
+                                    color: c.primary,
+                                  ),
+                                  const SizedBox(width: AppSpace.md),
+                                  Expanded(
+                                    child: Text(
+                                      '오늘 확인할 식물이 없어요',
+                                      style: AppText.bodyStrong.copyWith(
+                                        color: c.primary,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
+                            const SizedBox(height: AppSpace.section),
                           ],
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  '내 식물 ${plants.length}',
+                                  style: AppText.title.copyWith(
+                                    color: c.textPrimary,
+                                  ),
+                                ),
+                              ),
+                              _ViewToggle(
+                                grid: grid,
+                                onChanged: (v) => ref
+                                    .read(settingsRepositoryProvider)
+                                    .setHomeGrid(v),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: AppSpace.md),
+                        ],
+                      ),
+                    ),
+                    // 내 식물: 앨범(2열) 또는 목록
+                    SliverPadding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppSpace.screenH,
+                      ),
+                      sliver: grid
+                          ? SliverGrid.builder(
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    mainAxisSpacing: AppSpace.cardGap,
+                                    crossAxisSpacing: AppSpace.cardGap,
+                                    childAspectRatio: 0.72,
+                                  ),
+                              itemCount: plants.length,
+                              itemBuilder: (_, i) => _gridCard(plants[i], now),
+                            )
+                          : SliverList.separated(
+                              itemCount: plants.length,
+                              separatorBuilder: (_, _) =>
+                                  const SizedBox(height: AppSpace.cardGap),
+                              itemBuilder: (_, i) => _card(plants[i], now),
+                            ),
+                    ),
+                    SliverPadding(
+                      padding: EdgeInsets.fromLTRB(
+                        AppSpace.screenH,
+                        AppSpace.lg,
+                        AppSpace.screenH,
+                        bottomInset +
+                            (selectedEntries.isNotEmpty
+                                ? AppSize.stickyBar
+                                : AppSpace.xl),
+                      ),
+                      sliver: SliverToBoxAdapter(
+                        child: AppButton.secondary(
+                          label: '+ 식물 추가',
+                          onPressed: () => context.push(AppRoutes.add),
                         ),
                       ),
-                      const SizedBox(height: AppSpace.section),
-                    ],
-
-                    // 섹션2: 내 식물
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            '내 식물 ${plants.length}',
-                            style: AppText.title.copyWith(color: c.textPrimary),
-                          ),
-                        ),
-                        _SegmentToggle(
-                          bySpace: _bySpace,
-                          onChanged: (v) => setState(() => _bySpace = v),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: AppSpace.md),
-                    if (!_bySpace)
-                      for (final e in plants) ...[
-                        _card(e, now),
-                        const SizedBox(height: AppSpace.cardGap),
-                      ]
-                    else
-                      ..._groupedBySpace(plants, now, c),
-                    const SizedBox(height: AppSpace.xs),
-                    AppButton.secondary(
-                      label: '+ 식물 추가',
-                      onPressed: () => context.push(AppRoutes.add),
                     ),
                   ],
                 ),
-
-                // 다중 선택 하단 고정 바
                 if (selectedEntries.isNotEmpty)
                   Positioned(
                     left: 0,
                     right: 0,
-                    bottom:
-                        AppSize.tabBarHeight +
-                        AppSize.cameraButtonOverlap +
-                        MediaQuery.paddingOf(context).bottom,
+                    bottom: bottomInset,
                     child: Container(
                       padding: const EdgeInsets.fromLTRB(
                         AppSpace.screenH,
@@ -235,34 +271,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     onTap: () => context.push(AppRoutes.plant(e.plant.id)),
   );
 
-  List<Widget> _groupedBySpace(
-    List<PlantEntry> plants,
-    DateTime now,
-    AppColors c,
-  ) {
-    final groups = <String, List<PlantEntry>>{};
-    for (final e in plants) {
-      groups.putIfAbsent(e.space?.name ?? '공간 미지정', () => []).add(e);
-    }
-    final out = <Widget>[];
-    for (final entry in groups.entries) {
-      out.add(
-        Padding(
-          padding: const EdgeInsets.only(bottom: AppSpace.sm, top: AppSpace.xs),
-          child: Text(
-            '${entry.key} ${entry.value.length}',
-            style: AppText.label.copyWith(color: c.textSecondary),
-          ),
-        ),
-      );
-      for (final e in entry.value) {
-        out
-          ..add(_card(e, now))
-          ..add(const SizedBox(height: AppSpace.cardGap));
-      }
-    }
-    return out;
-  }
+  Widget _gridCard(PlantEntry e, DateTime now) => PlantGridCard(
+    nickname: e.plant.nickname,
+    speciesName: e.displaySpeciesName,
+    photoPath: e.plant.photoPath,
+    status: e.status(now),
+    statusLabel: e.statusLabel(now),
+    onTap: () => context.push(AppRoutes.plant(e.plant.id)),
+  );
 }
 
 class _Header extends StatelessWidget {
@@ -295,32 +311,35 @@ class _Header extends StatelessWidget {
   }
 }
 
-/// [목록 | 공간] 세그먼트 토글
-class _SegmentToggle extends StatelessWidget {
-  const _SegmentToggle({required this.bySpace, required this.onChanged});
+/// [앨범 | 목록] 세그먼트 토글 (아이콘)
+class _ViewToggle extends StatelessWidget {
+  const _ViewToggle({required this.grid, required this.onChanged});
 
-  final bool bySpace;
+  final bool grid;
   final ValueChanged<bool> onChanged;
 
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    Widget item(String label, bool value) {
-      final selected = bySpace == value;
-      return InkWell(
-        onTap: () => onChanged(value),
-        borderRadius: BorderRadius.circular(AppRadius.chip),
-        child: Container(
-          height: AppSize.chipHeight,
-          padding: const EdgeInsets.symmetric(horizontal: AppSpace.md),
-          decoration: BoxDecoration(
-            color: selected ? c.primary : Colors.transparent,
-            borderRadius: BorderRadius.circular(AppRadius.chip),
-          ),
-          alignment: Alignment.center,
-          child: Text(
-            label,
-            style: AppText.label.copyWith(
+    Widget item(IconData icon, String label, bool value) {
+      final selected = grid == value;
+      return Semantics(
+        button: true,
+        selected: selected,
+        label: label,
+        child: InkWell(
+          onTap: () => onChanged(value),
+          borderRadius: BorderRadius.circular(AppRadius.chip),
+          child: Container(
+            height: AppSize.chipHeight,
+            padding: const EdgeInsets.symmetric(horizontal: AppSpace.md),
+            decoration: BoxDecoration(
+              color: selected ? c.primary : Colors.transparent,
+              borderRadius: BorderRadius.circular(AppRadius.chip),
+            ),
+            child: Icon(
+              icon,
+              size: AppSize.iconXs,
               color: selected ? c.onPrimary : c.textSecondary,
             ),
           ),
@@ -336,7 +355,10 @@ class _SegmentToggle extends StatelessWidget {
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
-        children: [item('목록', false), item('공간', true)],
+        children: [
+          item(Icons.grid_view_rounded, '앨범', true),
+          item(Icons.view_list_rounded, '목록', false),
+        ],
       ),
     );
   }

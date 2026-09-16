@@ -77,7 +77,7 @@ class PlantNetClient {
 
   Future<PlantNetResponse> identify(
     Uint8List jpegBytes, {
-    String organ = 'leaf',
+    String organ = 'auto', // 잎·꽃·열매 자동 판별
   }) async {
     final uri = Uri.parse(endpoint).replace(
       queryParameters: {

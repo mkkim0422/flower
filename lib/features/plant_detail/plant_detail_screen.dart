@@ -340,33 +340,21 @@ class _Body extends ConsumerWidget {
           ),
           const SizedBox(height: AppSpace.cardGap),
 
-          // 카드3: 도감 정보 (독성 배지 첫 줄). 전체 페이지 INFO-01은 M3
+          // 카드3: 키우기 팁 (독성 배지 첫 줄, 이후 품종 정보로 만든 문장). 전체 도감 INFO-01은 M3
           if (s != null)
             AppCard(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Text(
+                    '${s.koNames.first} 키우기 팁',
+                    style: AppText.title.copyWith(color: c.textPrimary),
+                  ),
+                  const SizedBox(height: AppSpace.md),
                   ToxicBadge(toxicPet: s.toxicPet, toxicChild: s.toxicChild),
                   const SizedBox(height: AppSpace.md),
-                  _InfoLine(
-                    icon: Icons.water_drop_outlined,
-                    text: '기본 ${s.baseWaterDays}일마다 · 겉흙이 마르면',
-                  ),
-                  _InfoLine(
-                    icon: Icons.wb_sunny_outlined,
-                    text: switch (s.lightPref) {
-                      LightPref.low => '빛 적어도 괜찮아요',
-                      LightPref.med => '밝은 간접광',
-                      LightPref.high => '햇빛 많이',
-                    },
-                  ),
-                  if (s.tempMin != null && s.tempMax != null)
-                    _InfoLine(
-                      icon: Icons.thermostat_outlined,
-                      text: '${s.tempMin}~${s.tempMax}°C',
-                    ),
-                  for (final issue in s.commonIssues.take(2))
-                    _InfoLine(icon: Icons.error_outline_rounded, text: issue),
+                  for (final tip in careTips(s))
+                    _InfoLine(icon: tip.icon, text: tip.text),
                 ],
               ),
             ),
@@ -389,6 +377,54 @@ class _Body extends ConsumerWidget {
       ),
     );
   }
+}
+
+/// 품종 정보 → 키우기 팁 문장
+class CareTip {
+  const CareTip(this.icon, this.text);
+
+  final IconData icon;
+  final String text;
+}
+
+List<CareTip> careTips(SpeciesRow s) {
+  final tips = <CareTip>[
+    CareTip(Icons.water_drop_outlined, switch (s.category) {
+      'succulent' =>
+        '물은 ${s.baseWaterDays}일쯤에 한 번, 흙이 속까지 완전히 마른 뒤 흠뻑 주세요. 과습이 가장 흔한 실패 원인이에요',
+      'herb' =>
+        '물은 ${s.baseWaterDays}일쯤에 한 번, 겉흙이 마르면 바로 주세요. 허브는 마르면 잎이 금방 처져요',
+      'flower' =>
+        '물은 ${s.baseWaterDays}일쯤에 한 번, 겉흙이 마르면 주세요. 꽃이 피는 동안은 흙이 마르지 않게 조금 더 자주 살펴 주세요',
+      _ =>
+        '물은 ${s.baseWaterDays}일쯤에 한 번, 손가락 두 마디 깊이까지 흙이 말랐을 때 화분 밑으로 흘러나올 만큼 주세요',
+    }),
+    CareTip(Icons.wb_sunny_outlined, switch (s.lightPref) {
+      LightPref.low => '빛이 적은 곳에서도 잘 자라요. 직사광선은 잎을 태울 수 있으니 창가에서 조금 떨어뜨려 두세요',
+      LightPref.med => '밝은 간접광을 좋아해요. 커튼을 친 창가나 창에서 1m 안쪽이 좋아요',
+      LightPref.high => '햇빛을 많이 받아야 해요. 남향이나 동향 창가에 두고, 빛이 부족하면 웃자라요',
+    }),
+    if (s.tempMin != null && s.tempMax != null)
+      CareTip(
+        Icons.thermostat_outlined,
+        s.tempMin! <= 5
+            ? '${s.tempMin}~${s.tempMax}°C에서 자라요. 추위에 강한 편이지만 실내에서는 찬바람이 직접 닿지 않게 해 주세요'
+            : '${s.tempMin}~${s.tempMax}°C가 알맞아요. 겨울에는 ${s.tempMin}°C 아래로 내려가지 않게 창가에서 떨어뜨려 주세요',
+      ),
+    if (s.fertDays != null)
+      CareTip(
+        Icons.eco_outlined,
+        '비료는 봄~가을 생장기에 ${s.fertDays}일에 한 번 묽게 주세요. 겨울에는 쉬어도 돼요',
+      ),
+    if (s.repotMonths != null)
+      CareTip(
+        Icons.yard_outlined,
+        '분갈이는 ${s.repotMonths}개월마다, 뿌리가 배수구로 나오면 한 치수 큰 화분으로 봄에 옮겨 주세요',
+      ),
+    for (final issue in s.commonIssues)
+      CareTip(Icons.error_outline_rounded, issue),
+  ];
+  return tips;
 }
 
 class _ScheduleLine extends StatelessWidget {

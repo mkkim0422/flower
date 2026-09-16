@@ -113,6 +113,18 @@ class _SpeciesSearchScreenState extends ConsumerState<SpeciesSearchScreen> {
   }
 }
 
+/// 검색어가 대표명이 아닌 별칭에 걸렸을 때 그 별칭 (없으면 null)
+String? _matchedAlias(SpeciesRow s, String query) {
+  final q = query.toLowerCase().replaceAll(' ', '');
+  if (s.koNames.first.toLowerCase().replaceAll(' ', '').contains(q)) {
+    return null;
+  }
+  for (final n in s.koNames.skip(1)) {
+    if (n.toLowerCase().replaceAll(' ', '').contains(q)) return n;
+  }
+  return null;
+}
+
 class _Results extends ConsumerWidget {
   const _Results({required this.query, required this.onSelect});
 
@@ -169,11 +181,18 @@ class _Results extends ConsumerWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            s.koNames.join(' · '),
+                            s.koNames.first,
                             style: AppText.title.copyWith(color: c.textPrimary),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
+                          if (_matchedAlias(s, query) case final alias?)
+                            Text(
+                              '$alias(으)로도 불려요',
+                              style: AppText.caption.copyWith(
+                                color: c.textSecondary,
+                              ),
+                            ),
                           Text(
                             s.scientificName,
                             style: AppText.scientificName.copyWith(

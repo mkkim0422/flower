@@ -30,6 +30,13 @@ class SettingsRepository {
     );
   }
 
+  Future<void> setHomeGrid(bool grid) async {
+    await db.getSettings();
+    await (db.update(db.settings)..where((t) => t.id.equals(1))).write(
+      SettingsCompanion(homeGrid: Value(grid)),
+    );
+  }
+
   Future<void> setSkipWeekdays(List<int> weekdays) async {
     await db.getSettings();
     await (db.update(db.settings)..where((t) => t.id.equals(1))).write(

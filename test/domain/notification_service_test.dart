@@ -12,6 +12,7 @@ Setting _s({int hour = 9, int minute = 0, List<int> skip = const []}) =>
       onboardingDone: true,
       plantnetDay: 0,
       plantnetCount: 0,
+      homeGrid: true,
     );
 
 void main() {
