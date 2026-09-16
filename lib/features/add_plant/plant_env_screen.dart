@@ -31,6 +31,7 @@ class _PlantEnvScreenState extends ConsumerState<PlantEnvScreen> {
   late final _nickname = TextEditingController(
     text: widget.draft.nicknameHint ?? '',
   );
+  final _memo = TextEditingController();
   PotSize _potSize = PotSize.m;
   bool _hasDrainage = true;
   int? _spaceId;
@@ -41,6 +42,7 @@ class _PlantEnvScreenState extends ConsumerState<PlantEnvScreen> {
   @override
   void dispose() {
     _nickname.dispose();
+    _memo.dispose();
     super.dispose();
   }
 
@@ -76,6 +78,7 @@ class _PlantEnvScreenState extends ConsumerState<PlantEnvScreen> {
             hasDrainage: _hasDrainage,
             lastWateredAt: _lastWatered,
             photoPath: widget.draft.photoPath,
+            memo: _memo.text,
           );
       if (!mounted) return;
       context.go(AppRoutes.plant(id));
@@ -181,6 +184,17 @@ class _PlantEnvScreenState extends ConsumerState<PlantEnvScreen> {
                 onTap: _pickDate,
               ),
             ],
+          ),
+          const SizedBox(height: AppSpace.section),
+
+          const _Label('메모 (선택)'),
+          TextField(
+            controller: _memo,
+            minLines: 2,
+            maxLines: 4,
+            decoration: const InputDecoration(
+              hintText: '예: 베란다 왼쪽. 잎이 처지면 물 부족',
+            ),
           ),
           const SizedBox(height: AppSpace.section),
 

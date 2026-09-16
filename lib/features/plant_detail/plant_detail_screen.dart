@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -259,15 +261,26 @@ class _Body extends ConsumerWidget {
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: AppSpace.screenH),
         children: [
-          // 헤더: 사진 4:3 + 이름 + 품종·학명
-          AspectRatio(
-            aspectRatio: 4 / 3,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(AppRadius.card),
-              child: PlantThumb(
-                size: double.infinity,
-                photoPath: p.photoPath,
-                radius: 0,
+          // 헤더: 사진 4:3 (탭 → 원본 전체화면) + 이름 + 품종·학명
+          GestureDetector(
+            onTap: p.photoPath == null
+                ? null
+                : () => Navigator.of(context).push(
+                    PageRouteBuilder<void>(
+                      opaque: false,
+                      pageBuilder: (_, _, _) =>
+                          PhotoViewerScreen(path: p.photoPath!),
+                    ),
+                  ),
+            child: AspectRatio(
+              aspectRatio: 4 / 3,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(AppRadius.card),
+                child: PlantThumb(
+                  size: double.infinity,
+                  photoPath: p.photoPath,
+                  radius: 0,
+                ),
               ),
             ),
           ),
@@ -405,22 +418,17 @@ class _Body extends ConsumerWidget {
             ),
           const SizedBox(height: AppSpace.cardGap),
 
-          // 카드4: 물 준 기록
-          AppCard(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  '물 준 기록',
-                  style: AppText.title.copyWith(color: c.textPrimary),
-                ),
-                const SizedBox(height: AppSpace.sm),
-                if (events.isEmpty)
+          // 카드4: 물 준 날 (앱에서 "물 줬어요"를 누른 날만. 없으면 숨김)
+          if (events.isNotEmpty)
+            AppCard(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                   Text(
-                    '아직 기록이 없어요',
-                    style: AppText.body.copyWith(color: c.textTertiary),
-                  )
-                else
+                    '물 준 날',
+                    style: AppText.title.copyWith(color: c.textPrimary),
+                  ),
+                  const SizedBox(height: AppSpace.sm),
                   Wrap(
                     spacing: AppSpace.sm,
                     runSpacing: AppSpace.xs,
@@ -435,19 +443,82 @@ class _Body extends ConsumerWidget {
                         ),
                     ],
                   ),
-              ],
+                ],
+              ),
+            ),
+          // 플로팅 버튼 자리
+          SizedBox(
+            height:
+                AppSize.buttonHeight +
+                AppSpace.xl * 2 +
+                MediaQuery.paddingOf(context).bottom,
+          ),
+        ],
+      ),
+      // 화면 하단에 떠 있는 "물 줬어요" (Override: 사용자 지시 2026-09-16)
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: AppSpace.screenH),
+        child: SizedBox(
+          width: double.infinity,
+          child: FloatingActionButton.extended(
+            heroTag: 'water-${p.id}',
+            backgroundColor: c.primary,
+            foregroundColor: c.onPrimary,
+            elevation: 2,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(AppRadius.button),
+            ),
+            onPressed: () => showSoilCheckSheet(context, entries: [entry]),
+            icon: const Icon(Icons.water_drop_rounded),
+            label: Text(
+              dDay <= 0 ? '물 줬어요' : '오늘 물 줬어요',
+              style: AppText.bodyStrong,
             ),
           ),
-          const SizedBox(height: AppSpace.section),
+        ),
+      ),
+    );
+  }
+}
+
+/// 사진 원본 전체화면 보기 (핀치 줌) + 닫기
+class PhotoViewerScreen extends StatelessWidget {
+  const PhotoViewerScreen({super.key, required this.path});
+
+  final String path;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: GestureDetector(
+              onTap: () => Navigator.of(context).pop(),
+              child: InteractiveViewer(
+                minScale: 1,
+                maxScale: 5,
+                child: Center(
+                  child: Image.file(File(path), fit: BoxFit.contain),
+                ),
+              ),
+            ),
+          ),
           SafeArea(
-            top: false,
-            child: AppButton.primary(
-              label: dDay <= 0 ? '물 줬어요' : '오늘 물 줬어요',
-              icon: Icons.water_drop_rounded,
-              onPressed: () => showSoilCheckSheet(context, entries: [entry]),
+            child: Align(
+              alignment: Alignment.topRight,
+              child: Padding(
+                padding: const EdgeInsets.all(AppSpace.sm),
+                child: IconButton.filledTonal(
+                  onPressed: () => Navigator.of(context).pop(),
+                  icon: const Icon(Icons.close_rounded),
+                  tooltip: '닫기',
+                ),
+              ),
             ),
           ),
-          const SizedBox(height: AppSpace.lg),
         ],
       ),
     );

@@ -69,7 +69,7 @@ void main() {
     expect(e.statusLabel(fixedNow), 'D-4');
 
     final events = await plants.watchCareEvents(id).first;
-    expect(events.single.type, CareType.water);
+    expect(events, isEmpty); // 등록 시에는 물 준 기록을 만들지 않음
   });
 
   test('품종 미지정·공간 없음 → base 7, 상태 unknown', () async {
@@ -82,7 +82,7 @@ void main() {
     final e = (await plants.getById(id))!;
     expect(e.plant.waterIntervalDays, 7);
     expect(e.displaySpeciesName, '품종 미지정');
-    expect(e.statusLabel(fixedNow), 'D-7 · 미지정');
+    expect(e.statusLabel(fixedNow), 'D-7');
   });
 
   test('흙 확인 E2E: 오늘 확인 → 촉촉 → 재확인일·계수 보정 → 말랐음 2회 → 계수 0.9', () async {
@@ -127,7 +127,6 @@ void main() {
       CareType.water,
       CareType.checkDry,
       CareType.checkWet,
-      CareType.water,
     ]);
   });
 

@@ -28,11 +28,10 @@ class PlantEntry {
     return PlantStatus.ok;
   }
 
-  /// 상태 라벨: "오늘 물 주기" / "D-3" / "미지정"
+  /// 상태 라벨: "오늘 물 주기" / "D-3"
   String statusLabel(DateTime now) {
     final d = dDay(now);
     if (d <= 0) return '오늘 물 주기';
-    if (species == null) return 'D-$d · 미지정';
     return 'D-$d';
   }
 }
@@ -193,6 +192,7 @@ class PlantRepository {
     required bool hasDrainage,
     required DateTime lastWateredAt,
     String? photoPath,
+    String? memo,
   }) async {
     final species = speciesId == null
         ? null
@@ -229,18 +229,12 @@ class PlantRepository {
               nextCheckAt: nextCheckAt(lastWateredAt, result.days),
               fertIntervalDays: Value(species?.fertDays),
               createdAt: now,
+              memo: Value(
+                memo == null || memo.trim().isEmpty ? null : memo.trim(),
+              ),
             ),
           );
-      await db
-          .into(db.careEvents)
-          .insert(
-            CareEventsCompanion.insert(
-              plantId: id,
-              type: CareType.water,
-              at: lastWateredAt,
-              note: const Value('등록 시 마지막 물 준 날'),
-            ),
-          );
+      // 등록 시 입력한 "마지막 물 준 날"은 다음 D-day 계산에만 쓰고 물 준 기록으로 남기지 않는다
       return id;
     });
   }
