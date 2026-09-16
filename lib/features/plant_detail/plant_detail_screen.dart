@@ -14,6 +14,7 @@ import '../../app/widgets/plant_card.dart';
 import '../../app/widgets/toxic_badge.dart';
 import '../../core/enums.dart';
 import '../../data/db/app_database.dart';
+import '../../data/repositories/diary_repository.dart';
 import '../../data/repositories/plant_repository.dart';
 import '../../data/repositories/space_repository.dart';
 import '../home/soil_check_sheet.dart';
@@ -196,6 +197,30 @@ class _Body extends ConsumerWidget {
     );
   }
 
+  Future<void> _deleteDiary(
+    BuildContext context,
+    WidgetRef ref,
+    DiaryEntry d,
+  ) async {
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('이 일기를 지울까요?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('취소'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: Text('지우기', style: TextStyle(color: ctx.colors.error)),
+          ),
+        ],
+      ),
+    );
+    if (ok == true) await ref.read(diaryRepositoryProvider).delete(d.id);
+  }
+
   Future<void> _delete(BuildContext context, WidgetRef ref) async {
     final ok = await showDialog<bool>(
       context: context,
@@ -232,6 +257,8 @@ class _Body extends ConsumerWidget {
         (ref.watch(careEventsProvider(p.id)).value ?? const <CareEvent>[])
             .where((e) => e.type == CareType.water)
             .toList();
+    final diary =
+        ref.watch(diaryByPlantProvider(p.id)).value ?? const <DiaryEntry>[];
 
     return Scaffold(
       appBar: AppBar(
@@ -391,15 +418,74 @@ class _Body extends ConsumerWidget {
           ),
           const SizedBox(height: AppSpace.cardGap),
 
+          // 카드2-2: 생장 일기 (최근 3개 + 더보기)
+          AppCard(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        '일기',
+                        style: AppText.title.copyWith(color: c.textPrimary),
+                      ),
+                    ),
+                    AppButton.text(
+                      label: '+ 쓰기',
+                      onPressed: () => context.push(AppRoutes.diaryNew(p.id)),
+                    ),
+                  ],
+                ),
+                if (diary.isEmpty)
+                  Text(
+                    '사진과 한 줄 메모로 자라는 모습을 남겨 보세요',
+                    style: AppText.body.copyWith(color: c.textTertiary),
+                  )
+                else ...[
+                  const SizedBox(height: AppSpace.sm),
+                  for (final d in diary.take(3))
+                    _DiaryLine(
+                      entry: d,
+                      onDelete: () => _deleteDiary(context, ref, d),
+                    ),
+                  if (diary.length > 3)
+                    Text(
+                      '외 ${diary.length - 3}개',
+                      style: AppText.caption.copyWith(color: c.textTertiary),
+                    ),
+                ],
+              ],
+            ),
+          ),
+          const SizedBox(height: AppSpace.cardGap),
+
           // 카드3: 알아두면 좋은 정보
           if (s != null)
             AppCard(
+              onTap: () =>
+                  context.push('${AppRoutes.species(s.id)}?register=0'),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    '알아두면 좋은 정보',
-                    style: AppText.title.copyWith(color: c.textPrimary),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          '알아두면 좋은 정보',
+                          style: AppText.title.copyWith(color: c.textPrimary),
+                        ),
+                      ),
+                      Text(
+                        '자세히',
+                        style: AppText.caption.copyWith(color: c.primary),
+                      ),
+                      Icon(
+                        Icons.chevron_right_rounded,
+                        size: AppSize.iconSm,
+                        color: c.primary,
+                      ),
+                    ],
                   ),
                   const SizedBox(height: AppSpace.md),
                   ToxicBadge(toxicPet: s.toxicPet, toxicChild: s.toxicChild),
@@ -477,6 +563,97 @@ class _Body extends ConsumerWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// 일기 한 줄: 썸네일 · 날짜 · 태그 · 메모
+class _DiaryLine extends StatelessWidget {
+  const _DiaryLine({required this.entry, required this.onDelete});
+
+  final DiaryEntry entry;
+  final VoidCallback onDelete;
+
+  @override
+  Widget build(BuildContext context) {
+    final c = context.colors;
+    return Padding(
+      padding: const EdgeInsets.only(bottom: AppSpace.md),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          GestureDetector(
+            onTap: entry.photoPath == null
+                ? null
+                : () => Navigator.of(context).push(
+                    PageRouteBuilder<void>(
+                      opaque: false,
+                      pageBuilder: (_, _, _) =>
+                          PhotoViewerScreen(path: entry.photoPath!),
+                    ),
+                  ),
+            child: PlantThumb(
+              size: AppSize.plantThumb,
+              photoPath: entry.photoPath,
+            ),
+          ),
+          const SizedBox(width: AppSpace.md),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  DateFormat('M월 d일 (E)', 'ko_KR').format(entry.at),
+                  style: AppText.caption.copyWith(color: c.textSecondary),
+                ),
+                if (entry.tags.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(top: AppSpace.xs),
+                    child: Wrap(
+                      spacing: AppSpace.xs,
+                      children: [
+                        for (final t in entry.tags)
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: AppSpace.sm,
+                              vertical: 2,
+                            ),
+                            decoration: BoxDecoration(
+                              color: c.primaryContainer,
+                              borderRadius: BorderRadius.circular(
+                                AppRadius.chip,
+                              ),
+                            ),
+                            child: Text(
+                              t.label,
+                              style: AppText.label.copyWith(color: c.primary),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                if (entry.memo != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: AppSpace.xs),
+                    child: Text(
+                      entry.memo!,
+                      style: AppText.body.copyWith(color: c.textPrimary),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+          IconButton(
+            tooltip: '지우기',
+            onPressed: onDelete,
+            icon: Icon(
+              Icons.close_rounded,
+              size: AppSize.iconXs,
+              color: c.textTertiary,
+            ),
+          ),
+        ],
       ),
     );
   }

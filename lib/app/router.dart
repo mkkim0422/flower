@@ -10,6 +10,8 @@ import '../features/add_plant/plant_env_screen.dart';
 import '../features/add_plant/species_search_screen.dart';
 import '../features/camera/camera_screen.dart';
 import '../features/camera/identify_result_screen.dart';
+import '../features/diary/diary_write_screen.dart';
+import '../features/species_info/species_info_screen.dart';
 import '../features/home/home_screen.dart';
 import '../features/my/my_screen.dart';
 import '../features/onboarding/onboarding_screen.dart';
@@ -34,6 +36,9 @@ class AppRoutes {
   static const identify = '/identify'; // CAM-02~04 (extra: 사진 경로)
   static String plant(int id) => '/home/plant/$id'; // PLT-01
   static String spaceEdit(int id) => '/spaces/$id'; // SPC-02
+  static String diaryNew(int plantId) =>
+      '/home/plant/$plantId/diary/new'; // DIA-01
+  static String species(int id) => '/species/$id'; // INFO-01
 }
 
 final _rootKey = GlobalKey<NavigatorState>(debugLabel: 'root');
@@ -82,6 +87,15 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                     builder: (_, state) => PlantDetailScreen(
                       plantId: int.parse(state.pathParameters['id']!),
                     ),
+                    routes: [
+                      GoRoute(
+                        path: 'diary/new',
+                        parentNavigatorKey: _rootKey,
+                        builder: (_, state) => DiaryWriteScreen(
+                          plantId: int.parse(state.pathParameters['id']!),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -127,6 +141,14 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             ),
           ),
         ],
+      ),
+      GoRoute(
+        path: '/species/:id',
+        parentNavigatorKey: _rootKey,
+        builder: (_, state) => SpeciesInfoScreen(
+          speciesId: int.parse(state.pathParameters['id']!),
+          showRegister: state.uri.queryParameters['register'] != '0',
+        ),
       ),
       GoRoute(
         path: AppRoutes.identify,

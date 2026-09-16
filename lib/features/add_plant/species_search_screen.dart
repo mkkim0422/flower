@@ -208,7 +208,14 @@ class _Results extends ConsumerWidget {
                         color: c.warning,
                         size: AppSize.iconSm,
                       ),
-                    const SizedBox(width: AppSpace.sm),
+                    IconButton(
+                      tooltip: '도감 보기',
+                      onPressed: () => context.push(AppRoutes.species(s.id)),
+                      icon: Icon(
+                        Icons.info_outline_rounded,
+                        color: c.textSecondary,
+                      ),
+                    ),
                     Icon(Icons.chevron_right_rounded, color: c.textTertiary),
                   ],
                 ),
