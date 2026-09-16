@@ -29,14 +29,13 @@ void main() {
     expect(countWateringsInMonth(events, now), 2);
   });
 
-  test('새잎 수: newLeaf 태그가 있는 일기만', () {
+  test('일기 수: 전체 개수', () {
     final entries = [
       _diary(DateTime(2026, 9, 1), tags: [DiaryTag.newLeaf]),
-      _diary(DateTime(2026, 9, 2), tags: [DiaryTag.flower, DiaryTag.newLeaf]),
-      _diary(DateTime(2026, 9, 3), tags: [DiaryTag.pest]),
-      _diary(DateTime(2026, 9, 4)),
+      _diary(DateTime(2026, 9, 2)),
+      _diary(DateTime(2026, 9, 3)),
     ];
-    expect(countNewLeaves(entries), 2);
+    expect(countDiaries(entries), 3);
   });
 
   group('연속 관리일', () {
@@ -86,7 +85,7 @@ void main() {
       now: now,
     );
     expect(s.wateringsThisMonth, 1);
-    expect(s.newLeaves, 1);
+    expect(s.diaryCount, 1);
     expect(s.streakDays, 1);
   });
 }

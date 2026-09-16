@@ -57,7 +57,7 @@ class MyScreen extends ConsumerWidget {
                     label: '이번 달\n물 준 횟수',
                   ),
                   _Divider(),
-                  _Stat(value: stats?.newLeaves, label: '새잎'),
+                  _Stat(value: stats?.diaryCount, label: '일기'),
                   _Divider(),
                   _Stat(value: stats?.streakDays, label: '연속 관리일'),
                 ],

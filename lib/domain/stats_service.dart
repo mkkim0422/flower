@@ -9,12 +9,12 @@ import '../data/repositories/diary_repository.dart';
 class Stats {
   const Stats({
     required this.wateringsThisMonth,
-    required this.newLeaves,
+    required this.diaryCount,
     required this.streakDays,
   });
 
   final int wateringsThisMonth;
-  final int newLeaves;
+  final int diaryCount;
   final int streakDays;
 }
 
@@ -30,9 +30,8 @@ int countWateringsInMonth(Iterable<CareEvent> events, DateTime now) => events
     )
     .length;
 
-/// 새잎 태그가 붙은 일기 수 (전체)
-int countNewLeaves(Iterable<DiaryEntry> entries) =>
-    entries.where((d) => d.tags.contains(DiaryTag.newLeaf)).length;
+/// 일기 수 (전체). 상태 태그는 UI에서 빠져 "새잎" 대신 일기 수를 보여준다 (2026-09-16)
+int countDiaries(Iterable<DiaryEntry> entries) => entries.length;
 
 /// 연속 관리일: 오늘(또는 어제)부터 거슬러 하루도 빠짐없이 물 주기·일기 중 하나라도 있는 날 수.
 /// 오늘 아직 안 했으면 어제까지의 연속을 유지한다.
@@ -66,7 +65,7 @@ Stats computeStats({
   required DateTime now,
 }) => Stats(
   wateringsThisMonth: countWateringsInMonth(events, now),
-  newLeaves: countNewLeaves(entries),
+  diaryCount: countDiaries(entries),
   streakDays: streakDays(events, entries, now),
 );
 

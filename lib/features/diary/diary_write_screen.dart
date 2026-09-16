@@ -8,7 +8,6 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../app/theme.dart';
 import '../../app/widgets/app_button.dart';
-import '../../app/widgets/app_chip.dart';
 import '../../core/enums.dart';
 import '../../data/repositories/diary_repository.dart';
 import '../../data/repositories/plant_repository.dart';
@@ -104,54 +103,49 @@ class _DiaryWriteScreenState extends ConsumerState<DiaryWriteScreen> {
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: AppSpace.screenH),
         children: [
-          // 사진
-          AspectRatio(
-            aspectRatio: 4 / 3,
-            child: Material(
-              color: c.surfaceVariant,
-              borderRadius: BorderRadius.circular(AppRadius.card),
-              clipBehavior: Clip.antiAlias,
-              child: _photoPath == null
-                  ? Row(
-                      children: [
-                        Expanded(
-                          child: _PickTile(
-                            icon: Icons.photo_camera_rounded,
-                            label: '사진 찍기',
-                            onTap: _busy
-                                ? null
-                                : () => _pick(ImageSource.camera),
-                          ),
-                        ),
-                        VerticalDivider(width: 1, color: c.outline),
-                        Expanded(
-                          child: _PickTile(
-                            icon: Icons.photo_library_outlined,
-                            label: '앨범',
-                            onTap: _busy
-                                ? null
-                                : () => _pick(ImageSource.gallery),
-                          ),
-                        ),
-                      ],
-                    )
-                  : Stack(
-                      fit: StackFit.expand,
-                      children: [
-                        Image.file(File(_photoPath!), fit: BoxFit.cover),
-                        Positioned(
-                          top: AppSpace.sm,
-                          right: AppSpace.sm,
-                          child: IconButton.filledTonal(
-                            onPressed: () => setState(() => _photoPath = null),
-                            icon: const Icon(Icons.close_rounded),
-                            tooltip: '사진 지우기',
-                          ),
-                        ),
-                      ],
+          // 사진: 없으면 버튼 2개, 있으면 미리보기
+          if (_photoPath == null)
+            Row(
+              children: [
+                Expanded(
+                  child: AppButton.secondary(
+                    label: '사진 찍기',
+                    icon: Icons.photo_camera_rounded,
+                    onPressed: _busy ? null : () => _pick(ImageSource.camera),
+                  ),
+                ),
+                const SizedBox(width: AppSpace.md),
+                Expanded(
+                  child: AppButton.secondary(
+                    label: '앨범',
+                    icon: Icons.photo_library_outlined,
+                    onPressed: _busy ? null : () => _pick(ImageSource.gallery),
+                  ),
+                ),
+              ],
+            )
+          else
+            AspectRatio(
+              aspectRatio: 4 / 3,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(AppRadius.card),
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    Image.file(File(_photoPath!), fit: BoxFit.cover),
+                    Positioned(
+                      top: AppSpace.sm,
+                      right: AppSpace.sm,
+                      child: IconButton.filledTonal(
+                        onPressed: () => setState(() => _photoPath = null),
+                        icon: const Icon(Icons.close_rounded),
+                        tooltip: '사진 지우기',
+                      ),
                     ),
+                  ],
+                ),
+              ),
             ),
-          ),
           if (_photoPath != null)
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
@@ -165,32 +159,16 @@ class _DiaryWriteScreenState extends ConsumerState<DiaryWriteScreen> {
             ),
           const SizedBox(height: AppSpace.lg),
 
-          Text('상태', style: AppText.label.copyWith(color: c.textSecondary)),
-          const SizedBox(height: AppSpace.sm),
-          Wrap(
-            spacing: AppSpace.sm,
-            runSpacing: AppSpace.sm,
-            children: [
-              for (final t in DiaryTag.values)
-                AppChip(
-                  label: t.label,
-                  selected: _tags.contains(t),
-                  onTap: () => setState(() {
-                    if (!_tags.remove(t)) _tags.add(t);
-                  }),
-                ),
-            ],
-          ),
-          const SizedBox(height: AppSpace.section),
-
-          Text('메모', style: AppText.label.copyWith(color: c.textSecondary)),
+          Text('일기', style: AppText.label.copyWith(color: c.textSecondary)),
           const SizedBox(height: AppSpace.sm),
           TextField(
             controller: _memo,
             minLines: 3,
             maxLines: 6,
             onChanged: (_) => setState(() {}),
-            decoration: const InputDecoration(hintText: '오늘 식물은 어땠나요?'),
+            decoration: const InputDecoration(
+              hintText: '오늘 식물은 어땠나요? 새잎이 났는지, 잎이 처졌는지…',
+            ),
           ),
           const SizedBox(height: AppSpace.section),
           SafeArea(
@@ -201,34 +179,6 @@ class _DiaryWriteScreenState extends ConsumerState<DiaryWriteScreen> {
             ),
           ),
           const SizedBox(height: AppSpace.lg),
-        ],
-      ),
-    );
-  }
-}
-
-class _PickTile extends StatelessWidget {
-  const _PickTile({
-    required this.icon,
-    required this.label,
-    required this.onTap,
-  });
-
-  final IconData icon;
-  final String label;
-  final VoidCallback? onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final c = context.colors;
-    return InkWell(
-      onTap: onTap,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon, size: AppSpace.xxl, color: c.primary),
-          const SizedBox(height: AppSpace.sm),
-          Text(label, style: AppText.bodyStrong.copyWith(color: c.primary)),
         ],
       ),
     );
