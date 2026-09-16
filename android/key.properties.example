@@ -1,0 +1,6 @@
+# 복사해서 android/key.properties 로 저장 (git 제외). 생성:
+# keytool -genkey -v -keystore ~/jaljarara-release.jks -keyalg RSA -keysize 2048 -validity 10000 -alias jaljarara
+storePassword=
+keyPassword=
+keyAlias=jaljarara
+storeFile=C:/Users/User/jaljarara-release.jks

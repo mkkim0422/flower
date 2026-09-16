@@ -222,5 +222,17 @@
 - 연속 관리일: 물 주기 또는 일기가 있는 날이 하루도 빠짐없이 이어진 일수. 오늘 아직 안 했으면 어제까지의 연속을 유지.
 - SPC-01 공간별 뷰는 사용자가 공간 개념을 부담스러워해 보류(홈 토글은 목록/앨범). 필요 시 2차.
 
+## M4 준비 (2026-09-16, API·계정 불필요 항목 선행)
+
+### 완료
+- `docs/privacy_policy.md` 초안: 로컬 저장 원칙, PlantNet 전송(축소·EXIF 제거·미보관), 백업은 텍스트만(사진 제외), 권한 표, 탈퇴. 시행일·운영자·문의 이메일은 공란.
+- `docs/store_listing.md`: 앱 설명·스크린샷 구성·Play/App Store 필수 항목·출시 전 체크리스트.
+- 앱 아이콘 자동 생성(`assets/icon/app_icon.png`, PIL 스크립트): 포레스트 그린 배경 + 세이지 잎 + 물방울. Android legacy mipmap 5종 + adaptive(anydpi-v26, 배경색) + iOS AppIcon 15종 교체. **디자이너 아이콘으로 교체 권장(임시).**
+- Android 릴리스 서명: `key.properties` 있으면 release 키, 없으면 debug (CI 유지). `key.properties.example`, `.gitignore`(*.jks, key.properties), minify+shrink, proguard(flutter_local_notifications keep).
+- 스플래시 배경을 베이지(#F4F1EB)로.
+
+### 남은 M4 (사용자 입력 필요)
+- 패키지명 확정, 운영자·문의 이메일, 처리방침 GitHub Pages URL, 릴리스 keystore 생성(비밀번호), Supabase 프로젝트(백업·탈퇴), Google/Apple(/Kakao) 로그인 설정, PlantNet 키.
+
 ## 다음: M4 — 백업 · 인증 · 스토어 준비
 - AUTH-01(Google/Apple/Kakao), latest.json 백업·복원, MY-04 탈퇴, 개인정보 처리방침, 앱 아이콘, 릴리스 서명, 패키지명 확정
