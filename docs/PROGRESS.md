@@ -1,5 +1,32 @@
 # PROGRESS.md — 진행 기록
 
+## 기획 변경 승인 (2026-09-16, 사용자 최종 승인 — HANDOFF 0장 절차)
+
+사용자가 아래 3건을 HANDOFF.md / DESIGN.md에 덮어쓰기(Override)로 승인함. 충돌 시 이 항목이 원문보다 우선한다.
+
+### 이해 요약
+| # | 변경 | 원문 | 변경 후 |
+|---|---|---|---|
+| O1 | TFLite 온디바이스 식별을 M5 → **M2**로 앞당김 | 1단계 PlantNet, 2단계 TFLite(별도 트랙) | **TFLite 로컬 추론 먼저 → 실패·모델 없음·저신뢰 시에만 PlantNet Fallback** |
+| O2 | 사진 백업 삭제 | Storage `photos/{user_id}/` 업로드 | **latest.json(DB 텍스트)만 백업. 사진은 기기 로컬 전용** |
+| O3 | 'Modern Cozy' 테마 | background #F5F7F4, primary #2E7D5B, primaryContainer #E4F1EA, surfaceVariant #EEF1EC | **background #F4F1EB, primary #2C5E43, primaryContainer = surfaceVariant #DDE6DF** |
+
+### 적용 계획
+- O1 (M2에서 구현)
+  - `lib/domain/identification_service.dart`: `IdentificationPipeline` = `[OnDeviceIdentifier(TFLite), PlantNetIdentifier]` 순서 고정.
+  - `OnDeviceIdentifier`: `assets/models/plant_classifier.tflite` 로드 시도 → 파일 없음/로드 실패 → `ModelUnavailable` 반환(예외 아님) → 다음 단계로. 1순위 ≥ 0.80이면 종료.
+  - 모델 파일이 없는 현재는 **더미 구현**(항상 `ModelUnavailable`)으로 파이프라인이 막히지 않게 함. 인터페이스·테스트는 완성.
+  - `tflite_flutter` 패키지(Apache 2.0, 무료)는 M2 착수 시 추가. M0에서는 추가하지 않음.
+- O2 (M4에서 구현)
+  - `backup_service.dart`: `backups/{user_id}/latest.json` 덮어쓰기만. 사진 업로드 코드 없음.
+  - AUTH-01 / MY-01 백업 카드 / ONB-01 마지막 슬라이드에 문구 "사진은 서버에 백업되지 않아요. 기기에만 저장돼요" 추가.
+  - 개인정보 처리방침에 "사진은 서버로 전송·보관하지 않음" 명시.
+- O3 (M0에서 즉시 적용 — 완료)
+  - `lib/app/theme.dart` 라이트 팔레트 교체. `statusOk`는 원문대로 primary와 동일 → #2C5E43. 다크 팔레트는 지시 없어 유지.
+  - HOME-01 카드: 그림자 없음, radius 16, 카드 간 12 / 내부 16 — 기존 DESIGN.md 3장과 동일하므로 토큰 변경 없음.
+  - 중앙 카메라 FAB: 이미 탭바 위 12pt 돌출 원형 56으로 구현됨. 유지.
+  - HOME-02 흙 확인 바텀시트(M1): 큰 2버튼(말랐어요·물 줬어요 Primary / 아직 촉촉해요 Secondary) + 식물 썸네일·별명 상단 표시로 설계.
+
 ## M0 — 세팅 (2026-09-16)
 
 ### 완료

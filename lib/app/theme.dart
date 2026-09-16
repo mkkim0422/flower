@@ -40,19 +40,20 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color warning;
   final Color error;
 
+  // 'Modern Cozy' (Override 2026-09-16): 베이지 배경 + 포레스트 그린 + 세이지 그린
   static const light = AppColors(
-    primary: Color(0xFF2E7D5B),
-    primaryContainer: Color(0xFFE4F1EA),
+    primary: Color(0xFF2C5E43),
+    primaryContainer: Color(0xFFDDE6DF),
     onPrimary: Color(0xFFFFFFFF),
-    background: Color(0xFFF5F7F4),
+    background: Color(0xFFF4F1EB),
     surface: Color(0xFFFFFFFF),
-    surfaceVariant: Color(0xFFEEF1EC),
+    surfaceVariant: Color(0xFFDDE6DF),
     outline: Color(0xFFE1E6E1),
     textPrimary: Color(0xFF1B1F1D),
     textSecondary: Color(0xFF5C635F),
     textTertiary: Color(0xFF9AA19C),
     statusNeedCheck: Color(0xFFE05A4E),
-    statusOk: Color(0xFF2E7D5B),
+    statusOk: Color(0xFF2C5E43),
     statusUnknown: Color(0xFFB5BBB7),
     warning: Color(0xFFD9912B),
     error: Color(0xFFC63C30),

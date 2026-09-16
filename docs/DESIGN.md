@@ -1,7 +1,9 @@
 # DESIGN.md — 디자인 스펙 (Claude Code용)
 
+> **Override 2026-09-16 (사용자 승인)**: 라이트 팔레트를 'Modern Cozy'로 교체 — background `#F4F1EB`, primary `#2C5E43`, primaryContainer/surfaceVariant `#DDE6DF`. 홈 카드는 그림자 없이 radius 16, 여백 12~16. 중앙 카메라는 탭바 위로 돌출된 FAB. 흙 확인 바텀시트는 큰 2버튼으로 직관적으로. 다크 팔레트는 변경 없음. 상세는 `PROGRESS.md` 기획 변경 항목.
+
 작업명: 온실 (앱 이름 확정 시 치환)
-톤: 차분한 초록 + 흰색, 여백 많음, 광고·배너 없음. 참고 앱: 초록일기(여백·단순함), Planta(카드 정보 밀도).
+톤: **Modern Cozy** — 소프트 베이지 배경 + 포레스트 그린 + 세이지 그린, 여백 많음, 광고·배너 없음. 참고 앱: 초록일기(여백·단순함), Planta(카드 정보 밀도).
 원칙: 모든 색·크기·간격은 이 문서 → `lib/app/theme.dart` 상수에서만 가져온다. 화면 코드에 HEX·px 직접 입력 금지.
 
 ---
@@ -12,18 +14,18 @@
 
 | 토큰 | HEX | 용도 |
 |---|---|---|
-| `primary` | `#2E7D5B` | 주 버튼, 카메라 버튼, 활성 탭, 링크 |
-| `primaryContainer` | `#E4F1EA` | 선택 상태 배경, 태그 배경, 진행 바 트랙 |
+| `primary` | `#2C5E43` | 포레스트 그린. 주 버튼, 중앙 FAB 카메라 버튼, 활성 탭, 강조 텍스트 |
+| `primaryContainer` | `#DDE6DF` | 세이지 그린. 선택 상태 배경, 태그 배경, 진행 바 트랙 |
 | `onPrimary` | `#FFFFFF` | primary 위 텍스트·아이콘 |
-| `background` | `#F5F7F4` | 화면 배경 |
+| `background` | `#F4F1EB` | 소프트 베이지. 화면 배경 |
 | `surface` | `#FFFFFF` | 카드, 바텀시트, 탭바 |
-| `surfaceVariant` | `#EEF1EC` | 입력창 배경, 구분 영역 |
+| `surfaceVariant` | `#DDE6DF` | 세이지 그린. 입력창 배경, 카드 보조 영역 |
 | `outline` | `#E1E6E1` | 카드 테두리, 구분선 |
 | `textPrimary` | `#1B1F1D` | 제목, 본문 |
 | `textSecondary` | `#5C635F` | 부제, 설명 |
 | `textTertiary` | `#9AA19C` | 캡션, 비활성, 플레이스홀더 |
 | `statusNeedCheck` | `#E05A4E` | 확인 필요(흙 확인일 도래) 점·배지 |
-| `statusOk` | `#2E7D5B` | 정상 |
+| `statusOk` | `#2C5E43` | 정상 (= primary) |
 | `statusUnknown` | `#B5BBB7` | 품종 미지정 |
 | `warning` | `#D9912B` | 독성 경고 아이콘·배지 |
 | `error` | `#C63C30` | 삭제, 오류 |

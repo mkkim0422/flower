@@ -1,5 +1,10 @@
 # 식물 관리 앱 — Claude Code 인수인계서
 
+> **Override 2026-09-16 (사용자 최종 승인, 0장 절차)** — 아래 3건이 본문보다 우선한다.
+> 1. **식별 순서**: 온디바이스 TFLite 추론 먼저 → 실패·모델 없음·저신뢰 시에만 PlantNet API Fallback. TFLite 파이프라인은 M5 → **M2**. 모델 파일이 없는 동안은 더미(ModelUnavailable)로 우회.
+> 2. **백업**: 사진 백업 삭제. Supabase Storage에는 `backups/{user_id}/latest.json`만. 사진은 기기 로컬 전용. 백업·온보딩 화면에 "사진은 서버에 백업되지 않습니다" 안내.
+> 3. **테마**: DESIGN.md 'Modern Cozy' 팔레트 적용 (background #F4F1EB / primary #2C5E43 / surfaceVariant·primaryContainer #DDE6DF).
+
 작성일: 2026-09-16
 목적: 이 문서 하나로 Claude Code가 프로젝트 초기 세팅부터 MVP 구현까지 진행할 수 있어야 한다.
 읽는 순서: 0 → 1 → 2 → 8 → 9 순으로 먼저 읽고, 구현 시 3~7을 참조.
@@ -53,8 +58,8 @@
 | 로컬 DB | **Drift** (SQLite) | 오프라인 우선, 마이그레이션 지원 |
 | 알림 | flutter_local_notifications | 서버 불필요 |
 | 백업/인증 | **Supabase 무료 티어** (Auth + Postgres 500MB + Storage 1GB) | 무료, Google/Apple/Kakao OAuth 지원 |
-| 식별 (1단계) | **PlantNet API 무료** (`my-api.plantnet.org`, 500회/일) | 즉시 사용 가능. 일 한도 초과 시 "내일 다시" 안내 |
-| 식별 (2단계) | **온디바이스 TFLite** 모델 | 별도 트랙. 오픈 데이터셋(PlantNet-300K, iNaturalist)으로 학습. 준비되면 1단계보다 우선 호출 |
+| 식별 (1순위, M2) | **온디바이스 TFLite** 모델 (`tflite_flutter`, Apache 2.0) | 로컬 추론 먼저. 모델 파일 없음·로드 실패·저신뢰 → 2순위로 Fallback. 현재 모델 없음 → 더미 처리 |
+| 식별 (2순위 Fallback, M2) | **PlantNet API 무료** (`my-api.plantnet.org`, 500회/일) | TFLite 실패 시에만 호출. 일 한도 초과 시 "내일 다시" 안내. 모델 학습은 오픈 데이터셋(PlantNet-300K, iNaturalist) |
 | 이미지 처리 | image, flutter_image_compress | 식별 전 1024px 리사이즈 |
 | 날씨 (2차) | 기상청 공공데이터포털 API | 무료 |
 | CI | GitHub Actions 무료 | 빌드·테스트만. 배포는 수동 |
@@ -95,7 +100,7 @@
 | SPC-01 | 공간별 뷰 | HOME-01 토글 | 공간 카드 안에 화분 썸네일 + 상태 점(빨강=확인 필요) |
 | SPC-02 | 공간 추가/편집 | SPC-01, ADD-04 | 이름 · 창 방향(동/서/남/북/창 없음) · 창과의 거리(창가/1m 이내/멀리) |
 | MY-01 | MY | 탭 | ① 통계 카드(이번 달 물주기 횟수 / 새잎 태그 수 / 연속 관리일) ② 백업·복원(→AUTH-01) ③ 알림 시간 ④ 품종 추가 요청 ⑤ 계정·탈퇴 ⑥ 약관·개인정보 ⑦ 문의 ⑧ 버전 |
-| AUTH-01 | 로그인 | MY-01 백업 시 | Google / Apple / Kakao. 설명 문구 "백업하려면 로그인이 필요해요" |
+| AUTH-01 | 로그인 | MY-01 백업 시 | Google / Apple / Kakao. 설명 문구 "백업하려면 로그인이 필요해요" + "사진은 서버에 백업되지 않아요" |
 | MY-02 | 알림 설정 | MY-01 | 확인 알림 시간(기본 09:00), 요일 제외 |
 | MY-03 | 품종 추가 요청 | MY-01, CAM-03 | 식물명 · 사진(선택) · 메모 → Supabase 테이블 저장 |
 | MY-04 | 계정 / 탈퇴 | MY-01 | 탈퇴 시 서버 데이터 삭제 + 로컬 삭제 여부 선택 |
@@ -169,8 +174,8 @@ manual_override = true 이면 계산 무시, 사용자 값 사용.
 ### 5-2. 식별 파이프라인
 ```
 1. 사진 → 1024px 리사이즈, EXIF 제거
-2. (2단계 준비 시) 온디바이스 TFLite 추론 → 1순위 ≥ 0.80이면 종료
-3. PlantNet API 호출 (organs=leaf 기본, project=all)
+2. 온디바이스 TFLite 추론 (항상 먼저) → 1순위 ≥ 0.80이면 종료. 모델 없음/로드 실패/저신뢰 → 3으로 Fallback
+3. PlantNet API 호출 (organs=leaf 기본, project=all) — 2가 실패한 경우에만
    - 일 카운터 로컬 저장, 480회 도달 시 호출 안 함 → CAM-04
 4. 응답 candidates → species DB와 학명 매칭 → 국내명 병기
    - 매칭 실패 종은 학명만 표시, 등록 시 species_id null + 학명을 nickname 힌트로
@@ -186,8 +191,8 @@ API 키는 `--dart-define`으로 주입. 저장소에 커밋 금지.
 - 알림 스케줄은 앱이 포그라운드로 올 때마다 재계산(백그라운드 서비스 사용 안 함 — 배터리·심사 이슈 회피).
 
 ### 5-4. 백업/복원
-- 로그인 후 "지금 백업": 로컬 DB 전체를 JSON으로 직렬화 → Supabase Storage `backups/{user_id}/latest.json` 덮어쓰기. 사진은 Storage `photos/{user_id}/` (1GB 한도 안내, 초과 시 사진 제외 백업).
-- 복원: 새 기기에서 로그인 → latest.json 다운로드 → 로컬 DB 교체(확인 다이얼로그).
+- 로그인 후 "지금 백업": 로컬 DB 전체를 JSON으로 직렬화 → Supabase Storage `backups/{user_id}/latest.json` 덮어쓰기. **사진은 백업하지 않는다(기기 로컬 전용).** 백업·온보딩 화면에 "사진은 서버에 백업되지 않습니다" 안내.
+- 복원: 새 기기에서 로그인 → latest.json 다운로드 → 로컬 DB 교체(확인 다이얼로그). 사진 경로는 복원 후 비어 있음(플레이스홀더 표시).
 - 자동 동기화는 MVP에서 하지 않는다(무료 티어 트래픽 절약).
 
 ---
@@ -254,7 +259,7 @@ plant_app/
 - 완료 기준: 이름 검색으로 식물 등록 → 다음 확인일 계산 → 알림 수신 → 흙 확인 입력 → 주기 보정까지 E2E 동작.
 
 **M2 — 카메라 식별**
-- CAM-01~04, PlantNet 연동, 일 한도 카운터, 후보 리스트, identification_logs.
+- CAM-01~04, **TFLite 온디바이스 추론(더미 모델 로더 포함) → PlantNet Fallback** 파이프라인, 일 한도 카운터, 후보 리스트, identification_logs.
 - 완료 기준: 실제 식물 사진 10장 테스트, 한도 초과 시나리오 확인.
 
 **M3 — 일기 · 공간 뷰 · 도감 · 통계**
@@ -264,7 +269,7 @@ plant_app/
 - AUTH-01(Google/Apple/Kakao), 백업·복원, MY-04 탈퇴, 개인정보 처리방침 페이지, 스토어 스크린샷·설명.
 - 완료 기준: TestFlight / 내부 테스트 트랙 업로드.
 
-**M5 (2차, 별도 지시 전까지 착수 금지)**: 온디바이스 모델, 병해 진단, 기상청 날씨 보정, 커뮤니티, 탐색 탭, 유료화.
+**M5 (2차, 별도 지시 전까지 착수 금지)**: 온디바이스 모델 *학습·교체*(파이프라인은 M2로 이동), 병해 진단, 기상청 날씨 보정, 커뮤니티, 탐색 탭, 유료화.
 
 ---
 
