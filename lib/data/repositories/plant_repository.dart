@@ -124,6 +124,12 @@ class PlantRepository {
         .toList();
   }
 
+  /// 해당 날짜에 물을 줬는지 (last_watered_at 기준, 날짜만 비교)
+  static bool wateredOn(Plant p, DateTime day) =>
+      p.lastWateredAt.year == day.year &&
+      p.lastWateredAt.month == day.month &&
+      p.lastWateredAt.day == day.day;
+
   /// 주기 변경 시 다음 확인일은 "리셋"이 아니라 차이만큼 "이동"한다.
   /// (촉촉 재확인일 등 이미 앞당겨진 날짜를 보존)
   static DateTime shiftedNextCheck(Plant p, int newDays) => DateTime(
@@ -343,6 +349,8 @@ class PlantRepository {
     final e = await getById(id);
     if (e == null) return;
     final now = at ?? _now();
+    // 오늘 이미 물을 줬으면 다시 눌러도 기록·날짜를 바꾸지 않는다
+    if (result == SoilCheckResult.dry && wateredOn(e.plant, now)) return;
     // 수동 주기 식물은 흙 확인으로 계수를 보정하지 않는다 (PLT-02 문구와 일치)
     final fb = e.plant.manualOverride
         ? (feedbackCoef: e.plant.feedbackCoef, dryStreak: 0)

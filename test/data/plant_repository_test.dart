@@ -180,6 +180,26 @@ void main() {
     expect(e.plant.nextCheckAt, DateTime(2026, 4, 19)); // 17 + (10-8)
   });
 
+  test('같은 날 "물 줬어요" 두 번 → 기록 1건, 날짜 변화 없음', () async {
+    final id = await plants.create(
+      nickname: 'D',
+      potSize: PotSize.m,
+      hasDrainage: true,
+      lastWateredAt: DateTime(2026, 4, 1),
+    );
+    await plants.recordSoilCheck(id, SoilCheckResult.dry);
+    final first = (await plants.getById(id))!;
+    await plants.recordSoilCheck(id, SoilCheckResult.dry);
+    final second = (await plants.getById(id))!;
+    expect(second.plant.nextCheckAt, first.plant.nextCheckAt);
+    expect(second.plant.dryStreak, first.plant.dryStreak);
+    final waters = (await plants.watchCareEvents(id).first).where(
+      (e) => e.type == CareType.water,
+    );
+    expect(waters.length, 1);
+    expect(PlantRepository.wateredOn(second.plant, fixedNow), isTrue);
+  });
+
   test('다중 선택 일괄 완료', () async {
     final a = await plants.create(
       nickname: 'A',

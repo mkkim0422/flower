@@ -253,10 +253,7 @@ class _Body extends ConsumerWidget {
     final s = entry.species;
     final dDay = entry.dDay(now);
     final result = ref.read(plantRepositoryProvider).computeForEntry(entry);
-    final events =
-        (ref.watch(careEventsProvider(p.id)).value ?? const <CareEvent>[])
-            .where((e) => e.type == CareType.water)
-            .toList();
+    final wateredToday = PlantRepository.wateredOn(p, now);
     final diary =
         ref.watch(diaryByPlantProvider(p.id)).value ?? const <DiaryEntry>[];
 
@@ -504,34 +501,6 @@ class _Body extends ConsumerWidget {
             ),
           const SizedBox(height: AppSpace.cardGap),
 
-          // 카드4: 물 준 날 (앱에서 "물 줬어요"를 누른 날만. 없으면 숨김)
-          if (events.isNotEmpty)
-            AppCard(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '물 준 날',
-                    style: AppText.title.copyWith(color: c.textPrimary),
-                  ),
-                  const SizedBox(height: AppSpace.sm),
-                  Wrap(
-                    spacing: AppSpace.sm,
-                    runSpacing: AppSpace.xs,
-                    children: [
-                      for (final e in events.take(8))
-                        Text(
-                          DateFormat('M/d').format(e.at),
-                          style: AppText.body.copyWith(
-                            color: c.textSecondary,
-                            fontFeatures: AppText.tabularFeatures,
-                          ),
-                        ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
           // 플로팅 버튼 자리
           SizedBox(
             height:
@@ -549,16 +518,22 @@ class _Body extends ConsumerWidget {
           width: double.infinity,
           child: FloatingActionButton.extended(
             heroTag: 'water-${p.id}',
-            backgroundColor: c.primary,
-            foregroundColor: c.onPrimary,
-            elevation: 2,
+            backgroundColor: wateredToday ? c.primaryContainer : c.primary,
+            foregroundColor: wateredToday ? c.primary : c.onPrimary,
+            elevation: wateredToday ? 0 : 2,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(AppRadius.button),
             ),
-            onPressed: () => showSoilCheckSheet(context, entries: [entry]),
-            icon: const Icon(Icons.water_drop_rounded),
+            onPressed: wateredToday
+                ? () => ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(const SnackBar(content: Text('오늘은 이미 물을 줬어요')))
+                : () => showSoilCheckSheet(context, entries: [entry]),
+            icon: Icon(
+              wateredToday ? Icons.check_rounded : Icons.water_drop_rounded,
+            ),
             label: Text(
-              dDay <= 0 ? '물 줬어요' : '오늘 물 줬어요',
+              wateredToday ? '오늘 물 줬어요' : (dDay <= 0 ? '물 줬어요' : '오늘 물 줬어요'),
               style: AppText.bodyStrong,
             ),
           ),
