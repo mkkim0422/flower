@@ -52,6 +52,7 @@ class IntListConverter extends TypeConverter<List<int>, String> {
 }
 
 /// 품종 마스터. assets/species_ko.json → 첫 실행 시 시드.
+@DataClassName('SpeciesRow')
 class Species extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get scientificName => text().unique()();
@@ -67,6 +68,12 @@ class Species extends Table {
   IntColumn get repotMonths => integer().nullable()();
   TextColumn get commonIssues =>
       text().map(const StringListConverter()).withDefault(const Constant('[]'))();
+
+  /// foliage / succulent / herb / flower / other
+  TextColumn get category => text().withDefault(const Constant('foliage'))();
+
+  /// 검색용: ko_names를 공백으로 이어붙인 소문자 문자열
+  TextColumn get searchText => text().withDefault(const Constant(''))();
 }
 
 /// 공간 (거실/베란다 …)

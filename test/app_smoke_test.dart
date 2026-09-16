@@ -6,27 +6,47 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:plant_app/app/app.dart';
 import 'package:plant_app/data/db/app_database.dart';
 import 'package:plant_app/data/db/database_provider.dart';
+import 'package:plant_app/data/repositories/settings_repository.dart';
+import 'package:plant_app/data/seed/species_seed.dart';
+import 'package:plant_app/features/add_plant/add_method_screen.dart';
 import 'package:plant_app/features/my/my_screen.dart';
+import 'package:plant_app/features/onboarding/onboarding_screen.dart';
 
 void main() {
   setUpAll(() async {
     await initializeDateFormatting('ko_KR');
   });
 
-  testWidgets('3탭 스캐폴드가 뜨고 탭 전환이 된다', (tester) async {
-    // Drift는 실제 비동기 I/O·타이머를 쓰므로 fakeAsync 대신 runAsync로 실행한다.
+  Widget app(AppDatabase db, {bool onboardingDone = true}) => ProviderScope(
+        overrides: [
+          databaseProvider.overrideWithValue(db),
+          onboardingDoneProvider.overrideWith((ref) => onboardingDone),
+          // 테스트에서는 에셋 로드 대신 빈 시드
+          speciesSeedProvider.overrideWith((ref) async => 0),
+        ],
+        child: const PlantApp(),
+      );
+
+  testWidgets('온보딩 미완료면 ONB-01 로 리다이렉트', (tester) async {
     await tester.runAsync(() async {
       final db = AppDatabase.forTesting(NativeDatabase.memory());
+      await tester.pumpWidget(app(db, onboardingDone: false));
+      await tester.pumpAndSettle();
+      expect(find.byType(OnboardingScreen), findsOneWidget);
+      expect(find.text('내 식물, 잘 자라게'), findsOneWidget);
+      await tester.pumpWidget(const SizedBox());
+      await tester.pump();
+      await db.close();
+    });
+  }, timeout: const Timeout(Duration(seconds: 60)));
 
-      await tester.pumpWidget(
-        ProviderScope(
-          overrides: [databaseProvider.overrideWithValue(db)],
-          child: const PlantApp(),
-        ),
-      );
+  testWidgets('3탭 스캐폴드가 뜨고 탭 전환·식물 추가 진입이 된다', (tester) async {
+    await tester.runAsync(() async {
+      final db = AppDatabase.forTesting(NativeDatabase.memory());
+      await tester.pumpWidget(app(db));
       await tester.pumpAndSettle();
 
-      // HOME-01 기본 진입 + 빈 상태
+      // HOME-01 빈 상태
       expect(find.text('오늘'), findsOneWidget);
       expect(find.text('첫 식물을 등록해 보세요'), findsOneWidget);
 
@@ -40,12 +60,14 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.byType(MyScreen), findsOneWidget);
 
-      // 홈으로 복귀
+      // 홈 → 식물 추가 (ADD-01)
       await tester.tap(find.byIcon(Icons.home_outlined));
       await tester.pumpAndSettle();
-      expect(find.text('오늘'), findsOneWidget);
+      await tester.tap(find.text('식물 추가'));
+      await tester.pumpAndSettle();
+      expect(find.byType(AddMethodScreen), findsOneWidget);
+      expect(find.text('이름으로 검색'), findsOneWidget);
 
-      // 스트림 구독 해제 후 DB 종료
       await tester.pumpWidget(const SizedBox());
       await tester.pump();
       await db.close();

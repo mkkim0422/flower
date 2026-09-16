@@ -82,5 +82,36 @@
 ### 제안 (구현 안 함)
 - 아이콘: DESIGN.md의 Material Symbols Rounded 대신 M0에서는 Flutter 내장 Material Icons(rounded/outlined) 사용. 정확한 Symbols가 필요하면 `material_symbols_icons`(Apache 2.0) 추가 검토.
 
-## 다음: M1 — 식물 등록 + 물주기 코어
-- species 시드 로드, ADD-01~04, SPC-02, PLT-01, watering_rules + 테스트 20케이스, HOME-01 오늘 할 일, HOME-02, 로컬 알림
+## M1 — 식물 등록 + 물주기 코어 (2026-09-16)
+
+### 완료
+- `lib/domain/watering_rules.dart`: 5-1 계산식·계수 상수, feedback 보정, next_check_at, D-day 유틸. 테스트 `test/domain/watering_rules_test.dart` 34케이스(계수별·클램프·수동·날짜).
+- 시드 로더 `lib/data/seed/species_seed.dart`: `assets/species_ko.json` → species 테이블 (비어 있을 때 1회), 검색용 `search_text` 생성.
+- 저장소: `species_repository`(국내명·학명 검색), `space_repository`, `plant_repository`(등록·재계산·흙 확인·수동 주기·관리 이벤트), `settings_repository`. 테스트 `test/data/plant_repository_test.dart` 7케이스 — 등록 → 다음 확인일 → 흙 확인 → 주기 보정 E2E 포함.
+- 화면: ONB-01/02, HOME-01(오늘 확인 + 다중 선택 일괄 완료 + 내 식물 목록/공간 토글), HOME-02(흙 확인 바텀시트, 큰 2버튼), ADD-01~04, SPC-02, PLT-01, PLT-02(자동 근거 + 수동 슬라이더).
+- 공통 위젯 추가: `PlantCard`, `PlantThumb`, `TodayCheckTile`(체크 scale 애니메이션), `ToxicBadge`.
+- 로컬 알림 `lib/domain/notification_service.dart`: 매일 notify 시각 1건 "오늘 확인할 식물이 N개 있어요". 앱 포그라운드마다 재계산·재예약(`app.dart` AppLifecycleListener). 제외 요일 지원. Android: POST_NOTIFICATIONS·BOOT 리시버·desugaring 설정.
+- 라우터: 온보딩 리다이렉트, 등록 플로우는 탭바 위 전체화면(root navigator).
+- 테스트 총 46건 통과, `flutter analyze` 오류 0.
+
+### 미완 / 미검증
+- 실기기·에뮬레이터 실행 및 알림 실제 수신은 미검증 (Gradle 빌드 미실행).
+- 사진 등록은 CAM(M2)에서. PLT-01 "일기 쓰기"는 M3까지 비활성.
+- INFO-01 전체 페이지·SPC-01 공간 뷰·MY 통계는 M3. HOME-01 공간 토글은 임시로 공간별 그룹 목록.
+
+### 결정 사항 (명세 공백을 메운 가정)
+- lightCoef에서 **남·동·서 + 1m 이내**는 명세에 없어 1.0으로 둠.
+- "아직 촉촉해요" 후 재확인일: interval의 25%, 1~3일로 클램프(`recheckDaysAfterWet`). 물 준 날은 바꾸지 않음.
+- "말랐어요, 물 줬어요"는 care_events에 `check_dry` + `water` 2건 기록.
+- 다중 선택 일괄 완료는 선택한 식물 전부에 같은 결과를 적용.
+- 계절 계수 반영을 위해 앱 포그라운드마다 수동이 아닌 식물의 주기를 재계산(다음 확인일 = 마지막 물 준 날 + 새 주기).
+- 온보딩 완료 여부는 settings.onboarding_done 으로 저장, 알림 권한은 ONB-02에서 요청("나중에" 가능).
+- species 시드: 사용자 결정(2026-09-16)에 따라 Claude가 공공 자료(농진청 실내식물 정보·ASPCA 독성 목록·위키 학명) 기반으로 생성. data.go.kr/농사로 API는 키가 없어 직접 호출하지 않음 → 검수 필요 표시.
+
+### 라이선스 추가
+| 패키지 | 라이선스 | 비용 |
+|---|---|---|
+| timezone | BSD-2 | 0 |
+
+## 다음: M2 — 카메라 식별
+- CAM-01~04, TFLite 더미 로더 → PlantNet Fallback, 일 한도 카운터, 후보 리스트, identification_logs

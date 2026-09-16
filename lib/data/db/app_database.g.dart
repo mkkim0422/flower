@@ -3,7 +3,7 @@
 part of 'app_database.dart';
 
 // ignore_for_file: type=lint
-class $SpeciesTable extends Species with TableInfo<$SpeciesTable, Specy> {
+class $SpeciesTable extends Species with TableInfo<$SpeciesTable, SpeciesRow> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
@@ -153,6 +153,30 @@ class $SpeciesTable extends Species with TableInfo<$SpeciesTable, Specy> {
     requiredDuringInsert: false,
     defaultValue: const Constant('[]'),
   ).withConverter<List<String>>($SpeciesTable.$convertercommonIssues);
+  static const VerificationMeta _categoryMeta = const VerificationMeta(
+    'category',
+  );
+  @override
+  late final GeneratedColumn<String> category = GeneratedColumn<String>(
+    'category',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('foliage'),
+  );
+  static const VerificationMeta _searchTextMeta = const VerificationMeta(
+    'searchText',
+  );
+  @override
+  late final GeneratedColumn<String> searchText = GeneratedColumn<String>(
+    'search_text',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(''),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -168,6 +192,8 @@ class $SpeciesTable extends Species with TableInfo<$SpeciesTable, Specy> {
     fertDays,
     repotMonths,
     commonIssues,
+    category,
+    searchText,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -176,7 +202,7 @@ class $SpeciesTable extends Species with TableInfo<$SpeciesTable, Specy> {
   static const String $name = 'species';
   @override
   VerificationContext validateIntegrity(
-    Insertable<Specy> instance, {
+    Insertable<SpeciesRow> instance, {
     bool isInserting = false,
   }) {
     final context = VerificationContext();
@@ -255,15 +281,27 @@ class $SpeciesTable extends Species with TableInfo<$SpeciesTable, Specy> {
         ),
       );
     }
+    if (data.containsKey('category')) {
+      context.handle(
+        _categoryMeta,
+        category.isAcceptableOrUnknown(data['category']!, _categoryMeta),
+      );
+    }
+    if (data.containsKey('search_text')) {
+      context.handle(
+        _searchTextMeta,
+        searchText.isAcceptableOrUnknown(data['search_text']!, _searchTextMeta),
+      );
+    }
     return context;
   }
 
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  Specy map(Map<String, dynamic> data, {String? tablePrefix}) {
+  SpeciesRow map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return Specy(
+    return SpeciesRow(
       id: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}id'],
@@ -322,6 +360,14 @@ class $SpeciesTable extends Species with TableInfo<$SpeciesTable, Specy> {
           data['${effectivePrefix}common_issues'],
         )!,
       ),
+      category: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}category'],
+      )!,
+      searchText: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}search_text'],
+      )!,
     );
   }
 
@@ -338,7 +384,7 @@ class $SpeciesTable extends Species with TableInfo<$SpeciesTable, Specy> {
       const StringListConverter();
 }
 
-class Specy extends DataClass implements Insertable<Specy> {
+class SpeciesRow extends DataClass implements Insertable<SpeciesRow> {
   final int id;
   final String scientificName;
   final List<String> koNames;
@@ -352,7 +398,13 @@ class Specy extends DataClass implements Insertable<Specy> {
   final int? fertDays;
   final int? repotMonths;
   final List<String> commonIssues;
-  const Specy({
+
+  /// foliage / succulent / herb / flower / other
+  final String category;
+
+  /// 검색용: ko_names를 공백으로 이어붙인 소문자 문자열
+  final String searchText;
+  const SpeciesRow({
     required this.id,
     required this.scientificName,
     required this.koNames,
@@ -366,6 +418,8 @@ class Specy extends DataClass implements Insertable<Specy> {
     this.fertDays,
     this.repotMonths,
     required this.commonIssues,
+    required this.category,
+    required this.searchText,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -405,6 +459,8 @@ class Specy extends DataClass implements Insertable<Specy> {
         $SpeciesTable.$convertercommonIssues.toSql(commonIssues),
       );
     }
+    map['category'] = Variable<String>(category);
+    map['search_text'] = Variable<String>(searchText);
     return map;
   }
 
@@ -433,15 +489,17 @@ class Specy extends DataClass implements Insertable<Specy> {
           ? const Value.absent()
           : Value(repotMonths),
       commonIssues: Value(commonIssues),
+      category: Value(category),
+      searchText: Value(searchText),
     );
   }
 
-  factory Specy.fromJson(
+  factory SpeciesRow.fromJson(
     Map<String, dynamic> json, {
     ValueSerializer? serializer,
   }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return Specy(
+    return SpeciesRow(
       id: serializer.fromJson<int>(json['id']),
       scientificName: serializer.fromJson<String>(json['scientificName']),
       koNames: serializer.fromJson<List<String>>(json['koNames']),
@@ -457,6 +515,8 @@ class Specy extends DataClass implements Insertable<Specy> {
       fertDays: serializer.fromJson<int?>(json['fertDays']),
       repotMonths: serializer.fromJson<int?>(json['repotMonths']),
       commonIssues: serializer.fromJson<List<String>>(json['commonIssues']),
+      category: serializer.fromJson<String>(json['category']),
+      searchText: serializer.fromJson<String>(json['searchText']),
     );
   }
   @override
@@ -478,10 +538,12 @@ class Specy extends DataClass implements Insertable<Specy> {
       'fertDays': serializer.toJson<int?>(fertDays),
       'repotMonths': serializer.toJson<int?>(repotMonths),
       'commonIssues': serializer.toJson<List<String>>(commonIssues),
+      'category': serializer.toJson<String>(category),
+      'searchText': serializer.toJson<String>(searchText),
     };
   }
 
-  Specy copyWith({
+  SpeciesRow copyWith({
     int? id,
     String? scientificName,
     List<String>? koNames,
@@ -495,7 +557,9 @@ class Specy extends DataClass implements Insertable<Specy> {
     Value<int?> fertDays = const Value.absent(),
     Value<int?> repotMonths = const Value.absent(),
     List<String>? commonIssues,
-  }) => Specy(
+    String? category,
+    String? searchText,
+  }) => SpeciesRow(
     id: id ?? this.id,
     scientificName: scientificName ?? this.scientificName,
     koNames: koNames ?? this.koNames,
@@ -509,9 +573,11 @@ class Specy extends DataClass implements Insertable<Specy> {
     fertDays: fertDays.present ? fertDays.value : this.fertDays,
     repotMonths: repotMonths.present ? repotMonths.value : this.repotMonths,
     commonIssues: commonIssues ?? this.commonIssues,
+    category: category ?? this.category,
+    searchText: searchText ?? this.searchText,
   );
-  Specy copyWithCompanion(SpeciesCompanion data) {
-    return Specy(
+  SpeciesRow copyWithCompanion(SpeciesCompanion data) {
+    return SpeciesRow(
       id: data.id.present ? data.id.value : this.id,
       scientificName: data.scientificName.present
           ? data.scientificName.value
@@ -535,12 +601,16 @@ class Specy extends DataClass implements Insertable<Specy> {
       commonIssues: data.commonIssues.present
           ? data.commonIssues.value
           : this.commonIssues,
+      category: data.category.present ? data.category.value : this.category,
+      searchText: data.searchText.present
+          ? data.searchText.value
+          : this.searchText,
     );
   }
 
   @override
   String toString() {
-    return (StringBuffer('Specy(')
+    return (StringBuffer('SpeciesRow(')
           ..write('id: $id, ')
           ..write('scientificName: $scientificName, ')
           ..write('koNames: $koNames, ')
@@ -553,7 +623,9 @@ class Specy extends DataClass implements Insertable<Specy> {
           ..write('tempMax: $tempMax, ')
           ..write('fertDays: $fertDays, ')
           ..write('repotMonths: $repotMonths, ')
-          ..write('commonIssues: $commonIssues')
+          ..write('commonIssues: $commonIssues, ')
+          ..write('category: $category, ')
+          ..write('searchText: $searchText')
           ..write(')'))
         .toString();
   }
@@ -573,11 +645,13 @@ class Specy extends DataClass implements Insertable<Specy> {
     fertDays,
     repotMonths,
     commonIssues,
+    category,
+    searchText,
   );
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is Specy &&
+      (other is SpeciesRow &&
           other.id == this.id &&
           other.scientificName == this.scientificName &&
           other.koNames == this.koNames &&
@@ -590,10 +664,12 @@ class Specy extends DataClass implements Insertable<Specy> {
           other.tempMax == this.tempMax &&
           other.fertDays == this.fertDays &&
           other.repotMonths == this.repotMonths &&
-          other.commonIssues == this.commonIssues);
+          other.commonIssues == this.commonIssues &&
+          other.category == this.category &&
+          other.searchText == this.searchText);
 }
 
-class SpeciesCompanion extends UpdateCompanion<Specy> {
+class SpeciesCompanion extends UpdateCompanion<SpeciesRow> {
   final Value<int> id;
   final Value<String> scientificName;
   final Value<List<String>> koNames;
@@ -607,6 +683,8 @@ class SpeciesCompanion extends UpdateCompanion<Specy> {
   final Value<int?> fertDays;
   final Value<int?> repotMonths;
   final Value<List<String>> commonIssues;
+  final Value<String> category;
+  final Value<String> searchText;
   const SpeciesCompanion({
     this.id = const Value.absent(),
     this.scientificName = const Value.absent(),
@@ -621,6 +699,8 @@ class SpeciesCompanion extends UpdateCompanion<Specy> {
     this.fertDays = const Value.absent(),
     this.repotMonths = const Value.absent(),
     this.commonIssues = const Value.absent(),
+    this.category = const Value.absent(),
+    this.searchText = const Value.absent(),
   });
   SpeciesCompanion.insert({
     this.id = const Value.absent(),
@@ -636,13 +716,15 @@ class SpeciesCompanion extends UpdateCompanion<Specy> {
     this.fertDays = const Value.absent(),
     this.repotMonths = const Value.absent(),
     this.commonIssues = const Value.absent(),
+    this.category = const Value.absent(),
+    this.searchText = const Value.absent(),
   }) : scientificName = Value(scientificName),
        koNames = Value(koNames),
        baseWaterDays = Value(baseWaterDays),
        lightPref = Value(lightPref),
        toxicPet = Value(toxicPet),
        toxicChild = Value(toxicChild);
-  static Insertable<Specy> custom({
+  static Insertable<SpeciesRow> custom({
     Expression<int>? id,
     Expression<String>? scientificName,
     Expression<String>? koNames,
@@ -656,6 +738,8 @@ class SpeciesCompanion extends UpdateCompanion<Specy> {
     Expression<int>? fertDays,
     Expression<int>? repotMonths,
     Expression<String>? commonIssues,
+    Expression<String>? category,
+    Expression<String>? searchText,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -671,6 +755,8 @@ class SpeciesCompanion extends UpdateCompanion<Specy> {
       if (fertDays != null) 'fert_days': fertDays,
       if (repotMonths != null) 'repot_months': repotMonths,
       if (commonIssues != null) 'common_issues': commonIssues,
+      if (category != null) 'category': category,
+      if (searchText != null) 'search_text': searchText,
     });
   }
 
@@ -688,6 +774,8 @@ class SpeciesCompanion extends UpdateCompanion<Specy> {
     Value<int?>? fertDays,
     Value<int?>? repotMonths,
     Value<List<String>>? commonIssues,
+    Value<String>? category,
+    Value<String>? searchText,
   }) {
     return SpeciesCompanion(
       id: id ?? this.id,
@@ -703,6 +791,8 @@ class SpeciesCompanion extends UpdateCompanion<Specy> {
       fertDays: fertDays ?? this.fertDays,
       repotMonths: repotMonths ?? this.repotMonths,
       commonIssues: commonIssues ?? this.commonIssues,
+      category: category ?? this.category,
+      searchText: searchText ?? this.searchText,
     );
   }
 
@@ -754,6 +844,12 @@ class SpeciesCompanion extends UpdateCompanion<Specy> {
         $SpeciesTable.$convertercommonIssues.toSql(commonIssues.value),
       );
     }
+    if (category.present) {
+      map['category'] = Variable<String>(category.value);
+    }
+    if (searchText.present) {
+      map['search_text'] = Variable<String>(searchText.value);
+    }
     return map;
   }
 
@@ -772,7 +868,9 @@ class SpeciesCompanion extends UpdateCompanion<Specy> {
           ..write('tempMax: $tempMax, ')
           ..write('fertDays: $fertDays, ')
           ..write('repotMonths: $repotMonths, ')
-          ..write('commonIssues: $commonIssues')
+          ..write('commonIssues: $commonIssues, ')
+          ..write('category: $category, ')
+          ..write('searchText: $searchText')
           ..write(')'))
         .toString();
   }
@@ -3754,6 +3852,8 @@ typedef $$SpeciesTableCreateCompanionBuilder =
       Value<int?> fertDays,
       Value<int?> repotMonths,
       Value<List<String>> commonIssues,
+      Value<String> category,
+      Value<String> searchText,
     });
 typedef $$SpeciesTableUpdateCompanionBuilder =
     SpeciesCompanion Function({
@@ -3770,10 +3870,12 @@ typedef $$SpeciesTableUpdateCompanionBuilder =
       Value<int?> fertDays,
       Value<int?> repotMonths,
       Value<List<String>> commonIssues,
+      Value<String> category,
+      Value<String> searchText,
     });
 
 final class $$SpeciesTableReferences
-    extends BaseReferences<_$AppDatabase, $SpeciesTable, Specy> {
+    extends BaseReferences<_$AppDatabase, $SpeciesTable, SpeciesRow> {
   $$SpeciesTableReferences(super.$_db, super.$_table, super.$_typedResult);
 
   static MultiTypedResultKey<$PlantsTable, List<Plant>> _plantsRefsTable(
@@ -3895,6 +3997,16 @@ class $$SpeciesTableFilterComposer
   get commonIssues => $composableBuilder(
     column: $table.commonIssues,
     builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
+
+  ColumnFilters<String> get category => $composableBuilder(
+    column: $table.category,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get searchText => $composableBuilder(
+    column: $table.searchText,
+    builder: (column) => ColumnFilters(column),
   );
 
   Expression<bool> plantsRefs(
@@ -4021,6 +4133,16 @@ class $$SpeciesTableOrderingComposer
     column: $table.commonIssues,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get category => $composableBuilder(
+    column: $table.category,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get searchText => $composableBuilder(
+    column: $table.searchText,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$SpeciesTableAnnotationComposer
@@ -4082,6 +4204,14 @@ class $$SpeciesTableAnnotationComposer
         builder: (column) => column,
       );
 
+  GeneratedColumn<String> get category =>
+      $composableBuilder(column: $table.category, builder: (column) => column);
+
+  GeneratedColumn<String> get searchText => $composableBuilder(
+    column: $table.searchText,
+    builder: (column) => column,
+  );
+
   Expression<T> plantsRefs<T extends Object>(
     Expression<T> Function($$PlantsTableAnnotationComposer a) f,
   ) {
@@ -4139,14 +4269,14 @@ class $$SpeciesTableTableManager
         RootTableManager<
           _$AppDatabase,
           $SpeciesTable,
-          Specy,
+          SpeciesRow,
           $$SpeciesTableFilterComposer,
           $$SpeciesTableOrderingComposer,
           $$SpeciesTableAnnotationComposer,
           $$SpeciesTableCreateCompanionBuilder,
           $$SpeciesTableUpdateCompanionBuilder,
-          (Specy, $$SpeciesTableReferences),
-          Specy,
+          (SpeciesRow, $$SpeciesTableReferences),
+          SpeciesRow,
           PrefetchHooks Function({bool plantsRefs, bool identificationLogsRefs})
         > {
   $$SpeciesTableTableManager(_$AppDatabase db, $SpeciesTable table)
@@ -4175,6 +4305,8 @@ class $$SpeciesTableTableManager
                 Value<int?> fertDays = const Value.absent(),
                 Value<int?> repotMonths = const Value.absent(),
                 Value<List<String>> commonIssues = const Value.absent(),
+                Value<String> category = const Value.absent(),
+                Value<String> searchText = const Value.absent(),
               }) => SpeciesCompanion(
                 id: id,
                 scientificName: scientificName,
@@ -4189,6 +4321,8 @@ class $$SpeciesTableTableManager
                 fertDays: fertDays,
                 repotMonths: repotMonths,
                 commonIssues: commonIssues,
+                category: category,
+                searchText: searchText,
               ),
           createCompanionCallback:
               ({
@@ -4205,6 +4339,8 @@ class $$SpeciesTableTableManager
                 Value<int?> fertDays = const Value.absent(),
                 Value<int?> repotMonths = const Value.absent(),
                 Value<List<String>> commonIssues = const Value.absent(),
+                Value<String> category = const Value.absent(),
+                Value<String> searchText = const Value.absent(),
               }) => SpeciesCompanion.insert(
                 id: id,
                 scientificName: scientificName,
@@ -4219,6 +4355,8 @@ class $$SpeciesTableTableManager
                 fertDays: fertDays,
                 repotMonths: repotMonths,
                 commonIssues: commonIssues,
+                category: category,
+                searchText: searchText,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -4240,7 +4378,11 @@ class $$SpeciesTableTableManager
                   getPrefetchedDataCallback: (items) async {
                     return [
                       if (plantsRefs)
-                        await $_getPrefetchedData<Specy, $SpeciesTable, Plant>(
+                        await $_getPrefetchedData<
+                          SpeciesRow,
+                          $SpeciesTable,
+                          Plant
+                        >(
                           currentTable: table,
                           referencedTable: $$SpeciesTableReferences
                               ._plantsRefsTable(db),
@@ -4258,7 +4400,7 @@ class $$SpeciesTableTableManager
                         ),
                       if (identificationLogsRefs)
                         await $_getPrefetchedData<
-                          Specy,
+                          SpeciesRow,
                           $SpeciesTable,
                           IdentificationLog
                         >(
@@ -4289,14 +4431,14 @@ typedef $$SpeciesTableProcessedTableManager =
     ProcessedTableManager<
       _$AppDatabase,
       $SpeciesTable,
-      Specy,
+      SpeciesRow,
       $$SpeciesTableFilterComposer,
       $$SpeciesTableOrderingComposer,
       $$SpeciesTableAnnotationComposer,
       $$SpeciesTableCreateCompanionBuilder,
       $$SpeciesTableUpdateCompanionBuilder,
-      (Specy, $$SpeciesTableReferences),
-      Specy,
+      (SpeciesRow, $$SpeciesTableReferences),
+      SpeciesRow,
       PrefetchHooks Function({bool plantsRefs, bool identificationLogsRefs})
     >;
 typedef $$SpacesTableCreateCompanionBuilder =

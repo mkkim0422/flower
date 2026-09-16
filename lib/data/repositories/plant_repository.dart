@@ -1,0 +1,376 @@
+import 'package:drift/drift.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../app/widgets/status_dot.dart' show PlantStatus;
+import '../../core/enums.dart';
+import '../../domain/watering_rules.dart';
+import '../db/app_database.dart';
+import '../db/database_provider.dart';
+
+/// 식물 + 품종 + 공간 조인 결과
+class PlantEntry {
+  const PlantEntry({required this.plant, this.species, this.space});
+
+  final Plant plant;
+  final SpeciesRow? species;
+  final Space? space;
+
+  String get displaySpeciesName =>
+      species == null ? '품종 미지정' : species!.koNames.first;
+
+  bool isDue(DateTime now) => isDueToday(plant.nextCheckAt, now);
+
+  int dDay(DateTime now) => daysUntil(plant.nextCheckAt, now);
+
+  PlantStatus status(DateTime now) {
+    if (isDue(now)) return PlantStatus.needCheck;
+    if (species == null) return PlantStatus.unknown;
+    return PlantStatus.ok;
+  }
+
+  /// 상태 라벨: "오늘 확인" / "D-3" / "미지정"
+  String statusLabel(DateTime now) {
+    final d = dDay(now);
+    if (d <= 0) return '오늘 확인';
+    if (species == null) return 'D-$d · 미지정';
+    return 'D-$d';
+  }
+}
+
+class PlantRepository {
+  PlantRepository(this.db, {DateTime Function()? clock})
+      : _now = clock ?? DateTime.now;
+
+  final AppDatabase db;
+  final DateTime Function() _now;
+
+  // ---------- 조회 ----------
+
+  Stream<List<PlantEntry>> watchAll() {
+    final q = db.select(db.plants).join([
+      leftOuterJoin(db.species, db.species.id.equalsExp(db.plants.speciesId)),
+      leftOuterJoin(db.spaces, db.spaces.id.equalsExp(db.plants.spaceId)),
+    ])
+      ..orderBy([OrderingTerm.asc(db.plants.nextCheckAt)]);
+    return q.watch().map(
+          (rows) => rows
+              .map(
+                (r) => PlantEntry(
+                  plant: r.readTable(db.plants),
+                  species: r.readTableOrNull(db.species),
+                  space: r.readTableOrNull(db.spaces),
+                ),
+              )
+              .toList(),
+        );
+  }
+
+  Stream<PlantEntry?> watchById(int id) {
+    final q = db.select(db.plants).join([
+      leftOuterJoin(db.species, db.species.id.equalsExp(db.plants.speciesId)),
+      leftOuterJoin(db.spaces, db.spaces.id.equalsExp(db.plants.spaceId)),
+    ])
+      ..where(db.plants.id.equals(id));
+    return q.watchSingleOrNull().map(
+          (r) => r == null
+              ? null
+              : PlantEntry(
+                  plant: r.readTable(db.plants),
+                  species: r.readTableOrNull(db.species),
+                  space: r.readTableOrNull(db.spaces),
+                ),
+        );
+  }
+
+  Future<PlantEntry?> getById(int id) => watchById(id).first;
+
+  Stream<List<CareEvent>> watchCareEvents(int plantId, {int limit = 50}) =>
+      (db.select(db.careEvents)
+            ..where((t) => t.plantId.equals(plantId))
+            ..orderBy([(t) => OrderingTerm.desc(t.at), (t) => OrderingTerm.desc(t.id)])
+            ..limit(limit))
+          .watch();
+
+  // ---------- 계산 ----------
+
+  WateringResult computeFor({
+    required SpeciesRow? species,
+    required Space? space,
+    required PotSize potSize,
+    required bool hasDrainage,
+    double feedbackCoef = 1.0,
+    bool manualOverride = false,
+    int? manualDays,
+    DateTime? at,
+  }) {
+    final now = at ?? _now();
+    return computeWatering(
+      WateringInput(
+        baseWaterDays: species?.baseWaterDays,
+        month: now.month,
+        windowDir: space?.windowDir,
+        windowDist: space?.windowDist,
+        potSize: potSize,
+        hasDrainage: hasDrainage,
+        feedbackCoef: feedbackCoef,
+        manualOverride: manualOverride,
+        manualDays: manualDays,
+      ),
+    );
+  }
+
+  WateringResult computeForEntry(PlantEntry e, {DateTime? at}) => computeFor(
+        species: e.species,
+        space: e.space,
+        potSize: e.plant.potSize,
+        hasDrainage: e.plant.hasDrainage,
+        feedbackCoef: e.plant.feedbackCoef,
+        manualOverride: e.plant.manualOverride,
+        manualDays: e.plant.manualOverride ? e.plant.waterIntervalDays : null,
+        at: at,
+      );
+
+  // ---------- 등록 / 수정 ----------
+
+  /// ADD-04 완료 → 식물 생성. id 반환.
+  Future<int> create({
+    required String nickname,
+    int? speciesId,
+    int? spaceId,
+    required PotSize potSize,
+    required bool hasDrainage,
+    required DateTime lastWateredAt,
+    String? photoPath,
+  }) async {
+    final species = speciesId == null
+        ? null
+        : await (db.select(db.species)..where((t) => t.id.equals(speciesId)))
+            .getSingleOrNull();
+    final space = spaceId == null
+        ? null
+        : await (db.select(db.spaces)..where((t) => t.id.equals(spaceId)))
+            .getSingleOrNull();
+    final now = _now();
+    final result = computeFor(
+      species: species,
+      space: space,
+      potSize: potSize,
+      hasDrainage: hasDrainage,
+      at: now,
+    );
+
+    return db.transaction(() async {
+      final id = await db.into(db.plants).insert(
+            PlantsCompanion.insert(
+              nickname: nickname.trim(),
+              speciesId: Value(speciesId),
+              spaceId: Value(spaceId),
+              potSize: potSize,
+              hasDrainage: Value(hasDrainage),
+              photoPath: Value(photoPath),
+              waterIntervalDays: result.days,
+              lastWateredAt: lastWateredAt,
+              nextCheckAt: nextCheckAt(lastWateredAt, result.days),
+              fertIntervalDays: Value(species?.fertDays),
+              createdAt: now,
+            ),
+          );
+      await db.into(db.careEvents).insert(
+            CareEventsCompanion.insert(
+              plantId: id,
+              type: CareType.water,
+              at: lastWateredAt,
+              note: const Value('등록 시 마지막 물 준 날'),
+            ),
+          );
+      return id;
+    });
+  }
+
+  Future<void> updateBasic({
+    required int id,
+    String? nickname,
+    Value<int?> spaceId = const Value.absent(),
+    Value<int?> speciesId = const Value.absent(),
+    PotSize? potSize,
+    bool? hasDrainage,
+    Value<String?> photoPath = const Value.absent(),
+  }) async {
+    await (db.update(db.plants)..where((t) => t.id.equals(id))).write(
+      PlantsCompanion(
+        nickname: nickname == null ? const Value.absent() : Value(nickname.trim()),
+        spaceId: spaceId,
+        speciesId: speciesId,
+        potSize: potSize == null ? const Value.absent() : Value(potSize),
+        hasDrainage:
+            hasDrainage == null ? const Value.absent() : Value(hasDrainage),
+        photoPath: photoPath,
+      ),
+    );
+    await recalc(id);
+  }
+
+  /// PLT-02: 수동 주기 설정. days == null 이면 자동 계산으로 복귀.
+  Future<void> setManualInterval(int id, int? days) async {
+    final e = await getById(id);
+    if (e == null) return;
+    final manual = days != null;
+    final result = computeFor(
+      species: e.species,
+      space: e.space,
+      potSize: e.plant.potSize,
+      hasDrainage: e.plant.hasDrainage,
+      feedbackCoef: e.plant.feedbackCoef,
+      manualOverride: manual,
+      manualDays: days,
+    );
+    await (db.update(db.plants)..where((t) => t.id.equals(id))).write(
+      PlantsCompanion(
+        manualOverride: Value(manual),
+        waterIntervalDays: Value(result.days),
+        nextCheckAt: Value(nextCheckAt(e.plant.lastWateredAt, result.days)),
+      ),
+    );
+  }
+
+  /// 계절·공간 변경 등으로 주기 재계산 (수동 식물은 유지)
+  Future<void> recalc(int id) async {
+    final e = await getById(id);
+    if (e == null || e.plant.manualOverride) return;
+    final result = computeForEntry(e);
+    await (db.update(db.plants)..where((t) => t.id.equals(id))).write(
+      PlantsCompanion(
+        waterIntervalDays: Value(result.days),
+        nextCheckAt: Value(nextCheckAt(e.plant.lastWateredAt, result.days)),
+      ),
+    );
+  }
+
+  /// 앱 포그라운드 진입 시 전체 재계산 (5-3)
+  Future<void> recalcAll() async {
+    final all = await watchAll().first;
+    for (final e in all) {
+      if (e.plant.manualOverride) continue;
+      final result = computeForEntry(e);
+      if (result.days == e.plant.waterIntervalDays) continue;
+      await (db.update(db.plants)..where((t) => t.id.equals(e.plant.id))).write(
+        PlantsCompanion(
+          waterIntervalDays: Value(result.days),
+          nextCheckAt: Value(nextCheckAt(e.plant.lastWateredAt, result.days)),
+        ),
+      );
+    }
+  }
+
+  // ---------- 흙 확인 (HOME-02) ----------
+
+  /// 흙 확인 결과 반영. dry = "말랐어요, 물 줬어요" / wet = "아직 촉촉해요"
+  Future<void> recordSoilCheck(int id, SoilCheckResult result, {DateTime? at}) async {
+    final e = await getById(id);
+    if (e == null) return;
+    final now = at ?? _now();
+    final fb = applyFeedback(
+      feedbackCoef: e.plant.feedbackCoef,
+      dryStreak: e.plant.dryStreak,
+      result: result,
+    );
+    final interval = computeFor(
+      species: e.species,
+      space: e.space,
+      potSize: e.plant.potSize,
+      hasDrainage: e.plant.hasDrainage,
+      feedbackCoef: fb.feedbackCoef,
+      manualOverride: e.plant.manualOverride,
+      manualDays: e.plant.manualOverride ? e.plant.waterIntervalDays : null,
+      at: now,
+    ).days;
+
+    await db.transaction(() async {
+      switch (result) {
+        case SoilCheckResult.dry:
+          await (db.update(db.plants)..where((t) => t.id.equals(id))).write(
+            PlantsCompanion(
+              feedbackCoef: Value(fb.feedbackCoef),
+              dryStreak: Value(fb.dryStreak),
+              waterIntervalDays: Value(interval),
+              lastWateredAt: Value(now),
+              nextCheckAt: Value(nextCheckAt(now, interval)),
+            ),
+          );
+          await db.batch((b) {
+            b.insertAll(db.careEvents, [
+              CareEventsCompanion.insert(plantId: id, type: CareType.checkDry, at: now),
+              CareEventsCompanion.insert(plantId: id, type: CareType.water, at: now),
+            ]);
+          });
+        case SoilCheckResult.wet:
+          await (db.update(db.plants)..where((t) => t.id.equals(id))).write(
+            PlantsCompanion(
+              feedbackCoef: Value(fb.feedbackCoef),
+              dryStreak: Value(fb.dryStreak),
+              waterIntervalDays: Value(interval),
+              nextCheckAt: Value(nextCheckAt(now, recheckDaysAfterWet(interval))),
+            ),
+          );
+          await db.into(db.careEvents).insert(
+                CareEventsCompanion.insert(plantId: id, type: CareType.checkWet, at: now),
+              );
+      }
+    });
+  }
+
+  /// 다중 선택 일괄 완료
+  Future<void> recordSoilCheckBatch(Iterable<int> ids, SoilCheckResult result) async {
+    for (final id in ids) {
+      await recordSoilCheck(id, result);
+    }
+  }
+
+  /// 기타 관리 이벤트 (비료/분갈이/잎닦기)
+  Future<void> addCareEvent(int id, CareType type, {String? note, DateTime? at}) async {
+    final now = at ?? _now();
+    await db.into(db.careEvents).insert(
+          CareEventsCompanion.insert(
+            plantId: id,
+            type: type,
+            at: now,
+            note: Value(note),
+          ),
+        );
+    if (type == CareType.fert) {
+      await (db.update(db.plants)..where((t) => t.id.equals(id)))
+          .write(PlantsCompanion(lastFertAt: Value(now)));
+    } else if (type == CareType.repot) {
+      await (db.update(db.plants)..where((t) => t.id.equals(id)))
+          .write(PlantsCompanion(repotAt: Value(now)));
+    }
+  }
+
+  Future<void> delete(int id) =>
+      (db.delete(db.plants)..where((t) => t.id.equals(id))).go();
+}
+
+final plantRepositoryProvider = Provider<PlantRepository>(
+  (ref) => PlantRepository(ref.watch(databaseProvider)),
+);
+
+final plantsProvider = StreamProvider<List<PlantEntry>>(
+  (ref) => ref.watch(plantRepositoryProvider).watchAll(),
+);
+
+final plantByIdProvider = StreamProvider.autoDispose.family<PlantEntry?, int>(
+  (ref, id) => ref.watch(plantRepositoryProvider).watchById(id),
+);
+
+final careEventsProvider =
+    StreamProvider.autoDispose.family<List<CareEvent>, int>(
+  (ref, id) => ref.watch(plantRepositoryProvider).watchCareEvents(id),
+);
+
+/// 오늘 확인할 식물 (next_check_at ≤ today)
+final duePlantsProvider = Provider<AsyncValue<List<PlantEntry>>>((ref) {
+  final now = DateTime.now();
+  return ref.watch(plantsProvider).whenData(
+        (list) => list.where((e) => e.isDue(now)).toList(),
+      );
+});
