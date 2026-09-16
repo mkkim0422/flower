@@ -95,6 +95,7 @@ void main() {
     var e = (await plants.getById(id))!;
     expect(e.isDue(fixedNow), isTrue);
     expect(e.statusLabel(fixedNow), '오늘 물 주기');
+    expect(e.statusLabel(DateTime(2026, 4, 18)), 'D+3');
 
     // 아직 촉촉해요
     await plants.recordSoilCheck(id, SoilCheckResult.wet);
@@ -113,8 +114,12 @@ void main() {
     expect(e.plant.lastWateredAt, fixedNow);
     expect(e.plant.nextCheckAt, DateTime(2026, 4, 23)); // 15 + 8
 
-    // 말랐어요 2회 연속 → ×0.9
-    await plants.recordSoilCheck(id, SoilCheckResult.dry);
+    // 말랐어요 2회 연속 → ×0.9 (같은 날 재입력은 무시되므로 다음 물 주는 날에)
+    await plants.recordSoilCheck(
+      id,
+      SoilCheckResult.dry,
+      at: DateTime(2026, 4, 23, 10),
+    );
     e = (await plants.getById(id))!;
     expect(e.plant.dryStreak, 0);
     expect(e.plant.feedbackCoef, closeTo(1.035, 1e-9));

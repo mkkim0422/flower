@@ -28,10 +28,11 @@ class PlantEntry {
     return PlantStatus.ok;
   }
 
-  /// 상태 라벨: "오늘 물 주기" / "D-3"
+  /// 상태 라벨: "D+3" (지남) / "오늘 물 주기" / "D-3"
   String statusLabel(DateTime now) {
     final d = dDay(now);
-    if (d <= 0) return '오늘 물 주기';
+    if (d < 0) return 'D+${-d}';
+    if (d == 0) return '오늘 물 주기';
     return 'D-$d';
   }
 }

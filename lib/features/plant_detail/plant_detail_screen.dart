@@ -340,12 +340,16 @@ class _Body extends ConsumerWidget {
                     const SizedBox(width: AppSpace.sm),
                     Expanded(
                       child: Text(
-                        dDay <= 0 ? '오늘 물 주는 날이에요' : '다음 물 주는 날까지',
+                        dDay < 0
+                            ? '물 주는 날이 ${-dDay}일 지났어요'
+                            : (dDay == 0 ? '오늘 물 주는 날이에요' : '다음 물 주는 날까지'),
                         style: AppText.body.copyWith(color: c.textSecondary),
                       ),
                     ),
                     Text(
-                      dDay <= 0 ? 'D-day' : 'D-$dDay',
+                      dDay < 0
+                          ? 'D+${-dDay}'
+                          : (dDay == 0 ? 'D-day' : 'D-$dDay'),
                       style: AppText.headline.copyWith(
                         color: dDay <= 0 ? c.statusNeedCheck : c.primary,
                         fontFeatures: AppText.tabularFeatures,
