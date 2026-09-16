@@ -48,3 +48,7 @@ app.*.map.json
 .env
 .env.*
 !.env.example
+
+# 스크린샷 등 검토용 이미지
+test/*.jpg
+test/*.png
