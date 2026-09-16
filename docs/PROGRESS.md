@@ -92,7 +92,7 @@
 - 공통 위젯 추가: `PlantCard`, `PlantThumb`, `TodayCheckTile`(체크 scale 애니메이션), `ToxicBadge`.
 - 로컬 알림 `lib/domain/notification_service.dart`: 매일 notify 시각 1건 "오늘 확인할 식물이 N개 있어요". 앱 포그라운드마다 재계산·재예약(`app.dart` AppLifecycleListener). 제외 요일 지원. Android: POST_NOTIFICATIONS·BOOT 리시버·desugaring 설정.
 - 라우터: 온보딩 리다이렉트, 등록 플로우는 탭바 위 전체화면(root navigator).
-- 테스트 총 46건 통과, `flutter analyze` 오류 0.
+- 테스트 총 49건 통과(시드 검증 3건 포함), `flutter analyze` 오류 0.
 
 ### 미완 / 미검증
 - 실기기·에뮬레이터 실행 및 알림 실제 수신은 미검증 (Gradle 빌드 미실행).
@@ -107,6 +107,9 @@
 - 계절 계수 반영을 위해 앱 포그라운드마다 수동이 아닌 식물의 주기를 재계산(다음 확인일 = 마지막 물 준 날 + 새 주기).
 - 온보딩 완료 여부는 settings.onboarding_done 으로 저장, 알림 권한은 ONB-02에서 요청("나중에" 가능).
 - species 시드: 사용자 결정(2026-09-16)에 따라 Claude가 공공 자료(농진청 실내식물 정보·ASPCA 독성 목록·위키 학명) 기반으로 생성. data.go.kr/농사로 API는 키가 없어 직접 호출하지 않음 → 검수 필요 표시.
+  - 결과: **544종** (관엽 198 / 다육·선인장 162 / 꽃 90 / 허브 45 / 기타 49). 학명 중복 0, 독성 필드 누락 0. `test/data/species_seed_test.dart`로 DoD 자동 검증.
+  - 학명은 현행 인정명 사용(Calathea→Goeppertia, Schefflera→Heptapleurum 등). 국내명에 옛 이름을 병기해 검색은 그대로 됨.
+  - **독성 검수 필요 항목(근거 약함)**: Fatsia japonica, Plerandra elegantissima, Caryota mitis(false), Pittosporum tobira, Ardisia crenata/japonica, Artemisia dracunculus, Borago officinalis, Passiflora caerulea, Ledebouria socialis/Albuca bracteata, Pistia stratiotes/Anubias barteri. 식용 허브(민트·라벤더·파슬리 등)는 ASPCA 기준 반려동물 독성 true, 아이 독성 false.
 
 ### 라이선스 추가
 | 패키지 | 라이선스 | 비용 |
