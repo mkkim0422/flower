@@ -33,7 +33,10 @@ class PlantThumb extends StatelessWidget {
                 color: c.surfaceVariant,
                 child: Icon(
                   Icons.eco_outlined,
-                  size: size * 0.45,
+                  // 헤더처럼 크기가 무한(부모에 맞춤)이면 고정 크기
+                  size: size.isFinite
+                      ? size * 0.45
+                      : AppSize.emptyIllustration * 0.6,
                   color: c.textTertiary,
                 ),
               ),
