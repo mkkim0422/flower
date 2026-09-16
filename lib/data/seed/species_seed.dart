@@ -16,21 +16,22 @@ class SpeciesSeedLoader {
 
   final AppDatabase db;
 
-  /// species 테이블이 비어 있을 때만 시드. 삽입한 행 수 반환.
+  /// 시드를 학명 기준으로 upsert 한다. 앱 시작마다 실행되어
+  /// 새 버전의 JSON에 추가·수정된 품종이 기존 설치에도 반영된다. 처리한 행 수 반환.
   Future<int> seedIfEmpty({
     String asset = kSpeciesSeedAsset,
     String? jsonOverride,
   }) async {
-    final countExp = db.species.id.count();
-    final count = await (db.selectOnly(
-      db.species,
-    )..addColumns([countExp])).map((r) => r.read(countExp) ?? 0).getSingle();
-    if (count > 0) return 0;
-
     final raw = jsonOverride ?? await rootBundle.loadString(asset);
     final companions = parseSeed(raw);
     await db.batch((b) {
-      b.insertAll(db.species, companions, mode: InsertMode.insertOrIgnore);
+      for (final c in companions) {
+        b.insert(
+          db.species,
+          c,
+          onConflict: DoUpdate((_) => c, target: [db.species.scientificName]),
+        );
+      }
     });
     return companions.length;
   }

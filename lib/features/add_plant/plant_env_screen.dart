@@ -10,7 +10,6 @@ import '../../app/widgets/app_chip.dart';
 import '../../app/widgets/plant_card.dart';
 import '../../core/enums.dart';
 import '../../data/repositories/plant_repository.dart';
-import '../../data/repositories/space_repository.dart';
 import '../../data/repositories/species_repository.dart';
 import 'add_plant_draft.dart';
 
@@ -30,14 +29,13 @@ class _PlantEnvScreenState extends ConsumerState<PlantEnvScreen> {
     text: widget.draft.nicknameHint ?? '',
   );
   final _memo = TextEditingController();
-  PotSize _potSize = PotSize.m;
-  bool _hasDrainage = true;
+  static const _potSize = PotSize.m; // 화분·배수구·공간 입력은 제외(사용자 지시) → 기본값
+  static const _hasDrainage = true;
   int? _spaceId;
   DateTime _lastWatered = DateTime.now();
   int? _manualDays; // null = 자동
   bool _editInterval = false;
   bool _saving = false;
-  bool _advanced = false;
 
   @override
   void dispose() {
@@ -56,11 +54,6 @@ class _PlantEnvScreenState extends ConsumerState<PlantEnvScreen> {
       locale: const Locale('ko', 'KR'),
     );
     if (picked != null) setState(() => _lastWatered = picked);
-  }
-
-  Future<void> _addSpace() async {
-    final id = await context.push<int>(AppRoutes.spaceNew);
-    if (id != null && mounted) setState(() => _spaceId = id);
   }
 
   Future<void> _submit() async {
@@ -100,7 +93,6 @@ class _PlantEnvScreenState extends ConsumerState<PlantEnvScreen> {
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    final spaces = ref.watch(spacesProvider).value ?? const [];
     final speciesId = widget.draft.speciesId;
     final species = speciesId == null
         ? null
@@ -109,7 +101,7 @@ class _PlantEnvScreenState extends ConsumerState<PlantEnvScreen> {
         .read(plantRepositoryProvider)
         .computeFor(
           species: species,
-          space: spaces.where((s) => s.id == _spaceId).firstOrNull,
+          space: null,
           potSize: _potSize,
           hasDrainage: _hasDrainage,
         )
@@ -135,7 +127,9 @@ class _PlantEnvScreenState extends ConsumerState<PlantEnvScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      species?.koNames.first ?? '품종 미지정',
+                      species?.koNames.first ??
+                          widget.draft.scientificName ??
+                          '품종 미지정',
                       style: AppText.title.copyWith(color: c.textPrimary),
                     ),
                     if (species != null)
@@ -144,6 +138,11 @@ class _PlantEnvScreenState extends ConsumerState<PlantEnvScreen> {
                         style: AppText.scientificName.copyWith(
                           color: c.textSecondary,
                         ),
+                      )
+                    else if (widget.draft.scientificName != null)
+                      Text(
+                        '도감에 없는 품종이에요. 이름은 직접 정해 주세요',
+                        style: AppText.caption.copyWith(color: c.textSecondary),
                       ),
                   ],
                 ),
@@ -273,84 +272,7 @@ class _PlantEnvScreenState extends ConsumerState<PlantEnvScreen> {
           ),
           const SizedBox(height: AppSpace.md),
 
-          // 선택: 더 정확한 계산
-          InkWell(
-            onTap: () => setState(() => _advanced = !_advanced),
-            borderRadius: BorderRadius.circular(AppRadius.button),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: AppSpace.sm),
-              child: Row(
-                children: [
-                  Icon(
-                    _advanced
-                        ? Icons.expand_less_rounded
-                        : Icons.expand_more_rounded,
-                    color: c.textSecondary,
-                  ),
-                  const SizedBox(width: AppSpace.xs),
-                  Text(
-                    '더 정확한 계산 (선택)',
-                    style: AppText.bodyStrong.copyWith(color: c.textSecondary),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          if (_advanced) ...[
-            const SizedBox(height: AppSpace.md),
-            const _Label('화분 크기'),
-            Wrap(
-              spacing: AppSpace.sm,
-              runSpacing: AppSpace.sm,
-              children: [
-                for (final v in PotSize.values)
-                  AppChip(
-                    label: switch (v) {
-                      PotSize.s => 'S · 15cm 이하',
-                      PotSize.m => 'M · 15~25cm',
-                      PotSize.l => 'L · 25cm 이상',
-                    },
-                    selected: _potSize == v,
-                    onTap: () => setState(() => _potSize = v),
-                  ),
-              ],
-            ),
-            const SizedBox(height: AppSpace.lg),
-            const _Label('배수구'),
-            Wrap(
-              spacing: AppSpace.sm,
-              children: [
-                AppChip(
-                  label: '있음',
-                  selected: _hasDrainage,
-                  onTap: () => setState(() => _hasDrainage = true),
-                ),
-                AppChip(
-                  label: '없음',
-                  selected: !_hasDrainage,
-                  onTap: () => setState(() => _hasDrainage = false),
-                ),
-              ],
-            ),
-            const SizedBox(height: AppSpace.lg),
-            const _Label('놓는 곳 (창 방향·거리)'),
-            Wrap(
-              spacing: AppSpace.sm,
-              runSpacing: AppSpace.sm,
-              children: [
-                for (final s in spaces)
-                  AppChip(
-                    label: s.name,
-                    selected: _spaceId == s.id,
-                    onTap: () => setState(
-                      () => _spaceId = _spaceId == s.id ? null : s.id,
-                    ),
-                  ),
-                AppChip(label: '+ 추가', selected: false, onTap: _addSpace),
-              ],
-            ),
-          ],
-          const SizedBox(height: AppSpace.section),
+          const SizedBox(height: AppSpace.md),
 
           const _Label('메모 (선택)'),
           TextField(

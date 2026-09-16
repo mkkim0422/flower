@@ -45,6 +45,7 @@ class IdentifyResultScreen extends ConsumerWidget {
         speciesId: chosen.speciesId,
         nicknameHint: chosen.koName ?? chosen.scientificName,
         photoPath: photoPath,
+        scientificName: chosen.scientificName,
       ),
     );
   }
@@ -268,9 +269,7 @@ class _CandidateBody extends StatelessWidget {
               ),
               Text(
                 candidate.koName == null
-                    ? (candidate.commonNames.isEmpty
-                          ? '도감 미등록'
-                          : candidate.commonNames.first)
+                    ? '도감에 없는 품종 · 등록하면 이름을 직접 정할 수 있어요'
                     : candidate.scientificName,
                 style: AppText.scientificName.copyWith(color: c.textSecondary),
                 maxLines: 1,

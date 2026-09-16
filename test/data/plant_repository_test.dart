@@ -39,7 +39,7 @@ void main() {
     final again = await SpeciesSeedLoader(
       db,
     ).seedIfEmpty(jsonOverride: _seedJson);
-    expect(again, 0);
+    expect(again, 2); // 다시 실행해도 중복 없이 갱신
     final row = await (db.select(db.species)).get();
     expect(row.length, 2);
     expect(row.first.searchText, contains('스킨답서스'));

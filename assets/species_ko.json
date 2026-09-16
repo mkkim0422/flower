@@ -1,12 +1,12 @@
 {
- "version": 1,
+ "version": 2,
  "generated_at": "2026-09-16",
  "sources": [
   "농촌진흥청 국립원예특작과학원 실내식물 정보",
   "ASPCA Toxic and Non-Toxic Plants",
   "Wikipedia (학명)"
  ],
- "note": "공공 자료 기반 정리본. 독성·주기는 일반 기준이며 검수 필요. 2026-09-16 검토: 국내명 충돌 2건 정리(돈나무·나비란), 괴경·다육 물주기 2건 상향.",
+ "note": "공공 자료 기반 정리본. 독성·주기는 일반 기준이며 검수 필요. 2026-09-16 검토: 국내명 충돌 2건 정리(돈나무·나비란), 괴경·다육 물주기 2건 상향. v2: Selenicereus anthonyanus(지그재그 피쉬본) 추가.",
  "species": [
   {
    "scientific_name": "Monstera deliciosa",
@@ -7809,9 +7809,10 @@
   {
    "scientific_name": "Disocactus anguliger",
    "ko_names": [
+    "피쉬본 선인장(앙굴리거)",
     "피쉬본 선인장",
-    "에피필룸 앙굴리거",
-    "지그재그 선인장"
+    "에피필럼 앙굴리거",
+    "디소칵투스 앙굴리거"
    ],
    "family": "Cactaceae",
    "category": "succulent",
@@ -12101,6 +12102,29 @@
     "잎이 쭈글쭈글 → 물 부족 또는 뿌리 손상, 흙 상태 확인",
     "꽃이 안 핌 → 광량 부족·잦은 이동, 밝은 곳에 두고 꽃대 자르지 않기",
     "잎 황변 → 과습, 배수 좋은 흙"
+   ]
+  },
+  {
+   "scientific_name": "Selenicereus anthonyanus",
+   "ko_names": [
+    "피쉬본 선인장",
+    "지그재그 선인장",
+    "셀레니세레우스 안토니아누스"
+   ],
+   "family": "Cactaceae",
+   "category": "succulent",
+   "base_water_days": 7,
+   "light_pref": "med",
+   "toxic_pet": false,
+   "toxic_child": false,
+   "temp_min": 12,
+   "temp_max": 30,
+   "fert_days": 30,
+   "repot_months": 24,
+   "common_issues": [
+    "줄기가 물러짐 → 과습, 흙이 마른 뒤에 물 주기",
+    "줄기가 붉어짐 → 직사광선 과다, 밝은 간접광으로 이동",
+    "꽃이 안 핌 → 겨울 서늘하고 건조하게(10~15℃) 관리"
    ]
   }
  ]
