@@ -202,7 +202,21 @@ void main() {
       (e) => e.type == CareType.water,
     );
     expect(waters.length, 1);
-    expect(PlantRepository.wateredOn(second.plant, fixedNow), isTrue);
+    expect(await plants.hasWaterEventOn(id, fixedNow), isTrue);
+  });
+
+  test('등록 직후(오늘을 마지막 물 준 날로 입력)에는 "오늘 물 줬음" 상태가 아니다', () async {
+    final id = await plants.create(
+      nickname: 'E',
+      potSize: PotSize.m,
+      hasDrainage: true,
+      lastWateredAt: fixedNow,
+    );
+    expect(await plants.hasWaterEventOn(id, fixedNow), isFalse);
+    expect(PlantRepository.wateredOn(const [], fixedNow), isFalse);
+    // 실제로 누르면 true, 그리고 lastWatered 는 그대로 오늘
+    await plants.recordSoilCheck(id, SoilCheckResult.dry);
+    expect(await plants.hasWaterEventOn(id, fixedNow), isTrue);
   });
 
   test('등록 시 주기 직접 설정 → 수동 플래그, 그 주기로 다음 날짜', () async {

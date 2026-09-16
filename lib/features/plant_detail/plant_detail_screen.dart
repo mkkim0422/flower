@@ -253,7 +253,10 @@ class _Body extends ConsumerWidget {
     final s = entry.species;
     final dDay = entry.dDay(now);
     final result = ref.read(plantRepositoryProvider).computeForEntry(entry);
-    final wateredToday = PlantRepository.wateredOn(p, now);
+    final wateredToday = PlantRepository.wateredOn(
+      ref.watch(careEventsProvider(p.id)).value ?? const <CareEvent>[],
+      now,
+    );
     final diary =
         ref.watch(diaryByPlantProvider(p.id)).value ?? const <DiaryEntry>[];
 

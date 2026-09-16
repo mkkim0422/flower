@@ -125,11 +125,33 @@ class PlantRepository {
         .toList();
   }
 
-  /// 해당 날짜에 물을 줬는지 (last_watered_at 기준, 날짜만 비교)
-  static bool wateredOn(Plant p, DateTime day) =>
-      p.lastWateredAt.year == day.year &&
-      p.lastWateredAt.month == day.month &&
-      p.lastWateredAt.day == day.day;
+  /// 해당 날짜에 앱에서 "물 줬어요"를 눌렀는지 (care_events water 기준).
+  /// 등록 시 입력한 last_watered_at 은 기록이 아니므로 여기서 세지 않는다.
+  static bool wateredOn(Iterable<CareEvent> events, DateTime day) => events.any(
+    (e) =>
+        e.type == CareType.water &&
+        e.at.year == day.year &&
+        e.at.month == day.month &&
+        e.at.day == day.day,
+  );
+
+  /// DB 조회 버전
+  Future<bool> hasWaterEventOn(int plantId, DateTime day) async {
+    final start = DateTime(day.year, day.month, day.day);
+    final end = DateTime(day.year, day.month, day.day + 1);
+    final rows =
+        await (db.select(db.careEvents)
+              ..where(
+                (t) =>
+                    t.plantId.equals(plantId) &
+                    t.type.equalsValue(CareType.water) &
+                    t.at.isBiggerOrEqualValue(start) &
+                    t.at.isSmallerThanValue(end),
+              )
+              ..limit(1))
+            .get();
+    return rows.isNotEmpty;
+  }
 
   /// 주기 변경 시 다음 확인일은 "리셋"이 아니라 차이만큼 "이동"한다.
   /// (촉촉 재확인일 등 이미 앞당겨진 날짜를 보존)
@@ -355,7 +377,9 @@ class PlantRepository {
     if (e == null) return;
     final now = at ?? _now();
     // 오늘 이미 물을 줬으면 다시 눌러도 기록·날짜를 바꾸지 않는다
-    if (result == SoilCheckResult.dry && wateredOn(e.plant, now)) return;
+    if (result == SoilCheckResult.dry && await hasWaterEventOn(id, now)) {
+      return;
+    }
     // 수동 주기 식물은 흙 확인으로 계수를 보정하지 않는다 (PLT-02 문구와 일치)
     final fb = e.plant.manualOverride
         ? (feedbackCoef: e.plant.feedbackCoef, dryStreak: 0)
