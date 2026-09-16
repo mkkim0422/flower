@@ -205,6 +205,20 @@ void main() {
     expect(PlantRepository.wateredOn(second.plant, fixedNow), isTrue);
   });
 
+  test('등록 시 주기 직접 설정 → 수동 플래그, 그 주기로 다음 날짜', () async {
+    final id = await plants.create(
+      nickname: '수동등록',
+      potSize: PotSize.m,
+      hasDrainage: true,
+      lastWateredAt: DateTime(2026, 4, 15),
+      manualDays: 3,
+    );
+    final e = (await plants.getById(id))!;
+    expect(e.plant.manualOverride, isTrue);
+    expect(e.plant.waterIntervalDays, 3);
+    expect(e.plant.nextCheckAt, DateTime(2026, 4, 18));
+  });
+
   test('다중 선택 일괄 완료', () async {
     final a = await plants.create(
       nickname: 'A',

@@ -382,42 +382,45 @@ class _Body extends ConsumerWidget {
           ),
           const SizedBox(height: AppSpace.cardGap),
 
-          // 카드2: 내 메모
-          AppCard(
-            onTap: () => _editMemo(context, ref),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        '내 메모',
-                        style: AppText.title.copyWith(color: c.textPrimary),
-                      ),
-                    ),
-                    Icon(
-                      Icons.edit_outlined,
-                      size: AppSize.iconSm,
-                      color: c.textTertiary,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: AppSpace.sm),
-                Text(
-                  p.memo?.isNotEmpty == true
-                      ? p.memo!
-                      : '탭해서 메모를 남겨 보세요. 놓은 자리, 산 날, 잎 상태 같은 것들',
-                  style: AppText.body.copyWith(
-                    color: p.memo?.isNotEmpty == true
-                        ? c.textPrimary
-                        : c.textTertiary,
+          // 카드2: 내 메모 — 없으면 버튼 한 줄, 있으면 내용 카드
+          if (p.memo?.isNotEmpty == true) ...[
+            AppCard(
+              onTap: () => _editMemo(context, ref),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Icon(
+                    Icons.sticky_note_2_outlined,
+                    size: AppSize.iconSm,
+                    color: c.textSecondary,
                   ),
-                ),
-              ],
+                  const SizedBox(width: AppSpace.sm),
+                  Expanded(
+                    child: Text(
+                      p.memo!,
+                      style: AppText.body.copyWith(color: c.textPrimary),
+                    ),
+                  ),
+                  Icon(
+                    Icons.edit_outlined,
+                    size: AppSize.iconSm,
+                    color: c.textTertiary,
+                  ),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(height: AppSpace.cardGap),
+            const SizedBox(height: AppSpace.cardGap),
+          ] else ...[
+            Align(
+              alignment: Alignment.centerLeft,
+              child: AppButton.text(
+                label: '+ 메모 남기기',
+                icon: Icons.sticky_note_2_outlined,
+                onPressed: () => _editMemo(context, ref),
+              ),
+            ),
+            const SizedBox(height: AppSpace.xs),
+          ],
 
           // 카드2-2: 생장 일기 (최근 3개 + 더보기)
           AppCard(

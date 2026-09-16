@@ -3513,6 +3513,21 @@ class $SettingsTable extends Settings with TableInfo<$SettingsTable, Setting> {
     ),
     defaultValue: const Constant(true),
   );
+  static const VerificationMeta _notifyDayBeforeMeta = const VerificationMeta(
+    'notifyDayBefore',
+  );
+  @override
+  late final GeneratedColumn<bool> notifyDayBefore = GeneratedColumn<bool>(
+    'notify_day_before',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("notify_day_before" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -3524,6 +3539,7 @@ class $SettingsTable extends Settings with TableInfo<$SettingsTable, Setting> {
     plantnetDay,
     plantnetCount,
     homeGrid,
+    notifyDayBefore,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -3597,6 +3613,15 @@ class $SettingsTable extends Settings with TableInfo<$SettingsTable, Setting> {
         homeGrid.isAcceptableOrUnknown(data['home_grid']!, _homeGridMeta),
       );
     }
+    if (data.containsKey('notify_day_before')) {
+      context.handle(
+        _notifyDayBeforeMeta,
+        notifyDayBefore.isAcceptableOrUnknown(
+          data['notify_day_before']!,
+          _notifyDayBeforeMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -3644,6 +3669,10 @@ class $SettingsTable extends Settings with TableInfo<$SettingsTable, Setting> {
         DriftSqlType.bool,
         data['${effectivePrefix}home_grid'],
       )!,
+      notifyDayBefore: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}notify_day_before'],
+      )!,
     );
   }
 
@@ -3670,6 +3699,9 @@ class Setting extends DataClass implements Insertable<Setting> {
 
   /// 홈 내 식물 목록 보기: true = 앨범(2열), false = 목록
   final bool homeGrid;
+
+  /// 알림 시점: true = 하루 전에 알림, false = 당일
+  final bool notifyDayBefore;
   const Setting({
     required this.id,
     required this.notifyHour,
@@ -3680,6 +3712,7 @@ class Setting extends DataClass implements Insertable<Setting> {
     required this.plantnetDay,
     required this.plantnetCount,
     required this.homeGrid,
+    required this.notifyDayBefore,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -3699,6 +3732,7 @@ class Setting extends DataClass implements Insertable<Setting> {
     map['plantnet_day'] = Variable<int>(plantnetDay);
     map['plantnet_count'] = Variable<int>(plantnetCount);
     map['home_grid'] = Variable<bool>(homeGrid);
+    map['notify_day_before'] = Variable<bool>(notifyDayBefore);
     return map;
   }
 
@@ -3715,6 +3749,7 @@ class Setting extends DataClass implements Insertable<Setting> {
       plantnetDay: Value(plantnetDay),
       plantnetCount: Value(plantnetCount),
       homeGrid: Value(homeGrid),
+      notifyDayBefore: Value(notifyDayBefore),
     );
   }
 
@@ -3733,6 +3768,7 @@ class Setting extends DataClass implements Insertable<Setting> {
       plantnetDay: serializer.fromJson<int>(json['plantnetDay']),
       plantnetCount: serializer.fromJson<int>(json['plantnetCount']),
       homeGrid: serializer.fromJson<bool>(json['homeGrid']),
+      notifyDayBefore: serializer.fromJson<bool>(json['notifyDayBefore']),
     );
   }
   @override
@@ -3748,6 +3784,7 @@ class Setting extends DataClass implements Insertable<Setting> {
       'plantnetDay': serializer.toJson<int>(plantnetDay),
       'plantnetCount': serializer.toJson<int>(plantnetCount),
       'homeGrid': serializer.toJson<bool>(homeGrid),
+      'notifyDayBefore': serializer.toJson<bool>(notifyDayBefore),
     };
   }
 
@@ -3761,6 +3798,7 @@ class Setting extends DataClass implements Insertable<Setting> {
     int? plantnetDay,
     int? plantnetCount,
     bool? homeGrid,
+    bool? notifyDayBefore,
   }) => Setting(
     id: id ?? this.id,
     notifyHour: notifyHour ?? this.notifyHour,
@@ -3771,6 +3809,7 @@ class Setting extends DataClass implements Insertable<Setting> {
     plantnetDay: plantnetDay ?? this.plantnetDay,
     plantnetCount: plantnetCount ?? this.plantnetCount,
     homeGrid: homeGrid ?? this.homeGrid,
+    notifyDayBefore: notifyDayBefore ?? this.notifyDayBefore,
   );
   Setting copyWithCompanion(SettingsCompanion data) {
     return Setting(
@@ -3797,6 +3836,9 @@ class Setting extends DataClass implements Insertable<Setting> {
           ? data.plantnetCount.value
           : this.plantnetCount,
       homeGrid: data.homeGrid.present ? data.homeGrid.value : this.homeGrid,
+      notifyDayBefore: data.notifyDayBefore.present
+          ? data.notifyDayBefore.value
+          : this.notifyDayBefore,
     );
   }
 
@@ -3811,7 +3853,8 @@ class Setting extends DataClass implements Insertable<Setting> {
           ..write('onboardingDone: $onboardingDone, ')
           ..write('plantnetDay: $plantnetDay, ')
           ..write('plantnetCount: $plantnetCount, ')
-          ..write('homeGrid: $homeGrid')
+          ..write('homeGrid: $homeGrid, ')
+          ..write('notifyDayBefore: $notifyDayBefore')
           ..write(')'))
         .toString();
   }
@@ -3827,6 +3870,7 @@ class Setting extends DataClass implements Insertable<Setting> {
     plantnetDay,
     plantnetCount,
     homeGrid,
+    notifyDayBefore,
   );
   @override
   bool operator ==(Object other) =>
@@ -3840,7 +3884,8 @@ class Setting extends DataClass implements Insertable<Setting> {
           other.onboardingDone == this.onboardingDone &&
           other.plantnetDay == this.plantnetDay &&
           other.plantnetCount == this.plantnetCount &&
-          other.homeGrid == this.homeGrid);
+          other.homeGrid == this.homeGrid &&
+          other.notifyDayBefore == this.notifyDayBefore);
 }
 
 class SettingsCompanion extends UpdateCompanion<Setting> {
@@ -3853,6 +3898,7 @@ class SettingsCompanion extends UpdateCompanion<Setting> {
   final Value<int> plantnetDay;
   final Value<int> plantnetCount;
   final Value<bool> homeGrid;
+  final Value<bool> notifyDayBefore;
   const SettingsCompanion({
     this.id = const Value.absent(),
     this.notifyHour = const Value.absent(),
@@ -3863,6 +3909,7 @@ class SettingsCompanion extends UpdateCompanion<Setting> {
     this.plantnetDay = const Value.absent(),
     this.plantnetCount = const Value.absent(),
     this.homeGrid = const Value.absent(),
+    this.notifyDayBefore = const Value.absent(),
   });
   SettingsCompanion.insert({
     this.id = const Value.absent(),
@@ -3874,6 +3921,7 @@ class SettingsCompanion extends UpdateCompanion<Setting> {
     this.plantnetDay = const Value.absent(),
     this.plantnetCount = const Value.absent(),
     this.homeGrid = const Value.absent(),
+    this.notifyDayBefore = const Value.absent(),
   });
   static Insertable<Setting> custom({
     Expression<int>? id,
@@ -3885,6 +3933,7 @@ class SettingsCompanion extends UpdateCompanion<Setting> {
     Expression<int>? plantnetDay,
     Expression<int>? plantnetCount,
     Expression<bool>? homeGrid,
+    Expression<bool>? notifyDayBefore,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -3896,6 +3945,7 @@ class SettingsCompanion extends UpdateCompanion<Setting> {
       if (plantnetDay != null) 'plantnet_day': plantnetDay,
       if (plantnetCount != null) 'plantnet_count': plantnetCount,
       if (homeGrid != null) 'home_grid': homeGrid,
+      if (notifyDayBefore != null) 'notify_day_before': notifyDayBefore,
     });
   }
 
@@ -3909,6 +3959,7 @@ class SettingsCompanion extends UpdateCompanion<Setting> {
     Value<int>? plantnetDay,
     Value<int>? plantnetCount,
     Value<bool>? homeGrid,
+    Value<bool>? notifyDayBefore,
   }) {
     return SettingsCompanion(
       id: id ?? this.id,
@@ -3920,6 +3971,7 @@ class SettingsCompanion extends UpdateCompanion<Setting> {
       plantnetDay: plantnetDay ?? this.plantnetDay,
       plantnetCount: plantnetCount ?? this.plantnetCount,
       homeGrid: homeGrid ?? this.homeGrid,
+      notifyDayBefore: notifyDayBefore ?? this.notifyDayBefore,
     );
   }
 
@@ -3955,6 +4007,9 @@ class SettingsCompanion extends UpdateCompanion<Setting> {
     if (homeGrid.present) {
       map['home_grid'] = Variable<bool>(homeGrid.value);
     }
+    if (notifyDayBefore.present) {
+      map['notify_day_before'] = Variable<bool>(notifyDayBefore.value);
+    }
     return map;
   }
 
@@ -3969,7 +4024,8 @@ class SettingsCompanion extends UpdateCompanion<Setting> {
           ..write('onboardingDone: $onboardingDone, ')
           ..write('plantnetDay: $plantnetDay, ')
           ..write('plantnetCount: $plantnetCount, ')
-          ..write('homeGrid: $homeGrid')
+          ..write('homeGrid: $homeGrid, ')
+          ..write('notifyDayBefore: $notifyDayBefore')
           ..write(')'))
         .toString();
   }
@@ -6781,6 +6837,7 @@ typedef $$SettingsTableCreateCompanionBuilder =
       Value<int> plantnetDay,
       Value<int> plantnetCount,
       Value<bool> homeGrid,
+      Value<bool> notifyDayBefore,
     });
 typedef $$SettingsTableUpdateCompanionBuilder =
     SettingsCompanion Function({
@@ -6793,6 +6850,7 @@ typedef $$SettingsTableUpdateCompanionBuilder =
       Value<int> plantnetDay,
       Value<int> plantnetCount,
       Value<bool> homeGrid,
+      Value<bool> notifyDayBefore,
     });
 
 class $$SettingsTableFilterComposer
@@ -6847,6 +6905,11 @@ class $$SettingsTableFilterComposer
 
   ColumnFilters<bool> get homeGrid => $composableBuilder(
     column: $table.homeGrid,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get notifyDayBefore => $composableBuilder(
+    column: $table.notifyDayBefore,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -6904,6 +6967,11 @@ class $$SettingsTableOrderingComposer
     column: $table.homeGrid,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<bool> get notifyDayBefore => $composableBuilder(
+    column: $table.notifyDayBefore,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$SettingsTableAnnotationComposer
@@ -6956,6 +7024,11 @@ class $$SettingsTableAnnotationComposer
 
   GeneratedColumn<bool> get homeGrid =>
       $composableBuilder(column: $table.homeGrid, builder: (column) => column);
+
+  GeneratedColumn<bool> get notifyDayBefore => $composableBuilder(
+    column: $table.notifyDayBefore,
+    builder: (column) => column,
+  );
 }
 
 class $$SettingsTableTableManager
@@ -6995,6 +7068,7 @@ class $$SettingsTableTableManager
                 Value<int> plantnetDay = const Value.absent(),
                 Value<int> plantnetCount = const Value.absent(),
                 Value<bool> homeGrid = const Value.absent(),
+                Value<bool> notifyDayBefore = const Value.absent(),
               }) => SettingsCompanion(
                 id: id,
                 notifyHour: notifyHour,
@@ -7005,6 +7079,7 @@ class $$SettingsTableTableManager
                 plantnetDay: plantnetDay,
                 plantnetCount: plantnetCount,
                 homeGrid: homeGrid,
+                notifyDayBefore: notifyDayBefore,
               ),
           createCompanionCallback:
               ({
@@ -7017,6 +7092,7 @@ class $$SettingsTableTableManager
                 Value<int> plantnetDay = const Value.absent(),
                 Value<int> plantnetCount = const Value.absent(),
                 Value<bool> homeGrid = const Value.absent(),
+                Value<bool> notifyDayBefore = const Value.absent(),
               }) => SettingsCompanion.insert(
                 id: id,
                 notifyHour: notifyHour,
@@ -7027,6 +7103,7 @@ class $$SettingsTableTableManager
                 plantnetDay: plantnetDay,
                 plantnetCount: plantnetCount,
                 homeGrid: homeGrid,
+                notifyDayBefore: notifyDayBefore,
               ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))

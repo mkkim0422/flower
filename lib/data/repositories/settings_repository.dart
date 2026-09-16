@@ -30,6 +30,13 @@ class SettingsRepository {
     );
   }
 
+  Future<void> setNotifyDayBefore(bool dayBefore) async {
+    await db.getSettings();
+    await (db.update(db.settings)..where((t) => t.id.equals(1))).write(
+      SettingsCompanion(notifyDayBefore: Value(dayBefore)),
+    );
+  }
+
   Future<void> setHomeGrid(bool grid) async {
     await db.getSettings();
     await (db.update(db.settings)..where((t) => t.id.equals(1))).write(

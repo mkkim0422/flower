@@ -86,6 +86,19 @@ class MyScreen extends ConsumerWidget {
                   ),
                   const Divider(),
                   _Row(
+                    icon: Icons.schedule_outlined,
+                    title: '알림 시점',
+                    value: settings == null
+                        ? '-'
+                        : (settings.notifyDayBefore ? '하루 전' : '당일'),
+                    onTap: settings == null
+                        ? null
+                        : () => ref
+                              .read(settingsRepositoryProvider)
+                              .setNotifyDayBefore(!settings.notifyDayBefore),
+                  ),
+                  const Divider(),
+                  _Row(
                     icon: Icons.event_busy_outlined,
                     title: '알림 요일',
                     value: skipLabel,

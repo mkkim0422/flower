@@ -200,6 +200,7 @@ class PlantRepository {
     required DateTime lastWateredAt,
     String? photoPath,
     String? memo,
+    int? manualDays,
   }) async {
     final species = speciesId == null
         ? null
@@ -217,6 +218,8 @@ class PlantRepository {
       space: space,
       potSize: potSize,
       hasDrainage: hasDrainage,
+      manualOverride: manualDays != null,
+      manualDays: manualDays,
       at: now,
     );
 
@@ -232,6 +235,7 @@ class PlantRepository {
               hasDrainage: Value(hasDrainage),
               photoPath: Value(photoPath),
               waterIntervalDays: result.days,
+              manualOverride: Value(manualDays != null),
               lastWateredAt: lastWateredAt,
               nextCheckAt: nextCheckAt(lastWateredAt, result.days),
               fertIntervalDays: Value(species?.fertDays),

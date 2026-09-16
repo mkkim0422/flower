@@ -179,6 +179,10 @@ class Settings extends Table {
   /// 홈 내 식물 목록 보기: true = 앨범(2열), false = 목록
   BoolColumn get homeGrid => boolean().withDefault(const Constant(true))();
 
+  /// 알림 시점: true = 하루 전에 알림, false = 당일
+  BoolColumn get notifyDayBefore =>
+      boolean().withDefault(const Constant(false))();
+
   @override
   Set<Column> get primaryKey => {id};
 }

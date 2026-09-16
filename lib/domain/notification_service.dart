@@ -116,6 +116,24 @@ class NotificationService {
   static int dueCountAt(List<PlantEntry> plants, DateTime at) =>
       plants.where((e) => isDueToday(e.plant.nextCheckAt, at)).length;
 
+  /// 알림이 가리키는 날: 당일 알림이면 그날, 하루 전 알림이면 다음 날
+  @visibleForTesting
+  static DateTime targetDay(DateTime fireAt, {required bool dayBefore}) =>
+      dayBefore
+      ? DateTime(
+          fireAt.year,
+          fireAt.month,
+          fireAt.day + 1,
+          fireAt.hour,
+          fireAt.minute,
+        )
+      : fireAt;
+
+  /// 하루 전 알림은 "내일", 당일은 "오늘". 이미 지난 식물도 함께 셈.
+  @visibleForTesting
+  static String bodyFor(int count, {required bool dayBefore}) =>
+      dayBefore ? '내일 물 줄 식물이 $count개 있어요' : '오늘 물 줄 식물이 $count개 있어요';
+
   /// 앞으로 7일치 예약. 각 날짜에 대상이 0개면 그 날은 예약하지 않음.
   Future<void> reschedule({
     required Setting settings,
@@ -131,12 +149,15 @@ class NotificationService {
       }
       for (var i = 0; i < times.length; i++) {
         final at = times[i];
-        final count = dueCountAt(plants, at);
+        final count = dueCountAt(
+          plants,
+          targetDay(at, dayBefore: settings.notifyDayBefore),
+        );
         if (count == 0) continue;
         await _plugin.zonedSchedule(
           id: i + 1,
           title: '잘자라라',
-          body: '오늘 물 줄 식물이 $count개 있어요',
+          body: bodyFor(count, dayBefore: settings.notifyDayBefore),
           // 절대 시각을 UTC로 변환: 로컬 타임존 DB 없이도 정확
           scheduledDate: tz.TZDateTime.from(at, tz.UTC),
           notificationDetails: const NotificationDetails(

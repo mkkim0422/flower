@@ -13,6 +13,7 @@ Setting _s({int hour = 9, int minute = 0, List<int> skip = const []}) =>
       plantnetDay: 0,
       plantnetCount: 0,
       homeGrid: true,
+      notifyDayBefore: false,
     );
 
 void main() {
@@ -52,6 +53,27 @@ void main() {
         DateTime(2026, 9, 30, 12),
       );
       expect(r, DateTime(2026, 10, 1, 9));
+    });
+  });
+
+  group('하루 전 알림', () {
+    test('targetDay: 당일이면 그날, 하루 전이면 다음 날', () {
+      final at = DateTime(2026, 9, 30, 9);
+      expect(NotificationService.targetDay(at, dayBefore: false), at);
+      expect(
+        NotificationService.targetDay(at, dayBefore: true),
+        DateTime(2026, 10, 1, 9),
+      );
+    });
+    test('문구', () {
+      expect(
+        NotificationService.bodyFor(2, dayBefore: false),
+        '오늘 물 줄 식물이 2개 있어요',
+      );
+      expect(
+        NotificationService.bodyFor(2, dayBefore: true),
+        '내일 물 줄 식물이 2개 있어요',
+      );
     });
   });
 
