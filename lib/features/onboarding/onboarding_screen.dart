@@ -29,8 +29,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     (
       Icons.water_drop_outlined,
       '물 주는 날을 놓치지 않게',
-      '품종에 맞는 주기로 물 줄 날을 알려드리고,
-"물 줬어요" 한 번이면 다음 날짜가 잡혀요',
+      '품종에 맞는 주기로 물 줄 날을 알려드리고,\n"물 줬어요" 한 번이면 다음 날짜가 잡혀요',
     ),
     (
       Icons.lock_outline_rounded,
