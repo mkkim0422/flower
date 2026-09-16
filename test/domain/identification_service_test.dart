@@ -128,13 +128,28 @@ void main() {
       );
     });
 
-    test('후보는 확률 내림차순, 최대 5개', () {
+    test('후보는 확률 내림차순, 50% 이상만, 최대 5개', () {
       final s = IdentificationSuccess(
         candidates: [for (var i = 0; i < 8; i++) _c('S$i', i / 10)],
         source: IdentificationSource.plantNet,
       );
-      expect(s.candidates.length, 5);
+      expect(s.candidates.map((c) => c.scientificName), ['S7', 'S6', 'S5']);
       expect(s.top.scientificName, 'S7');
+    });
+    test('50% 넘는 후보가 없으면 1순위 하나만', () {
+      final s = IdentificationSuccess(
+        candidates: [_c('A', 0.42), _c('B', 0.31), _c('C', 0.05)],
+        source: IdentificationSource.plantNet,
+      );
+      expect(s.candidates.length, 1);
+      expect(s.top.scientificName, 'A');
+    });
+    test('전부 50% 이상이면 최대 5개', () {
+      final s = IdentificationSuccess(
+        candidates: [for (var i = 0; i < 8; i++) _c('S$i', 0.5 + i / 100)],
+        source: IdentificationSource.plantNet,
+      );
+      expect(s.candidates.length, 5);
     });
   });
 

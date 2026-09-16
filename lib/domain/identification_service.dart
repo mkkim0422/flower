@@ -10,6 +10,9 @@ const double kConfidentThreshold = 0.80;
 /// 미만일 때 보여줄 후보 수
 const int kMaxCandidates = 5;
 
+/// 이 확률 미만 후보는 숨김 (단, 1순위는 항상 표시) — 2026-09-16 사용자 지시
+const double kMinShownScore = 0.50;
+
 /// PlantNet 무료 한도 500회/일 → 480회에서 호출 중단
 const int kPlantNetDailyCap = 480;
 
@@ -85,10 +88,18 @@ class IdentificationSuccess extends IdentificationOutcome {
   IdentificationSuccess({
     required List<IdentificationCandidate> candidates,
     required this.source,
-  }) : candidates =
-           (List.of(candidates)..sort((a, b) => b.score.compareTo(a.score)))
-               .take(kMaxCandidates)
-               .toList();
+  }) : candidates = _visible(candidates);
+
+  static List<IdentificationCandidate> _visible(
+    List<IdentificationCandidate> raw,
+  ) {
+    final sorted = List.of(raw)..sort((a, b) => b.score.compareTo(a.score));
+    final kept = <IdentificationCandidate>[
+      for (var i = 0; i < sorted.length; i++)
+        if (i == 0 || sorted[i].score >= kMinShownScore) sorted[i],
+    ];
+    return kept.take(kMaxCandidates).toList();
+  }
 
   final List<IdentificationCandidate> candidates;
   final IdentificationSource source;

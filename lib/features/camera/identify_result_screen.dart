@@ -118,11 +118,6 @@ class _Identifying extends StatelessWidget {
           '어떤 식물인지 찾고 있어요',
           style: AppText.title.copyWith(color: c.textPrimary),
         ),
-        const SizedBox(height: AppSpace.xs),
-        Text(
-          '사진은 확인 후 바로 지워져요',
-          style: AppText.caption.copyWith(color: c.textSecondary),
-        ),
       ],
     );
   }
