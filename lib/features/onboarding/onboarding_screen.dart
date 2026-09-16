@@ -28,8 +28,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     ),
     (
       Icons.water_drop_outlined,
-      '물 주는 날 대신 흙 확인',
-      '정해진 시간에 흙을 확인하도록 알려드리고,\n결과에 따라 주기를 스스로 맞춰가요',
+      '물 주는 날을 놓치지 않게',
+      '품종에 맞는 주기로 물 줄 날을 알려드리고,
+"물 줬어요" 한 번이면 다음 날짜가 잡혀요',
     ),
     (
       Icons.lock_outline_rounded,
