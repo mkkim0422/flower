@@ -146,7 +146,7 @@ class _Results extends ConsumerWidget {
         return ListView.separated(
           padding: const EdgeInsets.symmetric(horizontal: AppSpace.screenH),
           itemCount: rows.length,
-          separatorBuilder: (_, __) => const Divider(),
+          separatorBuilder: (_, _) => const Divider(),
           itemBuilder: (_, i) {
             final s = rows[i];
             return InkWell(
