@@ -108,8 +108,14 @@ class _RoundCheckboxState extends State<_RoundCheckbox>
     final c = context.colors;
     // 체크 완료: scale 1 → 1.15 → 1 (DESIGN.md 6장)
     final scale = TweenSequence<double>([
-      TweenSequenceItem(tween: Tween(begin: 1, end: AppMotion.checkScale), weight: 1),
-      TweenSequenceItem(tween: Tween(begin: AppMotion.checkScale, end: 1), weight: 1),
+      TweenSequenceItem(
+        tween: Tween(begin: 1, end: AppMotion.checkScale),
+        weight: 1,
+      ),
+      TweenSequenceItem(
+        tween: Tween(begin: AppMotion.checkScale, end: 1),
+        weight: 1,
+      ),
     ]).animate(_ctrl);
 
     return Semantics(
@@ -132,11 +138,15 @@ class _RoundCheckboxState extends State<_RoundCheckbox>
                   color: widget.selected ? c.primary : Colors.transparent,
                   border: Border.all(
                     color: widget.selected ? c.primary : c.textTertiary,
-                    width: 1.5,
+                    width: AppSize.borderThin,
                   ),
                 ),
                 child: widget.selected
-                    ? Icon(Icons.check_rounded, size: 16, color: c.onPrimary)
+                    ? Icon(
+                        Icons.check_rounded,
+                        size: AppSize.iconXxs,
+                        color: c.onPrimary,
+                      )
                     : null,
               ),
             ),

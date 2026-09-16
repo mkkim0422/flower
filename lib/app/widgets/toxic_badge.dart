@@ -4,7 +4,11 @@ import '../theme.dart';
 
 /// 독성 배지 (도감 정보 첫 줄) — DESIGN.md 4장
 class ToxicBadge extends StatelessWidget {
-  const ToxicBadge({super.key, required this.toxicPet, required this.toxicChild});
+  const ToxicBadge({
+    super.key,
+    required this.toxicPet,
+    required this.toxicChild,
+  });
 
   final bool toxicPet;
   final bool toxicChild;

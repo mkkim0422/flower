@@ -18,14 +18,14 @@ void main() {
   });
 
   Widget app(AppDatabase db, {bool onboardingDone = true}) => ProviderScope(
-        overrides: [
-          databaseProvider.overrideWithValue(db),
-          onboardingDoneProvider.overrideWith((ref) => onboardingDone),
-          // 테스트에서는 에셋 로드 대신 빈 시드
-          speciesSeedProvider.overrideWith((ref) async => 0),
-        ],
-        child: const PlantApp(),
-      );
+    overrides: [
+      databaseProvider.overrideWithValue(db),
+      onboardingDoneProvider.overrideWith((ref) => onboardingDone),
+      // 테스트에서는 에셋 로드 대신 빈 시드
+      speciesSeedProvider.overrideWith((ref) async => 0),
+    ],
+    child: const PlantApp(),
+  );
 
   testWidgets('온보딩 미완료면 ONB-01 로 리다이렉트', (tester) async {
     await tester.runAsync(() async {

@@ -22,9 +22,9 @@ class SpeciesSeedLoader {
     String? jsonOverride,
   }) async {
     final countExp = db.species.id.count();
-    final count = await (db.selectOnly(db.species)..addColumns([countExp]))
-        .map((r) => r.read(countExp) ?? 0)
-        .getSingle();
+    final count = await (db.selectOnly(
+      db.species,
+    )..addColumns([countExp])).map((r) => r.read(countExp) ?? 0).getSingle();
     if (count > 0) return 0;
 
     final raw = jsonOverride ?? await rootBundle.loadString(asset);

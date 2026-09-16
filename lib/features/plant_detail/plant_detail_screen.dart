@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import '../../app/router.dart';
 import '../../app/theme.dart';
 import '../../app/widgets/app_button.dart';
+import '../../app/widgets/app_card.dart';
 import '../../app/widgets/plant_card.dart';
 import '../../app/widgets/toxic_badge.dart';
 import '../../core/enums.dart';
@@ -28,11 +29,15 @@ class PlantDetailScreen extends ConsumerWidget {
     final entryAsync = ref.watch(plantByIdProvider(plantId));
 
     return entryAsync.when(
-      loading: () => const Scaffold(body: Center(child: CircularProgressIndicator())),
+      loading: () =>
+          const Scaffold(body: Center(child: CircularProgressIndicator())),
       error: (e, _) => Scaffold(
         appBar: AppBar(),
         body: Center(
-          child: Text('불러오지 못했어요', style: AppText.body.copyWith(color: c.textSecondary)),
+          child: Text(
+            '불러오지 못했어요',
+            style: AppText.body.copyWith(color: c.textSecondary),
+          ),
         ),
       ),
       data: (entry) {
@@ -41,7 +46,10 @@ class PlantDetailScreen extends ConsumerWidget {
           return Scaffold(
             appBar: AppBar(),
             body: Center(
-              child: Text('삭제된 식물이에요', style: AppText.body.copyWith(color: c.textSecondary)),
+              child: Text(
+                '삭제된 식물이에요',
+                style: AppText.body.copyWith(color: c.textSecondary),
+              ),
             ),
           );
         }
@@ -64,7 +72,10 @@ class _Body extends ConsumerWidget {
         title: const Text('별명 바꾸기'),
         content: TextField(controller: ctrl, autofocus: true),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('취소')),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('취소'),
+          ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, ctrl.text.trim()),
             child: const Text('저장'),
@@ -73,7 +84,9 @@ class _Body extends ConsumerWidget {
       ),
     );
     if (name != null && name.isNotEmpty) {
-      await ref.read(plantRepositoryProvider).updateBasic(id: entry.plant.id, nickname: name);
+      await ref
+          .read(plantRepositoryProvider)
+          .updateBasic(id: entry.plant.id, nickname: name);
     }
   }
 
@@ -86,16 +99,26 @@ class _Body extends ConsumerWidget {
       useSafeArea: true,
       builder: (ctx) => ListView(
         shrinkWrap: true,
-        padding: const EdgeInsets.fromLTRB(AppSpace.screenH, 0, AppSpace.screenH, AppSpace.xl),
+        padding: const EdgeInsets.fromLTRB(
+          AppSpace.screenH,
+          0,
+          AppSpace.screenH,
+          AppSpace.xl,
+        ),
         children: [
           Text('공간 이동', style: AppText.title.copyWith(color: c.textPrimary)),
           const SizedBox(height: AppSpace.md),
           for (final s in spaces)
             ListTile(
               contentPadding: EdgeInsets.zero,
-              title: Text(s.name, style: AppText.body.copyWith(color: c.textPrimary)),
-              subtitle: Text('${s.windowDir.label} · ${s.windowDist.label}',
-                  style: AppText.caption.copyWith(color: c.textSecondary)),
+              title: Text(
+                s.name,
+                style: AppText.body.copyWith(color: c.textPrimary),
+              ),
+              subtitle: Text(
+                '${s.windowDir.label} · ${s.windowDist.label}',
+                style: AppText.caption.copyWith(color: c.textSecondary),
+              ),
               trailing: entry.plant.spaceId == s.id
                   ? Icon(Icons.check_rounded, color: c.primary)
                   : null,
@@ -108,8 +131,13 @@ class _Body extends ConsumerWidget {
             ),
           ListTile(
             contentPadding: EdgeInsets.zero,
-            title: Text('공간 미지정', style: AppText.body.copyWith(color: c.textPrimary)),
-            trailing: entry.plant.spaceId == null ? Icon(Icons.check_rounded, color: c.primary) : null,
+            title: Text(
+              '공간 미지정',
+              style: AppText.body.copyWith(color: c.textPrimary),
+            ),
+            trailing: entry.plant.spaceId == null
+                ? Icon(Icons.check_rounded, color: c.primary)
+                : null,
             onTap: () async {
               await ref
                   .read(plantRepositoryProvider)
@@ -142,7 +170,10 @@ class _Body extends ConsumerWidget {
         title: Text('${entry.plant.nickname}을(를) 삭제할까요?'),
         content: const Text('관리 이력과 일기도 함께 지워져요'),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('취소')),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('취소'),
+          ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),
             child: Text('삭제', style: TextStyle(color: ctx.colors.error)),
@@ -199,11 +230,18 @@ class _Body extends ConsumerWidget {
             aspectRatio: 4 / 3,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(AppRadius.card),
-              child: PlantThumb(size: double.infinity, photoPath: p.photoPath, radius: 0),
+              child: PlantThumb(
+                size: double.infinity,
+                photoPath: p.photoPath,
+                radius: 0,
+              ),
             ),
           ),
           const SizedBox(height: AppSpace.lg),
-          Text(p.nickname, style: AppText.headline.copyWith(color: c.textPrimary)),
+          Text(
+            p.nickname,
+            style: AppText.headline.copyWith(color: c.textPrimary),
+          ),
           const SizedBox(height: AppSpace.xs),
           Text(
             s == null
@@ -212,12 +250,14 @@ class _Body extends ConsumerWidget {
             style: AppText.caption.copyWith(color: c.textSecondary),
           ),
           if (s != null)
-            Text(s.scientificName,
-                style: AppText.scientificName.copyWith(color: c.textSecondary)),
+            Text(
+              s.scientificName,
+              style: AppText.scientificName.copyWith(color: c.textSecondary),
+            ),
           const SizedBox(height: AppSpace.section),
 
           // 카드1: 다음 확인 D-day + 관리 일정
-          _Card(
+          AppCard(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -244,8 +284,10 @@ class _Body extends ConsumerWidget {
                 _ScheduleLine(
                   icon: Icons.water_drop_outlined,
                   label: '물',
-                  value: '${p.waterIntervalDays}일마다 ${p.manualOverride ? '(수동)' : '(자동)'}',
-                  onTap: () => showIntervalSheet(context, entry: entry, result: result),
+                  value:
+                      '${p.waterIntervalDays}일마다 ${p.manualOverride ? '(수동)' : '(자동)'}',
+                  onTap: () =>
+                      showIntervalSheet(context, entry: entry, result: result),
                 ),
                 _ScheduleLine(
                   icon: Icons.eco_outlined,
@@ -253,8 +295,10 @@ class _Body extends ConsumerWidget {
                   value: p.fertIntervalDays == null
                       ? '정보 없음'
                       : '${p.fertIntervalDays}일마다'
-                          '${p.lastFertAt == null ? '' : ' · 마지막 ${DateFormat('M/d').format(p.lastFertAt!)}'}',
-                  onTap: () => ref.read(plantRepositoryProvider).addCareEvent(p.id, CareType.fert),
+                            '${p.lastFertAt == null ? '' : ' · 마지막 ${DateFormat('M/d').format(p.lastFertAt!)}'}',
+                  onTap: () => ref
+                      .read(plantRepositoryProvider)
+                      .addCareEvent(p.id, CareType.fert),
                   actionLabel: '줬어요',
                 ),
                 _ScheduleLine(
@@ -263,8 +307,10 @@ class _Body extends ConsumerWidget {
                   value: s?.repotMonths == null
                       ? '정보 없음'
                       : '${s!.repotMonths}개월마다'
-                          '${p.repotAt == null ? '' : ' · 마지막 ${DateFormat('yyyy/M').format(p.repotAt!)}'}',
-                  onTap: () => ref.read(plantRepositoryProvider).addCareEvent(p.id, CareType.repot),
+                            '${p.repotAt == null ? '' : ' · 마지막 ${DateFormat('yyyy/M').format(p.repotAt!)}'}',
+                  onTap: () => ref
+                      .read(plantRepositoryProvider)
+                      .addCareEvent(p.id, CareType.repot),
                   actionLabel: '했어요',
                 ),
               ],
@@ -273,14 +319,20 @@ class _Body extends ConsumerWidget {
           const SizedBox(height: AppSpace.cardGap),
 
           // 카드2: 관리 이력 (생장 일기 타임라인은 M3)
-          _Card(
+          AppCard(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('관리 이력', style: AppText.title.copyWith(color: c.textPrimary)),
+                Text(
+                  '관리 이력',
+                  style: AppText.title.copyWith(color: c.textPrimary),
+                ),
                 const SizedBox(height: AppSpace.md),
                 if (events.isEmpty)
-                  Text('아직 기록이 없어요', style: AppText.body.copyWith(color: c.textTertiary))
+                  Text(
+                    '아직 기록이 없어요',
+                    style: AppText.body.copyWith(color: c.textTertiary),
+                  )
                 else
                   for (final e in events.take(5)) _EventLine(event: e),
               ],
@@ -290,7 +342,7 @@ class _Body extends ConsumerWidget {
 
           // 카드3: 도감 정보 (독성 배지 첫 줄). 전체 페이지 INFO-01은 M3
           if (s != null)
-            _Card(
+            AppCard(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -324,7 +376,8 @@ class _Body extends ConsumerWidget {
             child: dDay <= 0
                 ? AppButton.primary(
                     label: '흙 확인하기',
-                    onPressed: () => showSoilCheckSheet(context, entries: [entry]),
+                    onPressed: () =>
+                        showSoilCheckSheet(context, entries: [entry]),
                   )
                 : AppButton.primary(
                     label: '일기 쓰기',
@@ -334,26 +387,6 @@ class _Body extends ConsumerWidget {
           const SizedBox(height: AppSpace.lg),
         ],
       ),
-    );
-  }
-}
-
-class _Card extends StatelessWidget {
-  const _Card({required this.child});
-
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    final c = context.colors;
-    return Container(
-      padding: const EdgeInsets.all(AppSpace.cardPadding),
-      decoration: BoxDecoration(
-        color: c.surface,
-        borderRadius: BorderRadius.circular(AppRadius.card),
-        border: Border.all(color: c.outline),
-      ),
-      child: child,
     );
   }
 }
@@ -380,13 +413,21 @@ class _ScheduleLine extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: AppSpace.xs),
       child: Row(
         children: [
-          Icon(icon, size: 20, color: c.textSecondary),
+          Icon(icon, size: AppSize.iconSm, color: c.textSecondary),
           const SizedBox(width: AppSpace.sm),
           SizedBox(
-            width: 48,
-            child: Text(label, style: AppText.bodyStrong.copyWith(color: c.textPrimary)),
+            width: AppSize.scheduleLabelWidth,
+            child: Text(
+              label,
+              style: AppText.bodyStrong.copyWith(color: c.textPrimary),
+            ),
           ),
-          Expanded(child: Text(value, style: AppText.body.copyWith(color: c.textSecondary))),
+          Expanded(
+            child: Text(
+              value,
+              style: AppText.body.copyWith(color: c.textSecondary),
+            ),
+          ),
           AppButton.text(label: actionLabel, onPressed: onTap),
         ],
       ),
@@ -414,9 +455,14 @@ class _EventLine extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: AppSpace.xs),
       child: Row(
         children: [
-          Icon(icon, size: 18, color: c.primary),
+          Icon(icon, size: AppSize.iconXs, color: c.primary),
           const SizedBox(width: AppSpace.sm),
-          Expanded(child: Text(label, style: AppText.body.copyWith(color: c.textPrimary))),
+          Expanded(
+            child: Text(
+              label,
+              style: AppText.body.copyWith(color: c.textPrimary),
+            ),
+          ),
           Text(
             DateFormat('M/d').format(event.at),
             style: AppText.caption.copyWith(
@@ -444,9 +490,14 @@ class _InfoLine extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, size: 18, color: c.textSecondary),
+          Icon(icon, size: AppSize.iconXs, color: c.textSecondary),
           const SizedBox(width: AppSpace.sm),
-          Expanded(child: Text(text, style: AppText.body.copyWith(color: c.textPrimary))),
+          Expanded(
+            child: Text(
+              text,
+              style: AppText.body.copyWith(color: c.textPrimary),
+            ),
+          ),
         ],
       ),
     );

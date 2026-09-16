@@ -32,12 +32,18 @@ class _IntervalSheet extends ConsumerStatefulWidget {
 
 class _IntervalSheetState extends ConsumerState<_IntervalSheet> {
   late bool _manual = widget.entry.plant.manualOverride;
-  late double _days = widget.entry.plant.waterIntervalDays.toDouble();
+  late double _days = widget.entry.plant.waterIntervalDays
+      .toDouble()
+      .clamp(1, AppSize.sliderMaxDays)
+      .toDouble();
 
   Future<void> _save() async {
     await ref
         .read(plantRepositoryProvider)
-        .setManualInterval(widget.entry.plant.id, _manual ? _days.round() : null);
+        .setManualInterval(
+          widget.entry.plant.id,
+          _manual ? _days.round() : null,
+        );
     if (mounted) Navigator.pop(context);
   }
 
@@ -46,7 +52,9 @@ class _IntervalSheetState extends ConsumerState<_IntervalSheet> {
     final c = context.colors;
     final r = widget.result;
     // 자동 계산값(수동 무시)
-    final auto = ref.read(plantRepositoryProvider).computeFor(
+    final auto = ref
+        .read(plantRepositoryProvider)
+        .computeFor(
           species: widget.entry.species,
           space: widget.entry.space,
           potSize: widget.entry.plant.potSize,
@@ -54,10 +62,18 @@ class _IntervalSheetState extends ConsumerState<_IntervalSheet> {
           feedbackCoef: widget.entry.plant.feedbackCoef,
         );
 
-    String f(double v) => v.toStringAsFixed(2).replaceAll(RegExp(r'0+$'), '').replaceAll(RegExp(r'\.$'), '');
+    String f(double v) => v
+        .toStringAsFixed(2)
+        .replaceAll(RegExp(r'0+$'), '')
+        .replaceAll(RegExp(r'\.$'), '');
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(AppSpace.screenH, 0, AppSpace.screenH, AppSpace.xl),
+      padding: const EdgeInsets.fromLTRB(
+        AppSpace.screenH,
+        0,
+        AppSpace.screenH,
+        AppSpace.xl,
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -73,7 +89,10 @@ class _IntervalSheetState extends ConsumerState<_IntervalSheet> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('자동 계산 근거', style: AppText.label.copyWith(color: c.textSecondary)),
+                Text(
+                  '자동 계산 근거',
+                  style: AppText.label.copyWith(color: c.textSecondary),
+                ),
                 const SizedBox(height: AppSpace.sm),
                 Text(
                   '품종 기본 ${r.base}일 × 계절 ${f(r.season)} × 빛 ${f(r.light)} × 화분 ${f(r.pot)} × 피드백 ${f(r.feedback)}',
@@ -95,14 +114,22 @@ class _IntervalSheetState extends ConsumerState<_IntervalSheet> {
             contentPadding: EdgeInsets.zero,
             value: _manual,
             activeThumbColor: c.primary,
-            title: Text('직접 정하기', style: AppText.bodyStrong.copyWith(color: c.textPrimary)),
+            title: Text(
+              '직접 정하기',
+              style: AppText.bodyStrong.copyWith(color: c.textPrimary),
+            ),
             subtitle: Text(
               _manual ? '흙 확인 결과로 자동 보정하지 않아요' : '계절·환경·흙 확인 결과로 자동 보정해요',
               style: AppText.caption.copyWith(color: c.textSecondary),
             ),
             onChanged: (v) => setState(() {
               _manual = v;
-              if (!v) _days = auto.days.toDouble();
+              if (!v) {
+                _days = auto.days
+                    .toDouble()
+                    .clamp(1, AppSize.sliderMaxDays)
+                    .toDouble();
+              }
             }),
           ),
           if (_manual) ...[
@@ -112,14 +139,14 @@ class _IntervalSheetState extends ConsumerState<_IntervalSheet> {
                   child: Slider(
                     value: _days,
                     min: 1,
-                    max: 45,
-                    divisions: 44,
+                    max: AppSize.sliderMaxDays.toDouble(),
+                    divisions: AppSize.sliderMaxDays - 1,
                     activeColor: c.primary,
                     onChanged: (v) => setState(() => _days = v),
                   ),
                 ),
                 SizedBox(
-                  width: 56,
+                  width: AppSize.sliderValueWidth,
                   child: Text(
                     '${_days.round()}일',
                     textAlign: TextAlign.end,

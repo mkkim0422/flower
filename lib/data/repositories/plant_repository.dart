@@ -39,7 +39,7 @@ class PlantEntry {
 
 class PlantRepository {
   PlantRepository(this.db, {DateTime Function()? clock})
-      : _now = clock ?? DateTime.now;
+    : _now = clock ?? DateTime.now;
 
   final AppDatabase db;
   final DateTime Function() _now;
@@ -47,47 +47,99 @@ class PlantRepository {
   // ---------- 조회 ----------
 
   Stream<List<PlantEntry>> watchAll() {
-    final q = db.select(db.plants).join([
-      leftOuterJoin(db.species, db.species.id.equalsExp(db.plants.speciesId)),
-      leftOuterJoin(db.spaces, db.spaces.id.equalsExp(db.plants.spaceId)),
-    ])
-      ..orderBy([OrderingTerm.asc(db.plants.nextCheckAt)]);
+    final q =
+        db.select(db.plants).join([
+          leftOuterJoin(
+            db.species,
+            db.species.id.equalsExp(db.plants.speciesId),
+          ),
+          leftOuterJoin(db.spaces, db.spaces.id.equalsExp(db.plants.spaceId)),
+        ])..orderBy([
+          OrderingTerm.asc(db.plants.nextCheckAt),
+          OrderingTerm.asc(db.plants.id),
+        ]);
     return q.watch().map(
-          (rows) => rows
-              .map(
-                (r) => PlantEntry(
-                  plant: r.readTable(db.plants),
-                  species: r.readTableOrNull(db.species),
-                  space: r.readTableOrNull(db.spaces),
-                ),
-              )
-              .toList(),
-        );
+      (rows) => rows
+          .map(
+            (r) => PlantEntry(
+              plant: r.readTable(db.plants),
+              species: r.readTableOrNull(db.species),
+              space: r.readTableOrNull(db.spaces),
+            ),
+          )
+          .toList(),
+    );
   }
 
   Stream<PlantEntry?> watchById(int id) {
     final q = db.select(db.plants).join([
       leftOuterJoin(db.species, db.species.id.equalsExp(db.plants.speciesId)),
       leftOuterJoin(db.spaces, db.spaces.id.equalsExp(db.plants.spaceId)),
-    ])
-      ..where(db.plants.id.equals(id));
+    ])..where(db.plants.id.equals(id));
     return q.watchSingleOrNull().map(
-          (r) => r == null
-              ? null
-              : PlantEntry(
-                  plant: r.readTable(db.plants),
-                  species: r.readTableOrNull(db.species),
-                  space: r.readTableOrNull(db.spaces),
-                ),
-        );
+      (r) => r == null
+          ? null
+          : PlantEntry(
+              plant: r.readTable(db.plants),
+              species: r.readTableOrNull(db.species),
+              space: r.readTableOrNull(db.spaces),
+            ),
+    );
   }
 
-  Future<PlantEntry?> getById(int id) => watchById(id).first;
+  Future<PlantEntry?> getById(int id) async {
+    final q = db.select(db.plants).join([
+      leftOuterJoin(db.species, db.species.id.equalsExp(db.plants.speciesId)),
+      leftOuterJoin(db.spaces, db.spaces.id.equalsExp(db.plants.spaceId)),
+    ])..where(db.plants.id.equals(id));
+    final r = await q.getSingleOrNull();
+    if (r == null) return null;
+    return PlantEntry(
+      plant: r.readTable(db.plants),
+      species: r.readTableOrNull(db.species),
+      space: r.readTableOrNull(db.spaces),
+    );
+  }
+
+  Future<List<PlantEntry>> getAll() async {
+    final q =
+        db.select(db.plants).join([
+          leftOuterJoin(
+            db.species,
+            db.species.id.equalsExp(db.plants.speciesId),
+          ),
+          leftOuterJoin(db.spaces, db.spaces.id.equalsExp(db.plants.spaceId)),
+        ])..orderBy([
+          OrderingTerm.asc(db.plants.nextCheckAt),
+          OrderingTerm.asc(db.plants.id),
+        ]);
+    final rows = await q.get();
+    return rows
+        .map(
+          (r) => PlantEntry(
+            plant: r.readTable(db.plants),
+            species: r.readTableOrNull(db.species),
+            space: r.readTableOrNull(db.spaces),
+          ),
+        )
+        .toList();
+  }
+
+  /// 주기 변경 시 다음 확인일은 "리셋"이 아니라 차이만큼 "이동"한다.
+  /// (촉촉 재확인일 등 이미 앞당겨진 날짜를 보존)
+  static DateTime shiftedNextCheck(Plant p, int newDays) => DateTime(
+    p.nextCheckAt.year,
+    p.nextCheckAt.month,
+    p.nextCheckAt.day + (newDays - p.waterIntervalDays),
+  );
 
   Stream<List<CareEvent>> watchCareEvents(int plantId, {int limit = 50}) =>
       (db.select(db.careEvents)
             ..where((t) => t.plantId.equals(plantId))
-            ..orderBy([(t) => OrderingTerm.desc(t.at), (t) => OrderingTerm.desc(t.id)])
+            ..orderBy([
+              (t) => OrderingTerm.desc(t.at),
+              (t) => OrderingTerm.desc(t.id),
+            ])
             ..limit(limit))
           .watch();
 
@@ -120,15 +172,15 @@ class PlantRepository {
   }
 
   WateringResult computeForEntry(PlantEntry e, {DateTime? at}) => computeFor(
-        species: e.species,
-        space: e.space,
-        potSize: e.plant.potSize,
-        hasDrainage: e.plant.hasDrainage,
-        feedbackCoef: e.plant.feedbackCoef,
-        manualOverride: e.plant.manualOverride,
-        manualDays: e.plant.manualOverride ? e.plant.waterIntervalDays : null,
-        at: at,
-      );
+    species: e.species,
+    space: e.space,
+    potSize: e.plant.potSize,
+    hasDrainage: e.plant.hasDrainage,
+    feedbackCoef: e.plant.feedbackCoef,
+    manualOverride: e.plant.manualOverride,
+    manualDays: e.plant.manualOverride ? e.plant.waterIntervalDays : null,
+    at: at,
+  );
 
   // ---------- 등록 / 수정 ----------
 
@@ -144,12 +196,14 @@ class PlantRepository {
   }) async {
     final species = speciesId == null
         ? null
-        : await (db.select(db.species)..where((t) => t.id.equals(speciesId)))
-            .getSingleOrNull();
+        : await (db.select(
+            db.species,
+          )..where((t) => t.id.equals(speciesId))).getSingleOrNull();
     final space = spaceId == null
         ? null
-        : await (db.select(db.spaces)..where((t) => t.id.equals(spaceId)))
-            .getSingleOrNull();
+        : await (db.select(
+            db.spaces,
+          )..where((t) => t.id.equals(spaceId))).getSingleOrNull();
     final now = _now();
     final result = computeFor(
       species: species,
@@ -160,7 +214,9 @@ class PlantRepository {
     );
 
     return db.transaction(() async {
-      final id = await db.into(db.plants).insert(
+      final id = await db
+          .into(db.plants)
+          .insert(
             PlantsCompanion.insert(
               nickname: nickname.trim(),
               speciesId: Value(speciesId),
@@ -175,7 +231,9 @@ class PlantRepository {
               createdAt: now,
             ),
           );
-      await db.into(db.careEvents).insert(
+      await db
+          .into(db.careEvents)
+          .insert(
             CareEventsCompanion.insert(
               plantId: id,
               type: CareType.water,
@@ -198,13 +256,26 @@ class PlantRepository {
   }) async {
     await (db.update(db.plants)..where((t) => t.id.equals(id))).write(
       PlantsCompanion(
-        nickname: nickname == null ? const Value.absent() : Value(nickname.trim()),
+        nickname: nickname == null
+            ? const Value.absent()
+            : Value(nickname.trim()),
         spaceId: spaceId,
         speciesId: speciesId,
         potSize: potSize == null ? const Value.absent() : Value(potSize),
-        hasDrainage:
-            hasDrainage == null ? const Value.absent() : Value(hasDrainage),
+        hasDrainage: hasDrainage == null
+            ? const Value.absent()
+            : Value(hasDrainage),
         photoPath: photoPath,
+        fertIntervalDays: speciesId.present
+            ? Value(
+                speciesId.value == null
+                    ? null
+                    : (await (db.select(db.species)
+                                ..where((t) => t.id.equals(speciesId.value!)))
+                              .getSingleOrNull())
+                          ?.fertDays,
+              )
+            : const Value.absent(),
       ),
     );
     await recalc(id);
@@ -228,7 +299,7 @@ class PlantRepository {
       PlantsCompanion(
         manualOverride: Value(manual),
         waterIntervalDays: Value(result.days),
-        nextCheckAt: Value(nextCheckAt(e.plant.lastWateredAt, result.days)),
+        nextCheckAt: Value(shiftedNextCheck(e.plant, result.days)),
       ),
     );
   }
@@ -238,17 +309,18 @@ class PlantRepository {
     final e = await getById(id);
     if (e == null || e.plant.manualOverride) return;
     final result = computeForEntry(e);
+    if (result.days == e.plant.waterIntervalDays) return;
     await (db.update(db.plants)..where((t) => t.id.equals(id))).write(
       PlantsCompanion(
         waterIntervalDays: Value(result.days),
-        nextCheckAt: Value(nextCheckAt(e.plant.lastWateredAt, result.days)),
+        nextCheckAt: Value(shiftedNextCheck(e.plant, result.days)),
       ),
     );
   }
 
   /// 앱 포그라운드 진입 시 전체 재계산 (5-3)
   Future<void> recalcAll() async {
-    final all = await watchAll().first;
+    final all = await getAll();
     for (final e in all) {
       if (e.plant.manualOverride) continue;
       final result = computeForEntry(e);
@@ -256,7 +328,7 @@ class PlantRepository {
       await (db.update(db.plants)..where((t) => t.id.equals(e.plant.id))).write(
         PlantsCompanion(
           waterIntervalDays: Value(result.days),
-          nextCheckAt: Value(nextCheckAt(e.plant.lastWateredAt, result.days)),
+          nextCheckAt: Value(shiftedNextCheck(e.plant, result.days)),
         ),
       );
     }
@@ -265,15 +337,22 @@ class PlantRepository {
   // ---------- 흙 확인 (HOME-02) ----------
 
   /// 흙 확인 결과 반영. dry = "말랐어요, 물 줬어요" / wet = "아직 촉촉해요"
-  Future<void> recordSoilCheck(int id, SoilCheckResult result, {DateTime? at}) async {
+  Future<void> recordSoilCheck(
+    int id,
+    SoilCheckResult result, {
+    DateTime? at,
+  }) async {
     final e = await getById(id);
     if (e == null) return;
     final now = at ?? _now();
-    final fb = applyFeedback(
-      feedbackCoef: e.plant.feedbackCoef,
-      dryStreak: e.plant.dryStreak,
-      result: result,
-    );
+    // 수동 주기 식물은 흙 확인으로 계수를 보정하지 않는다 (PLT-02 문구와 일치)
+    final fb = e.plant.manualOverride
+        ? (feedbackCoef: e.plant.feedbackCoef, dryStreak: 0)
+        : applyFeedback(
+            feedbackCoef: e.plant.feedbackCoef,
+            dryStreak: e.plant.dryStreak,
+            result: result,
+          );
     final interval = computeFor(
       species: e.species,
       space: e.space,
@@ -299,8 +378,16 @@ class PlantRepository {
           );
           await db.batch((b) {
             b.insertAll(db.careEvents, [
-              CareEventsCompanion.insert(plantId: id, type: CareType.checkDry, at: now),
-              CareEventsCompanion.insert(plantId: id, type: CareType.water, at: now),
+              CareEventsCompanion.insert(
+                plantId: id,
+                type: CareType.checkDry,
+                at: now,
+              ),
+              CareEventsCompanion.insert(
+                plantId: id,
+                type: CareType.water,
+                at: now,
+              ),
             ]);
           });
         case SoilCheckResult.wet:
@@ -309,27 +396,45 @@ class PlantRepository {
               feedbackCoef: Value(fb.feedbackCoef),
               dryStreak: Value(fb.dryStreak),
               waterIntervalDays: Value(interval),
-              nextCheckAt: Value(nextCheckAt(now, recheckDaysAfterWet(interval))),
+              nextCheckAt: Value(
+                nextCheckAt(now, recheckDaysAfterWet(interval)),
+              ),
             ),
           );
-          await db.into(db.careEvents).insert(
-                CareEventsCompanion.insert(plantId: id, type: CareType.checkWet, at: now),
+          await db
+              .into(db.careEvents)
+              .insert(
+                CareEventsCompanion.insert(
+                  plantId: id,
+                  type: CareType.checkWet,
+                  at: now,
+                ),
               );
       }
     });
   }
 
   /// 다중 선택 일괄 완료
-  Future<void> recordSoilCheckBatch(Iterable<int> ids, SoilCheckResult result) async {
+  Future<void> recordSoilCheckBatch(
+    Iterable<int> ids,
+    SoilCheckResult result,
+  ) async {
     for (final id in ids) {
       await recordSoilCheck(id, result);
     }
   }
 
   /// 기타 관리 이벤트 (비료/분갈이/잎닦기)
-  Future<void> addCareEvent(int id, CareType type, {String? note, DateTime? at}) async {
+  Future<void> addCareEvent(
+    int id,
+    CareType type, {
+    String? note,
+    DateTime? at,
+  }) async {
     final now = at ?? _now();
-    await db.into(db.careEvents).insert(
+    await db
+        .into(db.careEvents)
+        .insert(
           CareEventsCompanion.insert(
             plantId: id,
             type: type,
@@ -338,11 +443,13 @@ class PlantRepository {
           ),
         );
     if (type == CareType.fert) {
-      await (db.update(db.plants)..where((t) => t.id.equals(id)))
-          .write(PlantsCompanion(lastFertAt: Value(now)));
+      await (db.update(db.plants)..where((t) => t.id.equals(id))).write(
+        PlantsCompanion(lastFertAt: Value(now)),
+      );
     } else if (type == CareType.repot) {
-      await (db.update(db.plants)..where((t) => t.id.equals(id)))
-          .write(PlantsCompanion(repotAt: Value(now)));
+      await (db.update(db.plants)..where((t) => t.id.equals(id))).write(
+        PlantsCompanion(repotAt: Value(now)),
+      );
     }
   }
 
@@ -362,15 +469,7 @@ final plantByIdProvider = StreamProvider.autoDispose.family<PlantEntry?, int>(
   (ref, id) => ref.watch(plantRepositoryProvider).watchById(id),
 );
 
-final careEventsProvider =
-    StreamProvider.autoDispose.family<List<CareEvent>, int>(
-  (ref, id) => ref.watch(plantRepositoryProvider).watchCareEvents(id),
-);
-
-/// 오늘 확인할 식물 (next_check_at ≤ today)
-final duePlantsProvider = Provider<AsyncValue<List<PlantEntry>>>((ref) {
-  final now = DateTime.now();
-  return ref.watch(plantsProvider).whenData(
-        (list) => list.where((e) => e.isDue(now)).toList(),
-      );
-});
+final careEventsProvider = StreamProvider.autoDispose
+    .family<List<CareEvent>, int>(
+      (ref, id) => ref.watch(plantRepositoryProvider).watchCareEvents(id),
+    );

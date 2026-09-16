@@ -60,20 +60,20 @@ class AppButton extends StatelessWidget {
     final (Color bg, Color fg, double height) = switch (kind) {
       AppButtonKind.primary => (c.primary, c.onPrimary, AppSize.buttonHeight),
       AppButtonKind.secondary => (
-          c.primaryContainer,
-          c.primary,
-          AppSize.buttonHeight
-        ),
+        c.primaryContainer,
+        c.primary,
+        AppSize.buttonHeight,
+      ),
       AppButtonKind.text => (
-          Colors.transparent,
-          c.primary,
-          AppSize.textButtonHeight
-        ),
+        Colors.transparent,
+        c.primary,
+        AppSize.textButtonHeight,
+      ),
       AppButtonKind.destructive => (
-          Colors.transparent,
-          c.error,
-          AppSize.textButtonHeight
-        ),
+        Colors.transparent,
+        c.error,
+        AppSize.textButtonHeight,
+      ),
     };
 
     final child = Row(
@@ -81,7 +81,7 @@ class AppButton extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         if (icon != null) ...[
-          Icon(icon, size: AppSpace.xl - AppSpace.xs, color: fg),
+          Icon(icon, size: AppSize.iconSm, color: fg),
           const SizedBox(width: AppSpace.sm),
         ],
         Text(label),
@@ -110,19 +110,17 @@ class AppButton extends StatelessWidget {
 
     final button = switch (kind) {
       AppButtonKind.primary || AppButtonKind.secondary => FilledButton(
-          onPressed: onPressed,
-          style: style,
-          child: child,
-        ),
+        onPressed: onPressed,
+        style: style,
+        child: child,
+      ),
       AppButtonKind.text || AppButtonKind.destructive => TextButton(
-          onPressed: onPressed,
-          style: style,
-          child: child,
-        ),
+        onPressed: onPressed,
+        style: style,
+        child: child,
+      ),
     };
 
-    return expanded
-        ? SizedBox(width: double.infinity, child: button)
-        : button;
+    return expanded ? SizedBox(width: double.infinity, child: button) : button;
   }
 }

@@ -76,7 +76,9 @@ class PlantCard extends StatelessWidget {
         child: SizedBox(
           height: AppSize.plantCardHeight,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: AppSpace.cardPadding),
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpace.cardPadding,
+            ),
             child: Row(
               children: [
                 PlantThumb(size: AppSize.plantThumb, photoPath: photoPath),

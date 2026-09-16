@@ -17,7 +17,8 @@ class SpeciesSearchScreen extends ConsumerStatefulWidget {
   const SpeciesSearchScreen({super.key});
 
   @override
-  ConsumerState<SpeciesSearchScreen> createState() => _SpeciesSearchScreenState();
+  ConsumerState<SpeciesSearchScreen> createState() =>
+      _SpeciesSearchScreenState();
 }
 
 class _SpeciesSearchScreenState extends ConsumerState<SpeciesSearchScreen> {
@@ -70,8 +71,10 @@ class _SpeciesSearchScreenState extends ConsumerState<SpeciesSearchScreen> {
             child: seed.when(
               loading: () => const Center(child: CircularProgressIndicator()),
               error: (e, _) => Center(
-                child: Text('품종 목록을 불러오지 못했어요',
-                    style: AppText.body.copyWith(color: c.textSecondary)),
+                child: Text(
+                  '품종 목록을 불러오지 못했어요',
+                  style: AppText.body.copyWith(color: c.textSecondary),
+                ),
               ),
               data: (_) => _Results(
                 query: _query,
@@ -97,7 +100,9 @@ class _SpeciesSearchScreenState extends ConsumerState<SpeciesSearchScreen> {
                 expanded: true,
                 onPressed: () => context.push(
                   AppRoutes.addManual,
-                  extra: AddPlantDraft(nicknameHint: _query.isEmpty ? null : _query),
+                  extra: AddPlantDraft(
+                    nicknameHint: _query.isEmpty ? null : _query,
+                  ),
                 ),
               ),
             ),
@@ -119,16 +124,20 @@ class _Results extends ConsumerWidget {
     final c = context.colors;
     if (query.isEmpty) {
       return Center(
-        child: Text('국내명이나 학명을 입력해 보세요',
-            style: AppText.body.copyWith(color: c.textTertiary)),
+        child: Text(
+          '국내명이나 학명을 입력해 보세요',
+          style: AppText.body.copyWith(color: c.textTertiary),
+        ),
       );
     }
     final results = ref.watch(speciesSearchProvider(query));
     return results.when(
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (e, _) => Center(
-        child: Text('검색 중 문제가 생겼어요',
-            style: AppText.body.copyWith(color: c.textSecondary)),
+        child: Text(
+          '검색 중 문제가 생겼어요',
+          style: AppText.body.copyWith(color: c.textSecondary),
+        ),
       ),
       data: (rows) {
         if (rows.isEmpty) {
@@ -167,14 +176,19 @@ class _Results extends ConsumerWidget {
                           ),
                           Text(
                             s.scientificName,
-                            style: AppText.scientificName
-                                .copyWith(color: c.textSecondary),
+                            style: AppText.scientificName.copyWith(
+                              color: c.textSecondary,
+                            ),
                           ),
                         ],
                       ),
                     ),
                     if (s.toxicPet || s.toxicChild)
-                      Icon(Icons.warning_rounded, color: c.warning, size: 20),
+                      Icon(
+                        Icons.warning_rounded,
+                        color: c.warning,
+                        size: AppSize.iconSm,
+                      ),
                     const SizedBox(width: AppSpace.sm),
                     Icon(Icons.chevron_right_rounded, color: c.textTertiary),
                   ],

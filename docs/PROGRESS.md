@@ -117,5 +117,65 @@
 |---|---|---|
 | timezone | BSD-2 | 0 |
 
-## 다음: M2 — 카메라 식별
-- CAM-01~04, TFLite 더미 로더 → PlantNet Fallback, 일 한도 카운터, 후보 리스트, identification_logs
+## 전체 검토 (2026-09-16, 사용자 요청)
+
+### 방법
+- 리뷰 에이전트가 HANDOFF 0·4·5장, DESIGN.md 기준으로 lib/·test/ 전체를 정독. 별도로 grep 검사(유료 서비스·HEX 직접 입력·사진 업로드·TODO).
+- 결과 14건 → 전부 반영. 테스트 73건 통과, analyze 0.
+
+### 반영한 수정
+| 구분 | 내용 |
+|---|---|
+| BUG | 촉촉 재확인일이 별명 변경·재계산(`recalc`/`recalcAll`/`setManualInterval`)에서 `last_watered + 주기`로 리셋되던 문제 → 주기 차이만큼 **이동**(`shiftedNextCheck`)으로 변경. 회귀 테스트 추가 |
+| BUG | PLT-02 슬라이더 최대 45일인데 겨울·창 없음·대형 화분이면 주기 60일+ → `value > max` 크래시. 최대 90일 토큰 + 클램프 |
+| SPEC | 알림이 다음 1건만 예약되어 며칠 앱을 안 열면 끊김 → **7일치(id 1~7) 선예약**, 식물·설정 변경 시 0.5초 디바운스로 재예약. 제외 요일 전부면 예약 없음 |
+| SPEC | 수동 주기인데 흙 확인이 feedback 계수를 계속 바꾸던 불일치 → 수동이면 계수 미보정(문구와 일치) |
+| BUG | 포그라운드 재계산이 cold start에 2중 실행 가능 → `_refreshing` 가드 |
+| BUG | 홈 목록 정렬 동률 시 순서 흔들림 → `next_check_at, id` 2차 정렬 |
+| STYLE | 화면 코드의 px 직접 입력 15곳 → `AppSize.iconSm/iconXs/pageDot/sliderMaxDays/stickyBar…` 토큰화, 그림자 `AppShadow.cameraButton` |
+| STYLE | 칩·카드 위젯 중복 → `AppChip`, `AppCard` 공통화 (4곳 교체) |
+| NIT | 미사용 `duePlantsProvider` 삭제, `Duration(days)` → 날짜 성분 산술(DST 안전), `nextFireTime` 테스트 7건 추가, `_saving` finally 복구, 검색어의 `%`·`_` 제거, 품종 변경 시 비료 주기 갱신 |
+| CI | 유료 서비스 grep이 `plant.id` 필드 접근까지 잡던 오탐 → `api.plant.id` 등으로 패턴 좁힘 |
+
+### 검토에서 이상 없음으로 확인된 항목
+- Drift 스키마 ↔ HANDOFF 4장 일치(추가 컬럼은 PROGRESS에 기록됨), FK cascade/setNull, 물주기 계수 5-1 일치, go_router 리다이렉트·스택 정리, Riverpod 사용, 유료 서비스·로그인·결제·광고 UI 0건, 사진 업로드 코드 0건, 문구 해요체.
+
+### 스토어 등록 설계 점검 (플레이스토어·앱스토어)
+| 항목 | 상태 |
+|---|---|
+| Android minSdk 26 / iOS 15.0 | 완료 |
+| 권한: 알림(POST_NOTIFICATIONS, Android 13+ 런타임 요청), 카메라·앨범(iOS 사용 사유 문구 등록, image_picker가 사용 시점 요청) | 완료 |
+| 정확한 알람 권한(SCHEDULE_EXACT_ALARM) 미사용 → 심사 이슈 회피 | 완료 (inexact 스케줄) |
+| iOS 수출 규정 `ITSAppUsesNonExemptEncryption=false` | 완료 |
+| 광고·결제 SDK 없음, 트래킹(ATT) 불필요 | 완료 |
+| 앱 아이콘·스플래시 | **미완** — 기본 Flutter 아이콘. M4에서 교체 필요 |
+| Android 릴리스 서명 keystore | **미완** — 현재 debug 서명. M4에서 `key.properties`(커밋 금지) 설정 |
+| 패키지명 확정 | **미결** — 임시 `com.jaljarara.plant_app` (스토어 등록 후 변경 불가) |
+| 개인정보 처리방침 URL, Data Safety(Play)·App Privacy(App Store) 양식 | M4. PlantNet 전송 사진은 "수집하지 않음(일시 처리)"으로 기재 예정 |
+| Apple 로그인(소셜 로그인 제공 시 필수), 회원 탈퇴 메뉴 | M4 (AUTH-01, MY-04) |
+| 실기기 테스트 Android 8+/iOS 15+ | **미완** |
+
+## M2 — 카메라 식별 (2026-09-16)
+
+### 완료
+- `lib/domain/identification_service.dart`: `Identifier` 인터페이스, `OnDeviceIdentifier`(**더미**: 모델 에셋 없으면 `modelMissing` 반환, 있어도 엔진 미연동이라 우회), `IdentificationPipeline`(TFLite → PlantNet 순서 고정, 로컬 ≥0.80이면 원격 호출 없음, 원격 실패 시 로컬 저신뢰 후보라도 반환), 학명 정규화.
+- `lib/data/remote/plantnet_client.dart`: multipart 호출, 응답 파싱, 404/429/네트워크 사유 매핑, 키 없으면 호출 없이 안내. 키는 `--dart-define=PLANTNET_API_KEY`.
+- 일 한도 카운터(settings.plantnet_day/count, 480회, 스키마 v2 마이그레이션), identification_logs 저장, species 매칭(국내명 병기).
+- `lib/domain/image_prep.dart`: 1024px 리사이즈 + EXIF 제거 + 회전 보정(isolate), 앱 내부 `photos/` 저장.
+- 화면: CAM-01(촬영/앨범, image_picker), CAM-02/03/04 통합(`identify_result_screen.dart`) — ≥80% 확정 카드 + "이 식물이 맞아요", 미만 후보 3~5행, 한도/네트워크/결과없음 안내 → 이름 검색·직접 입력 연결. 선택 시 ADD-04로 사진 경로 전달 → 대표 사진.
+- 테스트 15건(파이프라인 분기, 파싱, 상태코드 매핑, 정규화, 한도 롤오버, 로그, 매칭).
+
+### 미완 / 미검증
+- **실제 PlantNet 호출 미검증** (키 없음). 키 받으면 `flutter run --dart-define=PLANTNET_API_KEY=...`로 실제 사진 10장 테스트 필요(M2 완료 기준).
+- 온디바이스 모델 파일·`tflite_flutter` 미연동. `_infer` 1개 메서드만 구현하면 됨.
+- 실기기 카메라 권한 흐름 미검증.
+
+### 라이선스 추가
+| 패키지 | 라이선스 | 비용 |
+|---|---|---|
+| image_picker | BSD-3 | 0 |
+| image | MIT | 0 |
+| http | BSD-3 | 0 |
+
+## 다음: M3 — 일기 · 공간 뷰 · 도감 · 통계
+- DIA-01, SPC-01, INFO-01, MY-01 통계

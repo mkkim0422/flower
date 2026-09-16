@@ -36,7 +36,9 @@ void main() {
   tearDown(() => db.close());
 
   test('시드는 비어 있을 때만 들어가고, 검색 텍스트가 만들어진다', () async {
-    final again = await SpeciesSeedLoader(db).seedIfEmpty(jsonOverride: _seedJson);
+    final again = await SpeciesSeedLoader(
+      db,
+    ).seedIfEmpty(jsonOverride: _seedJson);
     expect(again, 0);
     final row = await (db.select(db.species)).get();
     expect(row.length, 2);
@@ -145,11 +147,38 @@ void main() {
     await plants.recordSoilCheck(id, SoilCheckResult.wet);
     e = (await plants.getById(id))!;
     expect(e.plant.waterIntervalDays, 3);
+    expect(e.plant.feedbackCoef, 1.0); // 수동이면 흙 확인으로 계수 보정 안 함
 
     await plants.setManualInterval(id, null);
     e = (await plants.getById(id))!;
     expect(e.plant.manualOverride, isFalse);
-    expect(e.plant.waterIntervalDays, 8); // 7 × 1.15
+    expect(e.plant.waterIntervalDays, 7);
+  });
+
+  test('촉촉 재확인일은 별명 변경·재계산으로 덮어써지지 않는다', () async {
+    final id = await plants.create(
+      nickname: '초록이',
+      potSize: PotSize.m,
+      hasDrainage: true,
+      lastWateredAt: DateTime(2026, 4, 5), // 열흘 전 → 오늘 확인 (지연됨)
+    );
+    await plants.recordSoilCheck(id, SoilCheckResult.wet);
+    var e = (await plants.getById(id))!;
+    final recheck = e.plant.nextCheckAt;
+    expect(recheck, DateTime(2026, 4, 17));
+
+    await plants.updateBasic(id: id, nickname: '초록이2'); // recalc 호출
+    e = (await plants.getById(id))!;
+    expect(e.plant.nextCheckAt, recheck);
+
+    await plants.recalcAll();
+    e = (await plants.getById(id))!;
+    expect(e.plant.nextCheckAt, recheck);
+
+    // 수동 3일로 바꾸면 차이(3-8=-5)만큼 이동, 최소 자연스러운 이동
+    await plants.setManualInterval(id, 10);
+    e = (await plants.getById(id))!;
+    expect(e.plant.nextCheckAt, DateTime(2026, 4, 19)); // 17 + (10-8)
   });
 
   test('다중 선택 일괄 완료', () async {
@@ -185,7 +214,10 @@ void main() {
     );
     expect((await plants.getById(id))!.plant.waterIntervalDays, 7);
     await plants.updateBasic(id: id, spaceId: Value(s));
-    expect((await plants.getById(id))!.plant.waterIntervalDays, 9); // 7×1.3 = 9.1
+    expect(
+      (await plants.getById(id))!.plant.waterIntervalDays,
+      9,
+    ); // 7×1.3 = 9.1
     await spaces.delete(s);
     final e = (await plants.getById(id))!;
     expect(e.plant.spaceId, isNull);

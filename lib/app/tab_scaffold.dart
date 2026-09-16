@@ -86,7 +86,8 @@ class _AppTabBar extends StatelessWidget {
           ),
           // 중앙 카메라 버튼: 지름 56, 탭바 위로 12 돌출
           Positioned(
-            bottom: bottomInset +
+            bottom:
+                bottomInset +
                 AppSize.tabBarHeight -
                 AppSize.cameraButton +
                 AppSize.cameraButtonOverlap,
@@ -129,8 +130,11 @@ class _TabItem extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(selected ? activeIcon : icon,
-                size: AppSize.tabIcon, color: color),
+            Icon(
+              selected ? activeIcon : icon,
+              size: AppSize.tabIcon,
+              color: color,
+            ),
             const SizedBox(height: AppSpace.xs),
             Text(label, style: AppText.label.copyWith(color: color)),
           ],
@@ -165,13 +169,7 @@ class _CameraButton extends StatelessWidget {
             height: AppSize.cameraButton,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.12),
-                  offset: const Offset(0, 2),
-                  blurRadius: 8,
-                ),
-              ],
+              boxShadow: AppShadow.cameraButton,
             ),
             child: Icon(
               Icons.photo_camera_rounded,

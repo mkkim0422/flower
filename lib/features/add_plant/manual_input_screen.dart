@@ -17,7 +17,9 @@ class ManualInputScreen extends StatefulWidget {
 }
 
 class _ManualInputScreenState extends State<ManualInputScreen> {
-  late final _controller = TextEditingController(text: widget.draft?.nicknameHint ?? '');
+  late final _controller = TextEditingController(
+    text: widget.draft?.nicknameHint ?? '',
+  );
 
   @override
   void dispose() {
@@ -30,7 +32,10 @@ class _ManualInputScreenState extends State<ManualInputScreen> {
     if (name.isEmpty) return;
     context.push(
       AppRoutes.addEnv,
-      extra: AddPlantDraft(nicknameHint: name, photoPath: widget.draft?.photoPath),
+      extra: AddPlantDraft(
+        nicknameHint: name,
+        photoPath: widget.draft?.photoPath,
+      ),
     );
   }
 
@@ -45,7 +50,10 @@ class _ManualInputScreenState extends State<ManualInputScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: AppSpace.sm),
-            Text('식물 이름', style: AppText.label.copyWith(color: c.textSecondary)),
+            Text(
+              '식물 이름',
+              style: AppText.label.copyWith(color: c.textSecondary),
+            ),
             const SizedBox(height: AppSpace.sm),
             TextField(
               controller: _controller,

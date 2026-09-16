@@ -9,6 +9,7 @@ import '../features/add_plant/manual_input_screen.dart';
 import '../features/add_plant/plant_env_screen.dart';
 import '../features/add_plant/species_search_screen.dart';
 import '../features/camera/camera_screen.dart';
+import '../features/camera/identify_result_screen.dart';
 import '../features/home/home_screen.dart';
 import '../features/my/my_screen.dart';
 import '../features/onboarding/onboarding_screen.dart';
@@ -30,6 +31,7 @@ class AppRoutes {
   static const addManual = '/add/manual'; // ADD-03
   static const addEnv = '/add/env'; // ADD-04
   static const spaceNew = '/spaces/new'; // SPC-02
+  static const identify = '/identify'; // CAM-02~04 (extra: 사진 경로)
   static String plant(int id) => '/home/plant/$id'; // PLT-01
   static String spaceEdit(int id) => '/spaces/$id'; // SPC-02
 }
@@ -47,7 +49,9 @@ final appRouterProvider = Provider<GoRouter>((ref) {
     initialLocation: AppRoutes.home,
     refreshListenable: onboardingDone,
     redirect: (context, state) {
-      final inOnboarding = state.matchedLocation.startsWith(AppRoutes.onboarding);
+      final inOnboarding = state.matchedLocation.startsWith(
+        AppRoutes.onboarding,
+      );
       if (!onboardingDone.value && !inOnboarding) return AppRoutes.onboarding;
       if (onboardingDone.value && inOnboarding) return AppRoutes.home;
       return null;
@@ -85,7 +89,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           ),
           StatefulShellBranch(
             routes: [
-              GoRoute(path: AppRoutes.camera, builder: (_, _) => const CameraScreen()),
+              GoRoute(
+                path: AppRoutes.camera,
+                builder: (_, _) => const CameraScreen(),
+              ),
             ],
           ),
           StatefulShellBranch(
@@ -109,7 +116,8 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: 'manual',
             parentNavigatorKey: _rootKey,
-            builder: (_, state) => ManualInputScreen(draft: state.extra as AddPlantDraft?),
+            builder: (_, state) =>
+                ManualInputScreen(draft: state.extra as AddPlantDraft?),
           ),
           GoRoute(
             path: 'env',
@@ -119,6 +127,12 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             ),
           ),
         ],
+      ),
+      GoRoute(
+        path: AppRoutes.identify,
+        parentNavigatorKey: _rootKey,
+        builder: (_, state) =>
+            IdentifyResultScreen(photoPath: state.extra as String),
       ),
       GoRoute(
         path: AppRoutes.spaceNew,

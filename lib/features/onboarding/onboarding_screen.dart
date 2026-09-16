@@ -21,9 +21,21 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   int _page = 0;
 
   static const _slides = [
-    (Icons.eco_outlined, '내 식물, 잘 자라게', '이름을 검색하거나 사진을 찍어 등록하면\n환경에 맞는 물주기를 계산해 드려요'),
-    (Icons.water_drop_outlined, '물 주는 날 대신 흙 확인', '정해진 시간에 흙을 확인하도록 알려드리고,\n결과에 따라 주기를 스스로 맞춰가요'),
-    (Icons.lock_outline_rounded, '로그인 없이, 광고 없이', '기록은 기기에만 저장돼요.\n사진은 서버에 백업되지 않아요'),
+    (
+      Icons.eco_outlined,
+      '내 식물, 잘 자라게',
+      '이름을 검색하거나 사진을 찍어 등록하면\n환경에 맞는 물주기를 계산해 드려요',
+    ),
+    (
+      Icons.water_drop_outlined,
+      '물 주는 날 대신 흙 확인',
+      '정해진 시간에 흙을 확인하도록 알려드리고,\n결과에 따라 주기를 스스로 맞춰가요',
+    ),
+    (
+      Icons.lock_outline_rounded,
+      '로그인 없이, 광고 없이',
+      '기록은 기기에만 저장돼요.\n사진은 서버에 백업되지 않아요',
+    ),
   ];
 
   @override
@@ -48,19 +60,31 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 itemBuilder: (_, i) {
                   final (icon, title, desc) = _slides[i];
                   return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: AppSpace.xxl),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppSpace.xxl,
+                    ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(icon, size: AppSize.emptyIllustration, color: c.primary),
+                        Icon(
+                          icon,
+                          size: AppSize.emptyIllustration,
+                          color: c.primary,
+                        ),
                         const SizedBox(height: AppSpace.xxl),
-                        Text(title,
-                            style: AppText.headline.copyWith(color: c.textPrimary),
-                            textAlign: TextAlign.center),
+                        Text(
+                          title,
+                          style: AppText.headline.copyWith(
+                            color: c.textPrimary,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
                         const SizedBox(height: AppSpace.md),
-                        Text(desc,
-                            style: AppText.body.copyWith(color: c.textSecondary),
-                            textAlign: TextAlign.center),
+                        Text(
+                          desc,
+                          style: AppText.body.copyWith(color: c.textSecondary),
+                          textAlign: TextAlign.center,
+                        ),
                       ],
                     ),
                   );
@@ -72,8 +96,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               children: [
                 for (var i = 0; i < _slides.length; i++)
                   Container(
-                    width: i == _page ? 20 : 8,
-                    height: 8,
+                    width: i == _page ? AppSize.pageDotActive : AppSize.pageDot,
+                    height: AppSize.pageDot,
                     margin: const EdgeInsets.symmetric(horizontal: AppSpace.xs),
                     decoration: BoxDecoration(
                       color: i == _page ? c.primary : c.outline,
@@ -142,12 +166,17 @@ class _PermissionScreenState extends ConsumerState<PermissionScreen> {
           child: Column(
             children: [
               const Spacer(),
-              Icon(Icons.notifications_active_outlined,
-                  size: AppSize.emptyIllustration, color: c.primary),
+              Icon(
+                Icons.notifications_active_outlined,
+                size: AppSize.emptyIllustration,
+                color: c.primary,
+              ),
               const SizedBox(height: AppSpace.xxl),
-              Text('흙 확인 알림을 보내드릴게요',
-                  style: AppText.headline.copyWith(color: c.textPrimary),
-                  textAlign: TextAlign.center),
+              Text(
+                '흙 확인 알림을 보내드릴게요',
+                style: AppText.headline.copyWith(color: c.textPrimary),
+                textAlign: TextAlign.center,
+              ),
               const SizedBox(height: AppSpace.md),
               Text(
                 '매일 오전 9시에 확인할 식물 수를 알려드려요.\n시간은 MY에서 바꿀 수 있어요',

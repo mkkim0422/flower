@@ -257,6 +257,40 @@ class AppSize {
   static const double dragHandleWidth = 36;
   static const double dragHandleHeight = 4;
   static const double inputFocusBorder = 1.5;
+
+  /// 보조 아이콘 크기
+  static const double iconSm = 20;
+  static const double iconXs = 18;
+  static const double iconXxs = 16;
+
+  /// 선택 표시 테두리
+  static const double borderThin = 1.5;
+
+  /// 온보딩 페이지 점
+  static const double pageDot = 8;
+  static const double pageDotActive = 20;
+
+  /// PLT-02 슬라이더 최대 일수·값 표시 폭
+  static const int sliderMaxDays = 90;
+  static const double sliderValueWidth = 56;
+
+  /// PLT-01 관리 일정 라벨 폭
+  static const double scheduleLabelWidth = 48;
+
+  /// 홈 다중 선택 하단 바 높이
+  static const double stickyBar = 80;
+
+  /// 세그먼트 토글 내부 패딩
+  static const double segmentPadding = 2;
+}
+
+/// 그림자 (DESIGN.md 3장). 카드는 그림자 없음. 중앙 카메라 버튼만 y2 blur8 alpha12%.
+class AppShadow {
+  AppShadow._();
+
+  static const List<BoxShadow> cameraButton = [
+    BoxShadow(color: Color(0x1F000000), offset: Offset(0, 2), blurRadius: 8),
+  ];
 }
 
 /// 모션 (DESIGN.md 6장)

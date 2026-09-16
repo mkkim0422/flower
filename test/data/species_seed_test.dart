@@ -20,13 +20,27 @@ void main() {
     final list = (root['species'] as List).cast<Map<String, dynamic>>();
     expect(list.length, greaterThanOrEqualTo(300));
 
-    final names = list.map((m) => (m['scientific_name'] as String).toLowerCase());
+    final names = list.map(
+      (m) => (m['scientific_name'] as String).toLowerCase(),
+    );
     expect(names.toSet().length, list.length, reason: '학명 중복');
 
     for (final m in list) {
-      expect(m['toxic_pet'], isA<bool>(), reason: '${m['scientific_name']} toxic_pet');
-      expect(m['toxic_child'], isA<bool>(), reason: '${m['scientific_name']} toxic_child');
-      expect((m['ko_names'] as List), isNotEmpty, reason: '${m['scientific_name']} ko_names');
+      expect(
+        m['toxic_pet'],
+        isA<bool>(),
+        reason: '${m['scientific_name']} toxic_pet',
+      );
+      expect(
+        m['toxic_child'],
+        isA<bool>(),
+        reason: '${m['scientific_name']} toxic_child',
+      );
+      expect(
+        (m['ko_names'] as List),
+        isNotEmpty,
+        reason: '${m['scientific_name']} ko_names',
+      );
       expect(m['base_water_days'], inInclusiveRange(2, 45));
       expect(['low', 'med', 'high'], contains(m['light_pref']));
     }

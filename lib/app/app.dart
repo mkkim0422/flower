@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,6 +20,8 @@ class PlantApp extends ConsumerStatefulWidget {
 
 class _PlantAppState extends ConsumerState<PlantApp> {
   late final AppLifecycleListener _lifecycle;
+  bool _refreshing = false;
+  Timer? _debounce;
 
   @override
   void initState() {
@@ -27,29 +31,52 @@ class _PlantAppState extends ConsumerState<PlantApp> {
     WidgetsBinding.instance.addPostFrameCallback((_) => _onForeground());
   }
 
+  /// 재계산은 포그라운드 진입 시에만, 알림 재예약은 데이터 변경 시에도
   Future<void> _onForeground() async {
+    if (_refreshing) return;
+    _refreshing = true;
     try {
       ref.read(speciesSeedProvider); // 시드 로드 트리거
-      final plantsRepo = ref.read(plantRepositoryProvider);
-      await plantsRepo.recalcAll();
-      final settings = await ref.read(settingsRepositoryProvider).get();
-      final plants = await plantsRepo.watchAll().first;
-      await ref
-          .read(notificationServiceProvider)
-          .reschedule(settings: settings, plants: plants);
+      await ref.read(plantRepositoryProvider).recalcAll();
+      await _rescheduleNotifications();
     } catch (e) {
       debugPrint('foreground refresh failed: $e');
+    } finally {
+      _refreshing = false;
     }
+  }
+
+  Future<void> _rescheduleNotifications() async {
+    final settings = await ref.read(settingsRepositoryProvider).get();
+    final plants = await ref.read(plantRepositoryProvider).getAll();
+    await ref
+        .read(notificationServiceProvider)
+        .reschedule(settings: settings, plants: plants);
+  }
+
+  void _scheduleDebounced() {
+    _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      if (!mounted) return;
+      _rescheduleNotifications().catchError((Object e) {
+        debugPrint('reschedule failed: $e');
+      });
+    });
   }
 
   @override
   void dispose() {
+    _debounce?.cancel();
     _lifecycle.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    // 식물·설정이 바뀌면(흙 확인, 등록, 삭제, 알림 시간 변경) 알림 재예약
+    ref.listen(plantsProvider, (_, _) => _scheduleDebounced());
+    ref.listen(settingsProvider, (_, _) => _scheduleDebounced());
+
     final router = ref.watch(appRouterProvider);
     return MaterialApp.router(
       title: '잘자라라',

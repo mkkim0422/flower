@@ -162,8 +162,12 @@ WateringResult computeWatering(WateringInput i) {
 
 /// next_check_at = last_watered_at + round(interval). 시각은 자정으로 정규화.
 DateTime nextCheckAt(DateTime lastWateredAt, int intervalDays) {
-  final d = DateTime(lastWateredAt.year, lastWateredAt.month, lastWateredAt.day);
-  return d.add(Duration(days: math.max(1, intervalDays)));
+  // Duration 덧셈 대신 날짜 성분 산술 (DST 안전)
+  return DateTime(
+    lastWateredAt.year,
+    lastWateredAt.month,
+    lastWateredAt.day + math.max(1, intervalDays),
+  );
 }
 
 /// "아직 촉촉해요" 이후 재확인일: interval의 25%, 1~3일 (명세 미기재 → PROGRESS 기록)

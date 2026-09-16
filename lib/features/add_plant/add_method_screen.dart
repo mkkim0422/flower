@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../app/router.dart';
 import '../../app/theme.dart';
+import '../../app/widgets/app_card.dart';
 
 /// ADD-01 식물 추가 방법 선택
 class AddMethodScreen extends StatelessWidget {
@@ -64,44 +65,38 @@ class _MethodCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    return Material(
-      color: c.surface,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(AppRadius.card),
-        side: BorderSide(color: c.outline),
-      ),
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(AppSpace.cardPadding),
-          child: Row(
-            children: [
-              Container(
-                width: AppSize.plantThumb,
-                height: AppSize.plantThumb,
-                decoration: BoxDecoration(
-                  color: c.primaryContainer,
-                  borderRadius: BorderRadius.circular(AppRadius.thumbnail),
-                ),
-                child: Icon(icon, color: c.primary),
-              ),
-              const SizedBox(width: AppSpace.lg),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(title, style: AppText.title.copyWith(color: c.textPrimary)),
-                    const SizedBox(height: AppSpace.xs / 2),
-                    Text(subtitle,
-                        style: AppText.caption.copyWith(color: c.textSecondary)),
-                  ],
-                ),
-              ),
-              Icon(Icons.chevron_right_rounded, color: c.textTertiary),
-            ],
+    return AppCard(
+      onTap: onTap,
+      child: Row(
+        children: [
+          Container(
+            width: AppSize.plantThumb,
+            height: AppSize.plantThumb,
+            decoration: BoxDecoration(
+              color: c.primaryContainer,
+              borderRadius: BorderRadius.circular(AppRadius.thumbnail),
+            ),
+            child: Icon(icon, color: c.primary),
           ),
-        ),
+          const SizedBox(width: AppSpace.lg),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: AppText.title.copyWith(color: c.textPrimary),
+                ),
+                const SizedBox(height: AppSpace.xs / 2),
+                Text(
+                  subtitle,
+                  style: AppText.caption.copyWith(color: c.textSecondary),
+                ),
+              ],
+            ),
+          ),
+          Icon(Icons.chevron_right_rounded, color: c.textTertiary),
+        ],
       ),
     );
   }

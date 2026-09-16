@@ -36,12 +36,14 @@ class _SoilCheckSheetState extends ConsumerState<_SoilCheckSheet> {
   Future<void> _submit(SoilCheckResult result) async {
     if (_saving) return;
     setState(() => _saving = true);
-    final repo = ref.read(plantRepositoryProvider);
-    await repo.recordSoilCheckBatch(
-      widget.entries.map((e) => e.plant.id),
-      result,
-    );
-    if (mounted) Navigator.of(context).pop(result);
+    try {
+      await ref
+          .read(plantRepositoryProvider)
+          .recordSoilCheckBatch(widget.entries.map((e) => e.plant.id), result);
+      if (mounted) Navigator.of(context).pop(result);
+    } finally {
+      if (mounted) setState(() => _saving = false);
+    }
   }
 
   @override
@@ -65,7 +67,10 @@ class _SoilCheckSheetState extends ConsumerState<_SoilCheckSheet> {
           Row(
             children: [
               if (single)
-                PlantThumb(size: AppSize.plantThumb, photoPath: first.plant.photoPath)
+                PlantThumb(
+                  size: AppSize.plantThumb,
+                  photoPath: first.plant.photoPath,
+                )
               else
                 Container(
                   width: AppSize.plantThumb,
@@ -89,7 +94,9 @@ class _SoilCheckSheetState extends ConsumerState<_SoilCheckSheet> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      single ? first.plant.nickname : '식물 ${widget.entries.length}개',
+                      single
+                          ? first.plant.nickname
+                          : '식물 ${widget.entries.length}개',
                       style: AppText.title.copyWith(color: c.textPrimary),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -97,7 +104,9 @@ class _SoilCheckSheetState extends ConsumerState<_SoilCheckSheet> {
                     Text(
                       single
                           ? (first.space?.name ?? first.displaySpeciesName)
-                          : widget.entries.map((e) => e.plant.nickname).join(', '),
+                          : widget.entries
+                                .map((e) => e.plant.nickname)
+                                .join(', '),
                       style: AppText.caption.copyWith(color: c.textSecondary),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
@@ -172,7 +181,7 @@ class _ChoiceCard extends StatelessWidget {
           padding: const EdgeInsets.all(AppSpace.cardPadding),
           child: Row(
             children: [
-              Icon(icon, color: fg, size: AppSpace.xxl),
+              Icon(icon, color: fg, size: AppSpace.xxl), // 큰 선택 카드 아이콘 32
               const SizedBox(width: AppSpace.lg),
               Expanded(
                 child: Column(

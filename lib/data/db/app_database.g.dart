@@ -3427,6 +3427,30 @@ class $SettingsTable extends Settings with TableInfo<$SettingsTable, Setting> {
     ),
     defaultValue: const Constant(false),
   );
+  static const VerificationMeta _plantnetDayMeta = const VerificationMeta(
+    'plantnetDay',
+  );
+  @override
+  late final GeneratedColumn<int> plantnetDay = GeneratedColumn<int>(
+    'plantnet_day',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _plantnetCountMeta = const VerificationMeta(
+    'plantnetCount',
+  );
+  @override
+  late final GeneratedColumn<int> plantnetCount = GeneratedColumn<int>(
+    'plantnet_count',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -3435,6 +3459,8 @@ class $SettingsTable extends Settings with TableInfo<$SettingsTable, Setting> {
     skipWeekdays,
     backupUserId,
     onboardingDone,
+    plantnetDay,
+    plantnetCount,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -3484,6 +3510,24 @@ class $SettingsTable extends Settings with TableInfo<$SettingsTable, Setting> {
         ),
       );
     }
+    if (data.containsKey('plantnet_day')) {
+      context.handle(
+        _plantnetDayMeta,
+        plantnetDay.isAcceptableOrUnknown(
+          data['plantnet_day']!,
+          _plantnetDayMeta,
+        ),
+      );
+    }
+    if (data.containsKey('plantnet_count')) {
+      context.handle(
+        _plantnetCountMeta,
+        plantnetCount.isAcceptableOrUnknown(
+          data['plantnet_count']!,
+          _plantnetCountMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -3519,6 +3563,14 @@ class $SettingsTable extends Settings with TableInfo<$SettingsTable, Setting> {
         DriftSqlType.bool,
         data['${effectivePrefix}onboarding_done'],
       )!,
+      plantnetDay: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}plantnet_day'],
+      )!,
+      plantnetCount: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}plantnet_count'],
+      )!,
     );
   }
 
@@ -3538,6 +3590,10 @@ class Setting extends DataClass implements Insertable<Setting> {
   final List<int> skipWeekdays;
   final String? backupUserId;
   final bool onboardingDone;
+
+  /// PlantNet 일 호출 카운터 (5-2): yyyymmdd 정수 + 당일 호출 수
+  final int plantnetDay;
+  final int plantnetCount;
   const Setting({
     required this.id,
     required this.notifyHour,
@@ -3545,6 +3601,8 @@ class Setting extends DataClass implements Insertable<Setting> {
     required this.skipWeekdays,
     this.backupUserId,
     required this.onboardingDone,
+    required this.plantnetDay,
+    required this.plantnetCount,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -3561,6 +3619,8 @@ class Setting extends DataClass implements Insertable<Setting> {
       map['backup_user_id'] = Variable<String>(backupUserId);
     }
     map['onboarding_done'] = Variable<bool>(onboardingDone);
+    map['plantnet_day'] = Variable<int>(plantnetDay);
+    map['plantnet_count'] = Variable<int>(plantnetCount);
     return map;
   }
 
@@ -3574,6 +3634,8 @@ class Setting extends DataClass implements Insertable<Setting> {
           ? const Value.absent()
           : Value(backupUserId),
       onboardingDone: Value(onboardingDone),
+      plantnetDay: Value(plantnetDay),
+      plantnetCount: Value(plantnetCount),
     );
   }
 
@@ -3589,6 +3651,8 @@ class Setting extends DataClass implements Insertable<Setting> {
       skipWeekdays: serializer.fromJson<List<int>>(json['skipWeekdays']),
       backupUserId: serializer.fromJson<String?>(json['backupUserId']),
       onboardingDone: serializer.fromJson<bool>(json['onboardingDone']),
+      plantnetDay: serializer.fromJson<int>(json['plantnetDay']),
+      plantnetCount: serializer.fromJson<int>(json['plantnetCount']),
     );
   }
   @override
@@ -3601,6 +3665,8 @@ class Setting extends DataClass implements Insertable<Setting> {
       'skipWeekdays': serializer.toJson<List<int>>(skipWeekdays),
       'backupUserId': serializer.toJson<String?>(backupUserId),
       'onboardingDone': serializer.toJson<bool>(onboardingDone),
+      'plantnetDay': serializer.toJson<int>(plantnetDay),
+      'plantnetCount': serializer.toJson<int>(plantnetCount),
     };
   }
 
@@ -3611,6 +3677,8 @@ class Setting extends DataClass implements Insertable<Setting> {
     List<int>? skipWeekdays,
     Value<String?> backupUserId = const Value.absent(),
     bool? onboardingDone,
+    int? plantnetDay,
+    int? plantnetCount,
   }) => Setting(
     id: id ?? this.id,
     notifyHour: notifyHour ?? this.notifyHour,
@@ -3618,6 +3686,8 @@ class Setting extends DataClass implements Insertable<Setting> {
     skipWeekdays: skipWeekdays ?? this.skipWeekdays,
     backupUserId: backupUserId.present ? backupUserId.value : this.backupUserId,
     onboardingDone: onboardingDone ?? this.onboardingDone,
+    plantnetDay: plantnetDay ?? this.plantnetDay,
+    plantnetCount: plantnetCount ?? this.plantnetCount,
   );
   Setting copyWithCompanion(SettingsCompanion data) {
     return Setting(
@@ -3637,6 +3707,12 @@ class Setting extends DataClass implements Insertable<Setting> {
       onboardingDone: data.onboardingDone.present
           ? data.onboardingDone.value
           : this.onboardingDone,
+      plantnetDay: data.plantnetDay.present
+          ? data.plantnetDay.value
+          : this.plantnetDay,
+      plantnetCount: data.plantnetCount.present
+          ? data.plantnetCount.value
+          : this.plantnetCount,
     );
   }
 
@@ -3648,7 +3724,9 @@ class Setting extends DataClass implements Insertable<Setting> {
           ..write('notifyMinute: $notifyMinute, ')
           ..write('skipWeekdays: $skipWeekdays, ')
           ..write('backupUserId: $backupUserId, ')
-          ..write('onboardingDone: $onboardingDone')
+          ..write('onboardingDone: $onboardingDone, ')
+          ..write('plantnetDay: $plantnetDay, ')
+          ..write('plantnetCount: $plantnetCount')
           ..write(')'))
         .toString();
   }
@@ -3661,6 +3739,8 @@ class Setting extends DataClass implements Insertable<Setting> {
     skipWeekdays,
     backupUserId,
     onboardingDone,
+    plantnetDay,
+    plantnetCount,
   );
   @override
   bool operator ==(Object other) =>
@@ -3671,7 +3751,9 @@ class Setting extends DataClass implements Insertable<Setting> {
           other.notifyMinute == this.notifyMinute &&
           other.skipWeekdays == this.skipWeekdays &&
           other.backupUserId == this.backupUserId &&
-          other.onboardingDone == this.onboardingDone);
+          other.onboardingDone == this.onboardingDone &&
+          other.plantnetDay == this.plantnetDay &&
+          other.plantnetCount == this.plantnetCount);
 }
 
 class SettingsCompanion extends UpdateCompanion<Setting> {
@@ -3681,6 +3763,8 @@ class SettingsCompanion extends UpdateCompanion<Setting> {
   final Value<List<int>> skipWeekdays;
   final Value<String?> backupUserId;
   final Value<bool> onboardingDone;
+  final Value<int> plantnetDay;
+  final Value<int> plantnetCount;
   const SettingsCompanion({
     this.id = const Value.absent(),
     this.notifyHour = const Value.absent(),
@@ -3688,6 +3772,8 @@ class SettingsCompanion extends UpdateCompanion<Setting> {
     this.skipWeekdays = const Value.absent(),
     this.backupUserId = const Value.absent(),
     this.onboardingDone = const Value.absent(),
+    this.plantnetDay = const Value.absent(),
+    this.plantnetCount = const Value.absent(),
   });
   SettingsCompanion.insert({
     this.id = const Value.absent(),
@@ -3696,6 +3782,8 @@ class SettingsCompanion extends UpdateCompanion<Setting> {
     this.skipWeekdays = const Value.absent(),
     this.backupUserId = const Value.absent(),
     this.onboardingDone = const Value.absent(),
+    this.plantnetDay = const Value.absent(),
+    this.plantnetCount = const Value.absent(),
   });
   static Insertable<Setting> custom({
     Expression<int>? id,
@@ -3704,6 +3792,8 @@ class SettingsCompanion extends UpdateCompanion<Setting> {
     Expression<String>? skipWeekdays,
     Expression<String>? backupUserId,
     Expression<bool>? onboardingDone,
+    Expression<int>? plantnetDay,
+    Expression<int>? plantnetCount,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -3712,6 +3802,8 @@ class SettingsCompanion extends UpdateCompanion<Setting> {
       if (skipWeekdays != null) 'skip_weekdays': skipWeekdays,
       if (backupUserId != null) 'backup_user_id': backupUserId,
       if (onboardingDone != null) 'onboarding_done': onboardingDone,
+      if (plantnetDay != null) 'plantnet_day': plantnetDay,
+      if (plantnetCount != null) 'plantnet_count': plantnetCount,
     });
   }
 
@@ -3722,6 +3814,8 @@ class SettingsCompanion extends UpdateCompanion<Setting> {
     Value<List<int>>? skipWeekdays,
     Value<String?>? backupUserId,
     Value<bool>? onboardingDone,
+    Value<int>? plantnetDay,
+    Value<int>? plantnetCount,
   }) {
     return SettingsCompanion(
       id: id ?? this.id,
@@ -3730,6 +3824,8 @@ class SettingsCompanion extends UpdateCompanion<Setting> {
       skipWeekdays: skipWeekdays ?? this.skipWeekdays,
       backupUserId: backupUserId ?? this.backupUserId,
       onboardingDone: onboardingDone ?? this.onboardingDone,
+      plantnetDay: plantnetDay ?? this.plantnetDay,
+      plantnetCount: plantnetCount ?? this.plantnetCount,
     );
   }
 
@@ -3756,6 +3852,12 @@ class SettingsCompanion extends UpdateCompanion<Setting> {
     if (onboardingDone.present) {
       map['onboarding_done'] = Variable<bool>(onboardingDone.value);
     }
+    if (plantnetDay.present) {
+      map['plantnet_day'] = Variable<int>(plantnetDay.value);
+    }
+    if (plantnetCount.present) {
+      map['plantnet_count'] = Variable<int>(plantnetCount.value);
+    }
     return map;
   }
 
@@ -3767,7 +3869,9 @@ class SettingsCompanion extends UpdateCompanion<Setting> {
           ..write('notifyMinute: $notifyMinute, ')
           ..write('skipWeekdays: $skipWeekdays, ')
           ..write('backupUserId: $backupUserId, ')
-          ..write('onboardingDone: $onboardingDone')
+          ..write('onboardingDone: $onboardingDone, ')
+          ..write('plantnetDay: $plantnetDay, ')
+          ..write('plantnetCount: $plantnetCount')
           ..write(')'))
         .toString();
   }
@@ -6557,6 +6661,8 @@ typedef $$SettingsTableCreateCompanionBuilder =
       Value<List<int>> skipWeekdays,
       Value<String?> backupUserId,
       Value<bool> onboardingDone,
+      Value<int> plantnetDay,
+      Value<int> plantnetCount,
     });
 typedef $$SettingsTableUpdateCompanionBuilder =
     SettingsCompanion Function({
@@ -6566,6 +6672,8 @@ typedef $$SettingsTableUpdateCompanionBuilder =
       Value<List<int>> skipWeekdays,
       Value<String?> backupUserId,
       Value<bool> onboardingDone,
+      Value<int> plantnetDay,
+      Value<int> plantnetCount,
     });
 
 class $$SettingsTableFilterComposer
@@ -6605,6 +6713,16 @@ class $$SettingsTableFilterComposer
 
   ColumnFilters<bool> get onboardingDone => $composableBuilder(
     column: $table.onboardingDone,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get plantnetDay => $composableBuilder(
+    column: $table.plantnetDay,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get plantnetCount => $composableBuilder(
+    column: $table.plantnetCount,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -6647,6 +6765,16 @@ class $$SettingsTableOrderingComposer
     column: $table.onboardingDone,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<int> get plantnetDay => $composableBuilder(
+    column: $table.plantnetDay,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get plantnetCount => $composableBuilder(
+    column: $table.plantnetCount,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$SettingsTableAnnotationComposer
@@ -6686,6 +6814,16 @@ class $$SettingsTableAnnotationComposer
     column: $table.onboardingDone,
     builder: (column) => column,
   );
+
+  GeneratedColumn<int> get plantnetDay => $composableBuilder(
+    column: $table.plantnetDay,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get plantnetCount => $composableBuilder(
+    column: $table.plantnetCount,
+    builder: (column) => column,
+  );
 }
 
 class $$SettingsTableTableManager
@@ -6722,6 +6860,8 @@ class $$SettingsTableTableManager
                 Value<List<int>> skipWeekdays = const Value.absent(),
                 Value<String?> backupUserId = const Value.absent(),
                 Value<bool> onboardingDone = const Value.absent(),
+                Value<int> plantnetDay = const Value.absent(),
+                Value<int> plantnetCount = const Value.absent(),
               }) => SettingsCompanion(
                 id: id,
                 notifyHour: notifyHour,
@@ -6729,6 +6869,8 @@ class $$SettingsTableTableManager
                 skipWeekdays: skipWeekdays,
                 backupUserId: backupUserId,
                 onboardingDone: onboardingDone,
+                plantnetDay: plantnetDay,
+                plantnetCount: plantnetCount,
               ),
           createCompanionCallback:
               ({
@@ -6738,6 +6880,8 @@ class $$SettingsTableTableManager
                 Value<List<int>> skipWeekdays = const Value.absent(),
                 Value<String?> backupUserId = const Value.absent(),
                 Value<bool> onboardingDone = const Value.absent(),
+                Value<int> plantnetDay = const Value.absent(),
+                Value<int> plantnetCount = const Value.absent(),
               }) => SettingsCompanion.insert(
                 id: id,
                 notifyHour: notifyHour,
@@ -6745,6 +6889,8 @@ class $$SettingsTableTableManager
                 skipWeekdays: skipWeekdays,
                 backupUserId: backupUserId,
                 onboardingDone: onboardingDone,
+                plantnetDay: plantnetDay,
+                plantnetCount: plantnetCount,
               ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))

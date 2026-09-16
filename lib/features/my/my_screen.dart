@@ -18,7 +18,10 @@ class MyScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: AppSpace.lg),
-              Text('MY', style: AppText.headline.copyWith(color: c.textPrimary)),
+              Text(
+                'MY',
+                style: AppText.headline.copyWith(color: c.textPrimary),
+              ),
             ],
           ),
         ),

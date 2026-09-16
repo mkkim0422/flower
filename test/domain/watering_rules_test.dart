@@ -27,9 +27,18 @@ void main() {
   });
 
   group('lightCoef', () {
-    test('남향 창가 0.8', () => expect(lightCoef(WindowDir.s, WindowDist.near), 0.8));
-    test('동향 창가 0.9', () => expect(lightCoef(WindowDir.e, WindowDist.near), 0.9));
-    test('서향 창가 0.9', () => expect(lightCoef(WindowDir.w, WindowDist.near), 0.9));
+    test(
+      '남향 창가 0.8',
+      () => expect(lightCoef(WindowDir.s, WindowDist.near), 0.8),
+    );
+    test(
+      '동향 창가 0.9',
+      () => expect(lightCoef(WindowDir.e, WindowDist.near), 0.9),
+    );
+    test(
+      '서향 창가 0.9',
+      () => expect(lightCoef(WindowDir.w, WindowDist.near), 0.9),
+    );
     test('북향은 거리 무관 1.2', () {
       expect(lightCoef(WindowDir.n, WindowDist.near), 1.2);
       expect(lightCoef(WindowDir.n, WindowDist.oneMeter), 1.2);
@@ -39,7 +48,10 @@ void main() {
       expect(lightCoef(WindowDir.s, WindowDist.far), 1.2);
       expect(lightCoef(WindowDir.e, WindowDist.far), 1.2);
     });
-    test('창 없음 1.3', () => expect(lightCoef(WindowDir.none, WindowDist.far), 1.3));
+    test(
+      '창 없음 1.3',
+      () => expect(lightCoef(WindowDir.none, WindowDist.far), 1.3),
+    );
     test('남·동·서 1m 이내 1.0', () {
       expect(lightCoef(WindowDir.s, WindowDist.oneMeter), 1.0);
       expect(lightCoef(WindowDir.e, WindowDist.oneMeter), 1.0);
@@ -114,18 +126,17 @@ void main() {
       double feedback = 1.0,
       bool manual = false,
       int? manualDays,
-    }) =>
-        WateringInput(
-          baseWaterDays: baseDays,
-          month: month,
-          windowDir: dir,
-          windowDist: dist,
-          potSize: pot,
-          hasDrainage: drainage,
-          feedbackCoef: feedback,
-          manualOverride: manual,
-          manualDays: manualDays,
-        );
+    }) => WateringInput(
+      baseWaterDays: baseDays,
+      month: month,
+      windowDir: dir,
+      windowDist: dist,
+      potSize: pot,
+      hasDrainage: drainage,
+      feedbackCoef: feedback,
+      manualOverride: manual,
+      manualDays: manualDays,
+    );
 
     test('모든 계수 1.0이면 base 그대로', () {
       expect(computeWatering(base()).days, 10);

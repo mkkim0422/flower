@@ -10,13 +10,19 @@ class SpaceRepository {
 
   final AppDatabase db;
 
-  Stream<List<Space>> watchAll() => (db.select(db.spaces)
-        ..orderBy([(t) => OrderingTerm.asc(t.sortOrder), (t) => OrderingTerm.asc(t.id)]))
-      .watch();
+  Stream<List<Space>> watchAll() =>
+      (db.select(db.spaces)..orderBy([
+            (t) => OrderingTerm.asc(t.sortOrder),
+            (t) => OrderingTerm.asc(t.id),
+          ]))
+          .watch();
 
-  Future<List<Space>> getAll() => (db.select(db.spaces)
-        ..orderBy([(t) => OrderingTerm.asc(t.sortOrder), (t) => OrderingTerm.asc(t.id)]))
-      .get();
+  Future<List<Space>> getAll() =>
+      (db.select(db.spaces)..orderBy([
+            (t) => OrderingTerm.asc(t.sortOrder),
+            (t) => OrderingTerm.asc(t.id),
+          ]))
+          .get();
 
   Future<Space?> byId(int id) =>
       (db.select(db.spaces)..where((t) => t.id.equals(id))).getSingleOrNull();
@@ -28,7 +34,9 @@ class SpaceRepository {
     required WindowDist windowDist,
   }) async {
     final all = await getAll();
-    return db.into(db.spaces).insert(
+    return db
+        .into(db.spaces)
+        .insert(
           SpacesCompanion.insert(
             name: name.trim(),
             windowDir: windowDir,
@@ -43,14 +51,13 @@ class SpaceRepository {
     required String name,
     required WindowDir windowDir,
     required WindowDist windowDist,
-  }) =>
-      (db.update(db.spaces)..where((t) => t.id.equals(id))).write(
-        SpacesCompanion(
-          name: Value(name.trim()),
-          windowDir: Value(windowDir),
-          windowDist: Value(windowDist),
-        ),
-      );
+  }) => (db.update(db.spaces)..where((t) => t.id.equals(id))).write(
+    SpacesCompanion(
+      name: Value(name.trim()),
+      windowDir: Value(windowDir),
+      windowDist: Value(windowDist),
+    ),
+  );
 
   /// 삭제. 소속 식물의 space_id는 FK로 null 처리됨.
   Future<void> delete(int id) =>

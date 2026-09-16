@@ -38,7 +38,7 @@ jobs:
       - name: Forbidden paid services check (HANDOFF 9장 DoD)
         working-directory: plant_app
         run: |
-          if grep -rEi "plant\.id|vision\.googleapis" lib/ ; then
+          if grep -rEi "api\.plant\.id|plant\.id/api|vision\.googleapis|admob|billing" lib/ ; then
             echo "유료 서비스 호출 흔적이 발견되었습니다."
             exit 1
           fi

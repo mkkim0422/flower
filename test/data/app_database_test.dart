@@ -24,7 +24,9 @@ void main() {
   });
 
   test('species → plant → care_event 삽입 및 리스트 컨버터 왕복', () async {
-    final speciesId = await db.into(db.species).insert(
+    final speciesId = await db
+        .into(db.species)
+        .insert(
           SpeciesCompanion.insert(
             scientificName: 'Epipremnum aureum',
             koNames: const ['스킨답서스', '에피프레넘'],
@@ -35,7 +37,9 @@ void main() {
             commonIssues: const Value(['과습 시 잎 노랗게']),
           ),
         );
-    final spaceId = await db.into(db.spaces).insert(
+    final spaceId = await db
+        .into(db.spaces)
+        .insert(
           SpacesCompanion.insert(
             name: '거실',
             windowDir: WindowDir.s,
@@ -43,7 +47,9 @@ void main() {
           ),
         );
     final now = DateTime(2026, 9, 16);
-    final plantId = await db.into(db.plants).insert(
+    final plantId = await db
+        .into(db.plants)
+        .insert(
           PlantsCompanion.insert(
             speciesId: Value(speciesId),
             nickname: '초록이',
@@ -55,7 +61,9 @@ void main() {
             createdAt: now,
           ),
         );
-    await db.into(db.careEvents).insert(
+    await db
+        .into(db.careEvents)
+        .insert(
           CareEventsCompanion.insert(
             plantId: plantId,
             type: CareType.water,
@@ -78,7 +86,9 @@ void main() {
 
   test('plant 삭제 시 care_events·diary_entries가 cascade 삭제된다', () async {
     final now = DateTime(2026, 9, 16);
-    final plantId = await db.into(db.plants).insert(
+    final plantId = await db
+        .into(db.plants)
+        .insert(
           PlantsCompanion.insert(
             nickname: '이름만',
             potSize: PotSize.s,
@@ -88,14 +98,18 @@ void main() {
             createdAt: now,
           ),
         );
-    await db.into(db.careEvents).insert(
+    await db
+        .into(db.careEvents)
+        .insert(
           CareEventsCompanion.insert(
             plantId: plantId,
             type: CareType.checkDry,
             at: now,
           ),
         );
-    await db.into(db.diaryEntries).insert(
+    await db
+        .into(db.diaryEntries)
+        .insert(
           DiaryEntriesCompanion.insert(
             plantId: plantId,
             at: now,

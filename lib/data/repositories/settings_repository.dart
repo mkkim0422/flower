@@ -9,16 +9,18 @@ class SettingsRepository {
 
   final AppDatabase db;
 
-  Stream<Setting> watch() => (db.select(db.settings)..where((t) => t.id.equals(1)))
-      .watchSingleOrNull()
-      .asyncMap((s) async => s ?? await db.getSettings());
+  Stream<Setting> watch() =>
+      (db.select(db.settings)..where((t) => t.id.equals(1)))
+          .watchSingleOrNull()
+          .asyncMap((s) async => s ?? await db.getSettings());
 
   Future<Setting> get() => db.getSettings();
 
   Future<void> setOnboardingDone(bool done) async {
     await db.getSettings();
-    await (db.update(db.settings)..where((t) => t.id.equals(1)))
-        .write(SettingsCompanion(onboardingDone: Value(done)));
+    await (db.update(db.settings)..where((t) => t.id.equals(1))).write(
+      SettingsCompanion(onboardingDone: Value(done)),
+    );
   }
 
   Future<void> setNotifyTime(int hour, int minute) async {
@@ -30,8 +32,9 @@ class SettingsRepository {
 
   Future<void> setSkipWeekdays(List<int> weekdays) async {
     await db.getSettings();
-    await (db.update(db.settings)..where((t) => t.id.equals(1)))
-        .write(SettingsCompanion(skipWeekdays: Value(weekdays)));
+    await (db.update(db.settings)..where((t) => t.id.equals(1))).write(
+      SettingsCompanion(skipWeekdays: Value(weekdays)),
+    );
   }
 }
 

@@ -66,8 +66,9 @@ class Species extends Table {
   IntColumn get tempMax => integer().nullable()();
   IntColumn get fertDays => integer().nullable()();
   IntColumn get repotMonths => integer().nullable()();
-  TextColumn get commonIssues =>
-      text().map(const StringListConverter()).withDefault(const Constant('[]'))();
+  TextColumn get commonIssues => text()
+      .map(const StringListConverter())
+      .withDefault(const Constant('[]'))();
 
   /// foliage / succulent / herb / flower / other
   TextColumn get category => text().withDefault(const Constant('foliage'))();
@@ -88,18 +89,25 @@ class Spaces extends Table {
 /// 내 식물
 class Plants extends Table {
   IntColumn get id => integer().autoIncrement()();
-  IntColumn get speciesId =>
-      integer().nullable().references(Species, #id, onDelete: KeyAction.setNull)();
+  IntColumn get speciesId => integer().nullable().references(
+    Species,
+    #id,
+    onDelete: KeyAction.setNull,
+  )();
   TextColumn get nickname => text()();
   TextColumn get photoPath => text().nullable()();
-  IntColumn get spaceId =>
-      integer().nullable().references(Spaces, #id, onDelete: KeyAction.setNull)();
+  IntColumn get spaceId => integer().nullable().references(
+    Spaces,
+    #id,
+    onDelete: KeyAction.setNull,
+  )();
   TextColumn get potSize => textEnum<PotSize>()();
   BoolColumn get hasDrainage => boolean().withDefault(const Constant(true))();
 
   /// 현재 적용 물주기 주기(일). 계산값 또는 수동값.
   IntColumn get waterIntervalDays => integer()();
-  BoolColumn get manualOverride => boolean().withDefault(const Constant(false))();
+  BoolColumn get manualOverride =>
+      boolean().withDefault(const Constant(false))();
 
   /// 5-1 feedback_coef. 초기 1.0, 범위 0.5~2.0
   RealColumn get feedbackCoef => real().withDefault(const Constant(1.0))();
@@ -131,8 +139,9 @@ class DiaryEntries extends Table {
       integer().references(Plants, #id, onDelete: KeyAction.cascade)();
   TextColumn get photoPath => text().nullable()();
   TextColumn get memo => text().nullable()();
-  TextColumn get tags =>
-      text().map(const DiaryTagListConverter()).withDefault(const Constant('[]'))();
+  TextColumn get tags => text()
+      .map(const DiaryTagListConverter())
+      .withDefault(const Constant('[]'))();
   DateTimeColumn get at => dateTime()();
 }
 
@@ -141,8 +150,11 @@ class IdentificationLogs extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get localPhotoPath => text()();
   TextColumn get candidatesJson => text()();
-  IntColumn get userSelectedSpeciesId =>
-      integer().nullable().references(Species, #id, onDelete: KeyAction.setNull)();
+  IntColumn get userSelectedSpeciesId => integer().nullable().references(
+    Species,
+    #id,
+    onDelete: KeyAction.setNull,
+  )();
   DateTimeColumn get at => dateTime()();
 }
 
@@ -154,7 +166,12 @@ class Settings extends Table {
   TextColumn get skipWeekdays =>
       text().map(const IntListConverter()).withDefault(const Constant('[]'))();
   TextColumn get backupUserId => text().nullable()();
-  BoolColumn get onboardingDone => boolean().withDefault(const Constant(false))();
+  BoolColumn get onboardingDone =>
+      boolean().withDefault(const Constant(false))();
+
+  /// PlantNet 일 호출 카운터 (5-2): yyyymmdd 정수 + 당일 호출 수
+  IntColumn get plantnetDay => integer().withDefault(const Constant(0))();
+  IntColumn get plantnetCount => integer().withDefault(const Constant(0))();
 
   @override
   Set<Column> get primaryKey => {id};

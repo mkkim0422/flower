@@ -45,8 +45,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         child: plantsAsync.when(
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (e, _) => Center(
-            child: Text('불러오지 못했어요. 앱을 다시 열어 보세요',
-                style: AppText.body.copyWith(color: c.textSecondary)),
+            child: Text(
+              '불러오지 못했어요. 앱을 다시 열어 보세요',
+              style: AppText.body.copyWith(color: c.textSecondary),
+            ),
           ),
           data: (plants) {
             if (plants.isEmpty) {
@@ -68,8 +70,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
             final due = plants.where((e) => e.isDue(now)).toList();
             _selected.removeWhere((id) => !due.any((e) => e.plant.id == id));
-            final selectedEntries =
-                due.where((e) => _selected.contains(e.plant.id)).toList();
+            final selectedEntries = due
+                .where((e) => _selected.contains(e.plant.id))
+                .toList();
 
             return Stack(
               children: [
@@ -77,10 +80,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   padding: EdgeInsets.only(
                     left: AppSpace.screenH,
                     right: AppSpace.screenH,
-                    bottom: AppSize.tabBarHeight +
+                    bottom:
+                        AppSize.tabBarHeight +
                         AppSize.cameraButtonOverlap +
                         MediaQuery.paddingOf(context).bottom +
-                        (selectedEntries.isNotEmpty ? 80 : AppSpace.xl),
+                        (selectedEntries.isNotEmpty
+                            ? AppSize.stickyBar
+                            : AppSpace.xl),
                   ),
                   children: [
                     _Header(dateLabel: dateLabel, padded: false),
@@ -93,11 +99,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           Expanded(
                             child: Text(
                               '확인할 식물 ${due.length}',
-                              style: AppText.title.copyWith(color: c.textPrimary),
+                              style: AppText.title.copyWith(
+                                color: c.textPrimary,
+                              ),
                             ),
                           ),
                           AppButton.text(
-                            label: _selected.length == due.length ? '선택 해제' : '전체 선택',
+                            label: _selected.length == due.length
+                                ? '선택 해제'
+                                : '전체 선택',
                             onPressed: () => setState(() {
                               if (_selected.length == due.length) {
                                 _selected.clear();
@@ -126,7 +136,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         ),
                         const SizedBox(height: AppSpace.cardGap),
                       ],
-                      const SizedBox(height: AppSpace.section - AppSpace.cardGap),
+                      const SizedBox(
+                        height: AppSpace.section - AppSpace.cardGap,
+                      ),
                     ] else ...[
                       Container(
                         padding: const EdgeInsets.all(AppSpace.cardPadding),
@@ -141,7 +153,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             Expanded(
                               child: Text(
                                 '오늘 확인할 식물이 없어요',
-                                style: AppText.bodyStrong.copyWith(color: c.primary),
+                                style: AppText.bodyStrong.copyWith(
+                                  color: c.primary,
+                                ),
                               ),
                             ),
                           ],
@@ -186,7 +200,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   Positioned(
                     left: 0,
                     right: 0,
-                    bottom: AppSize.tabBarHeight +
+                    bottom:
+                        AppSize.tabBarHeight +
                         AppSize.cameraButtonOverlap +
                         MediaQuery.paddingOf(context).bottom,
                     child: Container(
@@ -212,28 +227,34 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   Widget _card(PlantEntry e, DateTime now) => PlantCard(
-        nickname: e.plant.nickname,
-        speciesName: e.displaySpeciesName,
-        photoPath: e.plant.photoPath,
-        status: e.status(now),
-        statusLabel: e.statusLabel(now),
-        onTap: () => context.push(AppRoutes.plant(e.plant.id)),
-      );
+    nickname: e.plant.nickname,
+    speciesName: e.displaySpeciesName,
+    photoPath: e.plant.photoPath,
+    status: e.status(now),
+    statusLabel: e.statusLabel(now),
+    onTap: () => context.push(AppRoutes.plant(e.plant.id)),
+  );
 
-  List<Widget> _groupedBySpace(List<PlantEntry> plants, DateTime now, AppColors c) {
+  List<Widget> _groupedBySpace(
+    List<PlantEntry> plants,
+    DateTime now,
+    AppColors c,
+  ) {
     final groups = <String, List<PlantEntry>>{};
     for (final e in plants) {
       groups.putIfAbsent(e.space?.name ?? '공간 미지정', () => []).add(e);
     }
     final out = <Widget>[];
     for (final entry in groups.entries) {
-      out.add(Padding(
-        padding: const EdgeInsets.only(bottom: AppSpace.sm, top: AppSpace.xs),
-        child: Text(
-          '${entry.key} ${entry.value.length}',
-          style: AppText.label.copyWith(color: c.textSecondary),
+      out.add(
+        Padding(
+          padding: const EdgeInsets.only(bottom: AppSpace.sm, top: AppSpace.xs),
+          child: Text(
+            '${entry.key} ${entry.value.length}',
+            style: AppText.label.copyWith(color: c.textSecondary),
+          ),
         ),
-      ));
+      );
       for (final e in entry.value) {
         out
           ..add(_card(e, now))
@@ -264,7 +285,10 @@ class _Header extends StatelessWidget {
         children: [
           Text('오늘', style: AppText.headline.copyWith(color: c.textPrimary)),
           const SizedBox(height: AppSpace.xs),
-          Text(dateLabel, style: AppText.caption.copyWith(color: c.textSecondary)),
+          Text(
+            dateLabel,
+            style: AppText.caption.copyWith(color: c.textSecondary),
+          ),
         ],
       ),
     );
@@ -305,7 +329,7 @@ class _SegmentToggle extends StatelessWidget {
     }
 
     return Container(
-      padding: const EdgeInsets.all(2),
+      padding: const EdgeInsets.all(AppSize.segmentPadding),
       decoration: BoxDecoration(
         color: c.primaryContainer,
         borderRadius: BorderRadius.circular(AppRadius.chip),

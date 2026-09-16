@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../app/theme.dart';
 import '../../app/widgets/app_button.dart';
+import '../../app/widgets/app_chip.dart';
 import '../../core/enums.dart';
 import '../../data/repositories/space_repository.dart';
 
@@ -53,15 +54,24 @@ class _SpaceEditScreenState extends ConsumerState<SpaceEditScreen> {
     final name = _name.text.trim();
     if (name.isEmpty || _saving) return;
     setState(() => _saving = true);
-    final repo = ref.read(spaceRepositoryProvider);
-    int id;
-    if (widget.spaceId == null) {
-      id = await repo.create(name: name, windowDir: _dir, windowDist: _dist);
-    } else {
-      id = widget.spaceId!;
-      await repo.update(id: id, name: name, windowDir: _dir, windowDist: _dist);
+    try {
+      final repo = ref.read(spaceRepositoryProvider);
+      int id;
+      if (widget.spaceId == null) {
+        id = await repo.create(name: name, windowDir: _dir, windowDist: _dist);
+      } else {
+        id = widget.spaceId!;
+        await repo.update(
+          id: id,
+          name: name,
+          windowDir: _dir,
+          windowDist: _dist,
+        );
+      }
+      if (mounted) context.pop(id);
+    } finally {
+      if (mounted) setState(() => _saving = false);
     }
-    if (mounted) context.pop(id);
   }
 
   Future<void> _delete() async {
@@ -71,7 +81,10 @@ class _SpaceEditScreenState extends ConsumerState<SpaceEditScreen> {
         title: const Text('공간을 삭제할까요?'),
         content: const Text('이 공간의 식물은 공간 미지정으로 바뀌어요'),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('취소')),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('취소'),
+          ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),
             child: Text('삭제', style: TextStyle(color: ctx.colors.error)),
@@ -108,23 +121,31 @@ class _SpaceEditScreenState extends ConsumerState<SpaceEditScreen> {
               padding: const EdgeInsets.symmetric(horizontal: AppSpace.screenH),
               children: [
                 const SizedBox(height: AppSpace.sm),
-                Text('공간 이름', style: AppText.label.copyWith(color: c.textSecondary)),
+                Text(
+                  '공간 이름',
+                  style: AppText.label.copyWith(color: c.textSecondary),
+                ),
                 const SizedBox(height: AppSpace.sm),
                 TextField(
                   controller: _name,
                   autofocus: !isEdit,
                   onChanged: (_) => setState(() {}),
-                  decoration: const InputDecoration(hintText: '예: 거실, 베란다, 사무실 책상'),
+                  decoration: const InputDecoration(
+                    hintText: '예: 거실, 베란다, 사무실 책상',
+                  ),
                 ),
                 const SizedBox(height: AppSpace.section),
-                Text('창 방향', style: AppText.label.copyWith(color: c.textSecondary)),
+                Text(
+                  '창 방향',
+                  style: AppText.label.copyWith(color: c.textSecondary),
+                ),
                 const SizedBox(height: AppSpace.sm),
                 Wrap(
                   spacing: AppSpace.sm,
                   runSpacing: AppSpace.sm,
                   children: [
                     for (final d in WindowDir.values)
-                      _Chip(
+                      AppChip(
                         label: d.label,
                         selected: _dir == d,
                         onTap: () => setState(() => _dir = d),
@@ -133,14 +154,17 @@ class _SpaceEditScreenState extends ConsumerState<SpaceEditScreen> {
                 ),
                 if (!dirIsNone) ...[
                   const SizedBox(height: AppSpace.section),
-                  Text('창과의 거리', style: AppText.label.copyWith(color: c.textSecondary)),
+                  Text(
+                    '창과의 거리',
+                    style: AppText.label.copyWith(color: c.textSecondary),
+                  ),
                   const SizedBox(height: AppSpace.sm),
                   Wrap(
                     spacing: AppSpace.sm,
                     runSpacing: AppSpace.sm,
                     children: [
                       for (final d in WindowDist.values)
-                        _Chip(
+                        AppChip(
                           label: d.label,
                           selected: _dist == d,
                           onTap: () => setState(() => _dist = d),
@@ -158,40 +182,14 @@ class _SpaceEditScreenState extends ConsumerState<SpaceEditScreen> {
                   top: false,
                   child: AppButton.primary(
                     label: isEdit ? '저장' : '추가',
-                    onPressed: _name.text.trim().isEmpty || _saving ? null : _save,
+                    onPressed: _name.text.trim().isEmpty || _saving
+                        ? null
+                        : _save,
                   ),
                 ),
                 const SizedBox(height: AppSpace.lg),
               ],
             ),
-    );
-  }
-}
-
-class _Chip extends StatelessWidget {
-  const _Chip({required this.label, required this.selected, required this.onTap});
-
-  final String label;
-  final bool selected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final c = context.colors;
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(AppRadius.chip),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: AppSpace.md, vertical: AppSpace.sm),
-        decoration: BoxDecoration(
-          color: selected ? c.primary : c.primaryContainer,
-          borderRadius: BorderRadius.circular(AppRadius.chip),
-        ),
-        child: Text(
-          label,
-          style: AppText.bodyStrong.copyWith(color: selected ? c.onPrimary : c.primary),
-        ),
-      ),
     );
   }
 }
