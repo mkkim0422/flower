@@ -200,11 +200,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       sliver: grid
                           ? SliverGrid.builder(
                               gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                  SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 2,
                                     mainAxisSpacing: AppSpace.cardGap,
                                     crossAxisSpacing: AppSpace.cardGap,
-                                    childAspectRatio: 0.72,
+                                    mainAxisExtent: PlantGridCard.extentFor(
+                                      context,
+                                      (MediaQuery.sizeOf(context).width -
+                                              AppSpace.screenH * 2 -
+                                              AppSpace.cardGap) /
+                                          2,
+                                    ),
                                   ),
                               itemCount: plants.length,
                               itemBuilder: (_, i) => _gridCard(plants[i], now),

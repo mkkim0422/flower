@@ -6,6 +6,16 @@ import 'status_dot.dart';
 
 /// 앨범형 식물 카드 (2열 그리드). 정사각 사진 + 별명 + 상태.
 class PlantGridCard extends StatelessWidget {
+  /// 글자 영역 높이 (패딩 + bodyStrong 22 + caption 18 + 간격 4 + 상태 18) × 글자 배율 + 테두리
+  static double textBlockHeight(BuildContext context) {
+    final scale = MediaQuery.textScalerOf(context).scale(1);
+    return AppSpace.md * 2 + (22 + 18 + AppSpace.xs + 18) * scale + 2;
+  }
+
+  /// 타일 폭 → 타일 전체 높이 (사진 정사각 + 글자 영역)
+  static double extentFor(BuildContext context, double tileWidth) =>
+      tileWidth + textBlockHeight(context);
+
   const PlantGridCard({
     super.key,
     required this.nickname,
@@ -38,13 +48,16 @@ class PlantGridCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            AspectRatio(
-              aspectRatio: 1,
+            Expanded(
               child: LayoutBuilder(
-                builder: (_, box) => PlantThumb(
-                  size: box.maxWidth,
-                  photoPath: photoPath,
-                  radius: 0,
+                builder: (_, box) => SizedBox(
+                  width: box.maxWidth,
+                  height: box.maxHeight,
+                  child: PlantThumb(
+                    size: box.maxWidth,
+                    photoPath: photoPath,
+                    radius: 0,
+                  ),
                 ),
               ),
             ),
