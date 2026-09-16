@@ -120,6 +120,9 @@ class Plants extends Table {
   DateTimeColumn get lastFertAt => dateTime().nullable()();
   DateTimeColumn get repotAt => dateTime().nullable()();
   DateTimeColumn get createdAt => dateTime()();
+
+  /// 사용자 메모 (PLT-01 내 메모)
+  TextColumn get memo => text().nullable()();
 }
 
 /// 관리 이력

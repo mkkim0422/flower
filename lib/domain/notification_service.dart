@@ -13,8 +13,8 @@ import '../domain/watering_rules.dart';
 /// 미리 예약해 두는 일수 (알림 id = 1..kScheduleDays)
 const int kScheduleDays = 7;
 const String _channelId = 'daily_check';
-const String _channelName = '흙 확인 알림';
-const String _channelDesc = '매일 정해진 시간에 확인할 식물 수를 알려드려요';
+const String _channelName = '물 주기 알림';
+const String _channelDesc = '매일 정해진 시간에 물 줄 식물 수를 알려드려요';
 
 class NotificationService {
   NotificationService([FlutterLocalNotificationsPlugin? plugin])
@@ -136,7 +136,7 @@ class NotificationService {
         await _plugin.zonedSchedule(
           id: i + 1,
           title: '잘자라라',
-          body: '오늘 확인할 식물이 $count개 있어요',
+          body: '오늘 물 줄 식물이 $count개 있어요',
           // 절대 시각을 UTC로 변환: 로컬 타임존 DB 없이도 정확
           scheduledDate: tz.TZDateTime.from(at, tz.UTC),
           notificationDetails: const NotificationDetails(

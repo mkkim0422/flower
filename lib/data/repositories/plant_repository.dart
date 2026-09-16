@@ -28,10 +28,10 @@ class PlantEntry {
     return PlantStatus.ok;
   }
 
-  /// 상태 라벨: "오늘 확인" / "D-3" / "미지정"
+  /// 상태 라벨: "오늘 물 주기" / "D-3" / "미지정"
   String statusLabel(DateTime now) {
     final d = dDay(now);
-    if (d <= 0) return '오늘 확인';
+    if (d <= 0) return '오늘 물 주기';
     if (species == null) return 'D-$d · 미지정';
     return 'D-$d';
   }
@@ -280,6 +280,10 @@ class PlantRepository {
     );
     await recalc(id);
   }
+
+  Future<void> setMemo(int id, String? memo) => (db.update(
+    db.plants,
+  )..where((t) => t.id.equals(id))).write(PlantsCompanion(memo: Value(memo)));
 
   /// PLT-02: 수동 주기 설정. days == null 이면 자동 계산으로 복귀.
   Future<void> setManualInterval(int id, int? days) async {

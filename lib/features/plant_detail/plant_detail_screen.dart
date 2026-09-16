@@ -17,7 +17,7 @@ import '../../data/repositories/space_repository.dart';
 import '../home/soil_check_sheet.dart';
 import 'interval_sheet.dart';
 
-/// PLT-01 식물 상세
+/// PLT-01 식물 상세 (2026-09-16 단순화: D-day → 내 메모 → 알아두면 좋은 정보 → 물 준 기록)
 class PlantDetailScreen extends ConsumerWidget {
   const PlantDetailScreen({super.key, required this.plantId});
 
@@ -42,7 +42,6 @@ class PlantDetailScreen extends ConsumerWidget {
       ),
       data: (entry) {
         if (entry == null) {
-          // 삭제됨
           return Scaffold(
             appBar: AppBar(),
             body: Center(
@@ -69,7 +68,7 @@ class _Body extends ConsumerWidget {
     final name = await showDialog<String>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('별명 바꾸기'),
+        title: const Text('이름 바꾸기'),
         content: TextField(controller: ctrl, autofocus: true),
         actions: [
           TextButton(
@@ -90,6 +89,38 @@ class _Body extends ConsumerWidget {
     }
   }
 
+  Future<void> _editMemo(BuildContext context, WidgetRef ref) async {
+    final ctrl = TextEditingController(text: entry.plant.memo ?? '');
+    final memo = await showDialog<String>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('내 메모'),
+        content: TextField(
+          controller: ctrl,
+          autofocus: true,
+          maxLines: 5,
+          minLines: 3,
+          decoration: const InputDecoration(hintText: '예: 베란다 왼쪽. 잎이 처지면 물 부족'),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('취소'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, ctrl.text.trim()),
+            child: const Text('저장'),
+          ),
+        ],
+      ),
+    );
+    if (memo != null) {
+      await ref
+          .read(plantRepositoryProvider)
+          .setMemo(entry.plant.id, memo.isEmpty ? null : memo);
+    }
+  }
+
   Future<void> _moveSpace(BuildContext context, WidgetRef ref) async {
     final spaces = await ref.read(spaceRepositoryProvider).getAll();
     if (!context.mounted) return;
@@ -106,7 +137,7 @@ class _Body extends ConsumerWidget {
           AppSpace.xl,
         ),
         children: [
-          Text('공간 이동', style: AppText.title.copyWith(color: c.textPrimary)),
+          Text('놓는 곳', style: AppText.title.copyWith(color: c.textPrimary)),
           const SizedBox(height: AppSpace.md),
           for (final s in spaces)
             ListTile(
@@ -132,7 +163,7 @@ class _Body extends ConsumerWidget {
           ListTile(
             contentPadding: EdgeInsets.zero,
             title: Text(
-              '공간 미지정',
+              '지정 안 함',
               style: AppText.body.copyWith(color: c.textPrimary),
             ),
             trailing: entry.plant.spaceId == null
@@ -147,7 +178,7 @@ class _Body extends ConsumerWidget {
           ),
           const SizedBox(height: AppSpace.sm),
           AppButton.secondary(
-            label: '+ 새 공간 추가',
+            label: '+ 새 장소 추가',
             onPressed: () async {
               Navigator.pop(ctx);
               final id = await context.push<int>(AppRoutes.spaceNew);
@@ -168,7 +199,7 @@ class _Body extends ConsumerWidget {
       context: context,
       builder: (ctx) => AlertDialog(
         title: Text('${entry.plant.nickname}을(를) 삭제할까요?'),
-        content: const Text('관리 이력과 일기도 함께 지워져요'),
+        content: const Text('물 준 기록과 메모도 함께 지워져요'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
@@ -195,7 +226,10 @@ class _Body extends ConsumerWidget {
     final s = entry.species;
     final dDay = entry.dDay(now);
     final result = ref.read(plantRepositoryProvider).computeForEntry(entry);
-    final events = ref.watch(careEventsProvider(p.id)).value ?? const [];
+    final events =
+        (ref.watch(careEventsProvider(p.id)).value ?? const <CareEvent>[])
+            .where((e) => e.type == CareType.water)
+            .toList();
 
     return Scaffold(
       appBar: AppBar(
@@ -212,8 +246,8 @@ class _Body extends ConsumerWidget {
               }
             },
             itemBuilder: (_) => [
-              const PopupMenuItem(value: 'rename', child: Text('별명 바꾸기')),
-              const PopupMenuItem(value: 'space', child: Text('공간 이동')),
+              const PopupMenuItem(value: 'rename', child: Text('이름 바꾸기')),
+              const PopupMenuItem(value: 'space', child: Text('놓는 곳 바꾸기')),
               PopupMenuItem(
                 value: 'delete',
                 child: Text('삭제', style: TextStyle(color: c.error)),
@@ -225,7 +259,7 @@ class _Body extends ConsumerWidget {
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: AppSpace.screenH),
         children: [
-          // 헤더: 사진 4:3 + 별명 + 품종·학명
+          // 헤더: 사진 4:3 + 이름 + 품종·학명
           AspectRatio(
             aspectRatio: 4 / 3,
             child: ClipRRect(
@@ -244,9 +278,7 @@ class _Body extends ConsumerWidget {
           ),
           const SizedBox(height: AppSpace.xs),
           Text(
-            s == null
-                ? '품종 미지정 · ${entry.space?.name ?? '공간 미지정'}'
-                : '${s.koNames.first} · ${entry.space?.name ?? '공간 미지정'}',
+            s == null ? '품종 미지정' : s.koNames.first,
             style: AppText.caption.copyWith(color: c.textSecondary),
           ),
           if (s != null)
@@ -256,16 +288,22 @@ class _Body extends ConsumerWidget {
             ),
           const SizedBox(height: AppSpace.section),
 
-          // 카드1: 다음 확인 D-day + 관리 일정
+          // 카드1: 물 주기 D-day
           AppCard(
+            filled: dDay <= 0,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   children: [
+                    Icon(
+                      Icons.water_drop_rounded,
+                      color: dDay <= 0 ? c.statusNeedCheck : c.primary,
+                    ),
+                    const SizedBox(width: AppSpace.sm),
                     Expanded(
                       child: Text(
-                        dDay <= 0 ? '오늘 흙을 확인해 주세요' : '다음 확인까지',
+                        dDay <= 0 ? '오늘 물 주는 날이에요' : '다음 물 주는 날까지',
                         style: AppText.body.copyWith(color: c.textSecondary),
                       ),
                     ),
@@ -278,76 +316,76 @@ class _Body extends ConsumerWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: AppSpace.md),
-                const Divider(),
-                const SizedBox(height: AppSpace.md),
-                _ScheduleLine(
-                  icon: Icons.water_drop_outlined,
-                  label: '물',
-                  value:
-                      '${p.waterIntervalDays}일마다 ${p.manualOverride ? '(수동)' : '(자동)'}',
-                  onTap: () =>
-                      showIntervalSheet(context, entry: entry, result: result),
-                ),
-                _ScheduleLine(
-                  icon: Icons.eco_outlined,
-                  label: '비료',
-                  value: p.fertIntervalDays == null
-                      ? '정보 없음'
-                      : '${p.fertIntervalDays}일마다'
-                            '${p.lastFertAt == null ? '' : ' · 마지막 ${DateFormat('M/d').format(p.lastFertAt!)}'}',
-                  onTap: () => ref
-                      .read(plantRepositoryProvider)
-                      .addCareEvent(p.id, CareType.fert),
-                  actionLabel: '줬어요',
-                ),
-                _ScheduleLine(
-                  icon: Icons.yard_outlined,
-                  label: '분갈이',
-                  value: s?.repotMonths == null
-                      ? '정보 없음'
-                      : '${s!.repotMonths}개월마다'
-                            '${p.repotAt == null ? '' : ' · 마지막 ${DateFormat('yyyy/M').format(p.repotAt!)}'}',
-                  onTap: () => ref
-                      .read(plantRepositoryProvider)
-                      .addCareEvent(p.id, CareType.repot),
-                  actionLabel: '했어요',
+                const SizedBox(height: AppSpace.sm),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        '${p.waterIntervalDays}일마다 ${p.manualOverride ? '(직접 설정)' : '(자동)'}'
+                        ' · 마지막 ${DateFormat('M월 d일', 'ko_KR').format(p.lastWateredAt)}',
+                        style: AppText.caption.copyWith(color: c.textSecondary),
+                      ),
+                    ),
+                    AppButton.text(
+                      label: '주기 조정',
+                      onPressed: () => showIntervalSheet(
+                        context,
+                        entry: entry,
+                        result: result,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
           ),
           const SizedBox(height: AppSpace.cardGap),
 
-          // 카드2: 관리 이력 (생장 일기 타임라인은 M3)
+          // 카드2: 내 메모
           AppCard(
+            onTap: () => _editMemo(context, ref),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  '관리 이력',
-                  style: AppText.title.copyWith(color: c.textPrimary),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        '내 메모',
+                        style: AppText.title.copyWith(color: c.textPrimary),
+                      ),
+                    ),
+                    Icon(
+                      Icons.edit_outlined,
+                      size: AppSize.iconSm,
+                      color: c.textTertiary,
+                    ),
+                  ],
                 ),
-                const SizedBox(height: AppSpace.md),
-                if (events.isEmpty)
-                  Text(
-                    '아직 기록이 없어요',
-                    style: AppText.body.copyWith(color: c.textTertiary),
-                  )
-                else
-                  for (final e in events.take(5)) _EventLine(event: e),
+                const SizedBox(height: AppSpace.sm),
+                Text(
+                  p.memo?.isNotEmpty == true
+                      ? p.memo!
+                      : '탭해서 메모를 남겨 보세요. 놓은 자리, 산 날, 잎 상태 같은 것들',
+                  style: AppText.body.copyWith(
+                    color: p.memo?.isNotEmpty == true
+                        ? c.textPrimary
+                        : c.textTertiary,
+                  ),
+                ),
               ],
             ),
           ),
           const SizedBox(height: AppSpace.cardGap),
 
-          // 카드3: 키우기 팁 (독성 배지 첫 줄, 이후 품종 정보로 만든 문장). 전체 도감 INFO-01은 M3
+          // 카드3: 알아두면 좋은 정보
           if (s != null)
             AppCard(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '${s.koNames.first} 키우기 팁',
+                    '알아두면 좋은 정보',
                     style: AppText.title.copyWith(color: c.textPrimary),
                   ),
                   const SizedBox(height: AppSpace.md),
@@ -357,20 +395,57 @@ class _Body extends ConsumerWidget {
                     _InfoLine(icon: tip.icon, text: tip.text),
                 ],
               ),
+            )
+          else
+            AppCard(
+              child: Text(
+                '품종을 지정하면 키우기 정보를 보여드려요. 카메라로 식별하거나 이름으로 검색해 보세요',
+                style: AppText.body.copyWith(color: c.textSecondary),
+              ),
             ),
+          const SizedBox(height: AppSpace.cardGap),
+
+          // 카드4: 물 준 기록
+          AppCard(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '물 준 기록',
+                  style: AppText.title.copyWith(color: c.textPrimary),
+                ),
+                const SizedBox(height: AppSpace.sm),
+                if (events.isEmpty)
+                  Text(
+                    '아직 기록이 없어요',
+                    style: AppText.body.copyWith(color: c.textTertiary),
+                  )
+                else
+                  Wrap(
+                    spacing: AppSpace.sm,
+                    runSpacing: AppSpace.xs,
+                    children: [
+                      for (final e in events.take(8))
+                        Text(
+                          DateFormat('M/d').format(e.at),
+                          style: AppText.body.copyWith(
+                            color: c.textSecondary,
+                            fontFeatures: AppText.tabularFeatures,
+                          ),
+                        ),
+                    ],
+                  ),
+              ],
+            ),
+          ),
           const SizedBox(height: AppSpace.section),
           SafeArea(
             top: false,
-            child: dDay <= 0
-                ? AppButton.primary(
-                    label: '흙 확인하기',
-                    onPressed: () =>
-                        showSoilCheckSheet(context, entries: [entry]),
-                  )
-                : AppButton.primary(
-                    label: '일기 쓰기',
-                    onPressed: null, // M3 DIA-01
-                  ),
+            child: AppButton.primary(
+              label: dDay <= 0 ? '물 줬어요' : '오늘 물 줬어요',
+              icon: Icons.water_drop_rounded,
+              onPressed: () => showSoilCheckSheet(context, entries: [entry]),
+            ),
           ),
           const SizedBox(height: AppSpace.lg),
         ],
@@ -379,7 +454,7 @@ class _Body extends ConsumerWidget {
   }
 }
 
-/// 품종 정보 → 키우기 팁 문장
+/// 품종 정보 → 알아두면 좋은 정보 문장 (비료·분갈이는 2026-09-16 사용자 지시로 제외)
 class CareTip {
   const CareTip(this.icon, this.text);
 
@@ -388,16 +463,16 @@ class CareTip {
 }
 
 List<CareTip> careTips(SpeciesRow s) {
-  final tips = <CareTip>[
+  return [
     CareTip(Icons.water_drop_outlined, switch (s.category) {
       'succulent' =>
         '물은 ${s.baseWaterDays}일쯤에 한 번, 흙이 속까지 완전히 마른 뒤 흠뻑 주세요. 과습이 가장 흔한 실패 원인이에요',
       'herb' =>
         '물은 ${s.baseWaterDays}일쯤에 한 번, 겉흙이 마르면 바로 주세요. 허브는 마르면 잎이 금방 처져요',
       'flower' =>
-        '물은 ${s.baseWaterDays}일쯤에 한 번, 겉흙이 마르면 주세요. 꽃이 피는 동안은 흙이 마르지 않게 조금 더 자주 살펴 주세요',
+        '물은 ${s.baseWaterDays}일쯤에 한 번, 겉흙이 마르면 주세요. 꽃이 피는 동안은 조금 더 자주 살펴 주세요',
       _ =>
-        '물은 ${s.baseWaterDays}일쯤에 한 번, 손가락 두 마디 깊이까지 흙이 말랐을 때 화분 밑으로 흘러나올 만큼 주세요',
+        '물은 ${s.baseWaterDays}일쯤에 한 번, 화분 밑으로 흘러나올 만큼 흠뻑 주세요. 받침에 고인 물은 버려 주세요',
     }),
     CareTip(Icons.wb_sunny_outlined, switch (s.lightPref) {
       LightPref.low => '빛이 적은 곳에서도 잘 자라요. 직사광선은 잎을 태울 수 있으니 창가에서 조금 떨어뜨려 두세요',
@@ -408,108 +483,12 @@ List<CareTip> careTips(SpeciesRow s) {
       CareTip(
         Icons.thermostat_outlined,
         s.tempMin! <= 5
-            ? '${s.tempMin}~${s.tempMax}°C에서 자라요. 추위에 강한 편이지만 실내에서는 찬바람이 직접 닿지 않게 해 주세요'
+            ? '${s.tempMin}~${s.tempMax}°C에서 자라요. 추위에 강한 편이지만 찬바람이 직접 닿지 않게 해 주세요'
             : '${s.tempMin}~${s.tempMax}°C가 알맞아요. 겨울에는 ${s.tempMin}°C 아래로 내려가지 않게 창가에서 떨어뜨려 주세요',
-      ),
-    if (s.fertDays != null)
-      CareTip(
-        Icons.eco_outlined,
-        '비료는 봄~가을 생장기에 ${s.fertDays}일에 한 번 묽게 주세요. 겨울에는 쉬어도 돼요',
-      ),
-    if (s.repotMonths != null)
-      CareTip(
-        Icons.yard_outlined,
-        '분갈이는 ${s.repotMonths}개월마다, 뿌리가 배수구로 나오면 한 치수 큰 화분으로 봄에 옮겨 주세요',
       ),
     for (final issue in s.commonIssues)
       CareTip(Icons.error_outline_rounded, issue),
   ];
-  return tips;
-}
-
-class _ScheduleLine extends StatelessWidget {
-  const _ScheduleLine({
-    required this.icon,
-    required this.label,
-    required this.value,
-    required this.onTap,
-    this.actionLabel = '조정',
-  });
-
-  final IconData icon;
-  final String label;
-  final String value;
-  final VoidCallback onTap;
-  final String actionLabel;
-
-  @override
-  Widget build(BuildContext context) {
-    final c = context.colors;
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: AppSpace.xs),
-      child: Row(
-        children: [
-          Icon(icon, size: AppSize.iconSm, color: c.textSecondary),
-          const SizedBox(width: AppSpace.sm),
-          SizedBox(
-            width: AppSize.scheduleLabelWidth,
-            child: Text(
-              label,
-              style: AppText.bodyStrong.copyWith(color: c.textPrimary),
-            ),
-          ),
-          Expanded(
-            child: Text(
-              value,
-              style: AppText.body.copyWith(color: c.textSecondary),
-            ),
-          ),
-          AppButton.text(label: actionLabel, onPressed: onTap),
-        ],
-      ),
-    );
-  }
-}
-
-class _EventLine extends StatelessWidget {
-  const _EventLine({required this.event});
-
-  final CareEvent event;
-
-  @override
-  Widget build(BuildContext context) {
-    final c = context.colors;
-    final (icon, label) = switch (event.type) {
-      CareType.water => (Icons.water_drop_rounded, '물 줌'),
-      CareType.fert => (Icons.eco_rounded, '비료'),
-      CareType.repot => (Icons.yard_rounded, '분갈이'),
-      CareType.wipe => (Icons.cleaning_services_rounded, '잎 닦기'),
-      CareType.checkDry => (Icons.check_circle_outline_rounded, '흙 확인 · 말랐음'),
-      CareType.checkWet => (Icons.opacity_rounded, '흙 확인 · 촉촉함'),
-    };
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: AppSpace.xs),
-      child: Row(
-        children: [
-          Icon(icon, size: AppSize.iconXs, color: c.primary),
-          const SizedBox(width: AppSpace.sm),
-          Expanded(
-            child: Text(
-              label,
-              style: AppText.body.copyWith(color: c.textPrimary),
-            ),
-          ),
-          Text(
-            DateFormat('M/d').format(event.at),
-            style: AppText.caption.copyWith(
-              color: c.textTertiary,
-              fontFeatures: AppText.tabularFeatures,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }
 
 class _InfoLine extends StatelessWidget {

@@ -173,13 +173,13 @@ class _PermissionScreenState extends ConsumerState<PermissionScreen> {
               ),
               const SizedBox(height: AppSpace.xxl),
               Text(
-                '흙 확인 알림을 보내드릴게요',
+                '물 주는 날 알려드릴게요',
                 style: AppText.headline.copyWith(color: c.textPrimary),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: AppSpace.md),
               Text(
-                '매일 오전 9시에 확인할 식물 수를 알려드려요.\n시간은 MY에서 바꿀 수 있어요',
+                '물 줄 날 오전 9시에 알려드려요.\n시간은 MY에서 바꿀 수 있어요',
                 style: AppText.body.copyWith(color: c.textSecondary),
                 textAlign: TextAlign.center,
               ),

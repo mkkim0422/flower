@@ -97,7 +97,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    '확인할 식물 ${due.length}',
+                                    '물 줄 식물 ${due.length}',
                                     style: AppText.title.copyWith(
                                       color: c.textPrimary,
                                     ),
@@ -159,7 +159,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   const SizedBox(width: AppSpace.md),
                                   Expanded(
                                     child: Text(
-                                      '오늘 확인할 식물이 없어요',
+                                      '오늘 물 줄 식물이 없어요',
                                       style: AppText.bodyStrong.copyWith(
                                         color: c.primary,
                                       ),
@@ -249,7 +249,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ),
                       color: c.background,
                       child: AppButton.primary(
-                        label: '${selectedEntries.length}개 확인 완료',
+                        label: '${selectedEntries.length}개 물 줬어요',
                         onPressed: () => _openSoilCheck(selectedEntries),
                       ),
                     ),

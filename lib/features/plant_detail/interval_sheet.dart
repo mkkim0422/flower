@@ -119,7 +119,7 @@ class _IntervalSheetState extends ConsumerState<_IntervalSheet> {
               style: AppText.bodyStrong.copyWith(color: c.textPrimary),
             ),
             subtitle: Text(
-              _manual ? '흙 확인 결과로 자동 보정하지 않아요' : '계절·환경·흙 확인 결과로 자동 보정해요',
+              _manual ? '내가 정한 주기를 그대로 써요' : '계절과 환경에 맞춰 자동으로 계산해요',
               style: AppText.caption.copyWith(color: c.textSecondary),
             ),
             onChanged: (v) => setState(() {

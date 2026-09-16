@@ -196,8 +196,7 @@ class _PlantEnvScreenState extends ConsumerState<PlantEnvScreen> {
                 const SizedBox(width: AppSpace.md),
                 Expanded(
                   child: Text(
-                    '약 ${preview.days}일마다 흙을 확인하도록 알려드려요. '
-                    '흙 상태를 알려주시면 주기가 자동으로 맞춰져요',
+                    '약 ${preview.days}일마다 물 주는 날을 알려드려요',
                     style: AppText.bodyStrong.copyWith(color: c.primary),
                   ),
                 ),

@@ -192,5 +192,23 @@
 - 한글 경로 때문에 Gradle이 빌드 거부 → `android/gradle.properties`에 `android.overridePathCheck=true`, 정션 `C:\plant_app`에서 빌드. 첫 빌드 9분(의존성 다운로드), 이후 2~3분.
 - 설치: `adb install -r build/app/outputs/flutter-apk/app-debug.apk` (디버그 APK 165MB, 릴리스는 훨씬 작음).
 
+## 사용자 지시: 물주기 중심 단순화 (2026-09-16) — HANDOFF 1장 "흙 확인 알림" 규칙 Override
+
+### 지시
+"물주는 주기만 있으면 된다. 흙 마르고 안 마르고 체크하는 사람 없다. 분갈이·비료 필요 없다. D-day 보여주고 그 아래 내 메모, 꽃 상세 정보·알아두면 좋은 정보."
+
+### 조치
+| 항목 | 변경 |
+|---|---|
+| 알림·홈 문구 | "확인할 식물" → **"물 줄 식물 N"**, 알림 "오늘 물 줄 식물이 N개 있어요", 상태 라벨 "오늘 물 주기" |
+| HOME-02 시트 | 2택("말랐어요/촉촉해요") → **"물 줬어요"** Primary 1개 + "나중에 줄게요 · N일 뒤 다시" Text. 내부적으로는 기존 dry/wet 경로를 그대로 사용(미루기 = wet: 주기 ×1.15, N일 뒤 재알림) → 계산 엔진·테스트 변경 없음 |
+| PLT-01 | 카드 순서 **D-day(주기·마지막 물 준 날·조정) → 내 메모(탭해서 편집, plants.memo 스키마 v4) → 알아두면 좋은 정보(독성·물·빛·온도·흔한 문제) → 물 준 기록(날짜 나열)**. 비료·분갈이 줄·버튼 제거, 하단 Primary "물 줬어요" |
+| 팁 문장 | 비료·분갈이 문장 제외 |
+| 온보딩·권한·등록·PLT-02 문구 | 흙 확인 표현 제거 |
+
+### 유지(숨김)
+- species.fert_days / repot_months, plants.fert_interval_days / last_fert_at / repot_at, care_events fert/repot 타입은 DB에 남김(2차에 필요 시 노출). UI에서는 사용하지 않음.
+- feedback 계수 보정은 "물 줬어요"(dry) / "나중에"(wet) 경로로 그대로 동작.
+
 ## 다음: M3 — 일기 · 공간 뷰 · 도감 · 통계
 - DIA-01, SPC-01, INFO-01, MY-01 통계

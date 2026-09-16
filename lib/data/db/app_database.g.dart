@@ -1443,6 +1443,15 @@ class $PlantsTable extends Plants with TableInfo<$PlantsTable, Plant> {
     type: DriftSqlType.dateTime,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _memoMeta = const VerificationMeta('memo');
+  @override
+  late final GeneratedColumn<String> memo = GeneratedColumn<String>(
+    'memo',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -1462,6 +1471,7 @@ class $PlantsTable extends Plants with TableInfo<$PlantsTable, Plant> {
     lastFertAt,
     repotAt,
     createdAt,
+    memo,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -1602,6 +1612,12 @@ class $PlantsTable extends Plants with TableInfo<$PlantsTable, Plant> {
     } else if (isInserting) {
       context.missing(_createdAtMeta);
     }
+    if (data.containsKey('memo')) {
+      context.handle(
+        _memoMeta,
+        memo.isAcceptableOrUnknown(data['memo']!, _memoMeta),
+      );
+    }
     return context;
   }
 
@@ -1681,6 +1697,10 @@ class $PlantsTable extends Plants with TableInfo<$PlantsTable, Plant> {
         DriftSqlType.dateTime,
         data['${effectivePrefix}created_at'],
       )!,
+      memo: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}memo'],
+      ),
     );
   }
 
@@ -1717,6 +1737,9 @@ class Plant extends DataClass implements Insertable<Plant> {
   final DateTime? lastFertAt;
   final DateTime? repotAt;
   final DateTime createdAt;
+
+  /// 사용자 메모 (PLT-01 내 메모)
+  final String? memo;
   const Plant({
     required this.id,
     this.speciesId,
@@ -1735,6 +1758,7 @@ class Plant extends DataClass implements Insertable<Plant> {
     this.lastFertAt,
     this.repotAt,
     required this.createdAt,
+    this.memo,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -1772,6 +1796,9 @@ class Plant extends DataClass implements Insertable<Plant> {
       map['repot_at'] = Variable<DateTime>(repotAt);
     }
     map['created_at'] = Variable<DateTime>(createdAt);
+    if (!nullToAbsent || memo != null) {
+      map['memo'] = Variable<String>(memo);
+    }
     return map;
   }
 
@@ -1806,6 +1833,7 @@ class Plant extends DataClass implements Insertable<Plant> {
           ? const Value.absent()
           : Value(repotAt),
       createdAt: Value(createdAt),
+      memo: memo == null && nullToAbsent ? const Value.absent() : Value(memo),
     );
   }
 
@@ -1834,6 +1862,7 @@ class Plant extends DataClass implements Insertable<Plant> {
       lastFertAt: serializer.fromJson<DateTime?>(json['lastFertAt']),
       repotAt: serializer.fromJson<DateTime?>(json['repotAt']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      memo: serializer.fromJson<String?>(json['memo']),
     );
   }
   @override
@@ -1859,6 +1888,7 @@ class Plant extends DataClass implements Insertable<Plant> {
       'lastFertAt': serializer.toJson<DateTime?>(lastFertAt),
       'repotAt': serializer.toJson<DateTime?>(repotAt),
       'createdAt': serializer.toJson<DateTime>(createdAt),
+      'memo': serializer.toJson<String?>(memo),
     };
   }
 
@@ -1880,6 +1910,7 @@ class Plant extends DataClass implements Insertable<Plant> {
     Value<DateTime?> lastFertAt = const Value.absent(),
     Value<DateTime?> repotAt = const Value.absent(),
     DateTime? createdAt,
+    Value<String?> memo = const Value.absent(),
   }) => Plant(
     id: id ?? this.id,
     speciesId: speciesId.present ? speciesId.value : this.speciesId,
@@ -1900,6 +1931,7 @@ class Plant extends DataClass implements Insertable<Plant> {
     lastFertAt: lastFertAt.present ? lastFertAt.value : this.lastFertAt,
     repotAt: repotAt.present ? repotAt.value : this.repotAt,
     createdAt: createdAt ?? this.createdAt,
+    memo: memo.present ? memo.value : this.memo,
   );
   Plant copyWithCompanion(PlantsCompanion data) {
     return Plant(
@@ -1936,6 +1968,7 @@ class Plant extends DataClass implements Insertable<Plant> {
           : this.lastFertAt,
       repotAt: data.repotAt.present ? data.repotAt.value : this.repotAt,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      memo: data.memo.present ? data.memo.value : this.memo,
     );
   }
 
@@ -1958,7 +1991,8 @@ class Plant extends DataClass implements Insertable<Plant> {
           ..write('fertIntervalDays: $fertIntervalDays, ')
           ..write('lastFertAt: $lastFertAt, ')
           ..write('repotAt: $repotAt, ')
-          ..write('createdAt: $createdAt')
+          ..write('createdAt: $createdAt, ')
+          ..write('memo: $memo')
           ..write(')'))
         .toString();
   }
@@ -1982,6 +2016,7 @@ class Plant extends DataClass implements Insertable<Plant> {
     lastFertAt,
     repotAt,
     createdAt,
+    memo,
   );
   @override
   bool operator ==(Object other) =>
@@ -2003,7 +2038,8 @@ class Plant extends DataClass implements Insertable<Plant> {
           other.fertIntervalDays == this.fertIntervalDays &&
           other.lastFertAt == this.lastFertAt &&
           other.repotAt == this.repotAt &&
-          other.createdAt == this.createdAt);
+          other.createdAt == this.createdAt &&
+          other.memo == this.memo);
 }
 
 class PlantsCompanion extends UpdateCompanion<Plant> {
@@ -2024,6 +2060,7 @@ class PlantsCompanion extends UpdateCompanion<Plant> {
   final Value<DateTime?> lastFertAt;
   final Value<DateTime?> repotAt;
   final Value<DateTime> createdAt;
+  final Value<String?> memo;
   const PlantsCompanion({
     this.id = const Value.absent(),
     this.speciesId = const Value.absent(),
@@ -2042,6 +2079,7 @@ class PlantsCompanion extends UpdateCompanion<Plant> {
     this.lastFertAt = const Value.absent(),
     this.repotAt = const Value.absent(),
     this.createdAt = const Value.absent(),
+    this.memo = const Value.absent(),
   });
   PlantsCompanion.insert({
     this.id = const Value.absent(),
@@ -2061,6 +2099,7 @@ class PlantsCompanion extends UpdateCompanion<Plant> {
     this.lastFertAt = const Value.absent(),
     this.repotAt = const Value.absent(),
     required DateTime createdAt,
+    this.memo = const Value.absent(),
   }) : nickname = Value(nickname),
        potSize = Value(potSize),
        waterIntervalDays = Value(waterIntervalDays),
@@ -2085,6 +2124,7 @@ class PlantsCompanion extends UpdateCompanion<Plant> {
     Expression<DateTime>? lastFertAt,
     Expression<DateTime>? repotAt,
     Expression<DateTime>? createdAt,
+    Expression<String>? memo,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -2104,6 +2144,7 @@ class PlantsCompanion extends UpdateCompanion<Plant> {
       if (lastFertAt != null) 'last_fert_at': lastFertAt,
       if (repotAt != null) 'repot_at': repotAt,
       if (createdAt != null) 'created_at': createdAt,
+      if (memo != null) 'memo': memo,
     });
   }
 
@@ -2125,6 +2166,7 @@ class PlantsCompanion extends UpdateCompanion<Plant> {
     Value<DateTime?>? lastFertAt,
     Value<DateTime?>? repotAt,
     Value<DateTime>? createdAt,
+    Value<String?>? memo,
   }) {
     return PlantsCompanion(
       id: id ?? this.id,
@@ -2144,6 +2186,7 @@ class PlantsCompanion extends UpdateCompanion<Plant> {
       lastFertAt: lastFertAt ?? this.lastFertAt,
       repotAt: repotAt ?? this.repotAt,
       createdAt: createdAt ?? this.createdAt,
+      memo: memo ?? this.memo,
     );
   }
 
@@ -2203,6 +2246,9 @@ class PlantsCompanion extends UpdateCompanion<Plant> {
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
     }
+    if (memo.present) {
+      map['memo'] = Variable<String>(memo.value);
+    }
     return map;
   }
 
@@ -2225,7 +2271,8 @@ class PlantsCompanion extends UpdateCompanion<Plant> {
           ..write('fertIntervalDays: $fertIntervalDays, ')
           ..write('lastFertAt: $lastFertAt, ')
           ..write('repotAt: $repotAt, ')
-          ..write('createdAt: $createdAt')
+          ..write('createdAt: $createdAt, ')
+          ..write('memo: $memo')
           ..write(')'))
         .toString();
   }
@@ -4907,6 +4954,7 @@ typedef $$PlantsTableCreateCompanionBuilder =
       Value<DateTime?> lastFertAt,
       Value<DateTime?> repotAt,
       required DateTime createdAt,
+      Value<String?> memo,
     });
 typedef $$PlantsTableUpdateCompanionBuilder =
     PlantsCompanion Function({
@@ -4927,6 +4975,7 @@ typedef $$PlantsTableUpdateCompanionBuilder =
       Value<DateTime?> lastFertAt,
       Value<DateTime?> repotAt,
       Value<DateTime> createdAt,
+      Value<String?> memo,
     });
 
 final class $$PlantsTableReferences
@@ -5086,6 +5135,11 @@ class $$PlantsTableFilterComposer
 
   ColumnFilters<DateTime> get createdAt => $composableBuilder(
     column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get memo => $composableBuilder(
+    column: $table.memo,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -5270,6 +5324,11 @@ class $$PlantsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get memo => $composableBuilder(
+    column: $table.memo,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$SpeciesTableOrderingComposer get speciesId {
     final $$SpeciesTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -5386,6 +5445,9 @@ class $$PlantsTableAnnotationComposer
 
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<String> get memo =>
+      $composableBuilder(column: $table.memo, builder: (column) => column);
 
   $$SpeciesTableAnnotationComposer get speciesId {
     final $$SpeciesTableAnnotationComposer composer = $composerBuilder(
@@ -5534,6 +5596,7 @@ class $$PlantsTableTableManager
                 Value<DateTime?> lastFertAt = const Value.absent(),
                 Value<DateTime?> repotAt = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
+                Value<String?> memo = const Value.absent(),
               }) => PlantsCompanion(
                 id: id,
                 speciesId: speciesId,
@@ -5552,6 +5615,7 @@ class $$PlantsTableTableManager
                 lastFertAt: lastFertAt,
                 repotAt: repotAt,
                 createdAt: createdAt,
+                memo: memo,
               ),
           createCompanionCallback:
               ({
@@ -5572,6 +5636,7 @@ class $$PlantsTableTableManager
                 Value<DateTime?> lastFertAt = const Value.absent(),
                 Value<DateTime?> repotAt = const Value.absent(),
                 required DateTime createdAt,
+                Value<String?> memo = const Value.absent(),
               }) => PlantsCompanion.insert(
                 id: id,
                 speciesId: speciesId,
@@ -5590,6 +5655,7 @@ class $$PlantsTableTableManager
                 lastFertAt: lastFertAt,
                 repotAt: repotAt,
                 createdAt: createdAt,
+                memo: memo,
               ),
           withReferenceMapper: (p0) => p0
               .map(

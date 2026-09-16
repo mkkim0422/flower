@@ -94,7 +94,7 @@ void main() {
     );
     var e = (await plants.getById(id))!;
     expect(e.isDue(fixedNow), isTrue);
-    expect(e.statusLabel(fixedNow), '오늘 확인');
+    expect(e.statusLabel(fixedNow), '오늘 물 주기');
 
     // 아직 촉촉해요
     await plants.recordSoilCheck(id, SoilCheckResult.wet);

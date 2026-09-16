@@ -65,7 +65,7 @@ class _ManualInputScreenState extends State<ManualInputScreen> {
             ),
             const SizedBox(height: AppSpace.md),
             Text(
-              '품종을 지정하지 않으면 물주기는 7일 기본값으로 시작하고, 흙 확인 결과에 따라 맞춰져요',
+              '품종을 지정하지 않으면 물주기는 7일 기본값으로 시작해요. 상세 화면에서 언제든 바꿀 수 있어요',
               style: AppText.caption.copyWith(color: c.textSecondary),
             ),
             const Spacer(),
