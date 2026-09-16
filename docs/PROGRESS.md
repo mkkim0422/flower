@@ -109,6 +109,7 @@
 - species 시드: 사용자 결정(2026-09-16)에 따라 Claude가 공공 자료(농진청 실내식물 정보·ASPCA 독성 목록·위키 학명) 기반으로 생성. data.go.kr/농사로 API는 키가 없어 직접 호출하지 않음 → 검수 필요 표시.
   - 결과: **544종** (관엽 198 / 다육·선인장 162 / 꽃 90 / 허브 45 / 기타 49). 학명 중복 0, 독성 필드 누락 0. `test/data/species_seed_test.dart`로 DoD 자동 검증.
   - 학명은 현행 인정명 사용(Calathea→Goeppertia, Schefflera→Heptapleurum 등). 국내명에 옛 이름을 병기해 검색은 그대로 됨.
+  - 2026-09-16 내용 검토(사용자 요청): 대표 100여 종 독성을 ASPCA 진실표와 대조 → 불일치 0. 속 단위 일관성 검사(Araceae·Ficus·Dracaena·Kalanchoe·Euphorbia 등 독성 / Hoya·Peperomia·야자·고사리·난·다육 무독) → 불일치 0 (스웨디시아이비는 무독이 맞음). 수정 3건: 국내명 충돌 '돈나무'(금전수→제거, 돈나무=Pittosporum), '나비란'(호접란→제거, 나비란=접란), 스테파니아 에렉타 7→12일·델로스페르마 7→10일. 검토 스크립트 결과 기준으로 온도 -10℃ 이하 11종은 내한성 노지 식물이라 그대로 둠.
   - **독성 검수 필요 항목(근거 약함)**: Fatsia japonica, Plerandra elegantissima, Caryota mitis(false), Pittosporum tobira, Ardisia crenata/japonica, Artemisia dracunculus, Borago officinalis, Passiflora caerulea, Ledebouria socialis/Albuca bracteata, Pistia stratiotes/Anubias barteri. 식용 허브(민트·라벤더·파슬리 등)는 ASPCA 기준 반려동물 독성 true, 아이 독성 false.
 
 ### 라이선스 추가

@@ -6,7 +6,7 @@
   "ASPCA Toxic and Non-Toxic Plants",
   "Wikipedia (학명)"
  ],
- "note": "공공 자료 기반 정리본. 독성·주기는 일반 기준이며 검수 필요.",
+ "note": "공공 자료 기반 정리본. 독성·주기는 일반 기준이며 검수 필요. 2026-09-16 검토: 국내명 충돌 2건 정리(돈나무·나비란), 괴경·다육 물주기 2건 상향.",
  "species": [
   {
    "scientific_name": "Monstera deliciosa",
@@ -1060,8 +1060,7 @@
    "scientific_name": "Zamioculcas zamiifolia",
    "ko_names": [
     "금전수",
-    "자미오쿨카스",
-    "돈나무"
+    "자미오쿨카스"
    ],
    "family": "Araceae",
    "category": "foliage",
@@ -6752,7 +6751,7 @@
    ],
    "family": "Menispermaceae",
    "category": "succulent",
-   "base_water_days": 7,
+   "base_water_days": 12,
    "light_pref": "med",
    "toxic_pet": true,
    "toxic_child": true,
@@ -7021,7 +7020,7 @@
    ],
    "family": "Aizoaceae",
    "category": "succulent",
-   "base_water_days": 7,
+   "base_water_days": 10,
    "light_pref": "high",
    "toxic_pet": false,
    "toxic_child": false,
@@ -10706,8 +10705,7 @@
    "scientific_name": "Phalaenopsis amabilis",
    "ko_names": [
     "호접란",
-    "팔레놉시스",
-    "나비란"
+    "팔레놉시스"
    ],
    "family": "Orchidaceae",
    "category": "flower",
