@@ -1,0 +1,44 @@
+# CI: 빌드·테스트만. 배포는 수동 (HANDOFF 2장)
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  analyze-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: 3.41.6
+          cache: true
+
+      - name: Install dependencies
+        working-directory: plant_app
+        run: flutter pub get
+
+      - name: Generate code (drift)
+        working-directory: plant_app
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Analyze
+        working-directory: plant_app
+        run: flutter analyze --no-fatal-infos
+
+      - name: Test
+        working-directory: plant_app
+        run: flutter test
+
+      - name: Forbidden paid services check (HANDOFF 9장 DoD)
+        working-directory: plant_app
+        run: |
+          if grep -rEi "plant\.id|vision\.googleapis" lib/ ; then
+            echo "유료 서비스 호출 흔적이 발견되었습니다."
+            exit 1
+          fi
