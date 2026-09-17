@@ -14,6 +14,7 @@ Setting _s({int hour = 9, int minute = 0, List<int> skip = const []}) =>
       plantnetCount: 0,
       homeGrid: true,
       notifyDayBefore: false,
+      themeVariant: 0,
     );
 
 void main() {

@@ -467,32 +467,15 @@ class _Body extends ConsumerWidget {
           ),
           const SizedBox(height: AppSpace.cardGap),
 
-          // 카드3: 알아두면 좋은 정보
+          // 카드3: 알아두면 좋은 정보 (도감 페이지와 내용이 같아 별도 링크 없음)
           if (s != null)
             AppCard(
-              onTap: () =>
-                  context.push('${AppRoutes.species(s.id)}?register=0'),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          '알아두면 좋은 정보',
-                          style: AppText.title.copyWith(color: c.textPrimary),
-                        ),
-                      ),
-                      Text(
-                        '자세히',
-                        style: AppText.caption.copyWith(color: c.primary),
-                      ),
-                      Icon(
-                        Icons.chevron_right_rounded,
-                        size: AppSize.iconSm,
-                        color: c.primary,
-                      ),
-                    ],
+                  Text(
+                    '알아두면 좋은 정보',
+                    style: AppText.title.copyWith(color: c.textPrimary),
                   ),
                   const SizedBox(height: AppSpace.md),
                   ToxicBadge(toxicPet: s.toxicPet, toxicChild: s.toxicChild),
@@ -605,7 +588,7 @@ class _DiaryLine extends StatelessWidget {
                               vertical: 2,
                             ),
                             decoration: BoxDecoration(
-                              color: c.primaryContainer,
+                              color: c.accentSoft,
                               borderRadius: BorderRadius.circular(
                                 AppRadius.chip,
                               ),

@@ -199,7 +199,7 @@ class _PlantEnvScreenState extends ConsumerState<PlantEnvScreen> {
           Container(
             padding: const EdgeInsets.all(AppSpace.cardPadding),
             decoration: BoxDecoration(
-              color: c.primaryContainer,
+              color: c.accentSoft,
               borderRadius: BorderRadius.circular(AppRadius.card),
             ),
             child: Column(

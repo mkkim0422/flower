@@ -22,6 +22,7 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.statusUnknown,
     required this.warning,
     required this.error,
+    required this.accentSoft,
   });
 
   final Color primary;
@@ -40,6 +41,10 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color warning;
   final Color error;
 
+  /// 장식용 연한 채우기 (배너·토글 배경·안 선택된 칩·아이콘 배경).
+  /// 선택·행동 상태는 primaryContainer 를 쓴다. Cozy 는 둘 다 세이지, Clean 은 중립 회색.
+  final Color accentSoft;
+
   // 'Modern Cozy' (Override 2026-09-16): 베이지 배경 + 포레스트 그린 + 세이지 그린
   static const light = AppColors(
     primary: Color(0xFF2C5E43),
@@ -57,6 +62,27 @@ class AppColors extends ThemeExtension<AppColors> {
     statusUnknown: Color(0xFFB5BBB7),
     warning: Color(0xFFD9912B),
     error: Color(0xFFC63C30),
+    accentSoft: Color(0xFFDDE6DF),
+  );
+
+  /// 'Clean' 시안: 흰 배경, 카드 흰색+테두리, 초록은 행동·선택에만. 장식은 중립 회색.
+  static const clean = AppColors(
+    primary: Color(0xFF2C5E43),
+    primaryContainer: Color(0xFFE6F0EA),
+    onPrimary: Color(0xFFFFFFFF),
+    background: Color(0xFFFFFFFF),
+    surface: Color(0xFFFFFFFF),
+    surfaceVariant: Color(0xFFF3F4F1),
+    outline: Color(0xFFE6E8E3),
+    textPrimary: Color(0xFF1B1F1D),
+    textSecondary: Color(0xFF5C635F),
+    textTertiary: Color(0xFF9AA19C),
+    statusNeedCheck: Color(0xFFE05A4E),
+    statusOk: Color(0xFF2C5E43),
+    statusUnknown: Color(0xFFB5BBB7),
+    warning: Color(0xFFD9912B),
+    error: Color(0xFFC63C30),
+    accentSoft: Color(0xFFF1F2EF),
   );
 
   static const dark = AppColors(
@@ -75,6 +101,7 @@ class AppColors extends ThemeExtension<AppColors> {
     statusUnknown: Color(0xFF5B625E),
     warning: Color(0xFFE8A64A),
     error: Color(0xFFE0665A),
+    accentSoft: Color(0xFF242B27),
   );
 
   @override
@@ -94,6 +121,7 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? statusUnknown,
     Color? warning,
     Color? error,
+    Color? accentSoft,
   }) {
     return AppColors(
       primary: primary ?? this.primary,
@@ -111,6 +139,7 @@ class AppColors extends ThemeExtension<AppColors> {
       statusUnknown: statusUnknown ?? this.statusUnknown,
       warning: warning ?? this.warning,
       error: error ?? this.error,
+      accentSoft: accentSoft ?? this.accentSoft,
     );
   }
 
@@ -134,6 +163,7 @@ class AppColors extends ThemeExtension<AppColors> {
       statusUnknown: l(statusUnknown, other.statusUnknown),
       warning: l(warning, other.warning),
       error: l(error, other.error),
+      accentSoft: l(accentSoft, other.accentSoft),
     );
   }
 }
@@ -308,9 +338,17 @@ extension AppThemeContext on BuildContext {
   AppColors get colors => Theme.of(this).extension<AppColors>()!;
 }
 
+/// 라이트 시안 (임시 비교용. 확정 후 하나만 남긴다)
+enum ThemeVariant { cozy, clean }
+
 /// DESIGN.md 토큰 → Flutter ThemeData 매핑
-ThemeData buildAppTheme(Brightness brightness) {
-  final c = brightness == Brightness.dark ? AppColors.dark : AppColors.light;
+ThemeData buildAppTheme(
+  Brightness brightness, {
+  ThemeVariant variant = ThemeVariant.cozy,
+}) {
+  final c = brightness == Brightness.dark
+      ? AppColors.dark
+      : (variant == ThemeVariant.clean ? AppColors.clean : AppColors.light);
 
   final colorScheme = ColorScheme(
     brightness: brightness,

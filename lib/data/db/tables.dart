@@ -183,6 +183,9 @@ class Settings extends Table {
   BoolColumn get notifyDayBefore =>
       boolean().withDefault(const Constant(false))();
 
+  /// 라이트 시안 (임시): 0 = cozy(베이지), 1 = clean(화이트)
+  IntColumn get themeVariant => integer().withDefault(const Constant(0))();
+
   @override
   Set<Column> get primaryKey => {id};
 }

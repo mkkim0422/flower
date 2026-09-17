@@ -145,7 +145,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 AppSpace.cardPadding,
                               ),
                               decoration: BoxDecoration(
-                                color: c.primaryContainer,
+                                color: c.accentSoft,
                                 borderRadius: BorderRadius.circular(
                                   AppRadius.card,
                                 ),
@@ -356,7 +356,7 @@ class _ViewToggle extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(AppSize.segmentPadding),
       decoration: BoxDecoration(
-        color: c.primaryContainer,
+        color: c.accentSoft,
         borderRadius: BorderRadius.circular(AppRadius.chip),
       ),
       child: Row(

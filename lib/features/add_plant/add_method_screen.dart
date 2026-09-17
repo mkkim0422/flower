@@ -73,7 +73,7 @@ class _MethodCard extends StatelessWidget {
             width: AppSize.plantThumb,
             height: AppSize.plantThumb,
             decoration: BoxDecoration(
-              color: c.primaryContainer,
+              color: c.accentSoft,
               borderRadius: BorderRadius.circular(AppRadius.thumbnail),
             ),
             child: Icon(icon, color: c.primary),

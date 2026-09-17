@@ -77,7 +77,7 @@ class _WaterSheetState extends ConsumerState<_WaterSheet> {
                   width: AppSize.plantThumb,
                   height: AppSize.plantThumb,
                   decoration: BoxDecoration(
-                    color: c.primaryContainer,
+                    color: c.accentSoft,
                     borderRadius: BorderRadius.circular(AppRadius.thumbnail),
                   ),
                   alignment: Alignment.center,

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../theme.dart';
 
-/// 선택형 칩 (DESIGN.md 4장 태그·칩). primaryContainer / 선택 시 primary 채움.
+/// 선택형 칩 (DESIGN.md 4장 태그·칩). accentSoft / 선택 시 primary 채움.
 /// 터치 영역은 최소 44 확보.
 class AppChip extends StatelessWidget {
   const AppChip({
@@ -31,14 +31,14 @@ class AppChip extends StatelessWidget {
           vertical: AppSpace.sm,
         ),
         decoration: BoxDecoration(
-          color: selected ? c.primary : c.primaryContainer,
+          color: selected ? c.primary : c.accentSoft,
           borderRadius: BorderRadius.circular(AppRadius.chip),
         ),
         alignment: Alignment.center,
         child: Text(
           label,
           style: AppText.bodyStrong.copyWith(
-            color: selected ? c.onPrimary : c.primary,
+            color: selected ? c.onPrimary : c.textPrimary,
           ),
         ),
       ),
