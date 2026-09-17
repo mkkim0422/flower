@@ -37,13 +37,6 @@ class SettingsRepository {
     );
   }
 
-  Future<void> setThemeVariant(int variant) async {
-    await db.getSettings();
-    await (db.update(db.settings)..where((t) => t.id.equals(1))).write(
-      SettingsCompanion(themeVariant: Value(variant)),
-    );
-  }
-
   Future<void> setHomeGrid(bool grid) async {
     await db.getSettings();
     await (db.update(db.settings)..where((t) => t.id.equals(1))).write(

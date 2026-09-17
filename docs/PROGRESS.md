@@ -243,5 +243,12 @@
 - 내보내기·가져오기(`domain/backup_service.dart`, `features/my/backup_screen.dart`): `jaljarara-backup-YYYYMMDD.zip` = backup.json(공간·식물·물 준 기록·일기·설정, 품종은 학명으로 저장해 설치 간 id 차이 무관) + photos/. share_plus 로 공유, file_picker 로 가져오기(요약 확인 후 전체 교체). 테스트 3건(JSON 왕복·전체 교체·zip 왕복).
 - 패키지: archive(MIT), share_plus(BSD-3), file_picker(MIT) — 비용 0.
 
+## 디자인 확정·도감 v3 (2026-09-17)
+
+- **라이트 팔레트 화이트 확정**(사용자 선택): background·surface #FFFFFF, primaryContainer #E6F0EA, 신규 `accentSoft` #F1F2EF(장식 전용). 베이지(Modern Cozy)와 시안 스위치 제거, DESIGN.md 1-1 갱신. settings.theme_variant 컬럼은 남기되 미사용.
+- **도감 v3**(species 스키마 v7): 적정 온도(temp_opt_min/max), 아이 독성 3단계(toxic_child_level: none/irritant/toxic), 독성 설명(toxicity_note: 원인·증상·대처). 에이전트 초안을 직접 검토해 19건 수정 — 백합은 아이 독성 없음(고양이에게만 치명), 칼랑코에·코틸레돈·아이비·튤립·히아신스는 사람 기준 '자극'으로 하향. 물주기 4건(드라세나 3종·인도고무나무 8→10일), 최저 온도 43건 보정. 결과 none 343 / irritant 172 / toxic 30.
+- 화면: 독성 배지가 반려동물·아이 단계를 구분하고 아래에 설명 문장 표시. 온도 문장은 "적정 18~26°C. 10°C 아래로…" 형식.
+- CI: 저장소 루트가 plant_app 이라 working-directory 제거.
+
 ## 다음: M4 — 백업 · 인증 · 스토어 준비
 - AUTH-01(Google/Apple/Kakao), latest.json 백업·복원, MY-04 탈퇴, 개인정보 처리방침, 앱 아이콘, 릴리스 서명, 패키지명 확정

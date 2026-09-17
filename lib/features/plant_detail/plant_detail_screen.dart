@@ -481,6 +481,7 @@ class _Body extends ConsumerWidget {
                   ToxicBadge(
                     toxicPet: s.toxicPet,
                     childLevel: s.toxicChildLevel,
+                    note: s.toxicityNote,
                   ),
                   const SizedBox(height: AppSpace.md),
                   for (final tip in careTips(s))

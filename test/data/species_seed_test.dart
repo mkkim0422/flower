@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:plant_app/core/enums.dart';
 import 'package:plant_app/data/db/app_database.dart';
 import 'package:plant_app/data/repositories/species_repository.dart';
 import 'package:plant_app/data/seed/species_seed.dart';
@@ -42,6 +43,14 @@ void main() {
         reason: '${m['scientific_name']} ko_names',
       );
       expect(m['base_water_days'], inInclusiveRange(2, 45));
+      // v3: 적정 온도·아이 독성 3단계·독성 설명
+      final level = m['toxic_child_level'];
+      expect(['none', 'irritant', 'toxic'], contains(level));
+      expect(m['toxic_child'], level == 'toxic');
+      expect((m['toxicity_note'] as String).trim(), isNotEmpty);
+      expect(m['temp_min'] as int, lessThanOrEqualTo(m['temp_opt_min'] as int));
+      expect(m['temp_opt_min'] as int, lessThan(m['temp_opt_max'] as int));
+      expect(m['temp_opt_max'] as int, lessThanOrEqualTo(m['temp_max'] as int));
       expect(['low', 'med', 'high'], contains(m['light_pref']));
     }
   });
@@ -70,5 +79,10 @@ void main() {
     final skin = await repo.search('스킨답서스');
     expect(skin, isNotEmpty);
     expect(skin.first.toxicPet, isTrue); // Epipremnum aureum 은 반려동물 독성
+
+    // 백합: 고양이 치명, 사람(아이) 독성 없음
+    final lily = await repo.search('백합');
+    expect(lily.first.toxicPet, isTrue);
+    expect(lily.first.toxicChildLevel, ChildToxicity.none);
   });
 }

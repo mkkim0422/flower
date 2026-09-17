@@ -1,9 +1,11 @@
 # DESIGN.md — 디자인 스펙 (Claude Code용)
 
-> **Override 2026-09-16 (사용자 승인)**: 라이트 팔레트를 'Modern Cozy'로 교체 — background `#F4F1EB`, primary `#2C5E43`, primaryContainer/surfaceVariant `#DDE6DF`. 홈 카드는 그림자 없이 radius 16, 여백 12~16. 중앙 카메라는 탭바 위로 돌출된 FAB. 흙 확인 바텀시트는 큰 2버튼으로 직관적으로. 다크 팔레트는 변경 없음. 상세는 `PROGRESS.md` 기획 변경 항목.
+> **Override 2026-09-17 (사용자 확정)**: 라이트 팔레트를 **화이트**로 교체 — background·surface `#FFFFFF`, primaryContainer `#E6F0EA`(선택·행동), surfaceVariant `#F3F4F1`, outline `#E6E8E3`, 신규 토큰 `accentSoft` `#F1F2EF`(배너·토글·안 선택된 칩·아이콘 배경 등 장식 전용). 초록 채우기는 주 버튼·플로팅 버튼·선택 상태에만. 아래 1-1 표가 현행 값.
+>
+> (이전) **Override 2026-09-16 (사용자 승인)**: 라이트 팔레트를 'Modern Cozy'로 교체 — background `#F4F1EB`, primary `#2C5E43`, primaryContainer/surfaceVariant `#DDE6DF`. 홈 카드는 그림자 없이 radius 16, 여백 12~16. 중앙 카메라는 탭바 위로 돌출된 FAB. 흙 확인 바텀시트는 큰 2버튼으로 직관적으로. 다크 팔레트는 변경 없음. 상세는 `PROGRESS.md` 기획 변경 항목.
 
 작업명: 온실 (앱 이름 확정 시 치환)
-톤: **Modern Cozy** — 소프트 베이지 배경 + 포레스트 그린 + 세이지 그린, 여백 많음, 광고·배너 없음. 참고 앱: 초록일기(여백·단순함), Planta(카드 정보 밀도).
+톤: **화이트** — 흰 배경에 사진이 주인공, 포레스트 그린은 행동에만, 여백 많음, 광고·배너 없음. 참고 앱: 초록일기(여백·단순함), Planta(카드 정보 밀도).
 원칙: 모든 색·크기·간격은 이 문서 → `lib/app/theme.dart` 상수에서만 가져온다. 화면 코드에 HEX·px 직접 입력 금지.
 
 ---
@@ -15,12 +17,13 @@
 | 토큰 | HEX | 용도 |
 |---|---|---|
 | `primary` | `#2C5E43` | 포레스트 그린. 주 버튼, 중앙 FAB 카메라 버튼, 활성 탭, 강조 텍스트 |
-| `primaryContainer` | `#DDE6DF` | 세이지 그린. 선택 상태 배경, 태그 배경, 진행 바 트랙 |
+| `primaryContainer` | `#E6F0EA` | 선택 상태 배경, 1순위 후보, 보조 버튼 |
 | `onPrimary` | `#FFFFFF` | primary 위 텍스트·아이콘 |
-| `background` | `#F4F1EB` | 소프트 베이지. 화면 배경 |
+| `background` | `#FFFFFF` | 화면 배경 (화이트) |
 | `surface` | `#FFFFFF` | 카드, 바텀시트, 탭바 |
-| `surfaceVariant` | `#DDE6DF` | 세이지 그린. 입력창 배경, 카드 보조 영역 |
-| `outline` | `#E1E6E1` | 카드 테두리, 구분선 |
+| `surfaceVariant` | `#F3F4F1` | 입력창 배경, 사진 없는 썸네일 |
+| `accentSoft` | `#F1F2EF` | 장식용 연한 채우기: 안내 배너, 토글 배경, 안 선택된 칩, 아이콘 배경 |
+| `outline` | `#E6E8E3` | 카드 테두리, 구분선 |
 | `textPrimary` | `#1B1F1D` | 제목, 본문 |
 | `textSecondary` | `#5C635F` | 부제, 설명 |
 | `textTertiary` | `#9AA19C` | 캡션, 비활성, 플레이스홀더 |

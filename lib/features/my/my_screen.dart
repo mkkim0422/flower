@@ -142,28 +142,6 @@ class MyScreen extends ConsumerWidget {
             ),
             const SizedBox(height: AppSpace.section),
 
-            Text(
-              '디자인 시안 (임시)',
-              style: AppText.label.copyWith(color: c.textSecondary),
-            ),
-            const SizedBox(height: AppSpace.sm),
-            AppCard(
-              padding: EdgeInsets.zero,
-              child: _Row(
-                icon: Icons.palette_outlined,
-                title: '라이트 테마',
-                value: settings == null
-                    ? '-'
-                    : (settings.themeVariant == 1 ? '화이트' : '베이지'),
-                onTap: settings == null
-                    ? null
-                    : () => ref
-                          .read(settingsRepositoryProvider)
-                          .setThemeVariant(settings.themeVariant == 1 ? 0 : 1),
-              ),
-            ),
-            const SizedBox(height: AppSpace.section),
-
             Text('정보', style: AppText.label.copyWith(color: c.textSecondary)),
             const SizedBox(height: AppSpace.sm),
             AppCard(

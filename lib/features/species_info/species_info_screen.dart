@@ -106,6 +106,7 @@ class _Body extends StatelessWidget {
             child: ToxicBadge(
               toxicPet: s.toxicPet,
               childLevel: s.toxicChildLevel,
+              note: s.toxicityNote,
             ),
           ),
           const SizedBox(height: AppSpace.cardGap),

@@ -78,13 +78,10 @@ class _PlantAppState extends ConsumerState<PlantApp> {
     ref.listen(settingsProvider, (_, _) => _scheduleDebounced());
 
     final router = ref.watch(appRouterProvider);
-    final variant = (ref.watch(settingsProvider).value?.themeVariant ?? 0) == 1
-        ? ThemeVariant.clean
-        : ThemeVariant.cozy;
     return MaterialApp.router(
       title: '잘자라라',
       debugShowCheckedModeBanner: false,
-      theme: buildAppTheme(Brightness.light, variant: variant),
+      theme: buildAppTheme(Brightness.light),
       darkTheme: buildAppTheme(Brightness.dark),
       themeMode: ThemeMode.system,
       locale: const Locale('ko', 'KR'),
