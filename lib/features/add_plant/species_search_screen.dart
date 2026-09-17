@@ -207,7 +207,7 @@ class _Results extends ConsumerWidget {
                         ],
                       ),
                     ),
-                    if (s.toxicPet || s.toxicChild)
+                    if (s.toxicSevere)
                       Icon(
                         Icons.warning_rounded,
                         color: c.warning,

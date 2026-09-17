@@ -80,9 +80,16 @@ void main() {
     expect(skin, isNotEmpty);
     expect(skin.first.toxicPet, isTrue); // Epipremnum aureum 은 반려동물 독성
 
-    // 백합: 고양이 치명, 사람(아이) 독성 없음
+    // 경고 대상은 위험한 식물만
+    final dracaena = await repo.search('행운목');
+    expect(dracaena.first.toxicSevere, isFalse);
+    final oleander = await repo.search('협죽도');
+    expect(oleander.first.toxicSevere, isTrue);
+
+    // 백합: 고양이 치명, 사람(아이) 독성 없음 → 경고 대상
     final lily = await repo.search('백합');
     expect(lily.first.toxicPet, isTrue);
     expect(lily.first.toxicChildLevel, ChildToxicity.none);
+    expect(lily.first.toxicSevere, isTrue);
   });
 }

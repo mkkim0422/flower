@@ -63,6 +63,7 @@ class SpeciesSeedLoader {
       ),
       category: Value((m['category'] as String?) ?? 'foliage'),
       toxicityNote: Value((m['toxicity_note'] as String?) ?? ''),
+      toxicSevere: Value((m['toxic_severe'] as bool?) ?? false),
       tempOptMin: Value(m['temp_opt_min'] as int?),
       tempOptMax: Value(m['temp_opt_max'] as int?),
       toxicChildLevel: Value(switch (m['toxic_child_level'] as String?) {

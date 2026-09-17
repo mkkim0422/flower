@@ -80,6 +80,9 @@ class Species extends Table {
   IntColumn get tempOptMin => integer().nullable()();
   IntColumn get tempOptMax => integer().nullable()();
 
+  /// 경고할 만큼 위험한지 (앱은 이 값이 true 일 때만 독성 경고를 띄운다)
+  BoolColumn get toxicSevere => boolean().withDefault(const Constant(false))();
+
   /// 독성 설명: 원인 부위·성분, 증상, 대처 (1~2문장)
   TextColumn get toxicityNote => text().withDefault(const Constant(''))();
 

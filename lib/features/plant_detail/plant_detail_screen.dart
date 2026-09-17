@@ -478,12 +478,14 @@ class _Body extends ConsumerWidget {
                     style: AppText.title.copyWith(color: c.textPrimary),
                   ),
                   const SizedBox(height: AppSpace.md),
-                  ToxicBadge(
-                    toxicPet: s.toxicPet,
-                    childLevel: s.toxicChildLevel,
-                    note: s.toxicityNote,
-                  ),
-                  const SizedBox(height: AppSpace.md),
+                  if (s.toxicSevere) ...[
+                    ToxicBadge(
+                      toxicPet: s.toxicPet,
+                      childLevel: s.toxicChildLevel,
+                      note: s.toxicityNote,
+                    ),
+                    const SizedBox(height: AppSpace.md),
+                  ],
                   for (final tip in careTips(s))
                     _InfoLine(icon: tip.icon, text: tip.text),
                 ],

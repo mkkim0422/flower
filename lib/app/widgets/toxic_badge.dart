@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import '../../core/enums.dart';
 import '../theme.dart';
 
-/// 독성 배지 (도감 정보 첫 줄) — DESIGN.md 4장. 반려동물(ASPCA) + 아이 3단계.
+/// 위험 경고 (2026-09-17 사용자 결정: 정말 위험한 식물만 경고).
+/// 가벼운 자극·안전한 식물에는 이 위젯을 띄우지 않는다.
 class ToxicBadge extends StatelessWidget {
   const ToxicBadge({
     super.key,
@@ -15,55 +16,30 @@ class ToxicBadge extends StatelessWidget {
   final bool toxicPet;
   final ChildToxicity childLevel;
 
-  /// 원인·증상·대처 설명 (있으면 배지 아래 표시)
+  /// 원인·증상·대처 설명
   final String? note;
+
+  String get _label {
+    if (childLevel == ChildToxicity.toxic) {
+      return toxicPet ? '반려동물·아이에게 위험해요' : '아이에게 위험해요';
+    }
+    return '반려동물에게 위험해요';
+  }
 
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    final (label, icon, color) = switch ((toxicPet, childLevel)) {
-      (true, ChildToxicity.toxic) => (
-        '반려동물·아이에게 독성',
-        Icons.warning_rounded,
-        c.warning,
-      ),
-      (true, ChildToxicity.irritant) => (
-        '반려동물에게 독성 · 아이는 삼키면 입·피부 자극',
-        Icons.warning_rounded,
-        c.warning,
-      ),
-      (true, ChildToxicity.none) => (
-        '반려동물에게 독성 · 아이에게는 안전',
-        Icons.warning_rounded,
-        c.warning,
-      ),
-      (false, ChildToxicity.toxic) => (
-        '아이에게 독성',
-        Icons.warning_rounded,
-        c.warning,
-      ),
-      (false, ChildToxicity.irritant) => (
-        '삼키면 입·피부 자극 (주의)',
-        Icons.info_rounded,
-        c.textSecondary,
-      ),
-      (false, ChildToxicity.none) => (
-        '독성 없음',
-        Icons.check_circle_rounded,
-        c.statusOk,
-      ),
-    };
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(icon, color: color, size: AppSize.icon),
+        Icon(Icons.warning_rounded, color: c.warning, size: AppSize.icon),
         const SizedBox(width: AppSpace.sm),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                label,
+                _label,
                 style: AppText.bodyStrong.copyWith(color: c.textPrimary),
               ),
               if (note != null && note!.isNotEmpty)

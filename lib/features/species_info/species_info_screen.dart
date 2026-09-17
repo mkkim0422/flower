@@ -101,15 +101,17 @@ class _Body extends StatelessWidget {
           ),
           const SizedBox(height: AppSpace.section),
 
-          // 1. 독성 (항상 최상단)
-          AppCard(
-            child: ToxicBadge(
-              toxicPet: s.toxicPet,
-              childLevel: s.toxicChildLevel,
-              note: s.toxicityNote,
+          // 1. 위험한 식물만 최상단 경고
+          if (s.toxicSevere) ...[
+            AppCard(
+              child: ToxicBadge(
+                toxicPet: s.toxicPet,
+                childLevel: s.toxicChildLevel,
+                note: s.toxicityNote,
+              ),
             ),
-          ),
-          const SizedBox(height: AppSpace.cardGap),
+            const SizedBox(height: AppSpace.cardGap),
+          ],
 
           // 2. 물
           _Section(
@@ -167,6 +169,16 @@ class _Body extends StatelessWidget {
               icon: Icons.error_outline_rounded,
               title: '흔한 문제',
               lines: s.commonIssues,
+            ),
+          // 가벼운 자극: 경고 대신 참고 한 줄
+          if (!s.toxicSevere &&
+              (s.toxicPet || s.toxicChildLevel != ChildToxicity.none))
+            Padding(
+              padding: const EdgeInsets.only(top: AppSpace.md),
+              child: Text(
+                '참고: 반려동물이나 아이가 잎을 씹으면 배탈이 날 수 있어요',
+                style: AppText.caption.copyWith(color: c.textTertiary),
+              ),
             ),
           const SizedBox(height: AppSpace.section),
           if (showRegister)

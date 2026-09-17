@@ -6,7 +6,7 @@
   "ASPCA Toxic and Non-Toxic Plants",
   "Wikipedia (학명)"
  ],
- "note": "공공 자료 기반 정리본. 독성·주기는 일반 기준이며 검수 필요. 2026-09-16 검토: 국내명 충돌 2건 정리(돈나무·나비란), 괴경·다육 물주기 2건 상향. v2: Selenicereus anthonyanus(지그재그 피쉬본) 추가. v3: 적정 온도 범위·아이 독성 3단계·물주기 검토 v3 검토: 백합 아이 독성 없음(고양이 치명), 칼랑코에·코틸레돈·아이비·튤립·히아신스 아이 기준 자극으로 하향.",
+ "note": "공공 자료 기반 정리본. 독성·주기는 일반 기준이며 검수 필요. 2026-09-16 검토: 국내명 충돌 2건 정리(돈나무·나비란), 괴경·다육 물주기 2건 상향. v2: Selenicereus anthonyanus(지그재그 피쉬본) 추가. v3: 적정 온도 범위·아이 독성 3단계·물주기 검토 v3 검토: 백합 아이 독성 없음(고양이 치명), 칼랑코에·코틸레돈·아이비·튤립·히아신스 아이 기준 자극으로 하향. toxic_severe: 아이 독성 30종 + 반려동물에게 특히 위험한 백합·칼랑코에·코틸레돈. 앱은 이것만 경고.",
  "species": [
   {
    "scientific_name": "Monstera deliciosa",
@@ -32,7 +32,8 @@
     "잎에 구멍·찢어짐이 안 생김 → 광량 부족, 밝은 간접광",
     "잎이 노랗게 변함 → 과습, 겉흙 마른 뒤 관수",
     "잎 끝 물방울·갈변 → 과습·염류, 관수량 조절"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Monstera adansonii",
@@ -58,7 +59,8 @@
     "잎이 노랗게 변함 → 과습·배수 불량, 겉흙이 마른 뒤 관수",
     "잎 끝이 갈색 → 건조·낮은 습도, 분무 또는 가습",
     "새잎이 작아지고 줄기만 길어짐 → 광량 부족, 밝은 간접광으로 이동"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Monstera dubia",
@@ -83,7 +85,8 @@
     "잎이 노랗게 변함 → 과습·배수 불량, 겉흙이 마른 뒤 관수",
     "잎 끝이 갈색 → 건조·낮은 습도, 분무 또는 가습",
     "새잎이 작아지고 줄기만 길어짐 → 광량 부족, 밝은 간접광으로 이동"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Monstera siltepecana",
@@ -108,7 +111,8 @@
     "잎이 노랗게 변함 → 과습·배수 불량, 겉흙이 마른 뒤 관수",
     "잎 끝이 갈색 → 건조·낮은 습도, 분무 또는 가습",
     "새잎이 작아지고 줄기만 길어짐 → 광량 부족, 밝은 간접광으로 이동"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Monstera standleyana",
@@ -133,7 +137,8 @@
     "잎이 노랗게 변함 → 과습·배수 불량, 겉흙이 마른 뒤 관수",
     "잎 끝이 갈색 → 건조·낮은 습도, 분무 또는 가습",
     "새잎이 작아지고 줄기만 길어짐 → 광량 부족, 밝은 간접광으로 이동"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Rhaphidophora tetrasperma",
@@ -159,7 +164,8 @@
     "잎이 노랗게 변함 → 과습·배수 불량, 겉흙이 마른 뒤 관수",
     "잎 끝이 갈색 → 건조·낮은 습도, 분무 또는 가습",
     "새잎이 작아지고 줄기만 길어짐 → 광량 부족, 밝은 간접광으로 이동"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Rhaphidophora decursiva",
@@ -184,7 +190,8 @@
     "잎이 노랗게 변함 → 과습·배수 불량, 겉흙이 마른 뒤 관수",
     "잎 끝이 갈색 → 건조·낮은 습도, 분무 또는 가습",
     "새잎이 작아지고 줄기만 길어짐 → 광량 부족, 밝은 간접광으로 이동"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Rhaphidophora hayi",
@@ -210,7 +217,8 @@
     "잎이 노랗게 변함 → 과습·배수 불량, 겉흙이 마른 뒤 관수",
     "잎 끝이 갈색 → 건조·낮은 습도, 분무 또는 가습",
     "새잎이 작아지고 줄기만 길어짐 → 광량 부족, 밝은 간접광으로 이동"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Epipremnum aureum",
@@ -237,7 +245,8 @@
     "잎이 노랗게 변함 → 과습, 흙 마른 뒤 관수",
     "무늬가 사라짐 → 광량 부족, 밝은 곳으로",
     "잎이 축 처짐 → 물 부족, 흠뻑 관수 후 회복"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Epipremnum pinnatum",
@@ -264,7 +273,8 @@
     "잎이 노랗게 변함 → 과습·배수 불량, 겉흙이 마른 뒤 관수",
     "잎 끝이 갈색 → 건조·낮은 습도, 분무 또는 가습",
     "새잎이 작아지고 줄기만 길어짐 → 광량 부족, 밝은 간접광으로 이동"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Scindapsus pictus",
@@ -291,7 +301,8 @@
     "잎이 노랗게 변함 → 과습·배수 불량, 겉흙이 마른 뒤 관수",
     "잎 끝이 갈색 → 건조·낮은 습도, 분무 또는 가습",
     "새잎이 작아지고 줄기만 길어짐 → 광량 부족, 밝은 간접광으로 이동"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Scindapsus treubii",
@@ -317,7 +328,8 @@
     "잎이 노랗게 변함 → 과습·배수 불량, 겉흙이 마른 뒤 관수",
     "잎 끝이 갈색 → 건조·낮은 습도, 분무 또는 가습",
     "새잎이 작아지고 줄기만 길어짐 → 광량 부족, 밝은 간접광으로 이동"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Syngonium podophyllum",
@@ -343,7 +355,8 @@
     "잎이 노랗게 변함 → 과습·배수 불량, 겉흙이 마른 뒤 관수",
     "잎 끝이 갈색 → 건조·낮은 습도, 분무 또는 가습",
     "새잎이 작아지고 줄기만 길어짐 → 광량 부족, 밝은 간접광으로 이동"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Syngonium wendlandii",
@@ -368,7 +381,8 @@
     "잎이 노랗게 변함 → 과습·배수 불량, 겉흙이 마른 뒤 관수",
     "잎 끝이 갈색 → 건조·낮은 습도, 분무 또는 가습",
     "새잎이 작아지고 줄기만 길어짐 → 광량 부족, 밝은 간접광으로 이동"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Spathiphyllum wallisii",
@@ -395,7 +409,8 @@
     "잎이 축 처짐 → 물 부족, 흠뻑 관수하면 회복",
     "꽃이 초록색으로 변함 → 노화·광량 부족",
     "잎 끝 갈변 → 수돗물 염류·건조, 받아둔 물 사용"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Anthurium andraeanum",
@@ -422,7 +437,8 @@
     "잎이 노랗게 변함 → 과습·배수 불량, 겉흙이 마른 뒤 관수",
     "잎 끝이 갈색 → 건조·낮은 습도, 분무 또는 가습",
     "새잎이 작아지고 줄기만 길어짐 → 광량 부족, 밝은 간접광으로 이동"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Anthurium clarinervium",
@@ -447,7 +463,8 @@
     "잎이 노랗게 변함 → 과습·배수 불량, 겉흙이 마른 뒤 관수",
     "잎 끝이 갈색 → 건조·낮은 습도, 분무 또는 가습",
     "새잎이 작아지고 줄기만 길어짐 → 광량 부족, 밝은 간접광으로 이동"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Anthurium crystallinum",
@@ -472,7 +489,8 @@
     "잎이 노랗게 변함 → 과습·배수 불량, 겉흙이 마른 뒤 관수",
     "잎 끝이 갈색 → 건조·낮은 습도, 분무 또는 가습",
     "새잎이 작아지고 줄기만 길어짐 → 광량 부족, 밝은 간접광으로 이동"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Anthurium scherzerianum",
@@ -498,7 +516,8 @@
     "잎이 노랗게 변함 → 과습·배수 불량, 겉흙이 마른 뒤 관수",
     "잎 끝이 갈색 → 건조·낮은 습도, 분무 또는 가습",
     "새잎이 작아지고 줄기만 길어짐 → 광량 부족, 밝은 간접광으로 이동"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Philodendron hederaceum",
@@ -526,7 +545,8 @@
     "잎이 노랗게 변함 → 과습·배수 불량, 겉흙이 마른 뒤 관수",
     "잎 끝이 갈색 → 건조·낮은 습도, 분무 또는 가습",
     "새잎이 작아지고 줄기만 길어짐 → 광량 부족, 밝은 간접광으로 이동"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Philodendron erubescens",
@@ -553,7 +573,8 @@
     "잎이 노랗게 변함 → 과습·배수 불량, 겉흙이 마른 뒤 관수",
     "잎 끝이 갈색 → 건조·낮은 습도, 분무 또는 가습",
     "새잎이 작아지고 줄기만 길어짐 → 광량 부족, 밝은 간접광으로 이동"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Philodendron 'Birkin'",
@@ -578,7 +599,8 @@
     "잎이 노랗게 변함 → 과습·배수 불량, 겉흙이 마른 뒤 관수",
     "잎 끝이 갈색 → 건조·낮은 습도, 분무 또는 가습",
     "새잎이 작아지고 줄기만 길어짐 → 광량 부족, 밝은 간접광으로 이동"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Philodendron 'Prince of Orange'",
@@ -603,7 +625,8 @@
     "잎이 노랗게 변함 → 과습·배수 불량, 겉흙이 마른 뒤 관수",
     "잎 끝이 갈색 → 건조·낮은 습도, 분무 또는 가습",
     "새잎이 작아지고 줄기만 길어짐 → 광량 부족, 밝은 간접광으로 이동"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Philodendron gloriosum",
@@ -628,7 +651,8 @@
     "잎이 노랗게 변함 → 과습·배수 불량, 겉흙이 마른 뒤 관수",
     "잎 끝이 갈색 → 건조·낮은 습도, 분무 또는 가습",
     "새잎이 작아지고 줄기만 길어짐 → 광량 부족, 밝은 간접광으로 이동"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Philodendron melanochrysum",
@@ -653,7 +677,8 @@
     "잎이 노랗게 변함 → 과습·배수 불량, 겉흙이 마른 뒤 관수",
     "잎 끝이 갈색 → 건조·낮은 습도, 분무 또는 가습",
     "새잎이 작아지고 줄기만 길어짐 → 광량 부족, 밝은 간접광으로 이동"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Philodendron squamiferum",
@@ -678,7 +703,8 @@
     "잎이 노랗게 변함 → 과습·배수 불량, 겉흙이 마른 뒤 관수",
     "잎 끝이 갈색 → 건조·낮은 습도, 분무 또는 가습",
     "새잎이 작아지고 줄기만 길어짐 → 광량 부족, 밝은 간접광으로 이동"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Philodendron billietiae",
@@ -703,7 +729,8 @@
     "잎이 노랗게 변함 → 과습·배수 불량, 겉흙이 마른 뒤 관수",
     "잎 끝이 갈색 → 건조·낮은 습도, 분무 또는 가습",
     "새잎이 작아지고 줄기만 길어짐 → 광량 부족, 밝은 간접광으로 이동"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Philodendron verrucosum",
@@ -728,7 +755,8 @@
     "잎이 노랗게 변함 → 과습·배수 불량, 겉흙이 마른 뒤 관수",
     "잎 끝이 갈색 → 건조·낮은 습도, 분무 또는 가습",
     "새잎이 작아지고 줄기만 길어짐 → 광량 부족, 밝은 간접광으로 이동"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Thaumatophyllum bipinnatifidum",
@@ -755,7 +783,8 @@
     "잎이 노랗게 변함 → 과습·배수 불량, 겉흙이 마른 뒤 관수",
     "잎 끝이 갈색 → 건조·낮은 습도, 분무 또는 가습",
     "새잎이 작아지고 줄기만 길어짐 → 광량 부족, 밝은 간접광으로 이동"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Thaumatophyllum xanadu",
@@ -781,7 +810,8 @@
     "잎이 노랗게 변함 → 과습·배수 불량, 겉흙이 마른 뒤 관수",
     "잎 끝이 갈색 → 건조·낮은 습도, 분무 또는 가습",
     "새잎이 작아지고 줄기만 길어짐 → 광량 부족, 밝은 간접광으로 이동"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Alocasia × amazonica",
@@ -808,7 +838,8 @@
     "잎이 노랗게 변함 → 과습·배수 불량, 겉흙이 마른 뒤 관수",
     "잎 끝이 갈색 → 건조·낮은 습도, 분무 또는 가습",
     "새잎이 작아지고 줄기만 길어짐 → 광량 부족, 밝은 간접광으로 이동"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Alocasia macrorrhizos",
@@ -834,7 +865,8 @@
     "잎이 노랗게 변함 → 과습·배수 불량, 겉흙이 마른 뒤 관수",
     "잎 끝이 갈색 → 건조·낮은 습도, 분무 또는 가습",
     "새잎이 작아지고 줄기만 길어짐 → 광량 부족, 밝은 간접광으로 이동"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Alocasia odora",
@@ -860,7 +892,8 @@
     "잎이 노랗게 변함 → 과습·배수 불량, 겉흙이 마른 뒤 관수",
     "잎 끝이 갈색 → 건조·낮은 습도, 분무 또는 가습",
     "새잎이 작아지고 줄기만 길어짐 → 광량 부족, 밝은 간접광으로 이동"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Alocasia zebrina",
@@ -885,7 +918,8 @@
     "잎이 노랗게 변함 → 과습·배수 불량, 겉흙이 마른 뒤 관수",
     "잎 끝이 갈색 → 건조·낮은 습도, 분무 또는 가습",
     "새잎이 작아지고 줄기만 길어짐 → 광량 부족, 밝은 간접광으로 이동"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Alocasia baginda",
@@ -912,7 +946,8 @@
     "잎이 노랗게 변함 → 과습·배수 불량, 겉흙이 마른 뒤 관수",
     "잎 끝이 갈색 → 건조·낮은 습도, 분무 또는 가습",
     "새잎이 작아지고 줄기만 길어짐 → 광량 부족, 밝은 간접광으로 이동"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Alocasia cuprea",
@@ -937,7 +972,8 @@
     "잎이 노랗게 변함 → 과습·배수 불량, 겉흙이 마른 뒤 관수",
     "잎 끝이 갈색 → 건조·낮은 습도, 분무 또는 가습",
     "새잎이 작아지고 줄기만 길어짐 → 광량 부족, 밝은 간접광으로 이동"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Alocasia micholitziana",
@@ -963,7 +999,8 @@
     "잎이 노랗게 변함 → 과습·배수 불량, 겉흙이 마른 뒤 관수",
     "잎 끝이 갈색 → 건조·낮은 습도, 분무 또는 가습",
     "새잎이 작아지고 줄기만 길어짐 → 광량 부족, 밝은 간접광으로 이동"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Alocasia reginula",
@@ -989,7 +1026,8 @@
     "잎이 노랗게 변함 → 과습·배수 불량, 겉흙이 마른 뒤 관수",
     "잎 끝이 갈색 → 건조·낮은 습도, 분무 또는 가습",
     "새잎이 작아지고 줄기만 길어짐 → 광량 부족, 밝은 간접광으로 이동"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Alocasia sanderiana",
@@ -1014,7 +1052,8 @@
     "잎이 노랗게 변함 → 과습·배수 불량, 겉흙이 마른 뒤 관수",
     "잎 끝이 갈색 → 건조·낮은 습도, 분무 또는 가습",
     "새잎이 작아지고 줄기만 길어짐 → 광량 부족, 밝은 간접광으로 이동"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Alocasia wentii",
@@ -1039,7 +1078,8 @@
     "잎이 노랗게 변함 → 과습·배수 불량, 겉흙이 마른 뒤 관수",
     "잎 끝이 갈색 → 건조·낮은 습도, 분무 또는 가습",
     "새잎이 작아지고 줄기만 길어짐 → 광량 부족, 밝은 간접광으로 이동"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Alocasia cucullata",
@@ -1064,7 +1104,8 @@
     "잎이 노랗게 변함 → 과습·배수 불량, 겉흙이 마른 뒤 관수",
     "잎 끝이 갈색 → 건조·낮은 습도, 분무 또는 가습",
     "새잎이 작아지고 줄기만 길어짐 → 광량 부족, 밝은 간접광으로 이동"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Alocasia longiloba",
@@ -1089,7 +1130,8 @@
     "잎이 노랗게 변함 → 과습·배수 불량, 겉흙이 마른 뒤 관수",
     "잎 끝이 갈색 → 건조·낮은 습도, 분무 또는 가습",
     "새잎이 작아지고 줄기만 길어짐 → 광량 부족, 밝은 간접광으로 이동"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Caladium bicolor",
@@ -1115,7 +1157,8 @@
     "잎이 노랗게 변함 → 과습·배수 불량, 겉흙이 마른 뒤 관수",
     "잎 끝이 갈색 → 건조·낮은 습도, 분무 또는 가습",
     "새잎이 작아지고 줄기만 길어짐 → 광량 부족, 밝은 간접광으로 이동"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Aglaonema commutatum",
@@ -1142,7 +1185,8 @@
     "잎이 노랗게 변함 → 과습·배수 불량, 겉흙이 마른 뒤 관수",
     "잎 끝이 갈색 → 건조·낮은 습도, 분무 또는 가습",
     "새잎이 작아지고 줄기만 길어짐 → 광량 부족, 밝은 간접광으로 이동"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Aglaonema modestum",
@@ -1168,7 +1212,8 @@
     "잎이 노랗게 변함 → 과습·배수 불량, 겉흙이 마른 뒤 관수",
     "잎 끝이 갈색 → 건조·낮은 습도, 분무 또는 가습",
     "새잎이 작아지고 줄기만 길어짐 → 광량 부족, 밝은 간접광으로 이동"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Aglaonema pictum",
@@ -1194,7 +1239,8 @@
     "잎이 노랗게 변함 → 과습·배수 불량, 겉흙이 마른 뒤 관수",
     "잎 끝이 갈색 → 건조·낮은 습도, 분무 또는 가습",
     "새잎이 작아지고 줄기만 길어짐 → 광량 부족, 밝은 간접광으로 이동"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Aglaonema costatum",
@@ -1219,7 +1265,8 @@
     "잎이 노랗게 변함 → 과습·배수 불량, 겉흙이 마른 뒤 관수",
     "잎 끝이 갈색 → 건조·낮은 습도, 분무 또는 가습",
     "새잎이 작아지고 줄기만 길어짐 → 광량 부족, 밝은 간접광으로 이동"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Dieffenbachia seguine",
@@ -1246,7 +1293,8 @@
     "잎 아래쪽이 노랗게 변함 → 과습·저온, 배수 확인",
     "잎 가장자리 갈변 → 건조·염류",
     "즙 접촉 시 피부 자극 → 장갑 착용, 어린이·반려동물 주의"
-   ]
+   ],
+   "toxic_severe": true
   },
   {
    "scientific_name": "Zamioculcas zamiifolia",
@@ -1272,7 +1320,8 @@
     "잎이 노랗게 변하고 줄기 물러짐 → 과습, 흙 완전히 마른 뒤 관수",
     "새잎이 안 나옴 → 저온·광 부족, 봄여름 밝은 곳",
     "잎이 쭈글쭈글 → 극심한 건조, 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Homalomena rubescens",
@@ -1298,7 +1347,8 @@
     "잎이 노랗게 변함 → 과습·배수 불량, 겉흙이 마른 뒤 관수",
     "잎 끝이 갈색 → 건조·낮은 습도, 분무 또는 가습",
     "새잎이 작아지고 줄기만 길어짐 → 광량 부족, 밝은 간접광으로 이동"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Dracaena trifasciata",
@@ -1325,7 +1375,8 @@
     "잎이 물러지고 밑동이 썩음 → 과습, 흙 완전히 마른 뒤 관수",
     "잎이 쭈글쭈글하고 얇아짐 → 극심한 건조, 흠뻑 관수",
     "잎이 옆으로 쓰러짐 → 광량 부족·뿌리 손상"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Dracaena angolensis",
@@ -1352,7 +1403,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Dracaena hanningtonii",
@@ -1379,7 +1431,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Dracaena masoniana",
@@ -1405,7 +1458,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Dracaena pethera",
@@ -1431,7 +1485,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Dracaena fragrans",
@@ -1459,7 +1514,8 @@
     "잎 끝 갈변 → 불소·염소 있는 수돗물, 받아둔 물 사용",
     "아랫잎 처짐·황변 → 과습, 흙 완전히 마른 뒤 관수",
     "줄기 물러짐 → 뿌리썩음, 즉시 분갈이·건조"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Dracaena marginata",
@@ -1486,7 +1542,8 @@
     "잎 끝 갈변 → 불소·염소 있는 수돗물, 받아둔 물 사용",
     "아랫잎 처짐·황변 → 과습, 흙 완전히 마른 뒤 관수",
     "줄기 물러짐 → 뿌리썩음, 즉시 분갈이·건조"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Dracaena reflexa",
@@ -1513,7 +1570,8 @@
     "잎 끝 갈변 → 불소·염소 있는 수돗물, 받아둔 물 사용",
     "아랫잎 처짐·황변 → 과습, 흙 완전히 마른 뒤 관수",
     "줄기 물러짐 → 뿌리썩음, 즉시 분갈이·건조"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Dracaena sanderiana",
@@ -1540,7 +1598,8 @@
     "잎 끝 황변 → 수돗물 염소·불소, 받아둔 물 또는 정수 사용",
     "줄기가 노랗게 변함 → 뿌리썩음·과다 비료, 물 교체",
     "잎이 처짐 → 광량 부족"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Dracaena surculosa",
@@ -1566,7 +1625,8 @@
     "잎 끝 갈변 → 불소·염소 있는 수돗물, 받아둔 물 사용",
     "아랫잎 처짐·황변 → 과습, 흙 완전히 마른 뒤 관수",
     "줄기 물러짐 → 뿌리썩음, 즉시 분갈이·건조"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Dracaena draco",
@@ -1592,7 +1652,8 @@
     "잎 끝 갈변 → 불소·염소 있는 수돗물, 받아둔 물 사용",
     "아랫잎 처짐·황변 → 과습, 흙 완전히 마른 뒤 관수",
     "줄기 물러짐 → 뿌리썩음, 즉시 분갈이·건조"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Cordyline fruticosa",
@@ -1619,7 +1680,8 @@
     "잎 끝 갈변 → 불소·염소 있는 수돗물, 받아둔 물 사용",
     "아랫잎 처짐·황변 → 과습, 흙 완전히 마른 뒤 관수",
     "줄기 물러짐 → 뿌리썩음, 즉시 분갈이·건조"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Cordyline australis",
@@ -1645,7 +1707,8 @@
     "잎 끝 갈변 → 불소·염소 있는 수돗물, 받아둔 물 사용",
     "아랫잎 처짐·황변 → 과습, 흙 완전히 마른 뒤 관수",
     "줄기 물러짐 → 뿌리썩음, 즉시 분갈이·건조"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Chamaedorea elegans",
@@ -1672,7 +1735,8 @@
     "잎 끝이 갈색 → 건조·염류 축적, 분무 및 가끔 흠뻑 관수",
     "아랫잎 황변 → 과습·저온, 배수 확인",
     "잎에 흰 솜·점 → 깍지벌레·응애, 닦아내고 살충"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Chamaedorea seifrizii",
@@ -1699,7 +1763,8 @@
     "잎 끝이 갈색 → 건조·염류 축적, 분무 및 가끔 흠뻑 관수",
     "아랫잎 황변 → 과습·저온, 배수 확인",
     "잎에 흰 솜·점 → 깍지벌레·응애, 닦아내고 살충"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Dypsis lutescens",
@@ -1726,7 +1791,8 @@
     "잎 끝이 갈색 → 건조·염류 축적, 분무 및 가끔 흠뻑 관수",
     "아랫잎 황변 → 과습·저온, 배수 확인",
     "잎에 흰 솜·점 → 깍지벌레·응애, 닦아내고 살충"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Howea forsteriana",
@@ -1752,7 +1818,8 @@
     "잎 끝이 갈색 → 건조·염류 축적, 분무 및 가끔 흠뻑 관수",
     "아랫잎 황변 → 과습·저온, 배수 확인",
     "잎에 흰 솜·점 → 깍지벌레·응애, 닦아내고 살충"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Rhapis excelsa",
@@ -1778,7 +1845,8 @@
     "잎 끝이 갈색 → 건조·염류 축적, 분무 및 가끔 흠뻑 관수",
     "아랫잎 황변 → 과습·저온, 배수 확인",
     "잎에 흰 솜·점 → 깍지벌레·응애, 닦아내고 살충"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Livistona chinensis",
@@ -1804,7 +1872,8 @@
     "잎 끝이 갈색 → 건조·염류 축적, 분무 및 가끔 흠뻑 관수",
     "아랫잎 황변 → 과습·저온, 배수 확인",
     "잎에 흰 솜·점 → 깍지벌레·응애, 닦아내고 살충"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Phoenix roebelenii",
@@ -1830,7 +1899,8 @@
     "잎 끝이 갈색 → 건조·염류 축적, 분무 및 가끔 흠뻑 관수",
     "아랫잎 황변 → 과습·저온, 배수 확인",
     "잎에 흰 솜·점 → 깍지벌레·응애, 닦아내고 살충"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Caryota mitis",
@@ -1856,7 +1926,8 @@
     "잎 끝이 갈색 → 건조·염류 축적, 분무 및 가끔 흠뻑 관수",
     "아랫잎 황변 → 과습·저온, 배수 확인",
     "잎에 흰 솜·점 → 깍지벌레·응애, 닦아내고 살충"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Licuala grandis",
@@ -1882,7 +1953,8 @@
     "잎 끝이 갈색 → 건조·염류 축적, 분무 및 가끔 흠뻑 관수",
     "아랫잎 황변 → 과습·저온, 배수 확인",
     "잎에 흰 솜·점 → 깍지벌레·응애, 닦아내고 살충"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Ravenea rivularis",
@@ -1908,7 +1980,8 @@
     "잎 끝이 갈색 → 건조·염류 축적, 분무 및 가끔 흠뻑 관수",
     "아랫잎 황변 → 과습·저온, 배수 확인",
     "잎에 흰 솜·점 → 깍지벌레·응애, 닦아내고 살충"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Cycas revoluta",
@@ -1933,7 +2006,8 @@
     "새잎이 노랗게 변함 → 과습·양분 부족, 배수 확인",
     "잎이 안 나옴 → 광 부족·저온, 밝은 곳",
     "깍지벌레 → 잎 뒷면 확인·살충"
-   ]
+   ],
+   "toxic_severe": true
   },
   {
    "scientific_name": "Zamia furfuracea",
@@ -1960,7 +2034,8 @@
     "새잎이 노랗게 변함 → 과습·양분 부족, 배수 확인",
     "잎이 안 나옴 → 광 부족·저온, 밝은 곳",
     "깍지벌레 → 잎 뒷면 확인·살충"
-   ]
+   ],
+   "toxic_severe": true
   },
   {
    "scientific_name": "Goeppertia orbifolia",
@@ -1986,7 +2061,8 @@
     "잎 가장자리 갈변·말림 → 낮은 습도·수돗물 염소, 가습·정수 사용",
     "잎이 처지고 무늬가 흐려짐 → 과습 또는 직사광, 위치 조정",
     "잎 뒷면 거미줄 → 응애, 잎 세척·살충"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Goeppertia makoyana",
@@ -2012,7 +2088,8 @@
     "잎 가장자리 갈변·말림 → 낮은 습도·수돗물 염소, 가습·정수 사용",
     "잎이 처지고 무늬가 흐려짐 → 과습 또는 직사광, 위치 조정",
     "잎 뒷면 거미줄 → 응애, 잎 세척·살충"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Goeppertia insignis",
@@ -2038,7 +2115,8 @@
     "잎 가장자리 갈변·말림 → 낮은 습도·수돗물 염소, 가습·정수 사용",
     "잎이 처지고 무늬가 흐려짐 → 과습 또는 직사광, 위치 조정",
     "잎 뒷면 거미줄 → 응애, 잎 세척·살충"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Goeppertia roseopicta",
@@ -2065,7 +2143,8 @@
     "잎 가장자리 갈변·말림 → 낮은 습도·수돗물 염소, 가습·정수 사용",
     "잎이 처지고 무늬가 흐려짐 → 과습 또는 직사광, 위치 조정",
     "잎 뒷면 거미줄 → 응애, 잎 세척·살충"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Goeppertia zebrina",
@@ -2090,7 +2169,8 @@
     "잎 가장자리 갈변·말림 → 낮은 습도·수돗물 염소, 가습·정수 사용",
     "잎이 처지고 무늬가 흐려짐 → 과습 또는 직사광, 위치 조정",
     "잎 뒷면 거미줄 → 응애, 잎 세척·살충"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Goeppertia warszewiczii",
@@ -2116,7 +2196,8 @@
     "잎 가장자리 갈변·말림 → 낮은 습도·수돗물 염소, 가습·정수 사용",
     "잎이 처지고 무늬가 흐려짐 → 과습 또는 직사광, 위치 조정",
     "잎 뒷면 거미줄 → 응애, 잎 세척·살충"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Goeppertia concinna",
@@ -2142,7 +2223,8 @@
     "잎 가장자리 갈변·말림 → 낮은 습도·수돗물 염소, 가습·정수 사용",
     "잎이 처지고 무늬가 흐려짐 → 과습 또는 직사광, 위치 조정",
     "잎 뒷면 거미줄 → 응애, 잎 세척·살충"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Goeppertia crocata",
@@ -2168,7 +2250,8 @@
     "잎 가장자리 갈변·말림 → 낮은 습도·수돗물 염소, 가습·정수 사용",
     "잎이 처지고 무늬가 흐려짐 → 과습 또는 직사광, 위치 조정",
     "잎 뒷면 거미줄 → 응애, 잎 세척·살충"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Goeppertia ornata",
@@ -2195,7 +2278,8 @@
     "잎 가장자리 갈변·말림 → 낮은 습도·수돗물 염소, 가습·정수 사용",
     "잎이 처지고 무늬가 흐려짐 → 과습 또는 직사광, 위치 조정",
     "잎 뒷면 거미줄 → 응애, 잎 세척·살충"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Maranta leuconeura",
@@ -2222,7 +2306,8 @@
     "잎 가장자리 갈변·말림 → 낮은 습도·수돗물 염소, 가습·정수 사용",
     "잎이 처지고 무늬가 흐려짐 → 과습 또는 직사광, 위치 조정",
     "잎 뒷면 거미줄 → 응애, 잎 세척·살충"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Ctenanthe setosa",
@@ -2248,7 +2333,8 @@
     "잎 가장자리 갈변·말림 → 낮은 습도·수돗물 염소, 가습·정수 사용",
     "잎이 처지고 무늬가 흐려짐 → 과습 또는 직사광, 위치 조정",
     "잎 뒷면 거미줄 → 응애, 잎 세척·살충"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Ctenanthe burle-marxii",
@@ -2274,7 +2360,8 @@
     "잎 가장자리 갈변·말림 → 낮은 습도·수돗물 염소, 가습·정수 사용",
     "잎이 처지고 무늬가 흐려짐 → 과습 또는 직사광, 위치 조정",
     "잎 뒷면 거미줄 → 응애, 잎 세척·살충"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Stromanthe thalia",
@@ -2300,7 +2387,8 @@
     "잎 가장자리 갈변·말림 → 낮은 습도·수돗물 염소, 가습·정수 사용",
     "잎이 처지고 무늬가 흐려짐 → 과습 또는 직사광, 위치 조정",
     "잎 뒷면 거미줄 → 응애, 잎 세척·살충"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Ficus benghalensis",
@@ -2327,7 +2415,8 @@
     "잎이 떨어짐 → 환경 변화(이동·온도·통풍), 자리 고정 후 적응 대기",
     "잎에 갈색 반점 → 과습·저온, 물 주기 늘리기",
     "새잎이 안 나옴 → 광량 부족, 밝은 곳으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Ficus lyrata",
@@ -2353,7 +2442,8 @@
     "잎에 갈색 반점이 번짐 → 과습·뿌리썩음, 흙 마른 뒤 관수",
     "잎이 떨어짐 → 이동·통풍·온도 변화, 자리 고정",
     "새잎이 작음 → 광량 부족, 밝은 창가"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Ficus elastica",
@@ -2381,7 +2471,8 @@
     "잎이 떨어짐 → 환경 변화(이동·온도·통풍), 자리 고정 후 적응 대기",
     "잎에 갈색 반점 → 과습·저온, 물 주기 늘리기",
     "새잎이 안 나옴 → 광량 부족, 밝은 곳으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Ficus benjamina",
@@ -2407,7 +2498,8 @@
     "잎이 떨어짐 → 환경 변화(이동·온도·통풍), 자리 고정 후 적응 대기",
     "잎에 갈색 반점 → 과습·저온, 물 주기 늘리기",
     "새잎이 안 나옴 → 광량 부족, 밝은 곳으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Ficus microcarpa",
@@ -2435,7 +2527,8 @@
     "잎이 떨어짐 → 환경 변화(이동·온도·통풍), 자리 고정 후 적응 대기",
     "잎에 갈색 반점 → 과습·저온, 물 주기 늘리기",
     "새잎이 안 나옴 → 광량 부족, 밝은 곳으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Ficus altissima",
@@ -2461,7 +2554,8 @@
     "잎이 떨어짐 → 환경 변화(이동·온도·통풍), 자리 고정 후 적응 대기",
     "잎에 갈색 반점 → 과습·저온, 물 주기 늘리기",
     "새잎이 안 나옴 → 광량 부족, 밝은 곳으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Ficus umbellata",
@@ -2487,7 +2581,8 @@
     "잎이 떨어짐 → 환경 변화(이동·온도·통풍), 자리 고정 후 적응 대기",
     "잎에 갈색 반점 → 과습·저온, 물 주기 늘리기",
     "새잎이 안 나옴 → 광량 부족, 밝은 곳으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Ficus pumila",
@@ -2514,7 +2609,8 @@
     "잎이 떨어짐 → 환경 변화(이동·온도·통풍), 자리 고정 후 적응 대기",
     "잎에 갈색 반점 → 과습·저온, 물 주기 늘리기",
     "새잎이 안 나옴 → 광량 부족, 밝은 곳으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Ficus triangularis",
@@ -2540,7 +2636,8 @@
     "잎이 떨어짐 → 환경 변화(이동·온도·통풍), 자리 고정 후 적응 대기",
     "잎에 갈색 반점 → 과습·저온, 물 주기 늘리기",
     "새잎이 안 나옴 → 광량 부족, 밝은 곳으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Ficus maclellandii",
@@ -2567,7 +2664,8 @@
     "잎이 떨어짐 → 환경 변화(이동·온도·통풍), 자리 고정 후 적응 대기",
     "잎에 갈색 반점 → 과습·저온, 물 주기 늘리기",
     "새잎이 안 나옴 → 광량 부족, 밝은 곳으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Ficus religiosa",
@@ -2593,7 +2691,8 @@
     "잎이 떨어짐 → 환경 변화(이동·온도·통풍), 자리 고정 후 적응 대기",
     "잎에 갈색 반점 → 과습·저온, 물 주기 늘리기",
     "새잎이 안 나옴 → 광량 부족, 밝은 곳으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Ficus carica",
@@ -2619,7 +2718,8 @@
     "잎이 떨어짐 → 환경 변화(이동·온도·통풍), 자리 고정 후 적응 대기",
     "잎에 갈색 반점 → 과습·저온, 물 주기 늘리기",
     "새잎이 안 나옴 → 광량 부족, 밝은 곳으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Strelitzia nicolai",
@@ -2646,7 +2746,8 @@
     "잎이 노랗게 변함 → 과습, 겉흙이 마른 뒤 관수",
     "잎 끝 갈변 → 건조한 공기, 분무·가습",
     "웃자람 → 광량 부족, 밝은 간접광으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Strelitzia reginae",
@@ -2672,7 +2773,8 @@
     "잎이 노랗게 변함 → 과습, 겉흙이 마른 뒤 관수",
     "잎 끝 갈변 → 건조한 공기, 분무·가습",
     "웃자람 → 광량 부족, 밝은 간접광으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Heptapleurum arboricola",
@@ -2700,7 +2802,8 @@
     "잎이 떨어짐 → 과습·저온·급격한 환경 변화",
     "잎 끝 갈변 → 건조, 분무",
     "잎에 끈적임 → 깍지벌레·진딧물, 살충"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Heptapleurum actinophyllum",
@@ -2727,7 +2830,8 @@
     "잎이 노랗게 변함 → 과습, 겉흙이 마른 뒤 관수",
     "잎 끝 갈변 → 건조한 공기, 분무·가습",
     "웃자람 → 광량 부족, 밝은 간접광으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Plerandra elegantissima",
@@ -2754,7 +2858,8 @@
     "잎이 노랗게 변함 → 과습, 겉흙이 마른 뒤 관수",
     "잎 끝 갈변 → 건조한 공기, 분무·가습",
     "웃자람 → 광량 부족, 밝은 간접광으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Polyscias fruticosa",
@@ -2781,7 +2886,8 @@
     "잎이 노랗게 변함 → 과습, 겉흙이 마른 뒤 관수",
     "잎 끝 갈변 → 건조한 공기, 분무·가습",
     "웃자람 → 광량 부족, 밝은 간접광으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Polyscias scutellaria",
@@ -2807,7 +2913,8 @@
     "잎이 노랗게 변함 → 과습, 겉흙이 마른 뒤 관수",
     "잎 끝 갈변 → 건조한 공기, 분무·가습",
     "웃자람 → 광량 부족, 밝은 간접광으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Fatsia japonica",
@@ -2833,7 +2940,8 @@
     "잎이 노랗게 변함 → 과습, 겉흙이 마른 뒤 관수",
     "잎 끝 갈변 → 건조한 공기, 분무·가습",
     "웃자람 → 광량 부족, 밝은 간접광으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "× Fatshedera lizei",
@@ -2859,7 +2967,8 @@
     "잎이 노랗게 변함 → 과습, 겉흙이 마른 뒤 관수",
     "잎 끝 갈변 → 건조한 공기, 분무·가습",
     "웃자람 → 광량 부족, 밝은 간접광으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Hedera helix",
@@ -2886,7 +2995,8 @@
     "잎이 마르고 거미줄 → 응애(건조·고온), 잎 세척·가습",
     "잎이 노랗게 변함 → 과습",
     "잎 무늬 사라짐 → 광량 부족"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Hedera algeriensis",
@@ -2913,7 +3023,8 @@
     "잎이 노랗게 변함 → 과습, 겉흙이 마른 뒤 관수",
     "잎 끝 갈변 → 건조한 공기, 분무·가습",
     "웃자람 → 광량 부족, 밝은 간접광으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Pachira aquatica",
@@ -2939,7 +3050,8 @@
     "잎이 노랗게 변하고 떨어짐 → 과습, 흙 마른 뒤 관수",
     "잎 끝 갈변 → 건조·직사광",
     "줄기 밑동 물러짐 → 뿌리썩음, 분갈이"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Chlorophytum comosum",
@@ -2966,7 +3078,8 @@
     "잎 끝 갈변 → 수돗물 불소·염류, 받아둔 물 사용",
     "잎이 창백해짐 → 광량 부족·비료 부족",
     "잎이 축 처짐 → 물 부족·뿌리 꽉 참, 분갈이"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Aspidistra elatior",
@@ -2991,7 +3104,8 @@
     "잎이 노랗게 변함 → 과습, 겉흙이 마른 뒤 관수",
     "잎 끝 갈변 → 건조한 공기, 분무·가습",
     "웃자람 → 광량 부족, 밝은 간접광으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Pilea peperomioides",
@@ -3018,7 +3132,8 @@
     "잎이 안쪽으로 말림 → 광량 부족 또는 과습",
     "잎이 노랗게 변하고 떨어짐 → 과습",
     "한쪽으로 기움 → 빛 방향, 주기적으로 화분 돌리기"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Pilea cadierei",
@@ -3044,7 +3159,8 @@
     "잎이 노랗게 변함 → 과습, 겉흙이 마른 뒤 관수",
     "잎 끝 갈변 → 건조한 공기, 분무·가습",
     "웃자람 → 광량 부족, 밝은 간접광으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Pilea involucrata",
@@ -3070,7 +3186,8 @@
     "잎이 노랗게 변함 → 과습, 겉흙이 마른 뒤 관수",
     "잎 끝 갈변 → 건조한 공기, 분무·가습",
     "웃자람 → 광량 부족, 밝은 간접광으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Pilea glauca",
@@ -3096,7 +3213,8 @@
     "잎이 노랗게 변함 → 과습, 겉흙이 마른 뒤 관수",
     "잎 끝 갈변 → 건조한 공기, 분무·가습",
     "웃자람 → 광량 부족, 밝은 간접광으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Pilea depressa",
@@ -3122,7 +3240,8 @@
     "잎이 노랗게 변함 → 과습, 겉흙이 마른 뒤 관수",
     "잎 끝 갈변 → 건조한 공기, 분무·가습",
     "웃자람 → 광량 부족, 밝은 간접광으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Fittonia albivenis",
@@ -3149,7 +3268,8 @@
     "잎이 축 늘어짐 → 물 부족, 관수하면 빠르게 회복",
     "잎 끝 갈변 → 낮은 습도, 분무·가습",
     "잎 황변 → 과습"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Hypoestes phyllostachya",
@@ -3176,7 +3296,8 @@
     "잎이 노랗게 변함 → 과습, 겉흙이 마른 뒤 관수",
     "잎 끝 갈변 → 건조한 공기, 분무·가습",
     "웃자람 → 광량 부족, 밝은 간접광으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Aphelandra squarrosa",
@@ -3202,7 +3323,8 @@
     "잎이 노랗게 변함 → 과습, 겉흙이 마른 뒤 관수",
     "잎 끝 갈변 → 건조한 공기, 분무·가습",
     "웃자람 → 광량 부족, 밝은 간접광으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Strobilanthes dyerianus",
@@ -3228,7 +3350,8 @@
     "잎이 노랗게 변함 → 과습, 겉흙이 마른 뒤 관수",
     "잎 끝 갈변 → 건조한 공기, 분무·가습",
     "웃자람 → 광량 부족, 밝은 간접광으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Codiaeum variegatum",
@@ -3254,7 +3377,8 @@
     "잎이 떨어짐 → 저온·환경 변화, 15℃ 이상 유지",
     "잎 색이 흐려짐 → 광량 부족, 밝은 곳",
     "잎 뒷면 거미줄 → 응애, 가습·살충"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Coleus scutellarioides",
@@ -3280,7 +3404,8 @@
     "잎이 노랗게 변함 → 과습, 겉흙이 마른 뒤 관수",
     "잎 끝 갈변 → 건조한 공기, 분무·가습",
     "웃자람 → 광량 부족, 밝은 간접광으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Iresine herbstii",
@@ -3307,7 +3432,8 @@
     "잎이 노랗게 변함 → 과습, 겉흙이 마른 뒤 관수",
     "잎 끝 갈변 → 건조한 공기, 분무·가습",
     "웃자람 → 광량 부족, 밝은 간접광으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Tradescantia zebrina",
@@ -3334,7 +3460,8 @@
     "줄기가 길고 잎 간격 벌어짐 → 광량 부족, 가지치기·삽목",
     "잎 색이 흐려짐 → 빛 부족",
     "잎 끝 갈변 → 건조"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Tradescantia fluminensis",
@@ -3361,7 +3488,8 @@
     "줄기가 길고 잎 간격 벌어짐 → 광량 부족, 가지치기·삽목",
     "잎 색이 흐려짐 → 빛 부족",
     "잎 끝 갈변 → 건조"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Tradescantia pallida",
@@ -3388,7 +3516,8 @@
     "줄기가 길고 잎 간격 벌어짐 → 광량 부족, 가지치기·삽목",
     "잎 색이 흐려짐 → 빛 부족",
     "잎 끝 갈변 → 건조"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Tradescantia spathacea",
@@ -3415,7 +3544,8 @@
     "줄기가 길고 잎 간격 벌어짐 → 광량 부족, 가지치기·삽목",
     "잎 색이 흐려짐 → 빛 부족",
     "잎 끝 갈변 → 건조"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Tradescantia sillamontana",
@@ -3441,7 +3571,8 @@
     "줄기가 길고 잎 간격 벌어짐 → 광량 부족, 가지치기·삽목",
     "잎 색이 흐려짐 → 빛 부족",
     "잎 끝 갈변 → 건조"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Tradescantia cerinthoides",
@@ -3468,7 +3599,8 @@
     "줄기가 길고 잎 간격 벌어짐 → 광량 부족, 가지치기·삽목",
     "잎 색이 흐려짐 → 빛 부족",
     "잎 끝 갈변 → 건조"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Callisia repens",
@@ -3495,7 +3627,8 @@
     "줄기가 길고 잎 간격 벌어짐 → 광량 부족, 가지치기·삽목",
     "잎 색이 흐려짐 → 빛 부족",
     "잎 끝 갈변 → 건조"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Callisia fragrans",
@@ -3521,7 +3654,8 @@
     "줄기가 길고 잎 간격 벌어짐 → 광량 부족, 가지치기·삽목",
     "잎 색이 흐려짐 → 빛 부족",
     "잎 끝 갈변 → 건조"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Cissus rhombifolia",
@@ -3548,7 +3682,8 @@
     "잎이 노랗게 변함 → 과습, 겉흙이 마른 뒤 관수",
     "잎 끝 갈변 → 건조한 공기, 분무·가습",
     "웃자람 → 광량 부족, 밝은 간접광으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Cissus discolor",
@@ -3575,7 +3710,8 @@
     "잎이 노랗게 변함 → 과습, 겉흙이 마른 뒤 관수",
     "잎 끝 갈변 → 건조한 공기, 분무·가습",
     "웃자람 → 광량 부족, 밝은 간접광으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Plectranthus verticillatus",
@@ -3601,7 +3737,8 @@
     "잎이 노랗게 변함 → 과습, 겉흙이 마른 뒤 관수",
     "잎 끝 갈변 → 건조한 공기, 분무·가습",
     "웃자람 → 광량 부족, 밝은 간접광으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Beaucarnea recurvata",
@@ -3629,7 +3766,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Yucca gigantea",
@@ -3656,7 +3794,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Pandanus tectorius",
@@ -3682,7 +3821,8 @@
     "잎이 노랗게 변함 → 과습, 겉흙이 마른 뒤 관수",
     "잎 끝 갈변 → 건조한 공기, 분무·가습",
     "웃자람 → 광량 부족, 밝은 간접광으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Musa acuminata",
@@ -3709,7 +3849,8 @@
     "잎이 노랗게 변함 → 과습, 겉흙이 마른 뒤 관수",
     "잎 끝 갈변 → 건조한 공기, 분무·가습",
     "웃자람 → 광량 부족, 밝은 간접광으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Alpinia zerumbet",
@@ -3736,7 +3877,8 @@
     "잎이 노랗게 변함 → 과습, 겉흙이 마른 뒤 관수",
     "잎 끝 갈변 → 건조한 공기, 분무·가습",
     "웃자람 → 광량 부족, 밝은 간접광으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Ardisia crenata",
@@ -3762,7 +3904,8 @@
     "잎이 노랗게 변함 → 과습, 겉흙이 마른 뒤 관수",
     "잎 끝 갈변 → 건조한 공기, 분무·가습",
     "웃자람 → 광량 부족, 밝은 간접광으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Ardisia japonica",
@@ -3787,7 +3930,8 @@
     "잎이 노랗게 변함 → 과습, 겉흙이 마른 뒤 관수",
     "잎 끝 갈변 → 건조한 공기, 분무·가습",
     "웃자람 → 광량 부족, 밝은 간접광으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Nandina domestica",
@@ -3812,7 +3956,8 @@
     "잎이 노랗게 변함 → 과습, 겉흙이 마른 뒤 관수",
     "잎 끝 갈변 → 건조한 공기, 분무·가습",
     "웃자람 → 광량 부족, 밝은 간접광으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Pittosporum tobira",
@@ -3838,7 +3983,8 @@
     "잎이 노랗게 변함 → 과습, 겉흙이 마른 뒤 관수",
     "잎 끝 갈변 → 건조한 공기, 분무·가습",
     "웃자람 → 광량 부족, 밝은 간접광으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Podocarpus macrophyllus",
@@ -3864,7 +4010,8 @@
     "잎이 노랗게 변함 → 과습, 겉흙이 마른 뒤 관수",
     "잎 끝 갈변 → 건조한 공기, 분무·가습",
     "웃자람 → 광량 부족, 밝은 간접광으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Hesperocyparis macrocarpa",
@@ -3891,7 +4038,8 @@
     "잎이 갈색으로 마름 → 물 부족·통풍 부족, 흙 마르기 전 관수",
     "안쪽 잎이 갈변 → 통풍·광 부족, 밝고 바람 잘 통하는 곳",
     "웃자람 → 광량 부족, 직사광"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Araucaria heterophylla",
@@ -3917,7 +4065,8 @@
     "잎이 노랗게 변함 → 과습, 겉흙이 마른 뒤 관수",
     "잎 끝 갈변 → 건조한 공기, 분무·가습",
     "웃자람 → 광량 부족, 밝은 간접광으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Radermachera sinica",
@@ -3944,7 +4093,8 @@
     "잎이 노랗게 변함 → 과습, 겉흙이 마른 뒤 관수",
     "잎 끝 갈변 → 건조한 공기, 분무·가습",
     "웃자람 → 광량 부족, 밝은 간접광으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Piper crocatum",
@@ -3970,7 +4120,8 @@
     "잎이 노랗게 변함 → 과습, 겉흙이 마른 뒤 관수",
     "잎 끝 갈변 → 건조한 공기, 분무·가습",
     "웃자람 → 광량 부족, 밝은 간접광으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Coffea arabica",
@@ -3996,7 +4147,8 @@
     "잎이 노랗게 변함 → 과습, 겉흙이 마른 뒤 관수",
     "잎 끝 갈변 → 건조한 공기, 분무·가습",
     "웃자람 → 광량 부족, 밝은 간접광으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Ophiopogon japonicus",
@@ -4022,7 +4174,8 @@
     "잎이 노랗게 변함 → 과습, 겉흙이 마른 뒤 관수",
     "잎 끝 갈변 → 건조한 공기, 분무·가습",
     "웃자람 → 광량 부족, 밝은 간접광으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Ludisia discolor",
@@ -4049,7 +4202,8 @@
     "잎이 노랗게 변함 → 과습, 겉흙이 마른 뒤 관수",
     "잎 끝 갈변 → 건조한 공기, 분무·가습",
     "웃자람 → 광량 부족, 밝은 간접광으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Macodes petola",
@@ -4075,7 +4229,8 @@
     "잎이 노랗게 변함 → 과습, 겉흙이 마른 뒤 관수",
     "잎 끝 갈변 → 건조한 공기, 분무·가습",
     "웃자람 → 광량 부족, 밝은 간접광으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Episcia cupreata",
@@ -4101,7 +4256,8 @@
     "잎이 노랗게 변함 → 과습, 겉흙이 마른 뒤 관수",
     "잎 끝 갈변 → 건조한 공기, 분무·가습",
     "웃자람 → 광량 부족, 밝은 간접광으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Oxalis triangularis",
@@ -4128,7 +4284,8 @@
     "잎이 모두 시듦 → 휴면(여름 고온), 단수 후 가을에 재생",
     "잎이 늘어짐 → 광량 부족",
     "잎 황변 → 과습"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Asparagus setaceus",
@@ -4155,7 +4312,8 @@
     "잎이 노랗게 변함 → 과습, 겉흙이 마른 뒤 관수",
     "잎 끝 갈변 → 건조한 공기, 분무·가습",
     "웃자람 → 광량 부족, 밝은 간접광으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Asparagus densiflorus",
@@ -4182,7 +4340,8 @@
     "잎이 노랗게 변함 → 과습, 겉흙이 마른 뒤 관수",
     "잎 끝 갈변 → 건조한 공기, 분무·가습",
     "웃자람 → 광량 부족, 밝은 간접광으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Aucuba japonica",
@@ -4208,7 +4367,8 @@
     "잎이 노랗게 변함 → 과습, 겉흙이 마른 뒤 관수",
     "잎 끝 갈변 → 건조한 공기, 분무·가습",
     "웃자람 → 광량 부족, 밝은 간접광으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Sparrmannia africana",
@@ -4234,7 +4394,8 @@
     "잎이 노랗게 변함 → 과습, 겉흙이 마른 뒤 관수",
     "잎 끝 갈변 → 건조한 공기, 분무·가습",
     "웃자람 → 광량 부족, 밝은 간접광으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Senecio macroglossus",
@@ -4260,7 +4421,8 @@
     "잎이 노랗게 변함 → 과습, 겉흙이 마른 뒤 관수",
     "잎 끝 갈변 → 건조한 공기, 분무·가습",
     "웃자람 → 광량 부족, 밝은 간접광으로"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Hoya carnosa",
@@ -4288,7 +4450,8 @@
     "잎이 쭈글쭈글 → 물 부족 또는 뿌리 손상, 흙 상태 확인",
     "꽃이 안 핌 → 광량 부족·잦은 이동, 밝은 곳에 두고 꽃대 자르지 않기",
     "잎 황변 → 과습, 배수 좋은 흙"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Hoya kerrii",
@@ -4314,7 +4477,8 @@
     "잎이 쭈글쭈글 → 물 부족 또는 뿌리 손상, 흙 상태 확인",
     "꽃이 안 핌 → 광량 부족·잦은 이동, 밝은 곳에 두고 꽃대 자르지 않기",
     "잎 황변 → 과습, 배수 좋은 흙"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Hoya pubicalyx",
@@ -4340,7 +4504,8 @@
     "잎이 쭈글쭈글 → 물 부족 또는 뿌리 손상, 흙 상태 확인",
     "꽃이 안 핌 → 광량 부족·잦은 이동, 밝은 곳에 두고 꽃대 자르지 않기",
     "잎 황변 → 과습, 배수 좋은 흙"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Hoya linearis",
@@ -4365,7 +4530,8 @@
     "잎이 쭈글쭈글 → 물 부족 또는 뿌리 손상, 흙 상태 확인",
     "꽃이 안 핌 → 광량 부족·잦은 이동, 밝은 곳에 두고 꽃대 자르지 않기",
     "잎 황변 → 과습, 배수 좋은 흙"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Hoya australis",
@@ -4390,7 +4556,8 @@
     "잎이 쭈글쭈글 → 물 부족 또는 뿌리 손상, 흙 상태 확인",
     "꽃이 안 핌 → 광량 부족·잦은 이동, 밝은 곳에 두고 꽃대 자르지 않기",
     "잎 황변 → 과습, 배수 좋은 흙"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Hoya obovata",
@@ -4415,7 +4582,8 @@
     "잎이 쭈글쭈글 → 물 부족 또는 뿌리 손상, 흙 상태 확인",
     "꽃이 안 핌 → 광량 부족·잦은 이동, 밝은 곳에 두고 꽃대 자르지 않기",
     "잎 황변 → 과습, 배수 좋은 흙"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Hoya curtisii",
@@ -4440,7 +4608,8 @@
     "잎이 쭈글쭈글 → 물 부족 또는 뿌리 손상, 흙 상태 확인",
     "꽃이 안 핌 → 광량 부족·잦은 이동, 밝은 곳에 두고 꽃대 자르지 않기",
     "잎 황변 → 과습, 배수 좋은 흙"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Hoya lacunosa",
@@ -4465,7 +4634,8 @@
     "잎이 쭈글쭈글 → 물 부족 또는 뿌리 손상, 흙 상태 확인",
     "꽃이 안 핌 → 광량 부족·잦은 이동, 밝은 곳에 두고 꽃대 자르지 않기",
     "잎 황변 → 과습, 배수 좋은 흙"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Hoya retusa",
@@ -4490,7 +4660,8 @@
     "잎이 쭈글쭈글 → 물 부족 또는 뿌리 손상, 흙 상태 확인",
     "꽃이 안 핌 → 광량 부족·잦은 이동, 밝은 곳에 두고 꽃대 자르지 않기",
     "잎 황변 → 과습, 배수 좋은 흙"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Hoya lanceolata",
@@ -4516,7 +4687,8 @@
     "잎이 쭈글쭈글 → 물 부족 또는 뿌리 손상, 흙 상태 확인",
     "꽃이 안 핌 → 광량 부족·잦은 이동, 밝은 곳에 두고 꽃대 자르지 않기",
     "잎 황변 → 과습, 배수 좋은 흙"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Hoya krohniana",
@@ -4541,7 +4713,8 @@
     "잎이 쭈글쭈글 → 물 부족 또는 뿌리 손상, 흙 상태 확인",
     "꽃이 안 핌 → 광량 부족·잦은 이동, 밝은 곳에 두고 꽃대 자르지 않기",
     "잎 황변 → 과습, 배수 좋은 흙"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Hoya wayetii",
@@ -4566,7 +4739,8 @@
     "잎이 쭈글쭈글 → 물 부족 또는 뿌리 손상, 흙 상태 확인",
     "꽃이 안 핌 → 광량 부족·잦은 이동, 밝은 곳에 두고 꽃대 자르지 않기",
     "잎 황변 → 과습, 배수 좋은 흙"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Hoya polyneura",
@@ -4592,7 +4766,8 @@
     "잎이 쭈글쭈글 → 물 부족 또는 뿌리 손상, 흙 상태 확인",
     "꽃이 안 핌 → 광량 부족·잦은 이동, 밝은 곳에 두고 꽃대 자르지 않기",
     "잎 황변 → 과습, 배수 좋은 흙"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Hoya compacta",
@@ -4618,7 +4793,8 @@
     "잎이 쭈글쭈글 → 물 부족 또는 뿌리 손상, 흙 상태 확인",
     "꽃이 안 핌 → 광량 부족·잦은 이동, 밝은 곳에 두고 꽃대 자르지 않기",
     "잎 황변 → 과습, 배수 좋은 흙"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Hoya macrophylla",
@@ -4643,7 +4819,8 @@
     "잎이 쭈글쭈글 → 물 부족 또는 뿌리 손상, 흙 상태 확인",
     "꽃이 안 핌 → 광량 부족·잦은 이동, 밝은 곳에 두고 꽃대 자르지 않기",
     "잎 황변 → 과습, 배수 좋은 흙"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Peperomia obtusifolia",
@@ -4670,7 +4847,8 @@
     "잎이 물러지고 떨어짐 → 과습, 흙이 충분히 마른 뒤 관수",
     "잎이 쭈글쭈글 → 건조, 저면관수",
     "웃자람 → 광량 부족"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Peperomia caperata",
@@ -4697,7 +4875,8 @@
     "잎이 물러지고 떨어짐 → 과습, 흙이 충분히 마른 뒤 관수",
     "잎이 쭈글쭈글 → 건조, 저면관수",
     "웃자람 → 광량 부족"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Peperomia argyreia",
@@ -4724,7 +4903,8 @@
     "잎이 물러지고 떨어짐 → 과습, 흙이 충분히 마른 뒤 관수",
     "잎이 쭈글쭈글 → 건조, 저면관수",
     "웃자람 → 광량 부족"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Peperomia polybotrya",
@@ -4750,7 +4930,8 @@
     "잎이 물러지고 떨어짐 → 과습, 흙이 충분히 마른 뒤 관수",
     "잎이 쭈글쭈글 → 건조, 저면관수",
     "웃자람 → 광량 부족"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Peperomia prostrata",
@@ -4777,7 +4958,8 @@
     "잎이 물러지고 떨어짐 → 과습, 흙이 충분히 마른 뒤 관수",
     "잎이 쭈글쭈글 → 건조, 저면관수",
     "웃자람 → 광량 부족"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Peperomia rotundifolia",
@@ -4803,7 +4985,8 @@
     "잎이 물러지고 떨어짐 → 과습, 흙이 충분히 마른 뒤 관수",
     "잎이 쭈글쭈글 → 건조, 저면관수",
     "웃자람 → 광량 부족"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Peperomia tetraphylla",
@@ -4829,7 +5012,8 @@
     "잎이 물러지고 떨어짐 → 과습, 흙이 충분히 마른 뒤 관수",
     "잎이 쭈글쭈글 → 건조, 저면관수",
     "웃자람 → 광량 부족"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Peperomia clusiifolia",
@@ -4855,7 +5039,8 @@
     "잎이 물러지고 떨어짐 → 과습, 흙이 충분히 마른 뒤 관수",
     "잎이 쭈글쭈글 → 건조, 저면관수",
     "웃자람 → 광량 부족"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Peperomia serpens",
@@ -4881,7 +5066,8 @@
     "잎이 물러지고 떨어짐 → 과습, 흙이 충분히 마른 뒤 관수",
     "잎이 쭈글쭈글 → 건조, 저면관수",
     "웃자람 → 광량 부족"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Peperomia orba",
@@ -4907,7 +5093,8 @@
     "잎이 물러지고 떨어짐 → 과습, 흙이 충분히 마른 뒤 관수",
     "잎이 쭈글쭈글 → 건조, 저면관수",
     "웃자람 → 광량 부족"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Peperomia ferreyrae",
@@ -4933,7 +5120,8 @@
     "잎이 물러지고 떨어짐 → 과습, 흙이 충분히 마른 뒤 관수",
     "잎이 쭈글쭈글 → 건조, 저면관수",
     "웃자람 → 광량 부족"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Peperomia graveolens",
@@ -4959,7 +5147,8 @@
     "잎이 물러지고 떨어짐 → 과습, 흙이 충분히 마른 뒤 관수",
     "잎이 쭈글쭈글 → 건조, 저면관수",
     "웃자람 → 광량 부족"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Peperomia puteolata",
@@ -4985,7 +5174,8 @@
     "잎이 물러지고 떨어짐 → 과습, 흙이 충분히 마른 뒤 관수",
     "잎이 쭈글쭈글 → 건조, 저면관수",
     "웃자람 → 광량 부족"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Peperomia angulata",
@@ -5011,7 +5201,8 @@
     "잎이 물러지고 떨어짐 → 과습, 흙이 충분히 마른 뒤 관수",
     "잎이 쭈글쭈글 → 건조, 저면관수",
     "웃자람 → 광량 부족"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Peperomia incana",
@@ -5036,7 +5227,8 @@
     "잎이 물러지고 떨어짐 → 과습, 흙이 충분히 마른 뒤 관수",
     "잎이 쭈글쭈글 → 건조, 저면관수",
     "웃자람 → 광량 부족"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Peperomia albovittata",
@@ -5062,7 +5254,8 @@
     "잎이 물러지고 떨어짐 → 과습, 흙이 충분히 마른 뒤 관수",
     "잎이 쭈글쭈글 → 건조, 저면관수",
     "웃자람 → 광량 부족"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Peperomia columella",
@@ -5087,7 +5280,8 @@
     "잎이 물러지고 떨어짐 → 과습, 흙이 충분히 마른 뒤 관수",
     "잎이 쭈글쭈글 → 건조, 저면관수",
     "웃자람 → 광량 부족"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Peperomia dolabriformis",
@@ -5113,7 +5307,8 @@
     "잎이 물러지고 떨어짐 → 과습, 흙이 충분히 마른 뒤 관수",
     "잎이 쭈글쭈글 → 건조, 저면관수",
     "웃자람 → 광량 부족"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Begonia maculata",
@@ -5139,7 +5334,8 @@
     "잎에 흰 가루 → 흰가루병, 통풍 개선·살균",
     "줄기 밑동 물러짐 → 과습, 겉흙 마른 뒤 관수",
     "잎 가장자리 갈변 → 건조·직사광"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Begonia rex",
@@ -5166,7 +5362,8 @@
     "잎에 흰 가루 → 흰가루병, 통풍 개선·살균",
     "줄기 밑동 물러짐 → 과습, 겉흙 마른 뒤 관수",
     "잎 가장자리 갈변 → 건조·직사광"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Begonia masoniana",
@@ -5192,7 +5389,8 @@
     "잎에 흰 가루 → 흰가루병, 통풍 개선·살균",
     "줄기 밑동 물러짐 → 과습, 겉흙 마른 뒤 관수",
     "잎 가장자리 갈변 → 건조·직사광"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Begonia bowerae",
@@ -5218,7 +5416,8 @@
     "잎에 흰 가루 → 흰가루병, 통풍 개선·살균",
     "줄기 밑동 물러짐 → 과습, 겉흙 마른 뒤 관수",
     "잎 가장자리 갈변 → 건조·직사광"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Begonia coccinea",
@@ -5244,7 +5443,8 @@
     "잎에 흰 가루 → 흰가루병, 통풍 개선·살균",
     "줄기 밑동 물러짐 → 과습, 겉흙 마른 뒤 관수",
     "잎 가장자리 갈변 → 건조·직사광"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Echeveria elegans",
@@ -5270,7 +5470,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Echeveria agavoides",
@@ -5297,7 +5498,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Echeveria pulvinata",
@@ -5323,7 +5525,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Echeveria laui",
@@ -5349,7 +5552,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Echeveria runyonii",
@@ -5375,7 +5579,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Echeveria lilacina",
@@ -5401,7 +5606,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Echeveria derenbergii",
@@ -5427,7 +5633,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Echeveria setosa",
@@ -5453,7 +5660,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Echeveria shaviana",
@@ -5478,7 +5686,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Echeveria purpusorum",
@@ -5504,7 +5713,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Echeveria colorata",
@@ -5529,7 +5739,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Echeveria minima",
@@ -5554,7 +5765,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Echeveria 'Perle von Nürnberg'",
@@ -5580,7 +5792,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Echeveria 'Lola'",
@@ -5606,7 +5819,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Sedum morganianum",
@@ -5633,7 +5847,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Sedum burrito",
@@ -5659,7 +5874,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Sedum rubrotinctum",
@@ -5686,7 +5902,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Sedum adolphi",
@@ -5713,7 +5930,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Sedum makinoi",
@@ -5740,7 +5958,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Sedum clavatum",
@@ -5765,7 +5984,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Sedum dasyphyllum",
@@ -5791,7 +6011,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Sedum pachyphyllum",
@@ -5817,7 +6038,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Hylotelephium sieboldii",
@@ -5843,7 +6065,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Crassula ovata",
@@ -5870,7 +6093,8 @@
     "잎이 쭈글쭈글하고 떨어짐 → 물 부족 또는 과습으로 인한 뿌리 손상",
     "줄기가 가늘고 웃자람 → 광량 부족",
     "잎에 흰 가루 → 흰가루병·깍지벌레, 통풍·살충"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Crassula ovata 'Gollum'",
@@ -5897,7 +6121,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Crassula perforata",
@@ -5924,7 +6149,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Crassula arborescens",
@@ -5950,7 +6176,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Crassula muscosa",
@@ -5977,7 +6204,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Crassula rupestris",
@@ -6003,7 +6231,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Crassula capitella",
@@ -6030,7 +6259,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Crassula pellucida",
@@ -6056,7 +6286,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Crassula tetragona",
@@ -6082,7 +6313,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Crassula perfoliata",
@@ -6109,7 +6341,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Crassula 'Buddha's Temple'",
@@ -6134,7 +6367,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Kalanchoe tomentosa",
@@ -6161,7 +6395,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": true
   },
   {
    "scientific_name": "Kalanchoe daigremontiana",
@@ -6187,7 +6422,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": true
   },
   {
    "scientific_name": "Kalanchoe thyrsiflora",
@@ -6213,7 +6449,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": true
   },
   {
    "scientific_name": "Kalanchoe luciae",
@@ -6240,7 +6477,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": true
   },
   {
    "scientific_name": "Kalanchoe beharensis",
@@ -6266,7 +6504,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": true
   },
   {
    "scientific_name": "Kalanchoe fedtschenkoi",
@@ -6292,7 +6531,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": true
   },
   {
    "scientific_name": "Kalanchoe pinnata",
@@ -6318,7 +6558,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": true
   },
   {
    "scientific_name": "Kalanchoe delagoensis",
@@ -6345,7 +6586,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": true
   },
   {
    "scientific_name": "Kalanchoe orgyalis",
@@ -6371,7 +6613,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": true
   },
   {
    "scientific_name": "Graptopetalum paraguayense",
@@ -6398,7 +6641,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Graptopetalum amethystinum",
@@ -6424,7 +6668,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "× Graptoveria 'Debbie'",
@@ -6450,7 +6695,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Pachyphytum oviferum",
@@ -6477,7 +6723,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Pachyphytum compactum",
@@ -6503,7 +6750,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Adromischus cristatus",
@@ -6529,7 +6777,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Adromischus cooperi",
@@ -6555,7 +6804,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Cotyledon tomentosa",
@@ -6582,7 +6832,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": true
   },
   {
    "scientific_name": "Cotyledon orbiculata",
@@ -6608,7 +6859,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": true
   },
   {
    "scientific_name": "Sempervivum tectorum",
@@ -6635,7 +6887,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Sempervivum arachnoideum",
@@ -6661,7 +6914,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Aeonium arboreum",
@@ -6688,7 +6942,8 @@
     "여름에 잎이 오므라들고 떨어짐 → 여름 휴면, 단수·반그늘",
     "줄기가 길어짐 → 광량 부족",
     "잎이 물러짐 → 과습"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Aeonium haworthii",
@@ -6714,7 +6969,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Aeonium tabuliforme",
@@ -6740,7 +6996,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Sinocrassula yunnanensis",
@@ -6766,7 +7023,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Haworthia cooperi",
@@ -6793,7 +7051,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Haworthia retusa",
@@ -6819,7 +7078,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Haworthia truncata",
@@ -6846,7 +7106,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Haworthia cymbiformis",
@@ -6872,7 +7133,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Haworthiopsis attenuata",
@@ -6899,7 +7161,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Haworthiopsis fasciata",
@@ -6925,7 +7188,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Haworthiopsis limifolia",
@@ -6951,7 +7215,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Haworthiopsis reinwardtii",
@@ -6976,7 +7241,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Aloe vera",
@@ -7002,7 +7268,8 @@
     "잎이 얇아지고 안쪽으로 말림 → 물 부족",
     "잎이 갈색·붉게 변함 → 강한 직사광 스트레스 또는 저온",
     "밑동 물러짐 → 과습·뿌리썩음"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Aloe arborescens",
@@ -7029,7 +7296,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Aloe juvenna",
@@ -7055,7 +7323,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Aloe humilis",
@@ -7080,7 +7349,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Aloe brevifolia",
@@ -7105,7 +7375,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Aristaloe aristata",
@@ -7131,7 +7402,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Gonialoe variegata",
@@ -7158,7 +7430,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Gasteria carinata",
@@ -7185,7 +7458,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Gasteria bicolor",
@@ -7211,7 +7485,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Curio rowleyanus",
@@ -7238,7 +7513,8 @@
     "구슬이 쭈글쭈글 → 물 부족 또는 뿌리 손상",
     "구슬이 물러지고 줄기 검게 변함 → 과습",
     "줄기만 길고 구슬 드묾 → 광량 부족"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Curio radicans",
@@ -7264,7 +7540,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Curio herreanus",
@@ -7290,7 +7567,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Curio repens",
@@ -7317,7 +7595,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Curio talinoides",
@@ -7343,7 +7622,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Curio articulatus",
@@ -7370,7 +7650,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Caputia tomentosa",
@@ -7397,7 +7678,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Portulacaria afra",
@@ -7424,7 +7706,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Anacampseros rufescens",
@@ -7450,7 +7733,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Anacampseros telephiastrum",
@@ -7476,7 +7760,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Ceropegia woodii",
@@ -7503,7 +7788,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Stapelia grandiflora",
@@ -7529,7 +7815,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Huernia zebrina",
@@ -7555,7 +7842,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Orbea variegata",
@@ -7582,7 +7870,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Adenium obesum",
@@ -7608,7 +7897,8 @@
     "잎이 떨어짐 → 저온 휴면·물 부족, 겨울 단수",
     "줄기(괴경)가 물러짐 → 과습",
     "꽃이 안 핌 → 광량 부족, 직사광"
-   ]
+   ],
+   "toxic_severe": true
   },
   {
    "scientific_name": "Pachypodium lamerei",
@@ -7634,7 +7924,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": true
   },
   {
    "scientific_name": "Euphorbia trigona",
@@ -7661,7 +7952,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": true
   },
   {
    "scientific_name": "Euphorbia tirucalli",
@@ -7688,7 +7980,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": true
   },
   {
    "scientific_name": "Euphorbia milii",
@@ -7714,7 +8007,8 @@
     "잎이 떨어짐 → 저온·물 부족, 10℃ 이상 유지",
     "꽃이 안 핌 → 광량 부족, 직사광",
     "줄기 밑동 물러짐 → 과습"
-   ]
+   ],
+   "toxic_severe": true
   },
   {
    "scientific_name": "Euphorbia lactea",
@@ -7741,7 +8035,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": true
   },
   {
    "scientific_name": "Euphorbia ingens",
@@ -7767,7 +8062,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": true
   },
   {
    "scientific_name": "Euphorbia obesa",
@@ -7794,7 +8090,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Euphorbia mammillaris",
@@ -7820,7 +8117,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Euphorbia leuconeura",
@@ -7846,7 +8144,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Euphorbia enopla",
@@ -7872,7 +8171,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Euphorbia tithymaloides",
@@ -7899,7 +8199,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Jatropha podagrica",
@@ -7926,7 +8227,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": true
   },
   {
    "scientific_name": "Dioscorea elephantipes",
@@ -7953,7 +8255,8 @@
     "잎이 노랗게 마름 → 휴면 시작(정상), 단수",
     "덩굴이 웃자람 → 광량 부족",
     "괴경 물러짐 → 휴면기 과습"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Stephania erecta",
@@ -7979,7 +8282,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": true
   },
   {
    "scientific_name": "Ledebouria socialis",
@@ -8006,7 +8310,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": true
   },
   {
    "scientific_name": "Albuca bracteata",
@@ -8033,7 +8338,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": true
   },
   {
    "scientific_name": "Lithops aucampiae",
@@ -8060,7 +8366,8 @@
     "몸이 터지거나 갈라짐 → 과습, 탈피기(봄)에는 단수",
     "몸이 길게 웃자람 → 광량 부족",
     "물러짐 → 여름 고온기 관수, 여름엔 거의 단수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Lithops lesliei",
@@ -8086,7 +8393,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Lithops karasmontana",
@@ -8111,7 +8419,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Conophytum bilobum",
@@ -8137,7 +8446,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Conophytum calculus",
@@ -8162,7 +8472,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Fenestraria rhopalophylla",
@@ -8189,7 +8500,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Pleiospilos nelii",
@@ -8216,7 +8528,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Faucaria tigrina",
@@ -8243,7 +8556,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Titanopsis calcarea",
@@ -8269,7 +8583,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Delosperma cooperi",
@@ -8296,7 +8611,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Oscularia deltoides",
@@ -8322,7 +8638,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Mammillaria elongata",
@@ -8349,7 +8666,8 @@
     "밑동이 갈색·물러짐 → 과습·뿌리썩음, 단수 후 분갈이",
     "웃자라 가늘어짐 → 광량 부족, 강한 빛으로",
     "흰 솜 같은 것 → 깍지벌레, 알코올로 제거"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Mammillaria vetula",
@@ -8376,7 +8694,8 @@
     "밑동이 갈색·물러짐 → 과습·뿌리썩음, 단수 후 분갈이",
     "웃자라 가늘어짐 → 광량 부족, 강한 빛으로",
     "흰 솜 같은 것 → 깍지벌레, 알코올로 제거"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Mammillaria hahniana",
@@ -8403,7 +8722,8 @@
     "밑동이 갈색·물러짐 → 과습·뿌리썩음, 단수 후 분갈이",
     "웃자라 가늘어짐 → 광량 부족, 강한 빛으로",
     "흰 솜 같은 것 → 깍지벌레, 알코올로 제거"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Mammillaria bocasana",
@@ -8429,7 +8749,8 @@
     "밑동이 갈색·물러짐 → 과습·뿌리썩음, 단수 후 분갈이",
     "웃자라 가늘어짐 → 광량 부족, 강한 빛으로",
     "흰 솜 같은 것 → 깍지벌레, 알코올로 제거"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Mammillaria plumosa",
@@ -8455,7 +8776,8 @@
     "밑동이 갈색·물러짐 → 과습·뿌리썩음, 단수 후 분갈이",
     "웃자라 가늘어짐 → 광량 부족, 강한 빛으로",
     "흰 솜 같은 것 → 깍지벌레, 알코올로 제거"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Mammillaria spinosissima",
@@ -8481,7 +8803,8 @@
     "밑동이 갈색·물러짐 → 과습·뿌리썩음, 단수 후 분갈이",
     "웃자라 가늘어짐 → 광량 부족, 강한 빛으로",
     "흰 솜 같은 것 → 깍지벌레, 알코올로 제거"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Gymnocalycium mihanovichii",
@@ -8509,7 +8832,8 @@
     "접목 윗부분이 쭈글쭈글 → 대목(삼각주) 노화·뿌리 손상",
     "대목이 물러짐 → 과습",
     "색이 바램 → 강한 직사광, 밝은 간접광"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Gymnocalycium baldianum",
@@ -8535,7 +8859,8 @@
     "밑동이 갈색·물러짐 → 과습·뿌리썩음, 단수 후 분갈이",
     "웃자라 가늘어짐 → 광량 부족, 강한 빛으로",
     "흰 솜 같은 것 → 깍지벌레, 알코올로 제거"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Echinocactus grusonii",
@@ -8562,7 +8887,8 @@
     "밑동이 갈색·물러짐 → 과습·뿌리썩음, 단수 후 분갈이",
     "웃자라 가늘어짐 → 광량 부족, 강한 빛으로",
     "흰 솜 같은 것 → 깍지벌레, 알코올로 제거"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Opuntia microdasys",
@@ -8589,7 +8915,8 @@
     "잔가시(글로키드)가 피부에 박힘 → 접촉 주의, 테이프로 제거",
     "새 마디가 가늘고 길어짐 → 광량 부족",
     "밑동 물러짐 → 과습"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Opuntia ficus-indica",
@@ -8616,7 +8943,8 @@
     "밑동이 갈색·물러짐 → 과습·뿌리썩음, 단수 후 분갈이",
     "웃자라 가늘어짐 → 광량 부족, 강한 빛으로",
     "흰 솜 같은 것 → 깍지벌레, 알코올로 제거"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Cereus repandus",
@@ -8643,7 +8971,8 @@
     "밑동이 갈색·물러짐 → 과습·뿌리썩음, 단수 후 분갈이",
     "웃자라 가늘어짐 → 광량 부족, 강한 빛으로",
     "흰 솜 같은 것 → 깍지벌레, 알코올로 제거"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Astrophytum myriostigma",
@@ -8670,7 +8999,8 @@
     "밑동이 갈색·물러짐 → 과습·뿌리썩음, 단수 후 분갈이",
     "웃자라 가늘어짐 → 광량 부족, 강한 빛으로",
     "흰 솜 같은 것 → 깍지벌레, 알코올로 제거"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Astrophytum asterias",
@@ -8697,7 +9027,8 @@
     "밑동이 갈색·물러짐 → 과습·뿌리썩음, 단수 후 분갈이",
     "웃자라 가늘어짐 → 광량 부족, 강한 빛으로",
     "흰 솜 같은 것 → 깍지벌레, 알코올로 제거"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Astrophytum ornatum",
@@ -8723,7 +9054,8 @@
     "밑동이 갈색·물러짐 → 과습·뿌리썩음, 단수 후 분갈이",
     "웃자라 가늘어짐 → 광량 부족, 강한 빛으로",
     "흰 솜 같은 것 → 깍지벌레, 알코올로 제거"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Ferocactus latispinus",
@@ -8749,7 +9081,8 @@
     "밑동이 갈색·물러짐 → 과습·뿌리썩음, 단수 후 분갈이",
     "웃자라 가늘어짐 → 광량 부족, 강한 빛으로",
     "흰 솜 같은 것 → 깍지벌레, 알코올로 제거"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Parodia leninghausii",
@@ -8776,7 +9109,8 @@
     "밑동이 갈색·물러짐 → 과습·뿌리썩음, 단수 후 분갈이",
     "웃자라 가늘어짐 → 광량 부족, 강한 빛으로",
     "흰 솜 같은 것 → 깍지벌레, 알코올로 제거"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Parodia magnifica",
@@ -8803,7 +9137,8 @@
     "밑동이 갈색·물러짐 → 과습·뿌리썩음, 단수 후 분갈이",
     "웃자라 가늘어짐 → 광량 부족, 강한 빛으로",
     "흰 솜 같은 것 → 깍지벌레, 알코올로 제거"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Parodia scopa",
@@ -8829,7 +9164,8 @@
     "밑동이 갈색·물러짐 → 과습·뿌리썩음, 단수 후 분갈이",
     "웃자라 가늘어짐 → 광량 부족, 강한 빛으로",
     "흰 솜 같은 것 → 깍지벌레, 알코올로 제거"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Echinopsis subdenudata",
@@ -8856,7 +9192,8 @@
     "밑동이 갈색·물러짐 → 과습·뿌리썩음, 단수 후 분갈이",
     "웃자라 가늘어짐 → 광량 부족, 강한 빛으로",
     "흰 솜 같은 것 → 깍지벌레, 알코올로 제거"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Echinopsis oxygona",
@@ -8883,7 +9220,8 @@
     "밑동이 갈색·물러짐 → 과습·뿌리썩음, 단수 후 분갈이",
     "웃자라 가늘어짐 → 광량 부족, 강한 빛으로",
     "흰 솜 같은 것 → 깍지벌레, 알코올로 제거"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Rebutia minuscula",
@@ -8909,7 +9247,8 @@
     "밑동이 갈색·물러짐 → 과습·뿌리썩음, 단수 후 분갈이",
     "웃자라 가늘어짐 → 광량 부족, 강한 빛으로",
     "흰 솜 같은 것 → 깍지벌레, 알코올로 제거"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Myrtillocactus geometrizans",
@@ -8936,7 +9275,8 @@
     "밑동이 갈색·물러짐 → 과습·뿌리썩음, 단수 후 분갈이",
     "웃자라 가늘어짐 → 광량 부족, 강한 빛으로",
     "흰 솜 같은 것 → 깍지벌레, 알코올로 제거"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Pilosocereus pachycladus",
@@ -8962,7 +9302,8 @@
     "밑동이 갈색·물러짐 → 과습·뿌리썩음, 단수 후 분갈이",
     "웃자라 가늘어짐 → 광량 부족, 강한 빛으로",
     "흰 솜 같은 것 → 깍지벌레, 알코올로 제거"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Espostoa lanata",
@@ -8989,7 +9330,8 @@
     "밑동이 갈색·물러짐 → 과습·뿌리썩음, 단수 후 분갈이",
     "웃자라 가늘어짐 → 광량 부족, 강한 빛으로",
     "흰 솜 같은 것 → 깍지벌레, 알코올로 제거"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Cephalocereus senilis",
@@ -9017,7 +9359,8 @@
     "밑동이 갈색·물러짐 → 과습·뿌리썩음, 단수 후 분갈이",
     "웃자라 가늘어짐 → 광량 부족, 강한 빛으로",
     "흰 솜 같은 것 → 깍지벌레, 알코올로 제거"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Cleistocactus strausii",
@@ -9043,7 +9386,8 @@
     "밑동이 갈색·물러짐 → 과습·뿌리썩음, 단수 후 분갈이",
     "웃자라 가늘어짐 → 광량 부족, 강한 빛으로",
     "흰 솜 같은 것 → 깍지벌레, 알코올로 제거"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Cleistocactus winteri",
@@ -9070,7 +9414,8 @@
     "밑동이 갈색·물러짐 → 과습·뿌리썩음, 단수 후 분갈이",
     "웃자라 가늘어짐 → 광량 부족, 강한 빛으로",
     "흰 솜 같은 것 → 깍지벌레, 알코올로 제거"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Stenocactus multicostatus",
@@ -9097,7 +9442,8 @@
     "밑동이 갈색·물러짐 → 과습·뿌리썩음, 단수 후 분갈이",
     "웃자라 가늘어짐 → 광량 부족, 강한 빛으로",
     "흰 솜 같은 것 → 깍지벌레, 알코올로 제거"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Schlumbergera truncata",
@@ -9124,7 +9470,8 @@
     "꽃봉오리가 떨어짐 → 개화기 이동·온도 변화·건조, 자리 고정",
     "마디가 쭈글쭈글 → 물 부족 또는 뿌리썩음",
     "꽃이 안 핌 → 가을에 밤 길이·서늘함 필요, 12시간 이상 암기"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Schlumbergera × buckleyi",
@@ -9150,7 +9497,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Schlumbergera gaertneri",
@@ -9177,7 +9525,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Epiphyllum oxypetalum",
@@ -9204,7 +9553,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Disocactus anguliger",
@@ -9232,7 +9582,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Selenicereus undatus",
@@ -9259,7 +9610,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Rhipsalis baccifera",
@@ -9286,7 +9638,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Rhipsalis cereuscula",
@@ -9312,7 +9665,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Rhipsalis pilocarpa",
@@ -9338,7 +9692,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Rhipsalis paradoxa",
@@ -9364,7 +9719,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Rhipsalis ewaldiana",
@@ -9389,7 +9745,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Rhipsalis elliptica",
@@ -9414,7 +9771,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Lepismium cruciforme",
@@ -9440,7 +9798,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Lepismium bolivianum",
@@ -9465,7 +9824,8 @@
     "잎이 물러지고 검게 변함 → 과습, 즉시 건조·배수 좋은 흙",
     "줄기가 길게 웃자람 → 광량 부족, 직사광 가까운 곳으로",
     "아랫잎 쭈글 → 물 부족(자연 탈락과 구분), 흠뻑 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Salvia rosmarinus",
@@ -9491,7 +9851,8 @@
     "잎 끝부터 마르며 떨어짐 → 물 부족 또는 통풍 부족",
     "잎에 흰 가루 → 흰가루병, 통풍 개선",
     "아랫잎 황변·낙엽 → 과습, 흙 마른 뒤 관수"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Ocimum basilicum",
@@ -9517,7 +9878,8 @@
     "잎이 축 처짐 → 물 부족, 관수하면 회복",
     "잎이 검게 변함 → 저온(10℃ 이하), 따뜻한 곳",
     "꽃대가 올라옴 → 잎 수확 감소, 꽃대 제거"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Ocimum tenuiflorum",
@@ -9543,7 +9905,8 @@
     "잎이 시들고 처짐 → 물 부족, 겉흙 마르면 흠뻑",
     "잎 황변·낙엽 → 과습·통풍 부족, 통풍 개선",
     "웃자람 → 광량 부족, 직사광 4시간 이상"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Mentha spicata",
@@ -9569,7 +9932,8 @@
     "잎이 시들고 처짐 → 물 부족, 겉흙 마르면 흠뻑",
     "잎 황변·낙엽 → 과습·통풍 부족, 통풍 개선",
     "웃자람 → 광량 부족, 직사광 4시간 이상"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Mentha × piperita",
@@ -9594,7 +9958,8 @@
     "잎이 시들고 처짐 → 물 부족, 겉흙 마르면 흠뻑",
     "잎 황변·낙엽 → 과습·통풍 부족, 통풍 개선",
     "웃자람 → 광량 부족, 직사광 4시간 이상"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Mentha suaveolens",
@@ -9620,7 +9985,8 @@
     "잎이 시들고 처짐 → 물 부족, 겉흙 마르면 흠뻑",
     "잎 황변·낙엽 → 과습·통풍 부족, 통풍 개선",
     "웃자람 → 광량 부족, 직사광 4시간 이상"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Lavandula angustifolia",
@@ -9646,7 +10012,8 @@
     "잎이 검게 변하고 시듦 → 과습·습한 공기, 통풍·배수",
     "잎만 무성하고 꽃 없음 → 광 부족, 직사광 6시간",
     "아래 줄기 목질화 → 정상, 개화 후 1/3 가지치기"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Lavandula dentata",
@@ -9672,7 +10039,8 @@
     "잎이 시들고 처짐 → 물 부족, 겉흙 마르면 흠뻑",
     "잎 황변·낙엽 → 과습·통풍 부족, 통풍 개선",
     "웃자람 → 광량 부족, 직사광 4시간 이상"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Lavandula stoechas",
@@ -9698,7 +10066,8 @@
     "잎이 시들고 처짐 → 물 부족, 겉흙 마르면 흠뻑",
     "잎 황변·낙엽 → 과습·통풍 부족, 통풍 개선",
     "웃자람 → 광량 부족, 직사광 4시간 이상"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Eucalyptus gunnii",
@@ -9725,7 +10094,8 @@
     "잎이 갑자기 마름 → 물 부족(회복 어려움), 흙 마르기 전 관수",
     "잎 황변 → 과습·양분 부족",
     "웃자람 → 광량 부족, 직사광"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Eucalyptus cinerea",
@@ -9751,7 +10121,8 @@
     "잎이 시들고 처짐 → 물 부족, 겉흙 마르면 흠뻑",
     "잎 황변·낙엽 → 과습·통풍 부족, 통풍 개선",
     "웃자람 → 광량 부족, 직사광 4시간 이상"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Eucalyptus polyanthemos",
@@ -9778,7 +10149,8 @@
     "잎이 시들고 처짐 → 물 부족, 겉흙 마르면 흠뻑",
     "잎 황변·낙엽 → 과습·통풍 부족, 통풍 개선",
     "웃자람 → 광량 부족, 직사광 4시간 이상"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Olea europaea",
@@ -9804,7 +10176,8 @@
     "잎이 노랗게 변하고 떨어짐 → 과습·광 부족",
     "잎 끝 갈변 → 건조·염류",
     "깍지벌레 → 잎·줄기 닦기·살충"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Citrus × limon",
@@ -9830,7 +10203,8 @@
     "잎 황변(잎맥은 녹색) → 철분 부족·알칼리 토양, 철분 비료",
     "잎이 떨어짐 → 급격한 온도 변화·과습",
     "잎·줄기에 깍지벌레 → 닦아내고 살충"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Citrus japonica",
@@ -9857,7 +10231,8 @@
     "잎 황변(잎맥은 녹색) → 철분 부족·알칼리 토양, 철분 비료",
     "잎이 떨어짐 → 급격한 온도 변화·과습",
     "잎·줄기에 깍지벌레 → 닦아내고 살충"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Citrus × aurantiifolia",
@@ -9883,7 +10258,8 @@
     "잎 황변(잎맥은 녹색) → 철분 부족·알칼리 토양, 철분 비료",
     "잎이 떨어짐 → 급격한 온도 변화·과습",
     "잎·줄기에 깍지벌레 → 닦아내고 살충"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Citrus reticulata",
@@ -9910,7 +10286,8 @@
     "잎 황변(잎맥은 녹색) → 철분 부족·알칼리 토양, 철분 비료",
     "잎이 떨어짐 → 급격한 온도 변화·과습",
     "잎·줄기에 깍지벌레 → 닦아내고 살충"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Pelargonium graveolens",
@@ -9937,7 +10314,8 @@
     "잎이 시들고 처짐 → 물 부족, 겉흙 마르면 흠뻑",
     "잎 황변·낙엽 → 과습·통풍 부족, 통풍 개선",
     "웃자람 → 광량 부족, 직사광 4시간 이상"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Thymus vulgaris",
@@ -9963,7 +10341,8 @@
     "잎이 시들고 처짐 → 물 부족, 겉흙 마르면 흠뻑",
     "잎 황변·낙엽 → 과습·통풍 부족, 통풍 개선",
     "웃자람 → 광량 부족, 직사광 4시간 이상"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Thymus × citriodorus",
@@ -9988,7 +10367,8 @@
     "잎이 시들고 처짐 → 물 부족, 겉흙 마르면 흠뻑",
     "잎 황변·낙엽 → 과습·통풍 부족, 통풍 개선",
     "웃자람 → 광량 부족, 직사광 4시간 이상"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Origanum vulgare",
@@ -10013,7 +10393,8 @@
     "잎이 시들고 처짐 → 물 부족, 겉흙 마르면 흠뻑",
     "잎 황변·낙엽 → 과습·통풍 부족, 통풍 개선",
     "웃자람 → 광량 부족, 직사광 4시간 이상"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Origanum majorana",
@@ -10039,7 +10420,8 @@
     "잎이 시들고 처짐 → 물 부족, 겉흙 마르면 흠뻑",
     "잎 황변·낙엽 → 과습·통풍 부족, 통풍 개선",
     "웃자람 → 광량 부족, 직사광 4시간 이상"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Salvia officinalis",
@@ -10065,7 +10447,8 @@
     "잎이 시들고 처짐 → 물 부족, 겉흙 마르면 흠뻑",
     "잎 황변·낙엽 → 과습·통풍 부족, 통풍 개선",
     "웃자람 → 광량 부족, 직사광 4시간 이상"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Salvia elegans",
@@ -10090,7 +10473,8 @@
     "잎이 시들고 처짐 → 물 부족, 겉흙 마르면 흠뻑",
     "잎 황변·낙엽 → 과습·통풍 부족, 통풍 개선",
     "웃자람 → 광량 부족, 직사광 4시간 이상"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Melissa officinalis",
@@ -10116,7 +10500,8 @@
     "잎이 시들고 처짐 → 물 부족, 겉흙 마르면 흠뻑",
     "잎 황변·낙엽 → 과습·통풍 부족, 통풍 개선",
     "웃자람 → 광량 부족, 직사광 4시간 이상"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Petroselinum crispum",
@@ -10142,7 +10527,8 @@
     "잎이 시들고 처짐 → 물 부족, 겉흙 마르면 흠뻑",
     "잎 황변·낙엽 → 과습·통풍 부족, 통풍 개선",
     "웃자람 → 광량 부족, 직사광 4시간 이상"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Coriandrum sativum",
@@ -10169,7 +10555,8 @@
     "잎이 시들고 처짐 → 물 부족, 겉흙 마르면 흠뻑",
     "잎 황변·낙엽 → 과습·통풍 부족, 통풍 개선",
     "웃자람 → 광량 부족, 직사광 4시간 이상"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Anethum graveolens",
@@ -10194,7 +10581,8 @@
     "잎이 시들고 처짐 → 물 부족, 겉흙 마르면 흠뻑",
     "잎 황변·낙엽 → 과습·통풍 부족, 통풍 개선",
     "웃자람 → 광량 부족, 직사광 4시간 이상"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Foeniculum vulgare",
@@ -10220,7 +10608,8 @@
     "잎이 시들고 처짐 → 물 부족, 겉흙 마르면 흠뻑",
     "잎 황변·낙엽 → 과습·통풍 부족, 통풍 개선",
     "웃자람 → 광량 부족, 직사광 4시간 이상"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Allium schoenoprasum",
@@ -10246,7 +10635,8 @@
     "잎이 시들고 처짐 → 물 부족, 겉흙 마르면 흠뻑",
     "잎 황변·낙엽 → 과습·통풍 부족, 통풍 개선",
     "웃자람 → 광량 부족, 직사광 4시간 이상"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Artemisia dracunculus",
@@ -10271,7 +10661,8 @@
     "잎이 시들고 처짐 → 물 부족, 겉흙 마르면 흠뻑",
     "잎 황변·낙엽 → 과습·통풍 부족, 통풍 개선",
     "웃자람 → 광량 부족, 직사광 4시간 이상"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Stevia rebaudiana",
@@ -10296,7 +10687,8 @@
     "잎이 시들고 처짐 → 물 부족, 겉흙 마르면 흠뻑",
     "잎 황변·낙엽 → 과습·통풍 부족, 통풍 개선",
     "웃자람 → 광량 부족, 직사광 4시간 이상"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Aloysia citrodora",
@@ -10321,7 +10713,8 @@
     "잎이 시들고 처짐 → 물 부족, 겉흙 마르면 흠뻑",
     "잎 황변·낙엽 → 과습·통풍 부족, 통풍 개선",
     "웃자람 → 광량 부족, 직사광 4시간 이상"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Cymbopogon citratus",
@@ -10346,7 +10739,8 @@
     "잎이 시들고 처짐 → 물 부족, 겉흙 마르면 흠뻑",
     "잎 황변·낙엽 → 과습·통풍 부족, 통풍 개선",
     "웃자람 → 광량 부족, 직사광 4시간 이상"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Matricaria chamomilla",
@@ -10372,7 +10766,8 @@
     "잎이 시들고 처짐 → 물 부족, 겉흙 마르면 흠뻑",
     "잎 황변·낙엽 → 과습·통풍 부족, 통풍 개선",
     "웃자람 → 광량 부족, 직사광 4시간 이상"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Chamaemelum nobile",
@@ -10397,7 +10792,8 @@
     "잎이 시들고 처짐 → 물 부족, 겉흙 마르면 흠뻑",
     "잎 황변·낙엽 → 과습·통풍 부족, 통풍 개선",
     "웃자람 → 광량 부족, 직사광 4시간 이상"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Perilla frutescens",
@@ -10424,7 +10820,8 @@
     "잎이 시들고 처짐 → 물 부족, 겉흙 마르면 흠뻑",
     "잎 황변·낙엽 → 과습·통풍 부족, 통풍 개선",
     "웃자람 → 광량 부족, 직사광 4시간 이상"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Coleus amboinicus",
@@ -10451,7 +10848,8 @@
     "잎이 시들고 처짐 → 물 부족, 겉흙 마르면 흠뻑",
     "잎 황변·낙엽 → 과습·통풍 부족, 통풍 개선",
     "웃자람 → 광량 부족, 직사광 4시간 이상"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Laurus nobilis",
@@ -10477,7 +10875,8 @@
     "잎이 시들고 처짐 → 물 부족, 겉흙 마르면 흠뻑",
     "잎 황변·낙엽 → 과습·통풍 부족, 통풍 개선",
     "웃자람 → 광량 부족, 직사광 4시간 이상"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Myrtus communis",
@@ -10503,7 +10902,8 @@
     "잎이 시들고 처짐 → 물 부족, 겉흙 마르면 흠뻑",
     "잎 황변·낙엽 → 과습·통풍 부족, 통풍 개선",
     "웃자람 → 광량 부족, 직사광 4시간 이상"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Nepeta cataria",
@@ -10529,7 +10929,8 @@
     "잎이 시들고 처짐 → 물 부족, 겉흙 마르면 흠뻑",
     "잎 황변·낙엽 → 과습·통풍 부족, 통풍 개선",
     "웃자람 → 광량 부족, 직사광 4시간 이상"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Helichrysum italicum",
@@ -10555,7 +10956,8 @@
     "잎이 시들고 처짐 → 물 부족, 겉흙 마르면 흠뻑",
     "잎 황변·낙엽 → 과습·통풍 부족, 통풍 개선",
     "웃자람 → 광량 부족, 직사광 4시간 이상"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Ruta graveolens",
@@ -10581,7 +10983,8 @@
     "잎이 시들고 처짐 → 물 부족, 겉흙 마르면 흠뻑",
     "잎 황변·낙엽 → 과습·통풍 부족, 통풍 개선",
     "웃자람 → 광량 부족, 직사광 4시간 이상"
-   ]
+   ],
+   "toxic_severe": true
   },
   {
    "scientific_name": "Borago officinalis",
@@ -10606,7 +11009,8 @@
     "잎이 시들고 처짐 → 물 부족, 겉흙 마르면 흠뻑",
     "잎 황변·낙엽 → 과습·통풍 부족, 통풍 개선",
     "웃자람 → 광량 부족, 직사광 4시간 이상"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Tropaeolum majus",
@@ -10632,7 +11036,8 @@
     "잎이 시들고 처짐 → 물 부족, 겉흙 마르면 흠뻑",
     "잎 황변·낙엽 → 과습·통풍 부족, 통풍 개선",
     "웃자람 → 광량 부족, 직사광 4시간 이상"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Kalanchoe blossfeldiana",
@@ -10659,7 +11064,8 @@
     "꽃이 안 핌 → 밤 길이 부족, 가을 12시간 이상 암기",
     "잎이 물러짐 → 과습, 흙 마른 뒤 관수",
     "잎에 흰 가루 → 흰가루병, 통풍"
-   ]
+   ],
+   "toxic_severe": true
   },
   {
    "scientific_name": "Cyclamen persicum",
@@ -10684,7 +11090,8 @@
     "잎·꽃대가 축 처짐 → 물 부족 또는 고온, 저면관수·서늘한 곳",
     "구근이 물러짐 → 구근 위에 물 줌·과습, 저면관수",
     "여름에 잎이 다 짐 → 휴면(정상), 단수 후 가을 재관수"
-   ]
+   ],
+   "toxic_severe": true
   },
   {
    "scientific_name": "Rhododendron simsii",
@@ -10711,7 +11118,8 @@
     "잎이 노랗게 변함 → 알칼리성 물·흙, 산성 비료·빗물",
     "꽃봉오리가 마름 → 건조·고온, 흙 늘 촉촉하게",
     "잎이 떨어짐 → 급격한 온도 변화"
-   ]
+   ],
+   "toxic_severe": true
   },
   {
    "scientific_name": "Hydrangea macrophylla",
@@ -10736,7 +11144,8 @@
     "잎·꽃이 축 처짐 → 물 부족, 매일 확인·흠뻑 관수",
     "꽃 색이 변함 → 흙 pH(산성=파랑, 알칼리=분홍)",
     "꽃이 안 핌 → 늦가을 가지치기로 꽃눈 제거, 개화 직후에만 전정"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Rosa chinensis",
@@ -10763,7 +11172,8 @@
     "잎에 검은 반점 → 흑반병, 병든 잎 제거·통풍",
     "잎에 흰 가루 → 흰가루병",
     "새순에 진딧물 → 물 분사·살충"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Tulipa gesneriana",
@@ -10788,7 +11198,8 @@
     "꽃이 빨리 짐 → 고온, 서늘한 곳에 두기",
     "잎만 무성하고 꽃 없음 → 구근 소모·광 부족, 개화 후 잎을 충분히 키움",
     "구근 물러짐 → 과습, 배수 확인"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Hyacinthus orientalis",
@@ -10813,7 +11224,8 @@
     "꽃대가 짧고 꽃이 잎에 묻힘 → 저온 처리 부족, 어두운 곳에서 꽃대 키우기",
     "구근 곰팡이 → 과습, 물 수경 시 구근 밑이 물에 닿지 않게",
     "꽃이 빨리 짐 → 고온, 서늘한 곳"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Narcissus tazetta",
@@ -10839,7 +11251,8 @@
     "꽃이 빨리 짐 → 고온, 서늘한 곳에 두기",
     "잎만 무성하고 꽃 없음 → 구근 소모·광 부족, 개화 후 잎을 충분히 키움",
     "구근 물러짐 → 과습, 배수 확인"
-   ]
+   ],
+   "toxic_severe": true
   },
   {
    "scientific_name": "Narcissus pseudonarcissus",
@@ -10865,7 +11278,8 @@
     "꽃이 빨리 짐 → 고온, 서늘한 곳에 두기",
     "잎만 무성하고 꽃 없음 → 구근 소모·광 부족, 개화 후 잎을 충분히 키움",
     "구근 물러짐 → 과습, 배수 확인"
-   ]
+   ],
+   "toxic_severe": true
   },
   {
    "scientific_name": "Lilium longiflorum",
@@ -10891,7 +11305,8 @@
     "꽃봉오리가 마름 → 건조·고온",
     "잎 황변 → 과습·개화 후 자연 노화",
     "고양이 접촉 시 매우 위험 → 반려묘 가정 비추천"
-   ]
+   ],
+   "toxic_severe": true
   },
   {
    "scientific_name": "Lilium lancifolium",
@@ -10917,7 +11332,8 @@
     "꽃이 빨리 짐 → 고온, 서늘한 곳에 두기",
     "잎만 무성하고 꽃 없음 → 구근 소모·광 부족, 개화 후 잎을 충분히 키움",
     "구근 물러짐 → 과습, 배수 확인"
-   ]
+   ],
+   "toxic_severe": true
   },
   {
    "scientific_name": "Chrysanthemum × morifolium",
@@ -10944,7 +11360,8 @@
     "아랫잎 황변 → 과습·통풍 부족",
     "잎에 흰 가루·갈색 반점 → 흰가루병·잎마름병, 통풍",
     "진딧물 → 물 분사·살충"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Euphorbia pulcherrima",
@@ -10970,7 +11387,8 @@
     "잎이 떨어짐 → 저온·찬바람·과습, 12℃ 이상",
     "포엽이 색이 안 듦 → 밤 길이 부족, 10월부터 14시간 암기",
     "흰 즙 접촉 시 피부 자극 → 장갑 착용"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Begonia cucullata",
@@ -10997,7 +11415,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Begonia × hiemalis",
@@ -11024,7 +11443,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Streptocarpus ionanthus",
@@ -11051,7 +11471,8 @@
     "잎에 얼룩·반점 → 찬물이 잎에 닿음, 미지근한 물로 저면관수",
     "꽃이 안 핌 → 광량 부족, 밝은 간접광·형광등",
     "잎이 처지고 밑동 썩음 → 과습"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Impatiens walleriana",
@@ -11078,7 +11499,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Impatiens hawkeri",
@@ -11104,7 +11526,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Primula obconica",
@@ -11130,7 +11553,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Primula malacoides",
@@ -11156,7 +11580,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Primula vulgaris",
@@ -11183,7 +11608,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Gardenia jasminoides",
@@ -11209,7 +11635,8 @@
     "꽃봉오리가 떨어짐 → 온도 변화·건조·이동, 자리 고정",
     "잎이 노랗게(잎맥은 녹색) → 철분 부족·알칼리성, 산성 비료",
     "잎이 떨어짐 → 과습·저온"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Jasminum polyanthum",
@@ -11236,7 +11663,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Jasminum sambac",
@@ -11263,7 +11691,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Stephanotis floribunda",
@@ -11289,7 +11718,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Bougainvillea glabra",
@@ -11315,7 +11745,8 @@
     "꽃(포엽)이 안 핌 → 광 부족·물 과다, 직사광·약간 건조하게",
     "잎이 떨어짐 → 저온·환경 변화",
     "잎 황변 → 과습"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Hibiscus rosa-sinensis",
@@ -11342,7 +11773,8 @@
     "꽃봉오리가 떨어짐 → 건조·급격한 온도 변화",
     "잎 황변 → 과습·저온·비료 부족",
     "잎 뒷면 흰 벌레 → 온실가루이·응애, 살충"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Camellia japonica",
@@ -11368,7 +11800,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Gerbera jamesonii",
@@ -11393,7 +11826,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Petunia × atkinsiana",
@@ -11419,7 +11853,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Viola × wittrockiana",
@@ -11445,7 +11880,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Dianthus caryophyllus",
@@ -11470,7 +11906,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Freesia refracta",
@@ -11496,7 +11933,8 @@
     "꽃이 빨리 짐 → 고온, 서늘한 곳에 두기",
     "잎만 무성하고 꽃 없음 → 구근 소모·광 부족, 개화 후 잎을 충분히 키움",
     "구근 물러짐 → 과습, 배수 확인"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Ranunculus asiaticus",
@@ -11522,7 +11960,8 @@
     "꽃이 빨리 짐 → 고온, 서늘한 곳에 두기",
     "잎만 무성하고 꽃 없음 → 구근 소모·광 부족, 개화 후 잎을 충분히 키움",
     "구근 물러짐 → 과습, 배수 확인"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Anemone coronaria",
@@ -11547,7 +11986,8 @@
     "꽃이 빨리 짐 → 고온, 서늘한 곳에 두기",
     "잎만 무성하고 꽃 없음 → 구근 소모·광 부족, 개화 후 잎을 충분히 키움",
     "구근 물러짐 → 과습, 배수 확인"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Muscari armeniacum",
@@ -11572,7 +12012,8 @@
     "꽃이 빨리 짐 → 고온, 서늘한 곳에 두기",
     "잎만 무성하고 꽃 없음 → 구근 소모·광 부족, 개화 후 잎을 충분히 키움",
     "구근 물러짐 → 과습, 배수 확인"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Crocus vernus",
@@ -11597,7 +12038,8 @@
     "꽃이 빨리 짐 → 고온, 서늘한 곳에 두기",
     "잎만 무성하고 꽃 없음 → 구근 소모·광 부족, 개화 후 잎을 충분히 키움",
     "구근 물러짐 → 과습, 배수 확인"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Hippeastrum vittatum",
@@ -11623,7 +12065,8 @@
     "잎만 나오고 꽃대 없음 → 휴면 부족, 가을 8주 이상 단수·서늘",
     "구근이 물러짐 → 과습",
     "꽃대가 쓰러짐 → 광 부족·꽃 무게, 지지대"
-   ]
+   ],
+   "toxic_severe": true
   },
   {
    "scientific_name": "Zantedeschia aethiopica",
@@ -11650,7 +12093,8 @@
     "꽃이 빨리 짐 → 고온, 서늘한 곳에 두기",
     "잎만 무성하고 꽃 없음 → 구근 소모·광 부족, 개화 후 잎을 충분히 키움",
     "구근 물러짐 → 과습, 배수 확인"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Eustoma russellianum",
@@ -11677,7 +12121,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Fuchsia magellanica",
@@ -11704,7 +12149,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Lantana camara",
@@ -11730,7 +12176,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": true
   },
   {
    "scientific_name": "Plumbago auriculata",
@@ -11756,7 +12203,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Mandevilla sanderi",
@@ -11783,7 +12231,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Passiflora caerulea",
@@ -11810,7 +12259,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Clivia miniata",
@@ -11836,7 +12286,8 @@
     "꽃이 안 핌 → 겨울 저온(5~10℃) 휴면 부족",
     "잎 끝 갈변 → 과습·염류",
     "잎 사이에서 꽃대가 안 올라옴 → 저온·건조, 온도 올리기"
-   ]
+   ],
+   "toxic_severe": true
   },
   {
    "scientific_name": "Sinningia speciosa",
@@ -11862,7 +12313,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Exacum affine",
@@ -11888,7 +12340,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Pericallis × hybrida",
@@ -11914,7 +12367,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Catharanthus roseus",
@@ -11941,7 +12395,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": true
   },
   {
    "scientific_name": "Pentas lanceolata",
@@ -11966,7 +12421,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Abutilon pictum",
@@ -11992,7 +12448,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Brunfelsia pauciflora",
@@ -12018,7 +12475,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": true
   },
   {
    "scientific_name": "Ixora coccinea",
@@ -12044,7 +12502,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Allamanda cathartica",
@@ -12070,7 +12529,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": true
   },
   {
    "scientific_name": "Nerium oleander",
@@ -12096,7 +12556,8 @@
     "전체가 맹독성 → 어린이·반려동물 가정 부적합",
     "잎 황변 → 과습·저온",
     "깍지벌레 → 살충"
-   ]
+   ],
+   "toxic_severe": true
   },
   {
    "scientific_name": "Osmanthus fragrans",
@@ -12123,7 +12584,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Daphne odora",
@@ -12149,7 +12611,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": true
   },
   {
    "scientific_name": "Serissa japonica",
@@ -12175,7 +12638,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Murraya paniculata",
@@ -12202,7 +12666,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Cuphea hyssopifolia",
@@ -12228,7 +12693,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Aeschynanthus radicans",
@@ -12254,7 +12720,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Columnea gloriosa",
@@ -12280,7 +12747,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Nematanthus gregarius",
@@ -12307,7 +12775,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Medinilla magnifica",
@@ -12333,7 +12802,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Tacca chantrieri",
@@ -12360,7 +12830,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Clerodendrum thomsoniae",
@@ -12387,7 +12858,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Tibouchina urvilleana",
@@ -12414,7 +12886,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Duranta erecta",
@@ -12441,7 +12914,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": true
   },
   {
    "scientific_name": "Cestrum nocturnum",
@@ -12467,7 +12941,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": true
   },
   {
    "scientific_name": "Justicia brandegeeana",
@@ -12494,7 +12969,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Pachystachys lutea",
@@ -12520,7 +12996,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Crossandra infundibuliformis",
@@ -12545,7 +13022,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Solanum pseudocapsicum",
@@ -12571,7 +13049,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": true
   },
   {
    "scientific_name": "Pelargonium × hortorum",
@@ -12598,7 +13077,8 @@
     "아랫잎 황변·낙엽 → 과습, 흙 마른 뒤 관수",
     "꽃이 안 핌 → 광량 부족, 직사광",
     "줄기 밑동 검게 썩음 → 과습·통풍 부족"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Pelargonium peltatum",
@@ -12624,7 +13104,8 @@
     "꽃봉오리 떨어짐 → 급격한 환경 변화·건조, 위치 고정",
     "잎 황변 → 과습, 배수 확인",
     "꽃이 안 핌 → 광량·비료 부족, 밝은 곳·인산 비료"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Phalaenopsis amabilis",
@@ -12650,7 +13131,8 @@
     "뿌리가 물러지고 갈색 → 과습, 바크 마른 뒤 관수·화분 물 고임 금지",
     "잎이 쭈글쭈글 → 뿌리 손상·건조",
     "꽃대가 안 나옴 → 밤 온도 15~18℃, 밝은 간접광 필요"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Dendrobium nobile",
@@ -12677,7 +13159,8 @@
     "꽃이 안 핌 → 가을 저온(10℃ 전후)·단수 부족",
     "줄기가 쭈글쭈글 → 건조·뿌리 손상",
     "새 촉에서 잎 대신 새끼(고아) 생김 → 질소 과다·저온 부족"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Dendrobium bigibbum",
@@ -12703,7 +13186,8 @@
     "뿌리가 검게 물러짐 → 과습, 바크가 마른 뒤 관수",
     "잎이 쭈글쭈글 → 뿌리 손상·건조, 뿌리 상태 점검",
     "꽃대가 안 나옴 → 밤낮 온도차 부족, 가을 야간 15℃ 전후"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Cymbidium goeringii",
@@ -12729,7 +13213,8 @@
     "뿌리가 검게 물러짐 → 과습, 바크가 마른 뒤 관수",
     "잎이 쭈글쭈글 → 뿌리 손상·건조, 뿌리 상태 점검",
     "꽃대가 안 나옴 → 밤낮 온도차 부족, 가을 야간 15℃ 전후"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Cymbidium ensifolium",
@@ -12756,7 +13241,8 @@
     "뿌리가 검게 물러짐 → 과습, 바크가 마른 뒤 관수",
     "잎이 쭈글쭈글 → 뿌리 손상·건조, 뿌리 상태 점검",
     "꽃대가 안 나옴 → 밤낮 온도차 부족, 가을 야간 15℃ 전후"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Cymbidium kanran",
@@ -12781,7 +13267,8 @@
     "뿌리가 검게 물러짐 → 과습, 바크가 마른 뒤 관수",
     "잎이 쭈글쭈글 → 뿌리 손상·건조, 뿌리 상태 점검",
     "꽃대가 안 나옴 → 밤낮 온도차 부족, 가을 야간 15℃ 전후"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Cymbidium lowianum",
@@ -12807,7 +13294,8 @@
     "뿌리가 검게 물러짐 → 과습, 바크가 마른 뒤 관수",
     "잎이 쭈글쭈글 → 뿌리 손상·건조, 뿌리 상태 점검",
     "꽃대가 안 나옴 → 밤낮 온도차 부족, 가을 야간 15℃ 전후"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Paphiopedilum insigne",
@@ -12834,7 +13322,8 @@
     "뿌리가 검게 물러짐 → 과습, 바크가 마른 뒤 관수",
     "잎이 쭈글쭈글 → 뿌리 손상·건조, 뿌리 상태 점검",
     "꽃대가 안 나옴 → 밤낮 온도차 부족, 가을 야간 15℃ 전후"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Oncidium sphacelatum",
@@ -12860,7 +13349,8 @@
     "뿌리가 검게 물러짐 → 과습, 바크가 마른 뒤 관수",
     "잎이 쭈글쭈글 → 뿌리 손상·건조, 뿌리 상태 점검",
     "꽃대가 안 나옴 → 밤낮 온도차 부족, 가을 야간 15℃ 전후"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Cattleya labiata",
@@ -12886,7 +13376,8 @@
     "뿌리가 검게 물러짐 → 과습, 바크가 마른 뒤 관수",
     "잎이 쭈글쭈글 → 뿌리 손상·건조, 뿌리 상태 점검",
     "꽃대가 안 나옴 → 밤낮 온도차 부족, 가을 야간 15℃ 전후"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Vanda coerulea",
@@ -12912,7 +13403,8 @@
     "뿌리가 검게 물러짐 → 과습, 바크가 마른 뒤 관수",
     "잎이 쭈글쭈글 → 뿌리 손상·건조, 뿌리 상태 점검",
     "꽃대가 안 나옴 → 밤낮 온도차 부족, 가을 야간 15℃ 전후"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Vanda falcata",
@@ -12939,7 +13431,8 @@
     "뿌리가 검게 물러짐 → 과습, 바크가 마른 뒤 관수",
     "잎이 쭈글쭈글 → 뿌리 손상·건조, 뿌리 상태 점검",
     "꽃대가 안 나옴 → 밤낮 온도차 부족, 가을 야간 15℃ 전후"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Miltoniopsis phalaenopsis",
@@ -12965,7 +13458,8 @@
     "뿌리가 검게 물러짐 → 과습, 바크가 마른 뒤 관수",
     "잎이 쭈글쭈글 → 뿌리 손상·건조, 뿌리 상태 점검",
     "꽃대가 안 나옴 → 밤낮 온도차 부족, 가을 야간 15℃ 전후"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Zygopetalum maculatum",
@@ -12990,7 +13484,8 @@
     "뿌리가 검게 물러짐 → 과습, 바크가 마른 뒤 관수",
     "잎이 쭈글쭈글 → 뿌리 손상·건조, 뿌리 상태 점검",
     "꽃대가 안 나옴 → 밤낮 온도차 부족, 가을 야간 15℃ 전후"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Nephrolepis exaltata",
@@ -13017,7 +13512,8 @@
     "잎이 누렇게 마르고 떨어짐 → 건조·낮은 습도, 매일 분무·가습",
     "잎이 검게 물러짐 → 과습·통풍 부족",
     "새순 없음 → 광량 부족, 밝은 간접광"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Nephrolepis cordifolia",
@@ -13044,7 +13540,8 @@
     "잎 끝 마름·갈변 → 건조·낮은 습도, 가습·분무",
     "잎 황변 → 과습·직사광, 반그늘로 이동",
     "잎이 갑자기 떨어짐 → 뿌리 건조, 흙을 늘 촉촉하게"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Adiantum raddianum",
@@ -13071,7 +13568,8 @@
     "잎이 바삭하게 마름 → 건조, 물 부족 시 회복 어려움, 흙 늘 촉촉하게",
     "잎이 검게 변함 → 과습·찬바람",
     "잎이 창백 → 직사광"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Asplenium nidus",
@@ -13098,7 +13596,8 @@
     "잎 끝 마름·갈변 → 건조·낮은 습도, 가습·분무",
     "잎 황변 → 과습·직사광, 반그늘로 이동",
     "잎이 갑자기 떨어짐 → 뿌리 건조, 흙을 늘 촉촉하게"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Asplenium antiquum",
@@ -13124,7 +13623,8 @@
     "잎 끝 마름·갈변 → 건조·낮은 습도, 가습·분무",
     "잎 황변 → 과습·직사광, 반그늘로 이동",
     "잎이 갑자기 떨어짐 → 뿌리 건조, 흙을 늘 촉촉하게"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Platycerium bifurcatum",
@@ -13151,7 +13651,8 @@
     "영양엽(방패잎)이 갈색 → 정상(노화), 제거하지 않기",
     "잎 끝 처짐·쭈글 → 물 부족, 침수 관수",
     "밑동 검게 변함 → 과습"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Phlebodium aureum",
@@ -13178,7 +13679,8 @@
     "잎 끝 마름·갈변 → 건조·낮은 습도, 가습·분무",
     "잎 황변 → 과습·직사광, 반그늘로 이동",
     "잎이 갑자기 떨어짐 → 뿌리 건조, 흙을 늘 촉촉하게"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Davallia trichomanoides",
@@ -13205,7 +13707,8 @@
     "잎 끝 마름·갈변 → 건조·낮은 습도, 가습·분무",
     "잎 황변 → 과습·직사광, 반그늘로 이동",
     "잎이 갑자기 떨어짐 → 뿌리 건조, 흙을 늘 촉촉하게"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Pteris cretica",
@@ -13232,7 +13735,8 @@
     "잎 끝 마름·갈변 → 건조·낮은 습도, 가습·분무",
     "잎 황변 → 과습·직사광, 반그늘로 이동",
     "잎이 갑자기 떨어짐 → 뿌리 건조, 흙을 늘 촉촉하게"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Microsorum musifolium",
@@ -13259,7 +13763,8 @@
     "잎 끝 마름·갈변 → 건조·낮은 습도, 가습·분무",
     "잎 황변 → 과습·직사광, 반그늘로 이동",
     "잎이 갑자기 떨어짐 → 뿌리 건조, 흙을 늘 촉촉하게"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Pellaea rotundifolia",
@@ -13286,7 +13791,8 @@
     "잎 끝 마름·갈변 → 건조·낮은 습도, 가습·분무",
     "잎 황변 → 과습·직사광, 반그늘로 이동",
     "잎이 갑자기 떨어짐 → 뿌리 건조, 흙을 늘 촉촉하게"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Cyrtomium falcatum",
@@ -13313,7 +13819,8 @@
     "잎 끝 마름·갈변 → 건조·낮은 습도, 가습·분무",
     "잎 황변 → 과습·직사광, 반그늘로 이동",
     "잎이 갑자기 떨어짐 → 뿌리 건조, 흙을 늘 촉촉하게"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Didymochlaena truncatula",
@@ -13339,7 +13846,8 @@
     "잎 끝 마름·갈변 → 건조·낮은 습도, 가습·분무",
     "잎 황변 → 과습·직사광, 반그늘로 이동",
     "잎이 갑자기 떨어짐 → 뿌리 건조, 흙을 늘 촉촉하게"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Pyrrosia lingua",
@@ -13364,7 +13872,8 @@
     "잎 끝 마름·갈변 → 건조·낮은 습도, 가습·분무",
     "잎 황변 → 과습·직사광, 반그늘로 이동",
     "잎이 갑자기 떨어짐 → 뿌리 건조, 흙을 늘 촉촉하게"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Selaginella kraussiana",
@@ -13391,7 +13900,8 @@
     "잎 끝 마름·갈변 → 건조·낮은 습도, 가습·분무",
     "잎 황변 → 과습·직사광, 반그늘로 이동",
     "잎이 갑자기 떨어짐 → 뿌리 건조, 흙을 늘 촉촉하게"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Asplenium bulbiferum",
@@ -13418,7 +13928,8 @@
     "잎 끝 마름·갈변 → 건조·낮은 습도, 가습·분무",
     "잎 황변 → 과습·직사광, 반그늘로 이동",
     "잎이 갑자기 떨어짐 → 뿌리 건조, 흙을 늘 촉촉하게"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Tillandsia ionantha",
@@ -13445,7 +13956,8 @@
     "잎 끝 말림·갈변 → 건조, 주 1~2회 침수 후 완전 건조",
     "밑동이 검게 변함 → 물 고임·과습, 거꾸로 털어 말리기",
     "색이 흐려지고 늘어짐 → 광량 부족"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Tillandsia xerographica",
@@ -13471,7 +13983,8 @@
     "잎 끝 말림·갈변 → 건조, 주 1회 침수 후 완전 건조",
     "밑동 검게 변함 → 물 고임, 거꾸로 털어 말리기",
     "색이 흐려짐 → 광량 부족"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Tillandsia usneoides",
@@ -13498,7 +14011,8 @@
     "잎 끝 말림·갈변 → 건조, 주 1회 침수 후 완전 건조",
     "밑동 검게 변함 → 물 고임, 거꾸로 털어 말리기",
     "색이 흐려짐 → 광량 부족"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Tillandsia caput-medusae",
@@ -13524,7 +14038,8 @@
     "잎 끝 말림·갈변 → 건조, 주 1회 침수 후 완전 건조",
     "밑동 검게 변함 → 물 고임, 거꾸로 털어 말리기",
     "색이 흐려짐 → 광량 부족"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Tillandsia bulbosa",
@@ -13549,7 +14064,8 @@
     "잎 끝 말림·갈변 → 건조, 주 1회 침수 후 완전 건조",
     "밑동 검게 변함 → 물 고임, 거꾸로 털어 말리기",
     "색이 흐려짐 → 광량 부족"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Tillandsia stricta",
@@ -13574,7 +14090,8 @@
     "잎 끝 말림·갈변 → 건조, 주 1회 침수 후 완전 건조",
     "밑동 검게 변함 → 물 고임, 거꾸로 털어 말리기",
     "색이 흐려짐 → 광량 부족"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Tillandsia tectorum",
@@ -13600,7 +14117,8 @@
     "잎 끝 말림·갈변 → 건조, 주 1회 침수 후 완전 건조",
     "밑동 검게 변함 → 물 고임, 거꾸로 털어 말리기",
     "색이 흐려짐 → 광량 부족"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Tillandsia streptophylla",
@@ -13625,7 +14143,8 @@
     "잎 끝 말림·갈변 → 건조, 주 1회 침수 후 완전 건조",
     "밑동 검게 변함 → 물 고임, 거꾸로 털어 말리기",
     "색이 흐려짐 → 광량 부족"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Tillandsia harrisii",
@@ -13650,7 +14169,8 @@
     "잎 끝 말림·갈변 → 건조, 주 1회 침수 후 완전 건조",
     "밑동 검게 변함 → 물 고임, 거꾸로 털어 말리기",
     "색이 흐려짐 → 광량 부족"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Wallisia cyanea",
@@ -13676,7 +14196,8 @@
     "잎 끝 갈변 → 건조, 잎 컵에 물 유지·분무",
     "밑동 물러짐 → 흙 과습, 흙은 가볍게",
     "개화 후 시듦 → 자연 수명, 자구를 키움"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Guzmania lingulata",
@@ -13702,7 +14223,8 @@
     "잎 끝 갈변 → 건조, 잎 컵에 물 유지·분무",
     "밑동 물러짐 → 흙 과습, 흙은 가볍게",
     "개화 후 시듦 → 자연 수명, 자구를 키움"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Vriesea splendens",
@@ -13729,7 +14251,8 @@
     "잎 끝 갈변 → 건조, 잎 컵에 물 유지·분무",
     "밑동 물러짐 → 흙 과습, 흙은 가볍게",
     "개화 후 시듦 → 자연 수명, 자구를 키움"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Neoregelia carolinae",
@@ -13754,7 +14277,8 @@
     "잎 끝 갈변 → 건조, 잎 컵에 물 유지·분무",
     "밑동 물러짐 → 흙 과습, 흙은 가볍게",
     "개화 후 시듦 → 자연 수명, 자구를 키움"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Aechmea fasciata",
@@ -13781,7 +14305,8 @@
     "잎 끝 갈변 → 건조, 잎 컵에 물 유지·분무",
     "밑동 물러짐 → 흙 과습, 흙은 가볍게",
     "개화 후 시듦 → 자연 수명, 자구를 키움"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Cryptanthus bivittatus",
@@ -13807,7 +14332,8 @@
     "잎 끝 갈변 → 건조, 잎 컵에 물 유지·분무",
     "밑동 물러짐 → 흙 과습, 흙은 가볍게",
     "개화 후 시듦 → 자연 수명, 자구를 키움"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Ananas comosus",
@@ -13834,7 +14360,8 @@
     "잎 끝 갈변 → 건조, 잎 컵에 물 유지·분무",
     "밑동 물러짐 → 흙 과습, 흙은 가볍게",
     "개화 후 시듦 → 자연 수명, 자구를 키움"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Cyperus involucratus",
@@ -13861,7 +14388,8 @@
     "잎 끝 갈변 → 물 부족(항상 물에 담가 두기)",
     "줄기가 쓰러짐 → 광량 부족",
     "잎이 누렇게 변함 → 저온·양분 부족"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Cyperus papyrus",
@@ -13887,7 +14415,8 @@
     "잎 황변 → 영양·광 부족, 밝은 곳·액비",
     "물 냄새·이끼 → 환수 부족, 주 1회 물 교체",
     "잎 녹아내림 → 저온"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Acorus gramineus",
@@ -13913,7 +14442,8 @@
     "잎 황변 → 영양·광 부족, 밝은 곳·액비",
     "물 냄새·이끼 → 환수 부족, 주 1회 물 교체",
     "잎 녹아내림 → 저온"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Equisetum hyemale",
@@ -13938,7 +14468,8 @@
     "잎 황변 → 영양·광 부족, 밝은 곳·액비",
     "물 냄새·이끼 → 환수 부족, 주 1회 물 교체",
     "잎 녹아내림 → 저온"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Nymphaea tetragona",
@@ -13965,7 +14496,8 @@
     "잎 황변 → 영양·광 부족, 밝은 곳·액비",
     "물 냄새·이끼 → 환수 부족, 주 1회 물 교체",
     "잎 녹아내림 → 저온"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Nelumbo nucifera",
@@ -13992,7 +14524,8 @@
     "잎 황변 → 영양·광 부족, 밝은 곳·액비",
     "물 냄새·이끼 → 환수 부족, 주 1회 물 교체",
     "잎 녹아내림 → 저온"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Pistia stratiotes",
@@ -14018,7 +14551,8 @@
     "잎 황변 → 영양·광 부족, 밝은 곳·액비",
     "물 냄새·이끼 → 환수 부족, 주 1회 물 교체",
     "잎 녹아내림 → 저온"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Pontederia crassipes",
@@ -14043,7 +14577,8 @@
     "잎 황변 → 영양·광 부족, 밝은 곳·액비",
     "물 냄새·이끼 → 환수 부족, 주 1회 물 교체",
     "잎 녹아내림 → 저온"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Hydrocotyle umbellata",
@@ -14069,7 +14604,8 @@
     "잎 황변 → 영양·광 부족, 밝은 곳·액비",
     "물 냄새·이끼 → 환수 부족, 주 1회 물 교체",
     "잎 녹아내림 → 저온"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Marsilea quadrifolia",
@@ -14095,7 +14631,8 @@
     "잎 황변 → 영양·광 부족, 밝은 곳·액비",
     "물 냄새·이끼 → 환수 부족, 주 1회 물 교체",
     "잎 녹아내림 → 저온"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Anubias barteri",
@@ -14121,7 +14658,8 @@
     "잎 황변 → 영양·광 부족, 밝은 곳·액비",
     "물 냄새·이끼 → 환수 부족, 주 1회 물 교체",
     "잎 녹아내림 → 저온"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Ceratopteris thalictroides",
@@ -14147,7 +14685,8 @@
     "잎 황변 → 영양·광 부족, 밝은 곳·액비",
     "물 냄새·이끼 → 환수 부족, 주 1회 물 교체",
     "잎 녹아내림 → 저온"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Dischidia nummularia",
@@ -14174,7 +14713,8 @@
     "잎이 쭈글쭈글 → 물 부족 또는 뿌리 손상, 흙 상태 확인",
     "꽃이 안 핌 → 광량 부족·잦은 이동, 밝은 곳에 두고 꽃대 자르지 않기",
     "잎 황변 → 과습, 배수 좋은 흙"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Dischidia ruscifolia",
@@ -14200,7 +14740,8 @@
     "잎이 쭈글쭈글 → 물 부족 또는 뿌리 손상, 흙 상태 확인",
     "꽃이 안 핌 → 광량 부족·잦은 이동, 밝은 곳에 두고 꽃대 자르지 않기",
     "잎 황변 → 과습, 배수 좋은 흙"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Dischidia ovata",
@@ -14226,7 +14767,8 @@
     "잎이 쭈글쭈글 → 물 부족 또는 뿌리 손상, 흙 상태 확인",
     "꽃이 안 핌 → 광량 부족·잦은 이동, 밝은 곳에 두고 꽃대 자르지 않기",
     "잎 황변 → 과습, 배수 좋은 흙"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Dischidia oiantha",
@@ -14252,7 +14794,8 @@
     "잎이 쭈글쭈글 → 물 부족 또는 뿌리 손상, 흙 상태 확인",
     "꽃이 안 핌 → 광량 부족·잦은 이동, 밝은 곳에 두고 꽃대 자르지 않기",
     "잎 황변 → 과습, 배수 좋은 흙"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Dischidia pectinoides",
@@ -14278,7 +14821,8 @@
     "잎이 쭈글쭈글 → 물 부족 또는 뿌리 손상, 흙 상태 확인",
     "꽃이 안 핌 → 광량 부족·잦은 이동, 밝은 곳에 두고 꽃대 자르지 않기",
     "잎 황변 → 과습, 배수 좋은 흙"
-   ]
+   ],
+   "toxic_severe": false
   },
   {
    "scientific_name": "Selenicereus anthonyanus",
@@ -14305,7 +14849,8 @@
     "줄기가 물러짐 → 과습, 흙이 마른 뒤에 물 주기",
     "줄기가 붉어짐 → 직사광선 과다, 밝은 간접광으로 이동",
     "꽃이 안 핌 → 겨울 서늘하고 건조하게(10~15℃) 관리"
-   ]
+   ],
+   "toxic_severe": false
   }
  ]
 }
