@@ -1,0 +1,4 @@
+CFBundleDisplayName = "Jaljarara";
+CFBundleName = "Jaljarara";
+NSCameraUsageDescription = "Jaljarara uses the camera to identify your plant and save it as the plant's photo. Photos are not kept on any server.";
+NSPhotoLibraryUsageDescription = "Jaljarara uses your photo library to pick a plant photo for identification. Photos are not kept on any server.";

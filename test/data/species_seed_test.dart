@@ -92,4 +92,34 @@ void main() {
     expect(lily.first.toxicChildLevel, ChildToxicity.none);
     expect(lily.first.toxicSevere, isTrue);
   });
+
+  test('모든 품종에 영어 이름이 있고, 사진은 출처·라이선스가 붙어 있다', () {
+    final root = jsonDecode(raw) as Map<String, dynamic>;
+    final list = (root['species'] as List).cast<Map<String, dynamic>>();
+    var photos = 0;
+    for (final m in list) {
+      final sci = m['scientific_name'];
+      expect((m['names_en'] as List?) ?? const [], isNotEmpty, reason: '$sci');
+      final url = m['image_url'] as String?;
+      if (url == null) continue;
+      photos++;
+      expect(url, startsWith('https://upload.wikimedia.org/'), reason: '$sci');
+      expect(m['image_license'], isNotNull, reason: '$sci');
+      expect(
+        m['image_page'],
+        startsWith('https://commons.wikimedia.org/'),
+        reason: '$sci',
+      );
+    }
+    expect(photos, greaterThan(300));
+  });
+
+  test('영어 검색도 된다', () async {
+    final db = AppDatabase.forTesting(NativeDatabase.memory());
+    addTearDown(db.close);
+    await SpeciesSeedLoader(db).seedIfEmpty(jsonOverride: raw);
+    final repo = SpeciesRepository(db);
+    expect(await repo.search('snake plant'), isNotEmpty);
+    expect(await repo.search('ZZ plant'), isNotEmpty);
+  });
 }
