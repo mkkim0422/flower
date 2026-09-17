@@ -11,7 +11,7 @@ const double kConfidentThreshold = 0.80;
 const int kMaxCandidates = 5;
 
 /// 이 확률 미만 후보는 숨김 (단, 1순위는 항상 표시) — 2026-09-16 사용자 지시
-const double kMinShownScore = 0.50;
+const double kMinShownScore = 0.30;
 
 /// PlantNet 무료 한도 500회/일 → 480회에서 호출 중단
 const int kPlantNetDailyCap = 480;
