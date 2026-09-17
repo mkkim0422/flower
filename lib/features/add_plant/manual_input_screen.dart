@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/app_locale.dart';
 import '../../app/router.dart';
 import '../../app/theme.dart';
 import '../../app/widgets/app_button.dart';
@@ -43,7 +44,7 @@ class _ManualInputScreenState extends State<ManualInputScreen> {
   Widget build(BuildContext context) {
     final c = context.colors;
     return Scaffold(
-      appBar: AppBar(title: const Text('직접 입력')),
+      appBar: AppBar(title: Text(context.l10n.commonManualEntry)),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: AppSpace.screenH),
         child: Column(
@@ -51,7 +52,7 @@ class _ManualInputScreenState extends State<ManualInputScreen> {
           children: [
             const SizedBox(height: AppSpace.sm),
             Text(
-              '식물 이름',
+              context.l10n.manualPlantName,
               style: AppText.label.copyWith(color: c.textSecondary),
             ),
             const SizedBox(height: AppSpace.sm),
@@ -61,11 +62,11 @@ class _ManualInputScreenState extends State<ManualInputScreen> {
               textInputAction: TextInputAction.done,
               onSubmitted: (_) => _next(),
               onChanged: (_) => setState(() {}),
-              decoration: const InputDecoration(hintText: '예: 창가 초록이'),
+              decoration: InputDecoration(hintText: context.l10n.manualHint),
             ),
             const SizedBox(height: AppSpace.md),
             Text(
-              '품종을 지정하지 않으면 물주기는 7일 기본값으로 시작해요. 상세 화면에서 언제든 바꿀 수 있어요',
+              context.l10n.manualInfo,
               style: AppText.caption.copyWith(color: c.textSecondary),
             ),
             const Spacer(),
@@ -74,7 +75,7 @@ class _ManualInputScreenState extends State<ManualInputScreen> {
               child: Padding(
                 padding: const EdgeInsets.only(bottom: AppSpace.lg),
                 child: AppButton.primary(
-                  label: '다음',
+                  label: context.l10n.commonNext,
                   onPressed: _controller.text.trim().isEmpty ? null : _next,
                 ),
               ),

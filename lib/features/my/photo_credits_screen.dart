@@ -2,6 +2,8 @@ import 'package:drift/drift.dart' show OrderingTerm;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../data/species_l10n.dart';
+import '../../core/app_locale.dart';
 import '../../app/theme.dart';
 import '../../data/db/app_database.dart';
 import '../../data/db/database_provider.dart';
@@ -27,7 +29,7 @@ class PhotoCreditsScreen extends ConsumerWidget {
     final c = context.colors;
     final rows = ref.watch(_creditedSpeciesProvider).value ?? const [];
     return Scaffold(
-      appBar: AppBar(title: const Text('도감 사진 출처')),
+      appBar: AppBar(title: Text(context.l10n.creditsTitle)),
       body: ListView.separated(
         padding: const EdgeInsets.fromLTRB(
           AppSpace.screenH,
@@ -42,8 +44,7 @@ class PhotoCreditsScreen extends ConsumerWidget {
             return Padding(
               padding: const EdgeInsets.only(bottom: AppSpace.md),
               child: Text(
-                '도감 사진은 위키미디어 공용(Wikimedia Commons)의 자유 라이선스 사진이에요. '
-                '각 사진의 작가와 라이선스, 원본 주소는 아래와 같아요',
+                context.l10n.creditsIntro,
                 style: AppText.caption.copyWith(color: c.textSecondary),
               ),
             );
@@ -55,11 +56,11 @@ class PhotoCreditsScreen extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '${s.koNames.first} (${s.scientificName})',
+                  '${s.displayName(context.l10n)} (${s.scientificName})',
                   style: AppText.bodyStrong.copyWith(color: c.textPrimary),
                 ),
                 Text(
-                  '${s.imageAuthor ?? '작가 미상'} · ${s.imageLicense ?? ''}',
+                  '${s.imageAuthor ?? context.l10n.infoUnknownAuthor} · ${s.imageLicense ?? ''}',
                   style: AppText.caption.copyWith(color: c.textSecondary),
                 ),
                 if (s.imagePage != null)

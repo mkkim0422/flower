@@ -199,6 +199,38 @@ class $SpeciesTable extends Species with TableInfo<$SpeciesTable, SpeciesRow> {
     type: DriftSqlType.int,
     requiredDuringInsert: false,
   );
+  @override
+  late final GeneratedColumnWithTypeConverter<List<String>, String> namesEn =
+      GeneratedColumn<String>(
+        'names_en',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+        defaultValue: const Constant('[]'),
+      ).withConverter<List<String>>($SpeciesTable.$converternamesEn);
+  static const VerificationMeta _toxicityNoteEnMeta = const VerificationMeta(
+    'toxicityNoteEn',
+  );
+  @override
+  late final GeneratedColumn<String> toxicityNoteEn = GeneratedColumn<String>(
+    'toxicity_note_en',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(''),
+  );
+  @override
+  late final GeneratedColumnWithTypeConverter<List<String>, String>
+  commonIssuesEn = GeneratedColumn<String>(
+    'common_issues_en',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('[]'),
+  ).withConverter<List<String>>($SpeciesTable.$convertercommonIssuesEn);
   static const VerificationMeta _imageUrlMeta = const VerificationMeta(
     'imageUrl',
   );
@@ -299,6 +331,9 @@ class $SpeciesTable extends Species with TableInfo<$SpeciesTable, SpeciesRow> {
     searchText,
     tempOptMin,
     tempOptMax,
+    namesEn,
+    toxicityNoteEn,
+    commonIssuesEn,
     imageUrl,
     imageAuthor,
     imageLicense,
@@ -420,6 +455,15 @@ class $SpeciesTable extends Species with TableInfo<$SpeciesTable, SpeciesRow> {
         tempOptMax.isAcceptableOrUnknown(
           data['temp_opt_max']!,
           _tempOptMaxMeta,
+        ),
+      );
+    }
+    if (data.containsKey('toxicity_note_en')) {
+      context.handle(
+        _toxicityNoteEnMeta,
+        toxicityNoteEn.isAcceptableOrUnknown(
+          data['toxicity_note_en']!,
+          _toxicityNoteEnMeta,
         ),
       );
     }
@@ -554,6 +598,22 @@ class $SpeciesTable extends Species with TableInfo<$SpeciesTable, SpeciesRow> {
         DriftSqlType.int,
         data['${effectivePrefix}temp_opt_max'],
       ),
+      namesEn: $SpeciesTable.$converternamesEn.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}names_en'],
+        )!,
+      ),
+      toxicityNoteEn: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}toxicity_note_en'],
+      )!,
+      commonIssuesEn: $SpeciesTable.$convertercommonIssuesEn.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}common_issues_en'],
+        )!,
+      ),
       imageUrl: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}image_url'],
@@ -598,6 +658,10 @@ class $SpeciesTable extends Species with TableInfo<$SpeciesTable, SpeciesRow> {
       const EnumNameConverter<LightPref>(LightPref.values);
   static TypeConverter<List<String>, String> $convertercommonIssues =
       const StringListConverter();
+  static TypeConverter<List<String>, String> $converternamesEn =
+      const StringListConverter();
+  static TypeConverter<List<String>, String> $convertercommonIssuesEn =
+      const StringListConverter();
   static JsonTypeConverter2<ChildToxicity, String, String>
   $convertertoxicChildLevel = const EnumNameConverter<ChildToxicity>(
     ChildToxicity.values,
@@ -628,6 +692,11 @@ class SpeciesRow extends DataClass implements Insertable<SpeciesRow> {
   /// 적정 생육 온도 (없으면 temp_min~temp_max 로 대체)
   final int? tempOptMin;
   final int? tempOptMax;
+
+  /// 영어 이름·독성 설명·흔한 문제 (글로벌)
+  final List<String> namesEn;
+  final String toxicityNoteEn;
+  final List<String> commonIssuesEn;
 
   /// 도감 대표 사진 (위키미디어 공용, 자유 라이선스). 없으면 null
   final String? imageUrl;
@@ -661,6 +730,9 @@ class SpeciesRow extends DataClass implements Insertable<SpeciesRow> {
     required this.searchText,
     this.tempOptMin,
     this.tempOptMax,
+    required this.namesEn,
+    required this.toxicityNoteEn,
+    required this.commonIssuesEn,
     this.imageUrl,
     this.imageAuthor,
     this.imageLicense,
@@ -714,6 +786,17 @@ class SpeciesRow extends DataClass implements Insertable<SpeciesRow> {
     }
     if (!nullToAbsent || tempOptMax != null) {
       map['temp_opt_max'] = Variable<int>(tempOptMax);
+    }
+    {
+      map['names_en'] = Variable<String>(
+        $SpeciesTable.$converternamesEn.toSql(namesEn),
+      );
+    }
+    map['toxicity_note_en'] = Variable<String>(toxicityNoteEn);
+    {
+      map['common_issues_en'] = Variable<String>(
+        $SpeciesTable.$convertercommonIssuesEn.toSql(commonIssuesEn),
+      );
     }
     if (!nullToAbsent || imageUrl != null) {
       map['image_url'] = Variable<String>(imageUrl);
@@ -770,6 +853,9 @@ class SpeciesRow extends DataClass implements Insertable<SpeciesRow> {
       tempOptMax: tempOptMax == null && nullToAbsent
           ? const Value.absent()
           : Value(tempOptMax),
+      namesEn: Value(namesEn),
+      toxicityNoteEn: Value(toxicityNoteEn),
+      commonIssuesEn: Value(commonIssuesEn),
       imageUrl: imageUrl == null && nullToAbsent
           ? const Value.absent()
           : Value(imageUrl),
@@ -813,6 +899,9 @@ class SpeciesRow extends DataClass implements Insertable<SpeciesRow> {
       searchText: serializer.fromJson<String>(json['searchText']),
       tempOptMin: serializer.fromJson<int?>(json['tempOptMin']),
       tempOptMax: serializer.fromJson<int?>(json['tempOptMax']),
+      namesEn: serializer.fromJson<List<String>>(json['namesEn']),
+      toxicityNoteEn: serializer.fromJson<String>(json['toxicityNoteEn']),
+      commonIssuesEn: serializer.fromJson<List<String>>(json['commonIssuesEn']),
       imageUrl: serializer.fromJson<String?>(json['imageUrl']),
       imageAuthor: serializer.fromJson<String?>(json['imageAuthor']),
       imageLicense: serializer.fromJson<String?>(json['imageLicense']),
@@ -847,6 +936,9 @@ class SpeciesRow extends DataClass implements Insertable<SpeciesRow> {
       'searchText': serializer.toJson<String>(searchText),
       'tempOptMin': serializer.toJson<int?>(tempOptMin),
       'tempOptMax': serializer.toJson<int?>(tempOptMax),
+      'namesEn': serializer.toJson<List<String>>(namesEn),
+      'toxicityNoteEn': serializer.toJson<String>(toxicityNoteEn),
+      'commonIssuesEn': serializer.toJson<List<String>>(commonIssuesEn),
       'imageUrl': serializer.toJson<String?>(imageUrl),
       'imageAuthor': serializer.toJson<String?>(imageAuthor),
       'imageLicense': serializer.toJson<String?>(imageLicense),
@@ -877,6 +969,9 @@ class SpeciesRow extends DataClass implements Insertable<SpeciesRow> {
     String? searchText,
     Value<int?> tempOptMin = const Value.absent(),
     Value<int?> tempOptMax = const Value.absent(),
+    List<String>? namesEn,
+    String? toxicityNoteEn,
+    List<String>? commonIssuesEn,
     Value<String?> imageUrl = const Value.absent(),
     Value<String?> imageAuthor = const Value.absent(),
     Value<String?> imageLicense = const Value.absent(),
@@ -902,6 +997,9 @@ class SpeciesRow extends DataClass implements Insertable<SpeciesRow> {
     searchText: searchText ?? this.searchText,
     tempOptMin: tempOptMin.present ? tempOptMin.value : this.tempOptMin,
     tempOptMax: tempOptMax.present ? tempOptMax.value : this.tempOptMax,
+    namesEn: namesEn ?? this.namesEn,
+    toxicityNoteEn: toxicityNoteEn ?? this.toxicityNoteEn,
+    commonIssuesEn: commonIssuesEn ?? this.commonIssuesEn,
     imageUrl: imageUrl.present ? imageUrl.value : this.imageUrl,
     imageAuthor: imageAuthor.present ? imageAuthor.value : this.imageAuthor,
     imageLicense: imageLicense.present ? imageLicense.value : this.imageLicense,
@@ -945,6 +1043,13 @@ class SpeciesRow extends DataClass implements Insertable<SpeciesRow> {
       tempOptMax: data.tempOptMax.present
           ? data.tempOptMax.value
           : this.tempOptMax,
+      namesEn: data.namesEn.present ? data.namesEn.value : this.namesEn,
+      toxicityNoteEn: data.toxicityNoteEn.present
+          ? data.toxicityNoteEn.value
+          : this.toxicityNoteEn,
+      commonIssuesEn: data.commonIssuesEn.present
+          ? data.commonIssuesEn.value
+          : this.commonIssuesEn,
       imageUrl: data.imageUrl.present ? data.imageUrl.value : this.imageUrl,
       imageAuthor: data.imageAuthor.present
           ? data.imageAuthor.value
@@ -985,6 +1090,9 @@ class SpeciesRow extends DataClass implements Insertable<SpeciesRow> {
           ..write('searchText: $searchText, ')
           ..write('tempOptMin: $tempOptMin, ')
           ..write('tempOptMax: $tempOptMax, ')
+          ..write('namesEn: $namesEn, ')
+          ..write('toxicityNoteEn: $toxicityNoteEn, ')
+          ..write('commonIssuesEn: $commonIssuesEn, ')
           ..write('imageUrl: $imageUrl, ')
           ..write('imageAuthor: $imageAuthor, ')
           ..write('imageLicense: $imageLicense, ')
@@ -1015,6 +1123,9 @@ class SpeciesRow extends DataClass implements Insertable<SpeciesRow> {
     searchText,
     tempOptMin,
     tempOptMax,
+    namesEn,
+    toxicityNoteEn,
+    commonIssuesEn,
     imageUrl,
     imageAuthor,
     imageLicense,
@@ -1044,6 +1155,9 @@ class SpeciesRow extends DataClass implements Insertable<SpeciesRow> {
           other.searchText == this.searchText &&
           other.tempOptMin == this.tempOptMin &&
           other.tempOptMax == this.tempOptMax &&
+          other.namesEn == this.namesEn &&
+          other.toxicityNoteEn == this.toxicityNoteEn &&
+          other.commonIssuesEn == this.commonIssuesEn &&
           other.imageUrl == this.imageUrl &&
           other.imageAuthor == this.imageAuthor &&
           other.imageLicense == this.imageLicense &&
@@ -1071,6 +1185,9 @@ class SpeciesCompanion extends UpdateCompanion<SpeciesRow> {
   final Value<String> searchText;
   final Value<int?> tempOptMin;
   final Value<int?> tempOptMax;
+  final Value<List<String>> namesEn;
+  final Value<String> toxicityNoteEn;
+  final Value<List<String>> commonIssuesEn;
   final Value<String?> imageUrl;
   final Value<String?> imageAuthor;
   final Value<String?> imageLicense;
@@ -1096,6 +1213,9 @@ class SpeciesCompanion extends UpdateCompanion<SpeciesRow> {
     this.searchText = const Value.absent(),
     this.tempOptMin = const Value.absent(),
     this.tempOptMax = const Value.absent(),
+    this.namesEn = const Value.absent(),
+    this.toxicityNoteEn = const Value.absent(),
+    this.commonIssuesEn = const Value.absent(),
     this.imageUrl = const Value.absent(),
     this.imageAuthor = const Value.absent(),
     this.imageLicense = const Value.absent(),
@@ -1122,6 +1242,9 @@ class SpeciesCompanion extends UpdateCompanion<SpeciesRow> {
     this.searchText = const Value.absent(),
     this.tempOptMin = const Value.absent(),
     this.tempOptMax = const Value.absent(),
+    this.namesEn = const Value.absent(),
+    this.toxicityNoteEn = const Value.absent(),
+    this.commonIssuesEn = const Value.absent(),
     this.imageUrl = const Value.absent(),
     this.imageAuthor = const Value.absent(),
     this.imageLicense = const Value.absent(),
@@ -1153,6 +1276,9 @@ class SpeciesCompanion extends UpdateCompanion<SpeciesRow> {
     Expression<String>? searchText,
     Expression<int>? tempOptMin,
     Expression<int>? tempOptMax,
+    Expression<String>? namesEn,
+    Expression<String>? toxicityNoteEn,
+    Expression<String>? commonIssuesEn,
     Expression<String>? imageUrl,
     Expression<String>? imageAuthor,
     Expression<String>? imageLicense,
@@ -1179,6 +1305,9 @@ class SpeciesCompanion extends UpdateCompanion<SpeciesRow> {
       if (searchText != null) 'search_text': searchText,
       if (tempOptMin != null) 'temp_opt_min': tempOptMin,
       if (tempOptMax != null) 'temp_opt_max': tempOptMax,
+      if (namesEn != null) 'names_en': namesEn,
+      if (toxicityNoteEn != null) 'toxicity_note_en': toxicityNoteEn,
+      if (commonIssuesEn != null) 'common_issues_en': commonIssuesEn,
       if (imageUrl != null) 'image_url': imageUrl,
       if (imageAuthor != null) 'image_author': imageAuthor,
       if (imageLicense != null) 'image_license': imageLicense,
@@ -1207,6 +1336,9 @@ class SpeciesCompanion extends UpdateCompanion<SpeciesRow> {
     Value<String>? searchText,
     Value<int?>? tempOptMin,
     Value<int?>? tempOptMax,
+    Value<List<String>>? namesEn,
+    Value<String>? toxicityNoteEn,
+    Value<List<String>>? commonIssuesEn,
     Value<String?>? imageUrl,
     Value<String?>? imageAuthor,
     Value<String?>? imageLicense,
@@ -1233,6 +1365,9 @@ class SpeciesCompanion extends UpdateCompanion<SpeciesRow> {
       searchText: searchText ?? this.searchText,
       tempOptMin: tempOptMin ?? this.tempOptMin,
       tempOptMax: tempOptMax ?? this.tempOptMax,
+      namesEn: namesEn ?? this.namesEn,
+      toxicityNoteEn: toxicityNoteEn ?? this.toxicityNoteEn,
+      commonIssuesEn: commonIssuesEn ?? this.commonIssuesEn,
       imageUrl: imageUrl ?? this.imageUrl,
       imageAuthor: imageAuthor ?? this.imageAuthor,
       imageLicense: imageLicense ?? this.imageLicense,
@@ -1303,6 +1438,19 @@ class SpeciesCompanion extends UpdateCompanion<SpeciesRow> {
     if (tempOptMax.present) {
       map['temp_opt_max'] = Variable<int>(tempOptMax.value);
     }
+    if (namesEn.present) {
+      map['names_en'] = Variable<String>(
+        $SpeciesTable.$converternamesEn.toSql(namesEn.value),
+      );
+    }
+    if (toxicityNoteEn.present) {
+      map['toxicity_note_en'] = Variable<String>(toxicityNoteEn.value);
+    }
+    if (commonIssuesEn.present) {
+      map['common_issues_en'] = Variable<String>(
+        $SpeciesTable.$convertercommonIssuesEn.toSql(commonIssuesEn.value),
+      );
+    }
     if (imageUrl.present) {
       map['image_url'] = Variable<String>(imageUrl.value);
     }
@@ -1349,6 +1497,9 @@ class SpeciesCompanion extends UpdateCompanion<SpeciesRow> {
           ..write('searchText: $searchText, ')
           ..write('tempOptMin: $tempOptMin, ')
           ..write('tempOptMax: $tempOptMax, ')
+          ..write('namesEn: $namesEn, ')
+          ..write('toxicityNoteEn: $toxicityNoteEn, ')
+          ..write('commonIssuesEn: $commonIssuesEn, ')
           ..write('imageUrl: $imageUrl, ')
           ..write('imageAuthor: $imageAuthor, ')
           ..write('imageLicense: $imageLicense, ')
@@ -4713,6 +4864,9 @@ typedef $$SpeciesTableCreateCompanionBuilder =
       Value<String> searchText,
       Value<int?> tempOptMin,
       Value<int?> tempOptMax,
+      Value<List<String>> namesEn,
+      Value<String> toxicityNoteEn,
+      Value<List<String>> commonIssuesEn,
       Value<String?> imageUrl,
       Value<String?> imageAuthor,
       Value<String?> imageLicense,
@@ -4740,6 +4894,9 @@ typedef $$SpeciesTableUpdateCompanionBuilder =
       Value<String> searchText,
       Value<int?> tempOptMin,
       Value<int?> tempOptMax,
+      Value<List<String>> namesEn,
+      Value<String> toxicityNoteEn,
+      Value<List<String>> commonIssuesEn,
       Value<String?> imageUrl,
       Value<String?> imageAuthor,
       Value<String?> imageLicense,
@@ -4892,6 +5049,23 @@ class $$SpeciesTableFilterComposer
   ColumnFilters<int> get tempOptMax => $composableBuilder(
     column: $table.tempOptMax,
     builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<List<String>, List<String>, String>
+  get namesEn => $composableBuilder(
+    column: $table.namesEn,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
+
+  ColumnFilters<String> get toxicityNoteEn => $composableBuilder(
+    column: $table.toxicityNoteEn,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<List<String>, List<String>, String>
+  get commonIssuesEn => $composableBuilder(
+    column: $table.commonIssuesEn,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
   );
 
   ColumnFilters<String> get imageUrl => $composableBuilder(
@@ -5075,6 +5249,21 @@ class $$SpeciesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get namesEn => $composableBuilder(
+    column: $table.namesEn,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get toxicityNoteEn => $composableBuilder(
+    column: $table.toxicityNoteEn,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get commonIssuesEn => $composableBuilder(
+    column: $table.commonIssuesEn,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<String> get imageUrl => $composableBuilder(
     column: $table.imageUrl,
     builder: (column) => ColumnOrderings(column),
@@ -5187,6 +5376,20 @@ class $$SpeciesTableAnnotationComposer
     column: $table.tempOptMax,
     builder: (column) => column,
   );
+
+  GeneratedColumnWithTypeConverter<List<String>, String> get namesEn =>
+      $composableBuilder(column: $table.namesEn, builder: (column) => column);
+
+  GeneratedColumn<String> get toxicityNoteEn => $composableBuilder(
+    column: $table.toxicityNoteEn,
+    builder: (column) => column,
+  );
+
+  GeneratedColumnWithTypeConverter<List<String>, String> get commonIssuesEn =>
+      $composableBuilder(
+        column: $table.commonIssuesEn,
+        builder: (column) => column,
+      );
 
   GeneratedColumn<String> get imageUrl =>
       $composableBuilder(column: $table.imageUrl, builder: (column) => column);
@@ -5317,6 +5520,9 @@ class $$SpeciesTableTableManager
                 Value<String> searchText = const Value.absent(),
                 Value<int?> tempOptMin = const Value.absent(),
                 Value<int?> tempOptMax = const Value.absent(),
+                Value<List<String>> namesEn = const Value.absent(),
+                Value<String> toxicityNoteEn = const Value.absent(),
+                Value<List<String>> commonIssuesEn = const Value.absent(),
                 Value<String?> imageUrl = const Value.absent(),
                 Value<String?> imageAuthor = const Value.absent(),
                 Value<String?> imageLicense = const Value.absent(),
@@ -5342,6 +5548,9 @@ class $$SpeciesTableTableManager
                 searchText: searchText,
                 tempOptMin: tempOptMin,
                 tempOptMax: tempOptMax,
+                namesEn: namesEn,
+                toxicityNoteEn: toxicityNoteEn,
+                commonIssuesEn: commonIssuesEn,
                 imageUrl: imageUrl,
                 imageAuthor: imageAuthor,
                 imageLicense: imageLicense,
@@ -5369,6 +5578,9 @@ class $$SpeciesTableTableManager
                 Value<String> searchText = const Value.absent(),
                 Value<int?> tempOptMin = const Value.absent(),
                 Value<int?> tempOptMax = const Value.absent(),
+                Value<List<String>> namesEn = const Value.absent(),
+                Value<String> toxicityNoteEn = const Value.absent(),
+                Value<List<String>> commonIssuesEn = const Value.absent(),
                 Value<String?> imageUrl = const Value.absent(),
                 Value<String?> imageAuthor = const Value.absent(),
                 Value<String?> imageLicense = const Value.absent(),
@@ -5394,6 +5606,9 @@ class $$SpeciesTableTableManager
                 searchText: searchText,
                 tempOptMin: tempOptMin,
                 tempOptMax: tempOptMax,
+                namesEn: namesEn,
+                toxicityNoteEn: toxicityNoteEn,
+                commonIssuesEn: commonIssuesEn,
                 imageUrl: imageUrl,
                 imageAuthor: imageAuthor,
                 imageLicense: imageLicense,

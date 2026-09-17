@@ -1,6 +1,8 @@
 import 'package:drift/drift.dart' show Value;
 import 'package:drift/native.dart';
+import 'package:flutter/widgets.dart' show Locale;
 import 'package:flutter_test/flutter_test.dart';
+import 'package:plant_app/l10n/app_localizations.dart';
 import 'package:plant_app/core/enums.dart';
 import 'package:plant_app/data/db/app_database.dart';
 import 'package:plant_app/data/repositories/plant_repository.dart';
@@ -18,6 +20,9 @@ const _seedJson = '''
   "fert_days":null,"repot_months":24,"common_issues":["웃자람 → 빛 부족"]}
 ]}
 ''';
+
+final ko = lookupAppLocalizations(const Locale('ko'));
+final en = lookupAppLocalizations(const Locale('en'));
 
 void main() {
   late AppDatabase db;
@@ -66,7 +71,7 @@ void main() {
     expect(e.plant.nextCheckAt, DateTime(2026, 4, 19));
     expect(e.isDue(fixedNow), isFalse);
     expect(e.dDay(fixedNow), 4);
-    expect(e.statusLabel(fixedNow), 'D-4');
+    expect(e.statusLabel(fixedNow, ko), 'D-4');
 
     final events = await plants.watchCareEvents(id).first;
     expect(events, isEmpty); // 등록 시에는 물 준 기록을 만들지 않음
@@ -81,8 +86,8 @@ void main() {
     );
     final e = (await plants.getById(id))!;
     expect(e.plant.waterIntervalDays, 7);
-    expect(e.displaySpeciesName, '품종 미지정');
-    expect(e.statusLabel(fixedNow), 'D-7');
+    expect(e.displaySpeciesName(ko), '품종 미지정');
+    expect(e.statusLabel(fixedNow, ko), 'D-7');
   });
 
   test('흙 확인 E2E: 오늘 확인 → 촉촉 → 재확인일·계수 보정 → 말랐음 2회 → 계수 0.9', () async {
@@ -94,8 +99,10 @@ void main() {
     );
     var e = (await plants.getById(id))!;
     expect(e.isDue(fixedNow), isTrue);
-    expect(e.statusLabel(fixedNow), '오늘 물 주기');
-    expect(e.statusLabel(DateTime(2026, 4, 18)), 'D+3');
+    expect(e.statusLabel(fixedNow, ko), '오늘 물 주기');
+    expect(e.statusLabel(DateTime(2026, 4, 18), ko), 'D+3');
+    expect(e.statusLabel(fixedNow, en), 'Water today');
+    expect(e.statusLabel(DateTime(2026, 4, 18), en), '3 days late');
 
     // 아직 촉촉해요
     await plants.recordSoilCheck(id, SoilCheckResult.wet);

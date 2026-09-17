@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
+import '../../core/app_locale.dart';
 import '../../app/theme.dart';
 import '../../app/widgets/app_button.dart';
 import '../../app/widgets/app_chip.dart';
@@ -42,8 +43,7 @@ class _PauseSheetState extends ConsumerState<_PauseSheet> {
       initialDate: _until ?? today.add(const Duration(days: 7)),
       firstDate: today,
       lastDate: today.add(const Duration(days: 60)),
-      locale: const Locale('ko', 'KR'),
-      helpText: '이 날까지 알림을 멈춰요',
+      helpText: context.l10n.pauseHelp,
     );
     if (picked != null) setState(() => _until = picked);
   }
@@ -77,12 +77,12 @@ class _PauseSheetState extends ConsumerState<_PauseSheet> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
-            '알림 잠시 멈추기',
+            context.l10n.pauseTitle,
             style: AppText.title.copyWith(color: c.textPrimary),
           ),
           const SizedBox(height: AppSpace.xs),
           Text(
-            '여행이나 휴가로 집을 비울 때 알림을 멈춰요',
+            context.l10n.pauseSubtitle,
             style: AppText.caption.copyWith(color: c.textSecondary),
           ),
           const SizedBox(height: AppSpace.lg),
@@ -92,15 +92,23 @@ class _PauseSheetState extends ConsumerState<_PauseSheet> {
             children: [
               for (final d in _presets)
                 AppChip(
-                  label: d == 7 ? '1주' : (d == 14 ? '2주' : '$d일'),
+                  label: d == 7
+                      ? context.l10n.pauseOneWeek
+                      : (d == 14
+                            ? context.l10n.pauseTwoWeeks
+                            : context.l10n.pauseDays(d)),
                   selected: daysSel == d,
                   onTap: () =>
                       setState(() => _until = today.add(Duration(days: d))),
                 ),
               AppChip(
                 label: _until != null && !_presets.contains(daysSel)
-                    ? DateFormat('M월 d일까지', 'ko_KR').format(_until!)
-                    : '날짜 선택',
+                    ? context.l10n.pauseUntilDate(
+                        DateFormat.MMMd(
+                          context.l10n.localeName,
+                        ).format(_until!),
+                      )
+                    : context.l10n.commonPickDate,
                 selected: _until != null && !_presets.contains(daysSel),
                 onTap: _pickDate,
               ),
@@ -116,8 +124,16 @@ class _PauseSheetState extends ConsumerState<_PauseSheet> {
               ),
               child: Text(
                 dueDuring.isEmpty
-                    ? '${DateFormat('M월 d일', 'ko_KR').format(_until!)}까지 물 줄 날이 오는 식물은 없어요'
-                    : '떠나기 전에 물 주면 좋은 식물: ${dueDuring.map((e) => e.plant.nickname).join(', ')}',
+                    ? context.l10n.pauseNoneDue(
+                        DateFormat.MMMd(
+                          context.l10n.localeName,
+                        ).format(_until!),
+                      )
+                    : context.l10n.pauseWaterBefore(
+                        dueDuring
+                            .map((e) => e.plant.nickname)
+                            .join(context.l10n.listSeparator),
+                      ),
                 style: AppText.body.copyWith(color: c.textPrimary),
               ),
             ),
@@ -125,8 +141,10 @@ class _PauseSheetState extends ConsumerState<_PauseSheet> {
           const SizedBox(height: AppSpace.lg),
           AppButton.primary(
             label: _until == null
-                ? '기간을 골라 주세요'
-                : '${DateFormat('M월 d일', 'ko_KR').format(_until!)}까지 멈추기',
+                ? context.l10n.pausePickPeriod
+                : context.l10n.pauseConfirm(
+                    DateFormat.MMMd(context.l10n.localeName).format(_until!),
+                  ),
             onPressed: _until == null
                 ? null
                 : () async {
@@ -139,7 +157,7 @@ class _PauseSheetState extends ConsumerState<_PauseSheet> {
           if (paused) ...[
             const SizedBox(height: AppSpace.sm),
             AppButton.text(
-              label: '알림 다시 켜기',
+              label: context.l10n.pauseResume,
               expanded: true,
               onPressed: () async {
                 await ref

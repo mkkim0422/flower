@@ -4,6 +4,8 @@ import 'dart:io';
 import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../species_l10n.dart';
+import '../../core/app_locale.dart';
 import '../../domain/identification_service.dart';
 import '../db/app_database.dart';
 import '../db/database_provider.dart';
@@ -68,9 +70,12 @@ class IdentificationRepository implements DailyQuota {
 
 /// 후보 학명 → species DB 매칭 (국내명 병기)
 class SpeciesMatcher {
-  const SpeciesMatcher(this.species);
+  const SpeciesMatcher(this.species, {this.l10n});
 
   final SpeciesRepository species;
+
+  /// 표시 이름 언어 (없으면 기기 언어)
+  final AppLocalizations? l10n;
 
   Future<List<IdentificationCandidate>> attach(
     List<IdentificationCandidate> cs,
@@ -83,7 +88,10 @@ class SpeciesMatcher {
       out.add(
         row == null
             ? c
-            : c.copyWith(speciesId: row.id, koName: row.koNames.first),
+            : c.copyWith(
+                speciesId: row.id,
+                koName: row.displayName(l10n ?? deviceL10n()),
+              ),
       );
     }
     return out;

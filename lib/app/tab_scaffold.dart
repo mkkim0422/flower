@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../core/app_locale.dart';
 
 import 'theme.dart';
 
@@ -62,7 +63,7 @@ class _AppTabBar extends StatelessWidget {
                 children: [
                   Expanded(
                     child: _TabItem(
-                      label: '홈',
+                      label: context.l10n.tabHome,
                       icon: Icons.home_outlined,
                       activeIcon: Icons.home_rounded,
                       selected: currentIndex == 0,
@@ -73,7 +74,7 @@ class _AppTabBar extends StatelessWidget {
                   const SizedBox(width: AppSize.cameraButton + AppSpace.lg),
                   Expanded(
                     child: _TabItem(
-                      label: 'MY',
+                      label: context.l10n.tabMy,
                       icon: Icons.person_outline_rounded,
                       activeIcon: Icons.person_rounded,
                       selected: currentIndex == 2,
@@ -156,7 +157,7 @@ class _CameraButton extends StatelessWidget {
     return Semantics(
       button: true,
       selected: selected,
-      label: '카메라',
+      label: context.l10n.tabCamera,
       child: Material(
         color: c.primary,
         shape: const CircleBorder(),

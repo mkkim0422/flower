@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../core/app_locale.dart';
 import '../theme.dart';
 import 'plant_card.dart';
 
@@ -120,7 +121,7 @@ class _RoundCheckboxState extends State<_RoundCheckbox>
 
     return Semantics(
       checked: widget.selected,
-      label: '선택',
+      label: context.l10n.semanticsSelect,
       child: InkWell(
         onTap: widget.onTap,
         customBorder: const CircleBorder(),

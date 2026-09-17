@@ -12,7 +12,7 @@ const int kJpegQuality = 85;
 Uint8List _prepare(Uint8List raw) {
   final decoded = img.decodeImage(raw);
   if (decoded == null) {
-    throw const FormatException('이미지를 읽을 수 없어요');
+    throw const FormatException('cannot decode image');
   }
   var image = img.bakeOrientation(decoded); // EXIF 회전 적용
   final longest = image.width > image.height ? image.width : image.height;

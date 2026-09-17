@@ -1,0 +1,746 @@
+{
+  "@@locale": "en",
+  "appName": "Jaljarara",
+  "commonCancel": "Cancel",
+  "commonSave": "Save",
+  "commonDelete": "Delete",
+  "commonRemove": "Remove",
+  "commonClose": "Close",
+  "commonNext": "Next",
+  "commonLater": "Later",
+  "commonToday": "Today",
+  "commonYesterday": "Yesterday",
+  "commonPickDate": "Pick a date",
+  "commonComingSoon": "Coming soon",
+  "commonLoadFailed": "Couldn't load. Please try again.",
+  "commonPhotoLoadFailed": "Couldn't get the photo",
+  "commonTakePhoto": "Take a photo",
+  "commonPickFromAlbum": "Choose from album",
+  "commonAlbum": "Album",
+  "commonSearchByName": "Search by name",
+  "commonManualEntry": "Enter manually",
+  "commonDays": "{count, plural, =1{1 day} other{{count} days}}",
+  "@commonDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "commonEveryDays": "{count, plural, =1{Every day} other{Every {count} days}}",
+  "@commonEveryDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "listSeparator": ", ",
+  "nameSeparator": ", ",
+  "speciesUnknown": "Unknown species",
+  "tabHome": "Home",
+  "tabCamera": "Camera",
+  "tabMy": "My",
+  "semanticsSelect": "Select",
+  "statusToday": "Water today",
+  "statusDaysLeft": "{count, plural, =1{Tomorrow} other{In {count} days}}",
+  "@statusDaysLeft": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "statusOverdue": "{count, plural, =1{1 day late} other{{count} days late}}",
+  "@statusOverdue": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dangerPetAndChild": "Dangerous for pets and children",
+  "dangerChild": "Dangerous for children",
+  "dangerPet": "Dangerous for pets",
+  "toxicMildNote": "Note: pets or children chewing the leaves may get an upset stomach",
+  "windowDirE": "East",
+  "windowDirW": "West",
+  "windowDirS": "South",
+  "windowDirN": "North",
+  "windowDirNone": "No window",
+  "windowDistNear": "By the window",
+  "windowDistOneMeter": "Within 1 m",
+  "windowDistFar": "Far",
+  "potSizeS": "Small",
+  "potSizeM": "Medium",
+  "potSizeL": "Large",
+  "diaryTagNewLeaf": "New leaf",
+  "diaryTagFlower": "Flower",
+  "diaryTagDroop": "Drooping",
+  "diaryTagYellow": "Yellow leaves",
+  "diaryTagPest": "Pests?",
+  "notifChannelName": "Watering reminders",
+  "notifChannelDesc": "Tells you which plants need water, by name",
+  "notifActionWatered": "Watered",
+  "notifActionSnooze": "Tomorrow",
+  "notifActionWateredEarly": "Watered today",
+  "notifWhoMore": "{names} and {count} more",
+  "@notifWhoMore": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notifBodyToday": "{count, plural, =1{{who} needs water today} other{{who} need water today}}",
+  "@notifBodyToday": {
+    "placeholders": {
+      "who": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notifBodyTomorrow": "{count, plural, =1{{who} needs water tomorrow} other{{who} need water tomorrow}}",
+  "@notifBodyTomorrow": {
+    "placeholders": {
+      "who": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "onbSlide1Title": "Help your plants thrive",
+  "onbSlide1Body": "Search by name or snap a photo to add a plant,\nand get a watering schedule that fits it",
+  "onbSlide2Title": "Never miss a watering day",
+  "onbSlide2Body": "We remind you when each plant needs water.\nTap \"Watered\" once and the next date is set",
+  "onbSlide3Title": "No sign-up, no ads",
+  "onbSlide3Body": "Your records stay on this device.\nPhotos are never uploaded to a server",
+  "onbStart": "Get started",
+  "onbPermTitle": "We'll remind you on watering days",
+  "onbPermBody": "We notify you at 9 AM on watering days.\nYou can change the time in My",
+  "onbPermAllow": "Allow notifications",
+  "homeTitle": "Today",
+  "homeLoadFailed": "Couldn't load. Please reopen the app.",
+  "homeEmptyTitle": "Add your first plant",
+  "homeEmptyBody": "Snap a photo and we'll tell you the species and when to water",
+  "homeAddPlant": "Add plant",
+  "homeAddPlantPlus": "+ Add plant",
+  "homeDueHeader": "To water {count}",
+  "@homeDueHeader": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "homeSelectAll": "Select all",
+  "homeDeselect": "Deselect",
+  "homeNothingDue": "No plants need water today",
+  "homeMyPlants": "My plants {count}",
+  "@homeMyPlants": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "homeWateredCount": "{count, plural, =1{Watered 1 plant} other{Watered {count} plants}}",
+  "@homeWateredCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "homeViewGrid": "Album",
+  "homeViewList": "List",
+  "homePausedBanner": "Reminders paused until {date}",
+  "@homePausedBanner": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "homeResume": "Turn back on",
+  "waterSheetPlants": "{count, plural, =1{1 plant} other{{count} plants}}",
+  "@waterSheetPlants": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "waterSheetWatered": "Watered",
+  "waterSheetLater": "Later · we'll remind you in {count, plural, =1{1 day} other{{count} days}}",
+  "@waterSheetLater": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "addTitle": "Add plant",
+  "addHowTo": "How would you like to add it?",
+  "addByPhoto": "Identify by photo",
+  "addByPhotoSub": "Take a photo showing the whole leaf and we'll find the species",
+  "addByNameSub": "Find it by common or scientific name",
+  "addManualSub": "Add it with just a name, even if you don't know the species",
+  "manualPlantName": "Plant name",
+  "manualHint": "e.g. Window greenie",
+  "manualInfo": "Without a species, watering starts at every 7 days. You can change it anytime on the plant page.",
+  "registerTitle": "Add to my plants",
+  "registerNotInCatalog": "This species isn't in our catalog yet. Please name it yourself.",
+  "registerName": "Name",
+  "registerNameHint": "e.g. Living room monstera",
+  "registerLastWatered": "Last watered",
+  "registerInterval": "We'll remind you about every {count, plural, =1{day} other{{count} days}}",
+  "@registerInterval": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "registerIntervalManual": " (set by you)",
+  "registerEditInterval": "Edit interval",
+  "registerBackToAuto": "Back to auto ({count, plural, =1{1 day} other{{count} days}})",
+  "@registerBackToAuto": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "registerMemo": "Memo (optional)",
+  "memoHint": "e.g. Left side of the balcony. Droopy leaves mean thirsty.",
+  "registerSubmit": "Add plant",
+  "searchTitle": "Search by name",
+  "searchHint": "e.g. Monstera, Pothos",
+  "searchCatalogFailed": "Couldn't load the catalog",
+  "searchNotListed": "Not listed → Enter manually",
+  "searchPrompt": "Type a common or scientific name",
+  "searchError": "Something went wrong while searching",
+  "searchNoResult": "No species match \"{query}\".\nYou can add it manually below.",
+  "@searchNoResult": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "searchAlsoKnownAs": "Also known as {alias}",
+  "@searchAlsoKnownAs": {
+    "placeholders": {
+      "alias": {
+        "type": "String"
+      }
+    }
+  },
+  "searchViewCatalog": "View catalog",
+  "cameraTitle": "Identify",
+  "cameraGuide": "Capture the whole leaf",
+  "cameraTip1": "In good light, with the leaf filling at least half the frame",
+  "cameraTip2": "If it has flowers, include them for better accuracy",
+  "cameraPickFailed": "Couldn't get the photo. Check permissions or try another photo.",
+  "cameraPreparing": "Preparing…",
+  "identifyTitle": "Identification",
+  "identifyAddPhoto": "Add photo",
+  "identifyAddPhotoTip": "A close-up of a leaf, or a flower if it has one, improves accuracy",
+  "identifyAddPhotoHint": "Add a close-up of a leaf or flower for better accuracy",
+  "identifyPhotoGoesCover": "The photo you took will be used as the cover photo",
+  "identifySearching": "Finding out what this plant is",
+  "identifySearchingMulti": "Searching again with {count} photos",
+  "@identifySearchingMulti": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "identifyThisIsIt": "That's my plant",
+  "identifyOtherCandidates": "Other matches",
+  "identifyNotListed": "It's not here",
+  "identifyIsItHere": "Is it one of these?",
+  "identifyNotInCatalog": "Not in our catalog · you can name it when adding",
+  "identifyLimitTitle": "You've used today's identifications",
+  "identifyLimitBody": "Try again tomorrow, or add it by searching its name",
+  "identifyOfflineTitle": "You're offline",
+  "identifyOfflineBody": "Check your connection and try again, or add it by searching its name",
+  "identifyNoResultTitle": "Couldn't find this plant",
+  "identifyNoResultBody": "Add a close-up of a leaf or flower, or add it by searching its name",
+  "identifyUnavailableTitle": "Identification isn't available right now",
+  "identifyUnavailableBody": "The identification service isn't set up yet. Try searching by name.",
+  "identifyRetryWithPhoto": "Add a photo and try again",
+  "identifyManualRegister": "Add manually",
+  "diaryWriteTitle": "Write a diary",
+  "diaryWriteTitleFor": "{name}'s diary",
+  "@diaryWriteTitleFor": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "diaryRemovePhoto": "Remove photo",
+  "diarySetCover": "Use as cover photo",
+  "diaryLabel": "Diary",
+  "diaryHint": "How is your plant today? New leaves, drooping…",
+  "detailDeleted": "This plant was deleted",
+  "detailRename": "Rename",
+  "detailMyMemo": "My memo",
+  "detailPlace": "Location",
+  "detailPlaceNone": "Not set",
+  "detailAddPlace": "+ Add a location",
+  "detailChangePlace": "Change location",
+  "detailDeleteDiaryQ": "Delete this diary entry?",
+  "detailDeletePlantQ": "Delete {name}?",
+  "@detailDeletePlantQ": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "detailDeletePlantBody": "Its watering history and memo will be deleted too",
+  "detailCatalogPhoto": "Catalog photo",
+  "detailOverdue": "{count, plural, =1{Watering is 1 day late} other{Watering is {count} days late}}",
+  "@detailOverdue": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "detailDueToday": "It's watering day",
+  "detailUntilNext": "Next watering",
+  "detailDDay": "Today",
+  "detailIntervalManual": " (set by you)",
+  "detailIntervalAuto": " (auto)",
+  "detailLastWatered": " · last {date}",
+  "@detailLastWatered": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "detailAdjust": "Adjust",
+  "detailAddMemo": "+ Add a memo",
+  "detailDiaryWrite": "+ Write",
+  "detailDiaryEmpty": "Record how it grows with a photo and a line",
+  "detailDiaryMore": "{count} more",
+  "@detailDiaryMore": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "detailGoodToKnow": "Good to know",
+  "detailNoSpeciesInfo": "Set a species to see care info. Identify it with the camera or search by name.",
+  "detailSymptomEntry": "Plant looking unwell? Find the cause by symptom",
+  "detailAlreadyWatered": "Already watered today",
+  "detailWateredToday": "Watered today",
+  "detailWatered": "Watered",
+  "tipWaterSucculent": "Water about every {days} days, soaking thoroughly only after the soil is completely dry. Overwatering is the most common mistake.",
+  "@tipWaterSucculent": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "tipWaterHerb": "Water about every {days} days, as soon as the topsoil dries. Herbs droop quickly when dry.",
+  "@tipWaterHerb": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "tipWaterFlower": "Water about every {days} days when the topsoil dries. Check a little more often while it blooms.",
+  "@tipWaterFlower": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "tipWaterFoliage": "Water about every {days} days until it drains from the bottom. Empty the saucer afterwards.",
+  "@tipWaterFoliage": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "tipLightLow": "Does fine in low light. Direct sun can scorch the leaves, so keep it a little away from the window.",
+  "tipLightMed": "Likes bright, indirect light, such as a curtained window or within 1 m of a window.",
+  "tipLightHigh": "Needs plenty of sun. Keep it by a sunny window; without enough light it gets leggy.",
+  "tipTempOptimal": "Best at {min}–{max}",
+  "@tipTempOptimal": {
+    "placeholders": {
+      "min": {
+        "type": "String"
+      },
+      "max": {
+        "type": "String"
+      }
+    }
+  },
+  "tipTempHardy": "{opt}. Cold-hardy, but keep it out of cold drafts indoors",
+  "@tipTempHardy": {
+    "placeholders": {
+      "opt": {
+        "type": "String"
+      }
+    }
+  },
+  "tipTempCool": "{opt}. Tolerates down to {low}, so a cool spot in winter is fine",
+  "@tipTempCool": {
+    "placeholders": {
+      "opt": {
+        "type": "String"
+      },
+      "low": {
+        "type": "String"
+      }
+    }
+  },
+  "tipTempTender": "{opt}. Below {low} the leaves get damaged, so move it away from cold windows in winter",
+  "@tipTempTender": {
+    "placeholders": {
+      "opt": {
+        "type": "String"
+      },
+      "low": {
+        "type": "String"
+      }
+    }
+  },
+  "intervalTitle": "Adjust watering",
+  "intervalBasis": "How it’s calculated",
+  "intervalFormula": "Species {base} × season {season} × light {light} × pot {pot} × feedback {feedback}",
+  "@intervalFormula": {
+    "placeholders": {
+      "base": {
+        "type": "String"
+      },
+      "season": {
+        "type": "String"
+      },
+      "light": {
+        "type": "String"
+      },
+      "pot": {
+        "type": "String"
+      },
+      "feedback": {
+        "type": "String"
+      }
+    }
+  },
+  "intervalManual": "Set it myself",
+  "intervalManualOn": "Uses the interval you set",
+  "intervalManualOff": "Calculated automatically for season and conditions",
+  "spaceDeleteQ": "Delete this location?",
+  "spaceDeleteBody": "Plants here will become \"location not set\"",
+  "spaceEditTitle": "Edit location",
+  "spaceAddTitle": "Add location",
+  "spaceName": "Location name",
+  "spaceNameHint": "e.g. Living room, Balcony, Office desk",
+  "spaceWindowDir": "Window direction",
+  "spaceWindowDist": "Distance from window",
+  "spaceLightInfo": "We estimate light from window direction and distance",
+  "spaceAdd": "Add",
+  "infoTitle": "Catalog",
+  "infoNotInCatalog": "This species isn't in the catalog",
+  "infoCategorySucculent": "Succulents & cacti",
+  "infoCategoryHerb": "Herbs",
+  "infoCategoryFlower": "Flowering plants",
+  "infoCategoryOther": "Other",
+  "infoCategoryFoliage": "Foliage plants",
+  "infoPhotoCredit": "Photo: {author} · {license} · Wikimedia Commons",
+  "@infoPhotoCredit": {
+    "placeholders": {
+      "author": {
+        "type": "String"
+      },
+      "license": {
+        "type": "String"
+      }
+    }
+  },
+  "infoUnknownAuthor": "Unknown author",
+  "infoOtherNames": "Also called: {names}",
+  "@infoOtherNames": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "infoWater": "Water",
+  "infoWaterBase": "Base: every {days} days",
+  "@infoWaterBase": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "infoWaterSucculent": "Soak only after the soil is completely dry. Overwatering is the most common mistake.",
+  "infoWaterHerb": "As soon as the topsoil dries. Herbs droop quickly when dry.",
+  "infoWaterFlower": "When the topsoil dries. Check a little more often while it blooms.",
+  "infoWaterFoliage": "When the soil is dry two knuckles deep, water until it drains. Empty the saucer.",
+  "infoWaterAuto": "The app adjusts this interval for the season automatically",
+  "infoLight": "Light",
+  "infoLightLow": "Tolerates low light (partial shade)",
+  "infoLightMed": "Bright, indirect light (curtained window, within 1 m of a window)",
+  "infoLightHigh": "Plenty of sun (sunny window)",
+  "infoLightLowNote": "Direct sun can scorch the leaves",
+  "infoLightMedNote": "Avoid harsh midsummer sun",
+  "infoLightHighNote": "Without enough light it gets leggy and pale",
+  "infoTempHumidity": "Temperature & humidity",
+  "infoHumidityTip": "In dry winter air, mist the leaves or keep a humidifier nearby",
+  "infoCommonIssues": "Common problems",
+  "infoAddToMine": "Add to my plants",
+  "symTitle": "Find the cause by symptom",
+  "symDisclaimer": "This isn't a photo diagnosis — it lists common causes. Several can overlap, so use the checks to decide.",
+  "symSpeciesIssues": "Common problems for {name}",
+  "@symSpeciesIssues": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "symWhichSymptom": "What do you see?",
+  "symCheck": "Check: {text}",
+  "@symCheck": {
+    "placeholders": {
+      "text": {
+        "type": "String"
+      }
+    }
+  },
+  "symAdjustInterval": "Adjust watering interval",
+  "symOverwaterTitle": "Watering too often (overwatering)",
+  "symOverwaterCheck": "The soil stays wet for days, lower leaves yellow first and feel soft",
+  "symOverwaterFix": "Stop watering until the soil dries through, and lengthen the interval. Empty any water in the saucer.",
+  "symUnderwaterTitle": "Not enough water",
+  "symUnderwaterCheck": "The soil is bone dry, the pot feels light, and leaves droop thin and limp",
+  "symUnderwaterFix": "Water until it drains from the bottom. If this keeps happening, shorten the interval.",
+  "symLowLightTitle": "Not enough light",
+  "symLowLightCheck": "Leaves turn pale overall and stems grow thin and long",
+  "symLowLightFix": "Move it somewhere brighter, like a window. Just avoid harsh midsummer sun.",
+  "symColdTitle": "Cold or drafts",
+  "symColdCheck": "It sits by a cold winter window or in the path of AC or door drafts",
+  "symColdFix": "Move it somewhere warm away from drafts. Damaged leaves won't recover, so remove them.",
+  "symYellow": "Leaves turning yellow",
+  "symOldLeafTitle": "Old leaves dropping naturally",
+  "symOldLeafCheck": "Only the bottom one or two leaves yellow, and new growth looks healthy",
+  "symOldLeafFix": "That's normal. Just remove the yellow leaves.",
+  "symBrownTips": "Leaf tips turning brown and crispy",
+  "symDryAirTitle": "Dry air",
+  "symDryAirCheck": "It's heating or AC season, or air blows directly on it",
+  "symDryAirFix": "Keep a humidifier nearby or mist around the leaves. You can trim the dry tips.",
+  "symSaltTitle": "Tap water minerals or fertilizer buildup",
+  "symSaltCheck": "Tips keep browning even though you water on time",
+  "symSaltFix": "Use water that's been left out for a day, and pause any fertilizer for a while.",
+  "symDroop": "Leaves drooping",
+  "symRootDamageTitle": "Roots damaged by overwatering",
+  "symRootDamageCheck": "It droops even though the soil is wet, the base is soft, or the soil smells",
+  "symRootDamageFix": "Stop watering and let the soil dry. If the base is soft, see \"Stem or base is mushy\" below.",
+  "symLeafDrop": "Leaves suddenly falling off",
+  "symAdjustingTitle": "Adjusting to a new spot",
+  "symAdjustingCheck": "You recently brought it home or moved it (common in rubber plants and weeping figs)",
+  "symAdjustingFix": "Don't move it for 2–3 weeks and watch. New leaves mean it has settled in.",
+  "symRot": "Stem or base is mushy",
+  "symRootRotTitle": "Root rot (long-term overwatering)",
+  "symRootRotCheck": "The base is dark and soft, and the soil smells musty",
+  "symRootRotFix": "Unpot it, cut away black mushy roots and replant in fresh dry soil. Water sparingly for a while. If severe, root a healthy cutting in water.",
+  "symSpots": "Brown or black spots on leaves",
+  "symSunburnTitle": "Sunburn",
+  "symSunburnCheck": "Leaves facing the sun have dry, crispy brown patches",
+  "symSunburnFix": "Move it behind a curtain. The burn marks won't fade, but new leaves will be fine.",
+  "symLeafSpotTitle": "Fungal or bacterial leaf spot",
+  "symLeafSpotCheck": "Wet-looking spots with yellow halos that keep spreading",
+  "symLeafSpotFix": "Remove spotted leaves and improve airflow so leaves don't stay wet.",
+  "symMealybug": "White cottony bugs or sticky leaves",
+  "symMealybugTitle": "Mealybugs or scale",
+  "symMealybugCheck": "White cottony clumps or brown shells in leaf joints or undersides, and sticky leaves",
+  "symMealybugFix": "Wipe them off with a wet wipe or cotton swab and isolate the plant. If they return, use a houseplant insecticide.",
+  "symSpiderMite": "Webbing or tiny dots under leaves",
+  "symSpiderMiteTitle": "Spider mites",
+  "symSpiderMiteCheck": "Fine pale speckles on leaves and thin webbing underneath. Common in dry air.",
+  "symSpiderMiteFix": "Rinse both sides of the leaves in the shower and raise humidity. If it recurs, use a miticide.",
+  "symGnat": "Tiny flies around the pot",
+  "symGnatTitle": "Fungus gnats (soil stays wet too long)",
+  "symGnatCheck": "Small dark flies hover over or around the soil",
+  "symGnatFix": "Let the topsoil dry out and add yellow sticky traps. Watering a little less often helps.",
+  "symLeggy": "Only the stems grow long",
+  "symLeggyTitle": "Not enough light (leggy growth)",
+  "symLeggyCheck": "Gaps between leaves widen and stems lean toward the window",
+  "symLeggyFix": "Move it somewhere brighter and trim leggy stems. Rotate the pot now and then for even growth.",
+  "symMold": "White mold on the soil",
+  "symMoldTitle": "Poor airflow or overwatering",
+  "symMoldCheck": "White threads or fuzz on the soil surface",
+  "symMoldFix": "Scrape off the moldy topsoil and keep it somewhere airy. It's usually harmless to the plant.",
+  "symNoGrowth": "No new leaves",
+  "symDormantTitle": "Winter dormancy",
+  "symDormantCheck": "It's the cold season",
+  "symDormantFix": "That's normal — growth resumes in spring. Water a little less in winter.",
+  "symPotboundTitle": "Outgrown its pot",
+  "symPotboundCheck": "Roots poke out of the drainage hole, or water runs straight through",
+  "symPotboundFix": "Repot into a pot one size larger in spring",
+  "myTitle": "My",
+  "myStatWaterings": "Waterings\nthis month",
+  "myStatDiary": "Diary",
+  "myStatStreak": "Day streak",
+  "mySectionNotifications": "Notifications",
+  "myNotifyTime": "Reminder time",
+  "myNotifyTiming": "When to remind",
+  "myNotifyDayBefore": "Day before",
+  "myNotifySameDay": "Same day",
+  "myPause": "Pause reminders",
+  "myPauseOff": "Off",
+  "myPauseUntil": "Until {date}",
+  "@myPauseUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "myNotifyDays": "Reminder days",
+  "myEveryDay": "Every day",
+  "mySkipDays": "Except {days}",
+  "@mySkipDays": {
+    "placeholders": {
+      "days": {
+        "type": "String"
+      }
+    }
+  },
+  "mySectionData": "Data",
+  "myBackup": "Export & import records",
+  "myBackupValue": "File",
+  "myRequestSpecies": "Request a species",
+  "myDebugNotify": "(Dev) Notify in 10 s",
+  "myDebugTest": "Test",
+  "mySectionInfo": "About",
+  "myTermsPrivacy": "Terms & privacy policy",
+  "myPhotoCredits": "Catalog photo credits",
+  "myContact": "Contact",
+  "myVersion": "Version",
+  "myLocalOnly": "Records are stored only on this device. Phone backups (Google/iCloud) include them; to move photos too, use export.",
+  "myNotifyTimeHelp": "Watering reminder time",
+  "mySkipDaysTitle": "Days without reminders",
+  "mySkipAllWarning": "If you exclude every day, you won't get reminders",
+  "pauseHelp": "Pause reminders until this date",
+  "pauseTitle": "Pause reminders",
+  "pauseSubtitle": "Pause reminders while you're traveling or away",
+  "pauseDays": "{count, plural, =1{1 day} other{{count} days}}",
+  "@pauseDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "pauseOneWeek": "1 week",
+  "pauseTwoWeeks": "2 weeks",
+  "pauseUntilDate": "Until {date}",
+  "@pauseUntilDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "pauseNoneDue": "No plants need water until {date}",
+  "@pauseNoneDue": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "pauseWaterBefore": "Water these before you leave: {names}",
+  "@pauseWaterBefore": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "pausePickPeriod": "Choose a period",
+  "pauseConfirm": "Pause until {date}",
+  "@pauseConfirm": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "pauseResume": "Turn reminders back on",
+  "creditsTitle": "Catalog photo credits",
+  "creditsIntro": "Catalog photos are freely licensed images from Wikimedia Commons. The author, license and source of each photo are listed below.",
+  "backupShareSubject": "Jaljarara records backup",
+  "backupShareText": "This is a Jaljarara backup file. Restore it on a new phone from My › Export & import records.",
+  "backupExported": "File created. Send it somewhere safe.",
+  "backupExportFailed": "Export failed: {error}",
+  "@backupExportFailed": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "backupNotOurs": "This isn't a Jaljarara backup file",
+  "backupImportQ": "Import these records?",
+  "backupImportSummary": "Exported on {date}.\n{plants} plants · {diaries} diary entries · {photos} photos\n\nAll records on this phone will be replaced with this file.",
+  "@backupImportSummary": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "plants": {
+        "type": "int"
+      },
+      "diaries": {
+        "type": "int"
+      },
+      "photos": {
+        "type": "int"
+      }
+    }
+  },
+  "backupImport": "Import",
+  "backupImported": "Imported. Check your home screen.",
+  "backupImportFailed": "Import failed: {error}",
+  "@backupImportFailed": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "backupTitle": "Export & import records",
+  "backupExport": "Export",
+  "backupExportBody": "Bundles your plants, watering history, diary and photos into one file. Keep it anywhere — email, Google Drive, a chat with yourself.",
+  "backupExportButton": "Create and send file",
+  "backupImportBody": "On a new phone, choose the exported file to restore everything. Records currently on this phone will be replaced.",
+  "backupImportButton": "Choose file to import",
+  "backupNote": "Tip: with phone backup (Google or iCloud) turned on, your records move to a new phone automatically. Android auto backup doesn't include photos, so use export to move them."
+}

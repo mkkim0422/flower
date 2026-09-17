@@ -1,5 +1,7 @@
 import 'package:drift/native.dart';
+import 'package:flutter/widgets.dart' show Locale;
 import 'package:flutter_test/flutter_test.dart';
+import 'package:plant_app/l10n/app_localizations.dart';
 import 'package:plant_app/core/enums.dart';
 import 'package:plant_app/data/repositories/plant_repository.dart';
 import 'package:plant_app/data/db/app_database.dart';
@@ -25,6 +27,9 @@ Setting _s({
   themeVariant: 0,
   notifyPausedUntil: pausedUntil,
 );
+
+final ko = lookupAppLocalizations(const Locale('ko'));
+final en = lookupAppLocalizations(const Locale('en'));
 
 void main() {
   group('nextFireTime', () {
@@ -102,25 +107,47 @@ void main() {
   group('식물 이름 알림', () {
     test('문구: 1개 / 3개 / 4개 이상 / 하루 전', () {
       expect(
-        NotificationService.bodyForNames(['몬스테라'], dayBefore: false),
+        NotificationService.bodyForNames(['몬스테라'], dayBefore: false, l: ko),
         '몬스테라 물 줄 날이에요',
       );
       expect(
-        NotificationService.bodyForNames(['A', 'B', 'C'], dayBefore: false),
+        NotificationService.bodyForNames(
+          ['A', 'B', 'C'],
+          dayBefore: false,
+          l: ko,
+        ),
         'A·B·C 물 줄 날이에요',
       );
       expect(
-        NotificationService.bodyForNames([
-          'A',
-          'B',
-          'C',
-          'D',
-        ], dayBefore: false),
+        NotificationService.bodyForNames(
+          ['A', 'B', 'C', 'D'],
+          dayBefore: false,
+          l: ko,
+        ),
         'A·B 외 2개 물 줄 날이에요',
       );
       expect(
-        NotificationService.bodyForNames(['금전수'], dayBefore: true),
+        NotificationService.bodyForNames(['금전수'], dayBefore: true, l: ko),
         '내일은 금전수 물 줄 날이에요',
+      );
+    });
+
+    test('영어 문구: 단수·복수·하루 전', () {
+      expect(
+        NotificationService.bodyForNames(['Monstera'], dayBefore: false, l: en),
+        'Monstera needs water today',
+      );
+      expect(
+        NotificationService.bodyForNames(['A', 'B'], dayBefore: false, l: en),
+        'A, B need water today',
+      );
+      expect(
+        NotificationService.bodyForNames(
+          ['A', 'B', 'C', 'D'],
+          dayBefore: true,
+          l: en,
+        ),
+        'A, B and 2 more need water tomorrow',
       );
     });
 
@@ -157,6 +184,7 @@ void main() {
         settings: _s(),
         plants: await repo.getAll(),
         now: now,
+        l: ko,
       );
       final today = plans.first;
       expect(today.fireAt, DateTime(2026, 9, 17, 9));
@@ -174,6 +202,7 @@ void main() {
         settings: _s(dayBefore: true),
         plants: await repo.getAll(),
         now: now,
+        l: ko,
       );
       expect(plans.first.fireAt, DateTime(2026, 9, 17, 9));
       expect(plans.first.body, '내일은 행운목 물 줄 날이에요');
@@ -228,6 +257,7 @@ void main() {
         settings: _s(pausedUntil: DateTime(2026, 9, 19)),
         plants: await repo.getAll(),
         now: now,
+        l: ko,
       );
       expect(plans, isNotEmpty);
       expect(plans.first.fireAt, DateTime(2026, 9, 20, 9));

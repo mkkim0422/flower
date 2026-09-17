@@ -126,7 +126,7 @@ class PlantNetIdentifier implements Identifier {
     if (!client.hasKey) {
       return const IdentificationUnavailable(
         UnavailableReason.apiError,
-        detail: 'PLANTNET_API_KEY 미설정',
+        detail: 'PLANTNET_API_KEY not set',
       );
     }
     if (!await quota.tryConsume()) {

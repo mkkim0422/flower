@@ -2,7 +2,9 @@ import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/widgets/status_dot.dart' show PlantStatus;
+import '../../core/app_locale.dart';
 import '../../core/enums.dart';
+import '../species_l10n.dart';
 import '../../domain/watering_rules.dart';
 import '../db/app_database.dart';
 import '../db/database_provider.dart';
@@ -15,8 +17,8 @@ class PlantEntry {
   final SpeciesRow? species;
   final Space? space;
 
-  String get displaySpeciesName =>
-      species == null ? '품종 미지정' : species!.koNames.first;
+  String displaySpeciesName(AppLocalizations l) =>
+      species == null ? l.speciesUnknown : species!.displayName(l);
 
   bool isDue(DateTime now) => isDueToday(plant.nextCheckAt, now);
 
@@ -28,18 +30,25 @@ class PlantEntry {
     return PlantStatus.ok;
   }
 
-  /// 상태 라벨: "D+3" (지남) / "오늘 물 주기" / "D-3"
-  String statusLabel(DateTime now) {
+  /// 상태 라벨: 지남 / 오늘 / 남은 날 (언어별)
+  String statusLabel(DateTime now, AppLocalizations l) {
     final d = dDay(now);
-    if (d < 0) return 'D+${-d}';
-    if (d == 0) return '오늘 물 주기';
-    return 'D-$d';
+    if (d < 0) return l.statusOverdue(-d);
+    if (d == 0) return l.statusToday;
+    return l.statusDaysLeft(d);
   }
 }
 
 class PlantRepository {
-  PlantRepository(this.db, {DateTime Function()? clock})
-    : _now = clock ?? DateTime.now;
+  PlantRepository(
+    this.db, {
+    DateTime Function()? clock,
+    bool? southernHemisphere,
+  }) : _now = clock ?? DateTime.now,
+       _southern = southernHemisphere ?? isSouthernHemisphere(deviceCountry());
+
+  /// 남반구면 계절 계수를 6개월 밀어서 적용
+  final bool _southern;
 
   final AppDatabase db;
   final DateTime Function() _now;
@@ -187,7 +196,7 @@ class PlantRepository {
     return computeWatering(
       WateringInput(
         baseWaterDays: species?.baseWaterDays,
-        month: now.month,
+        month: hemisphereMonth(now.month, southern: _southern),
         windowDir: space?.windowDir,
         windowDist: space?.windowDist,
         potSize: potSize,

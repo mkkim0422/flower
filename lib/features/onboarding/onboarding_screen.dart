@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/app_locale.dart';
 import '../../app/router.dart';
 import '../../app/theme.dart';
 import '../../app/widgets/app_button.dart';
@@ -20,22 +21,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   final _controller = PageController();
   int _page = 0;
 
-  static const _slides = [
-    (
-      Icons.eco_outlined,
-      '내 식물, 잘 자라게',
-      '이름을 검색하거나 사진을 찍어 등록하면\n환경에 맞는 물주기를 계산해 드려요',
-    ),
-    (
-      Icons.water_drop_outlined,
-      '물 주는 날을 놓치지 않게',
-      '품종에 맞는 주기로 물 줄 날을 알려드리고,\n"물 줬어요" 한 번이면 다음 날짜가 잡혀요',
-    ),
-    (
-      Icons.lock_outline_rounded,
-      '로그인 없이, 광고 없이',
-      '기록은 기기에만 저장돼요.\n사진은 서버에 백업되지 않아요',
-    ),
+  List<(IconData, String, String)> _slides(AppLocalizations l) => [
+    (Icons.eco_outlined, l.onbSlide1Title, l.onbSlide1Body),
+    (Icons.water_drop_outlined, l.onbSlide2Title, l.onbSlide2Body),
+    (Icons.lock_outline_rounded, l.onbSlide3Title, l.onbSlide3Body),
   ];
 
   @override
@@ -47,7 +36,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    final last = _page == _slides.length - 1;
+    final last = _page == _slides(context.l10n).length - 1;
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -55,10 +44,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             Expanded(
               child: PageView.builder(
                 controller: _controller,
-                itemCount: _slides.length,
+                itemCount: _slides(context.l10n).length,
                 onPageChanged: (i) => setState(() => _page = i),
                 itemBuilder: (_, i) {
-                  final (icon, title, desc) = _slides[i];
+                  final (icon, title, desc) = _slides(context.l10n)[i];
                   return Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: AppSpace.xxl,
@@ -94,7 +83,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                for (var i = 0; i < _slides.length; i++)
+                for (var i = 0; i < _slides(context.l10n).length; i++)
                   Container(
                     width: i == _page ? AppSize.pageDotActive : AppSize.pageDot,
                     height: AppSize.pageDot,
@@ -114,7 +103,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 AppSpace.lg,
               ),
               child: AppButton.primary(
-                label: last ? '시작하기' : '다음',
+                label: last ? context.l10n.onbStart : context.l10n.commonNext,
                 onPressed: () {
                   if (last) {
                     context.go(AppRoutes.onboardingPermission);
@@ -173,24 +162,24 @@ class _PermissionScreenState extends ConsumerState<PermissionScreen> {
               ),
               const SizedBox(height: AppSpace.xxl),
               Text(
-                '물 주는 날 알려드릴게요',
+                context.l10n.onbPermTitle,
                 style: AppText.headline.copyWith(color: c.textPrimary),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: AppSpace.md),
               Text(
-                '물 줄 날 오전 9시에 알려드려요.\n시간은 MY에서 바꿀 수 있어요',
+                context.l10n.onbPermBody,
                 style: AppText.body.copyWith(color: c.textSecondary),
                 textAlign: TextAlign.center,
               ),
               const Spacer(),
               AppButton.primary(
-                label: '알림 허용',
+                label: context.l10n.onbPermAllow,
                 onPressed: _busy ? null : () => _finish(askPermission: true),
               ),
               const SizedBox(height: AppSpace.sm),
               AppButton.text(
-                label: '나중에',
+                label: context.l10n.commonLater,
                 onPressed: _busy ? null : () => _finish(askPermission: false),
               ),
               const SizedBox(height: AppSpace.lg),

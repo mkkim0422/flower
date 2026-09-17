@@ -187,12 +187,12 @@ class BackupService {
   }) async {
     final archive = ZipDecoder().decodeBytes(zipBytes);
     final entry = archive.findFile('backup.json');
-    if (entry == null) throw const FormatException('backup.json 이 없어요');
+    if (entry == null) throw const FormatException('backup.json missing');
     final json =
         jsonDecode(utf8.decode(entry.content as List<int>))
             as Map<String, dynamic>;
     if (json['app'] != 'jaljarara') {
-      throw const FormatException('잘자라라 백업 파일이 아니에요');
+      throw const FormatException('not a Jaljarara backup');
     }
 
     if (!await photoDir.exists()) await photoDir.create(recursive: true);

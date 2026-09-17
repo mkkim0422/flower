@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../core/app_locale.dart';
 import '../data/repositories/plant_repository.dart';
 import '../data/repositories/settings_repository.dart';
 import '../data/seed/species_seed.dart';
@@ -79,18 +79,15 @@ class _PlantAppState extends ConsumerState<PlantApp> {
 
     final router = ref.watch(appRouterProvider);
     return MaterialApp.router(
-      title: '잘자라라',
+      onGenerateTitle: (ctx) => ctx.l10n.appName,
       debugShowCheckedModeBanner: false,
       theme: buildAppTheme(Brightness.light),
       darkTheme: buildAppTheme(Brightness.dark),
       themeMode: ThemeMode.system,
-      locale: const Locale('ko', 'KR'),
-      supportedLocales: const [Locale('ko', 'KR')],
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
+      // 기기 언어를 따른다. 한국어 외에는 영어로 보인다
+      supportedLocales: AppLocalizations.supportedLocales,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      localeResolutionCallback: (device, _) => resolveAppLocale(device),
       routerConfig: router,
     );
   }

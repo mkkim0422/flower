@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/app_locale.dart';
 import '../../app/theme.dart';
 import '../../app/widgets/app_button.dart';
 import '../../app/widgets/plant_card.dart';
@@ -97,14 +98,16 @@ class _WaterSheetState extends ConsumerState<_WaterSheet> {
                     Text(
                       single
                           ? first.plant.nickname
-                          : '식물 ${widget.entries.length}개',
+                          : context.l10n.waterSheetPlants(
+                              widget.entries.length,
+                            ),
                       style: AppText.title.copyWith(color: c.textPrimary),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
                     Text(
                       single
-                          ? first.displaySpeciesName
+                          ? first.displaySpeciesName(context.l10n)
                           : widget.entries
                                 .map((e) => e.plant.nickname)
                                 .join(', '),
@@ -119,13 +122,13 @@ class _WaterSheetState extends ConsumerState<_WaterSheet> {
           ),
           const SizedBox(height: AppSpace.xl),
           AppButton.primary(
-            label: '물 줬어요',
+            label: context.l10n.waterSheetWatered,
             icon: Icons.water_drop_rounded,
             onPressed: _saving ? null : () => _submit(SoilCheckResult.dry),
           ),
           const SizedBox(height: AppSpace.sm),
           AppButton.text(
-            label: '나중에 줄게요 · $snooze일 뒤 다시 알려드려요',
+            label: context.l10n.waterSheetLater(snooze),
             expanded: true,
             onPressed: _saving ? null : () => _submit(SoilCheckResult.wet),
           ),

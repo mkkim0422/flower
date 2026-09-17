@@ -1,3 +1,5 @@
+import '../l10n/app_localizations.dart';
+
 // 도메인 열거형. DB(Drift textEnum)와 UI가 공유한다. 이름(name)이 DB에 저장되므로 변경 시 마이그레이션 필요.
 
 /// 창 방향 (SPC-02)
@@ -22,37 +24,37 @@ enum CareType { water, fert, repot, wipe, checkDry, checkWet }
 enum DiaryTag { newLeaf, flower, droop, yellow, pest }
 
 extension WindowDirLabel on WindowDir {
-  String get label => switch (this) {
-    WindowDir.e => '동향',
-    WindowDir.w => '서향',
-    WindowDir.s => '남향',
-    WindowDir.n => '북향',
-    WindowDir.none => '창 없음',
+  String label(AppLocalizations l) => switch (this) {
+    WindowDir.e => l.windowDirE,
+    WindowDir.w => l.windowDirW,
+    WindowDir.s => l.windowDirS,
+    WindowDir.n => l.windowDirN,
+    WindowDir.none => l.windowDirNone,
   };
 }
 
 extension WindowDistLabel on WindowDist {
-  String get label => switch (this) {
-    WindowDist.near => '창가',
-    WindowDist.oneMeter => '1m 이내',
-    WindowDist.far => '멀리',
+  String label(AppLocalizations l) => switch (this) {
+    WindowDist.near => l.windowDistNear,
+    WindowDist.oneMeter => l.windowDistOneMeter,
+    WindowDist.far => l.windowDistFar,
   };
 }
 
 extension PotSizeLabel on PotSize {
-  String get label => switch (this) {
-    PotSize.s => '작음',
-    PotSize.m => '보통',
-    PotSize.l => '큼',
+  String label(AppLocalizations l) => switch (this) {
+    PotSize.s => l.potSizeS,
+    PotSize.m => l.potSizeM,
+    PotSize.l => l.potSizeL,
   };
 }
 
 extension DiaryTagLabel on DiaryTag {
-  String get label => switch (this) {
-    DiaryTag.newLeaf => '새잎',
-    DiaryTag.flower => '꽃',
-    DiaryTag.droop => '잎 처짐',
-    DiaryTag.yellow => '잎 노랗게',
-    DiaryTag.pest => '해충 의심',
+  String label(AppLocalizations l) => switch (this) {
+    DiaryTag.newLeaf => l.diaryTagNewLeaf,
+    DiaryTag.flower => l.diaryTagFlower,
+    DiaryTag.droop => l.diaryTagDroop,
+    DiaryTag.yellow => l.diaryTagYellow,
+    DiaryTag.pest => l.diaryTagPest,
   };
 }

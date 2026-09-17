@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../data/species_l10n.dart';
+import '../../core/app_locale.dart';
 import '../../app/router.dart';
 import '../../app/theme.dart';
 import '../../app/widgets/app_button.dart';
@@ -37,7 +39,7 @@ class SpeciesInfoScreen extends ConsumerWidget {
         appBar: AppBar(),
         body: Center(
           child: Text(
-            '불러오지 못했어요',
+            context.l10n.commonLoadFailed,
             style: AppText.body.copyWith(color: c.textSecondary),
           ),
         ),
@@ -48,7 +50,7 @@ class SpeciesInfoScreen extends ConsumerWidget {
             appBar: AppBar(),
             body: Center(
               child: Text(
-                '도감에 없는 품종이에요',
+                context.l10n.infoNotInCatalog,
                 style: AppText.body.copyWith(color: c.textSecondary),
               ),
             ),
@@ -70,14 +72,14 @@ class _Body extends StatelessWidget {
   Widget build(BuildContext context) {
     final c = context.colors;
     final category = switch (s.category) {
-      'succulent' => '다육·선인장',
-      'herb' => '허브',
-      'flower' => '꽃',
-      'other' => '기타',
-      _ => '관엽',
+      'succulent' => context.l10n.infoCategorySucculent,
+      'herb' => context.l10n.infoCategoryHerb,
+      'flower' => context.l10n.infoCategoryFlower,
+      'other' => context.l10n.infoCategoryOther,
+      _ => context.l10n.infoCategoryFoliage,
     };
     return Scaffold(
-      appBar: AppBar(title: const Text('도감')),
+      appBar: AppBar(title: Text(context.l10n.infoTitle)),
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: AppSpace.screenH),
         children: [
@@ -96,7 +98,10 @@ class _Body extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: AppSpace.xs),
               child: Text(
-                '사진: ${s.imageAuthor ?? '작가 미상'} · ${s.imageLicense ?? ''} · Wikimedia Commons',
+                context.l10n.infoPhotoCredit(
+                  s.imageAuthor ?? context.l10n.infoUnknownAuthor,
+                  s.imageLicense ?? '',
+                ),
                 style: AppText.label.copyWith(color: c.textTertiary),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -105,7 +110,7 @@ class _Body extends StatelessWidget {
             const SizedBox(height: AppSpace.lg),
           ],
           Text(
-            s.koNames.first,
+            s.displayName(context.l10n),
             style: AppText.headline.copyWith(color: c.textPrimary),
           ),
           const SizedBox(height: AppSpace.xs),
@@ -113,9 +118,11 @@ class _Body extends StatelessWidget {
             s.scientificName,
             style: AppText.scientificName.copyWith(color: c.textSecondary),
           ),
-          if (s.koNames.length > 1)
+          if (s.otherNames(context.l10n).isNotEmpty)
             Text(
-              '다른 이름: ${s.koNames.skip(1).join(', ')}',
+              context.l10n.infoOtherNames(
+                s.otherNames(context.l10n).join(context.l10n.listSeparator),
+              ),
               style: AppText.caption.copyWith(color: c.textSecondary),
             ),
           const SizedBox(height: AppSpace.sm),
@@ -131,7 +138,7 @@ class _Body extends StatelessWidget {
               child: ToxicBadge(
                 toxicPet: s.toxicPet,
                 childLevel: s.toxicChildLevel,
-                note: s.toxicityNote,
+                note: s.toxicityNoteFor(context.l10n),
               ),
             ),
             const SizedBox(height: AppSpace.cardGap),
@@ -140,16 +147,16 @@ class _Body extends StatelessWidget {
           // 2. 물
           _Section(
             icon: Icons.water_drop_outlined,
-            title: '물',
+            title: context.l10n.infoWater,
             lines: [
-              '기본 ${s.baseWaterDays}일마다',
+              context.l10n.infoWaterBase(s.baseWaterDays),
               switch (s.category) {
-                'succulent' => '흙이 속까지 완전히 마른 뒤 흠뻑. 과습이 가장 흔한 실패 원인이에요',
-                'herb' => '겉흙이 마르면 바로. 마르면 잎이 금방 처져요',
-                'flower' => '겉흙이 마르면. 꽃이 피는 동안은 조금 더 자주 살펴 주세요',
-                _ => '손가락 두 마디 깊이까지 말랐을 때 화분 밑으로 흘러나올 만큼. 받침에 고인 물은 버려 주세요',
+                'succulent' => context.l10n.infoWaterSucculent,
+                'herb' => context.l10n.infoWaterHerb,
+                'flower' => context.l10n.infoWaterFlower,
+                _ => context.l10n.infoWaterFoliage,
               },
-              '앱은 계절과 놓는 곳에 따라 이 주기를 자동으로 조정해요',
+              context.l10n.infoWaterAuto,
             ],
           ),
           const SizedBox(height: AppSpace.cardGap),
@@ -157,17 +164,17 @@ class _Body extends StatelessWidget {
           // 3. 빛
           _Section(
             icon: Icons.wb_sunny_outlined,
-            title: '빛',
+            title: context.l10n.infoLight,
             lines: [
               switch (s.lightPref) {
-                LightPref.low => '빛이 적은 곳에서도 잘 자라요 (반음지)',
-                LightPref.med => '밝은 간접광 (커튼 친 창가, 창에서 1m 안쪽)',
-                LightPref.high => '햇빛 많이 (남향·동향 창가)',
+                LightPref.low => context.l10n.infoLightLow,
+                LightPref.med => context.l10n.infoLightMed,
+                LightPref.high => context.l10n.infoLightHigh,
               },
               switch (s.lightPref) {
-                LightPref.low => '직사광선은 잎을 태울 수 있어요',
-                LightPref.med => '한여름 직사광선은 피해 주세요',
-                LightPref.high => '빛이 부족하면 웃자라고 색이 옅어져요',
+                LightPref.low => context.l10n.infoLightLowNote,
+                LightPref.med => context.l10n.infoLightMedNote,
+                LightPref.high => context.l10n.infoLightHighNote,
               },
             ],
           ),
@@ -177,22 +184,22 @@ class _Body extends StatelessWidget {
           if (s.tempMin != null && s.tempMax != null)
             _Section(
               icon: Icons.thermostat_outlined,
-              title: '온도·습도',
+              title: context.l10n.infoTempHumidity,
               lines: [
-                temperatureTip(s),
+                temperatureTip(s, context.l10n),
                 if (s.category == 'foliage' || s.category == 'other')
-                  '건조한 겨울 실내에서는 잎에 분무하거나 가습기를 곁에 두면 좋아요',
+                  context.l10n.infoHumidityTip,
               ],
             ),
           if (s.tempMin != null && s.tempMax != null)
             const SizedBox(height: AppSpace.cardGap),
 
           // 5. 흔한 문제
-          if (s.commonIssues.isNotEmpty)
+          if (s.commonIssuesFor(context.l10n).isNotEmpty)
             _Section(
               icon: Icons.error_outline_rounded,
-              title: '흔한 문제',
-              lines: s.commonIssues,
+              title: context.l10n.infoCommonIssues,
+              lines: s.commonIssuesFor(context.l10n),
             ),
           // 가벼운 자극: 경고 대신 참고 한 줄
           if (!s.toxicSevere &&
@@ -200,7 +207,7 @@ class _Body extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: AppSpace.md),
               child: Text(
-                '참고: 반려동물이나 아이가 잎을 씹으면 배탈이 날 수 있어요',
+                context.l10n.toxicMildNote,
                 style: AppText.caption.copyWith(color: c.textTertiary),
               ),
             ),
@@ -209,12 +216,12 @@ class _Body extends StatelessWidget {
             SafeArea(
               top: false,
               child: AppButton.primary(
-                label: '내 식물로 등록',
+                label: context.l10n.infoAddToMine,
                 onPressed: () => context.push(
                   AppRoutes.addEnv,
                   extra: AddPlantDraft(
                     speciesId: s.id,
-                    nicknameHint: s.koNames.first,
+                    nicknameHint: s.displayName(context.l10n),
                   ),
                 ),
               ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../core/app_locale.dart';
 import '../../app/router.dart';
 import '../../app/theme.dart';
 import '../../app/widgets/app_button.dart';
@@ -35,7 +36,7 @@ class _CameraScreenState extends State<CameraScreen> {
       if (!mounted) return;
       context.push(AppRoutes.identify, extra: path);
     } catch (e) {
-      setState(() => _error = '사진을 가져오지 못했어요. 권한을 확인하거나 다른 사진으로 시도해 보세요');
+      setState(() => _error = context.l10n.cameraPickFailed);
     } finally {
       if (mounted) setState(() => _busy = false);
     }
@@ -61,10 +62,13 @@ class _CameraScreenState extends State<CameraScreen> {
             bottomPad,
           ),
           children: [
-            Text('식별', style: AppText.headline.copyWith(color: c.textPrimary)),
+            Text(
+              context.l10n.cameraTitle,
+              style: AppText.headline.copyWith(color: c.textPrimary),
+            ),
             const SizedBox(height: AppSpace.xs),
             Text(
-              '잎 전체가 나오게 찍어 주세요',
+              context.l10n.cameraGuide,
               style: AppText.caption.copyWith(color: c.textSecondary),
             ),
             const SizedBox(height: AppSpace.section),
@@ -86,12 +90,12 @@ class _CameraScreenState extends State<CameraScreen> {
             ),
             const SizedBox(height: AppSpace.xl),
             Text(
-              '밝은 곳에서, 잎이 화면의 절반 이상 차게',
+              context.l10n.cameraTip1,
               style: AppText.body.copyWith(color: c.textSecondary),
               textAlign: TextAlign.center,
             ),
             Text(
-              '꽃이 있으면 꽃도 함께 찍으면 더 정확해요',
+              context.l10n.cameraTip2,
               style: AppText.caption.copyWith(color: c.textTertiary),
               textAlign: TextAlign.center,
             ),
@@ -105,13 +109,15 @@ class _CameraScreenState extends State<CameraScreen> {
             ],
             const SizedBox(height: AppSpace.section),
             AppButton.primary(
-              label: _busy ? '준비 중…' : '사진 찍기',
+              label: _busy
+                  ? context.l10n.cameraPreparing
+                  : context.l10n.commonTakePhoto,
               icon: Icons.photo_camera_rounded,
               onPressed: _busy ? null : () => _pick(ImageSource.camera),
             ),
             const SizedBox(height: AppSpace.md),
             AppButton.secondary(
-              label: '앨범에서 고르기',
+              label: context.l10n.commonPickFromAlbum,
               icon: Icons.photo_library_outlined,
               onPressed: _busy ? null : () => _pick(ImageSource.gallery),
             ),

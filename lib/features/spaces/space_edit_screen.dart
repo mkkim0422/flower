@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/app_locale.dart';
 import '../../app/theme.dart';
 import '../../app/widgets/app_button.dart';
 import '../../app/widgets/app_chip.dart';
@@ -78,16 +79,19 @@ class _SpaceEditScreenState extends ConsumerState<SpaceEditScreen> {
     final ok = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('공간을 삭제할까요?'),
-        content: const Text('이 공간의 식물은 공간 미지정으로 바뀌어요'),
+        title: Text(context.l10n.spaceDeleteQ),
+        content: Text(context.l10n.spaceDeleteBody),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('취소'),
+            child: Text(context.l10n.commonCancel),
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),
-            child: Text('삭제', style: TextStyle(color: ctx.colors.error)),
+            child: Text(
+              context.l10n.commonDelete,
+              style: TextStyle(color: ctx.colors.error),
+            ),
           ),
         ],
       ),
@@ -106,7 +110,9 @@ class _SpaceEditScreenState extends ConsumerState<SpaceEditScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(isEdit ? '공간 편집' : '공간 추가'),
+        title: Text(
+          isEdit ? context.l10n.spaceEditTitle : context.l10n.spaceAddTitle,
+        ),
         actions: [
           if (isEdit)
             IconButton(
@@ -122,7 +128,7 @@ class _SpaceEditScreenState extends ConsumerState<SpaceEditScreen> {
               children: [
                 const SizedBox(height: AppSpace.sm),
                 Text(
-                  '공간 이름',
+                  context.l10n.spaceName,
                   style: AppText.label.copyWith(color: c.textSecondary),
                 ),
                 const SizedBox(height: AppSpace.sm),
@@ -130,13 +136,13 @@ class _SpaceEditScreenState extends ConsumerState<SpaceEditScreen> {
                   controller: _name,
                   autofocus: !isEdit,
                   onChanged: (_) => setState(() {}),
-                  decoration: const InputDecoration(
-                    hintText: '예: 거실, 베란다, 사무실 책상',
+                  decoration: InputDecoration(
+                    hintText: context.l10n.spaceNameHint,
                   ),
                 ),
                 const SizedBox(height: AppSpace.section),
                 Text(
-                  '창 방향',
+                  context.l10n.spaceWindowDir,
                   style: AppText.label.copyWith(color: c.textSecondary),
                 ),
                 const SizedBox(height: AppSpace.sm),
@@ -146,7 +152,7 @@ class _SpaceEditScreenState extends ConsumerState<SpaceEditScreen> {
                   children: [
                     for (final d in WindowDir.values)
                       AppChip(
-                        label: d.label,
+                        label: d.label(context.l10n),
                         selected: _dir == d,
                         onTap: () => setState(() => _dir = d),
                       ),
@@ -155,7 +161,7 @@ class _SpaceEditScreenState extends ConsumerState<SpaceEditScreen> {
                 if (!dirIsNone) ...[
                   const SizedBox(height: AppSpace.section),
                   Text(
-                    '창과의 거리',
+                    context.l10n.spaceWindowDist,
                     style: AppText.label.copyWith(color: c.textSecondary),
                   ),
                   const SizedBox(height: AppSpace.sm),
@@ -165,7 +171,7 @@ class _SpaceEditScreenState extends ConsumerState<SpaceEditScreen> {
                     children: [
                       for (final d in WindowDist.values)
                         AppChip(
-                          label: d.label,
+                          label: d.label(context.l10n),
                           selected: _dist == d,
                           onTap: () => setState(() => _dist = d),
                         ),
@@ -174,14 +180,16 @@ class _SpaceEditScreenState extends ConsumerState<SpaceEditScreen> {
                 ],
                 const SizedBox(height: AppSpace.md),
                 Text(
-                  '카메라 광량 측정 대신 창 방향과 거리로 빛을 추정해요',
+                  context.l10n.spaceLightInfo,
                   style: AppText.caption.copyWith(color: c.textSecondary),
                 ),
                 const SizedBox(height: AppSpace.section),
                 SafeArea(
                   top: false,
                   child: AppButton.primary(
-                    label: isEdit ? '저장' : '추가',
+                    label: isEdit
+                        ? context.l10n.commonSave
+                        : context.l10n.spaceAdd,
                     onPressed: _name.text.trim().isEmpty || _saving
                         ? null
                         : _save,

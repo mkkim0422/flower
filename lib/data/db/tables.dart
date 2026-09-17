@@ -80,6 +80,15 @@ class Species extends Table {
   IntColumn get tempOptMin => integer().nullable()();
   IntColumn get tempOptMax => integer().nullable()();
 
+  /// 영어 이름·독성 설명·흔한 문제 (글로벌)
+  TextColumn get namesEn => text()
+      .map(const StringListConverter())
+      .withDefault(const Constant('[]'))();
+  TextColumn get toxicityNoteEn => text().withDefault(const Constant(''))();
+  TextColumn get commonIssuesEn => text()
+      .map(const StringListConverter())
+      .withDefault(const Constant('[]'))();
+
   /// 도감 대표 사진 (위키미디어 공용, 자유 라이선스). 없으면 null
   TextColumn get imageUrl => text().nullable()();
   TextColumn get imageAuthor => text().nullable()();

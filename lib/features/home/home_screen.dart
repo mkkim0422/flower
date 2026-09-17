@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
+import '../../core/app_locale.dart';
 import '../../app/router.dart';
 import '../../app/theme.dart';
 import '../../app/widgets/app_button.dart';
@@ -38,7 +39,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget build(BuildContext context) {
     final c = context.colors;
     final now = DateTime.now();
-    final dateLabel = DateFormat('M월 d일 EEEE', 'ko_KR').format(now);
+    final dateLabel = DateFormat.MMMMEEEEd(context.l10n.localeName).format(now);
     final plantsAsync = ref.watch(plantsProvider);
     final settings = ref.watch(settingsProvider).value;
     final grid = settings?.homeGrid ?? true;
@@ -50,7 +51,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (e, _) => Center(
             child: Text(
-              '불러오지 못했어요. 앱을 다시 열어 보세요',
+              context.l10n.homeLoadFailed,
               style: AppText.body.copyWith(color: c.textSecondary),
             ),
           ),
@@ -62,9 +63,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   _Header(dateLabel: dateLabel),
                   Expanded(
                     child: EmptyState(
-                      title: '첫 식물을 등록해 보세요',
-                      description: '사진을 찍으면 품종과 물주기를 알려드려요',
-                      actionLabel: '식물 추가',
+                      title: context.l10n.homeEmptyTitle,
+                      description: context.l10n.homeEmptyBody,
+                      actionLabel: context.l10n.homeAddPlant,
                       onAction: () => context.push(AppRoutes.add),
                     ),
                   ),
@@ -109,7 +110,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    '물 줄 식물 ${due.length}',
+                                    context.l10n.homeDueHeader(due.length),
                                     style: AppText.title.copyWith(
                                       color: c.textPrimary,
                                     ),
@@ -117,8 +118,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 ),
                                 AppButton.text(
                                   label: _selected.length == due.length
-                                      ? '선택 해제'
-                                      : '전체 선택',
+                                      ? context.l10n.homeDeselect
+                                      : context.l10n.homeSelectAll,
                                   onPressed: () => setState(() {
                                     if (_selected.length == due.length) {
                                       _selected.clear();
@@ -136,7 +137,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               TodayCheckTile(
                                 nickname: e.plant.nickname,
                                 spaceName:
-                                    e.space?.name ?? e.displaySpeciesName,
+                                    e.space?.name ??
+                                    e.displaySpeciesName(context.l10n),
                                 photoPath: e.plant.photoPath,
                                 selected: _selected.contains(e.plant.id),
                                 onToggle: () => setState(() {
@@ -171,7 +173,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   const SizedBox(width: AppSpace.md),
                                   Expanded(
                                     child: Text(
-                                      '오늘 물 줄 식물이 없어요',
+                                      context.l10n.homeNothingDue,
                                       style: AppText.bodyStrong.copyWith(
                                         color: c.primary,
                                       ),
@@ -186,7 +188,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             children: [
                               Expanded(
                                 child: Text(
-                                  '내 식물 ${plants.length}',
+                                  context.l10n.homeMyPlants(plants.length),
                                   style: AppText.title.copyWith(
                                     color: c.textPrimary,
                                   ),
@@ -246,7 +248,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ),
                       sliver: SliverToBoxAdapter(
                         child: AppButton.secondary(
-                          label: '+ 식물 추가',
+                          label: context.l10n.homeAddPlantPlus,
                           onPressed: () => context.push(AppRoutes.add),
                         ),
                       ),
@@ -267,7 +269,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ),
                       color: c.background,
                       child: AppButton.primary(
-                        label: '${selectedEntries.length}개 물 줬어요',
+                        label: context.l10n.homeWateredCount(
+                          selectedEntries.length,
+                        ),
                         onPressed: () => _openSoilCheck(selectedEntries),
                       ),
                     ),
@@ -282,21 +286,21 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   Widget _card(PlantEntry e, DateTime now) => PlantCard(
     nickname: e.plant.nickname,
-    speciesName: e.displaySpeciesName,
+    speciesName: e.displaySpeciesName(context.l10n),
     photoPath: e.plant.photoPath,
     fallbackUrl: e.species?.imageUrl,
     status: e.status(now),
-    statusLabel: e.statusLabel(now),
+    statusLabel: e.statusLabel(now, context.l10n),
     onTap: () => context.push(AppRoutes.plant(e.plant.id)),
   );
 
   Widget _gridCard(PlantEntry e, DateTime now) => PlantGridCard(
     nickname: e.plant.nickname,
-    speciesName: e.displaySpeciesName,
+    speciesName: e.displaySpeciesName(context.l10n),
     photoPath: e.plant.photoPath,
     fallbackUrl: e.species?.imageUrl,
     status: e.status(now),
-    statusLabel: e.statusLabel(now),
+    statusLabel: e.statusLabel(now, context.l10n),
     onTap: () => context.push(AppRoutes.plant(e.plant.id)),
   );
 }
@@ -319,7 +323,10 @@ class _Header extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('오늘', style: AppText.headline.copyWith(color: c.textPrimary)),
+          Text(
+            context.l10n.homeTitle,
+            style: AppText.headline.copyWith(color: c.textPrimary),
+          ),
           const SizedBox(height: AppSpace.xs),
           Text(
             dateLabel,
@@ -376,8 +383,8 @@ class _ViewToggle extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          item(Icons.grid_view_rounded, '앨범', true),
-          item(Icons.view_list_rounded, '목록', false),
+          item(Icons.grid_view_rounded, context.l10n.homeViewGrid, true),
+          item(Icons.view_list_rounded, context.l10n.homeViewList, false),
         ],
       ),
     );
@@ -406,11 +413,13 @@ class _PausedBanner extends StatelessWidget {
           const SizedBox(width: AppSpace.md),
           Expanded(
             child: Text(
-              '알림이 ${until.month}월 ${until.day}일까지 멈춰 있어요',
+              context.l10n.homePausedBanner(
+                DateFormat.MMMd(context.l10n.localeName).format(until),
+              ),
               style: AppText.body.copyWith(color: c.textPrimary),
             ),
           ),
-          AppButton.text(label: '다시 켜기', onPressed: onResume),
+          AppButton.text(label: context.l10n.homeResume, onPressed: onResume),
         ],
       ),
     );

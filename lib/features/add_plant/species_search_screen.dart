@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/app_locale.dart';
 import '../../app/router.dart';
 import '../../app/theme.dart';
 import '../../app/widgets/app_button.dart';
 import '../../app/widgets/plant_card.dart';
 import '../../data/db/app_database.dart';
 import '../../data/repositories/species_repository.dart';
+import '../../data/species_l10n.dart';
 import '../../data/seed/species_seed.dart';
 import 'add_plant_draft.dart';
 
@@ -50,7 +52,7 @@ class _SpeciesSearchScreenState extends ConsumerState<SpeciesSearchScreen> {
     final seed = ref.watch(speciesSeedProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('이름으로 검색')),
+      appBar: AppBar(title: Text(context.l10n.searchTitle)),
       body: Column(
         children: [
           Padding(
@@ -65,8 +67,8 @@ class _SpeciesSearchScreenState extends ConsumerState<SpeciesSearchScreen> {
               autofocus: true,
               textInputAction: TextInputAction.search,
               onChanged: _onChanged,
-              decoration: const InputDecoration(
-                hintText: '예: 몬스테라, Monstera',
+              decoration: InputDecoration(
+                hintText: context.l10n.searchHint,
                 prefixIcon: Icon(Icons.search_rounded),
               ),
             ),
@@ -76,7 +78,7 @@ class _SpeciesSearchScreenState extends ConsumerState<SpeciesSearchScreen> {
               loading: () => const Center(child: CircularProgressIndicator()),
               error: (e, _) => Center(
                 child: Text(
-                  '품종 목록을 불러오지 못했어요',
+                  context.l10n.searchCatalogFailed,
                   style: AppText.body.copyWith(color: c.textSecondary),
                 ),
               ),
@@ -86,7 +88,7 @@ class _SpeciesSearchScreenState extends ConsumerState<SpeciesSearchScreen> {
                   AppRoutes.addEnv,
                   extra: AddPlantDraft(
                     speciesId: s.id,
-                    nicknameHint: s.koNames.first,
+                    nicknameHint: s.displayName(context.l10n),
                     photoPath: widget.draft?.photoPath,
                   ),
                 ),
@@ -101,7 +103,7 @@ class _SpeciesSearchScreenState extends ConsumerState<SpeciesSearchScreen> {
                 vertical: AppSpace.sm,
               ),
               child: AppButton.text(
-                label: '목록에 없어요 → 직접 입력',
+                label: context.l10n.searchNotListed,
                 expanded: true,
                 onPressed: () => context.push(
                   AppRoutes.addManual,
@@ -120,12 +122,14 @@ class _SpeciesSearchScreenState extends ConsumerState<SpeciesSearchScreen> {
 }
 
 /// 검색어가 대표명이 아닌 별칭에 걸렸을 때 그 별칭 (없으면 null)
-String? _matchedAlias(SpeciesRow s, String query) {
+String? _matchedAlias(SpeciesRow s, String query, AppLocalizations l) {
   final q = query.toLowerCase().replaceAll(' ', '');
-  if (s.koNames.first.toLowerCase().replaceAll(' ', '').contains(q)) {
+  final names = s.allNames(l);
+  if (names.isEmpty ||
+      s.displayName(l).toLowerCase().replaceAll(' ', '').contains(q)) {
     return null;
   }
-  for (final n in s.koNames.skip(1)) {
+  for (final n in names.skip(1)) {
     if (n.toLowerCase().replaceAll(' ', '').contains(q)) return n;
   }
   return null;
@@ -143,7 +147,7 @@ class _Results extends ConsumerWidget {
     if (query.isEmpty) {
       return Center(
         child: Text(
-          '국내명이나 학명을 입력해 보세요',
+          context.l10n.searchPrompt,
           style: AppText.body.copyWith(color: c.textTertiary),
         ),
       );
@@ -153,7 +157,7 @@ class _Results extends ConsumerWidget {
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (e, _) => Center(
         child: Text(
-          '검색 중 문제가 생겼어요',
+          context.l10n.searchError,
           style: AppText.body.copyWith(color: c.textSecondary),
         ),
       ),
@@ -163,7 +167,7 @@ class _Results extends ConsumerWidget {
             child: Padding(
               padding: const EdgeInsets.all(AppSpace.screenH),
               child: Text(
-                '"$query"에 맞는 품종이 없어요.\n아래에서 직접 입력으로 등록해 보세요',
+                context.l10n.searchNoResult(query),
                 textAlign: TextAlign.center,
                 style: AppText.body.copyWith(color: c.textSecondary),
               ),
@@ -192,14 +196,15 @@ class _Results extends ConsumerWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            s.koNames.first,
+                            s.displayName(context.l10n),
                             style: AppText.title.copyWith(color: c.textPrimary),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
-                          if (_matchedAlias(s, query) case final alias?)
+                          if (_matchedAlias(s, query, context.l10n)
+                              case final alias?)
                             Text(
-                              '$alias(으)로도 불려요',
+                              context.l10n.searchAlsoKnownAs(alias),
                               style: AppText.caption.copyWith(
                                 color: c.textSecondary,
                               ),
@@ -220,7 +225,7 @@ class _Results extends ConsumerWidget {
                         size: AppSize.iconSm,
                       ),
                     IconButton(
-                      tooltip: '도감 보기',
+                      tooltip: context.l10n.searchViewCatalog,
                       onPressed: () => context.push(AppRoutes.species(s.id)),
                       icon: Icon(
                         Icons.info_outline_rounded,

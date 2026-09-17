@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../core/app_locale.dart';
 import '../../app/theme.dart';
 import '../../app/widgets/app_button.dart';
 import '../../core/enums.dart';
@@ -48,9 +49,9 @@ class _DiaryWriteScreenState extends ConsumerState<DiaryWriteScreen> {
       if (mounted) setState(() => _photoPath = path);
     } catch (_) {
       if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text('사진을 가져오지 못했어요')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(context.l10n.commonPhotoLoadFailed)),
+        );
       }
     } finally {
       if (mounted) setState(() => _busy = false);
@@ -98,7 +99,11 @@ class _DiaryWriteScreenState extends ConsumerState<DiaryWriteScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(plant == null ? '일기 쓰기' : '${plant.plant.nickname} 일기'),
+        title: Text(
+          plant == null
+              ? context.l10n.diaryWriteTitle
+              : context.l10n.diaryWriteTitleFor(plant.plant.nickname),
+        ),
       ),
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: AppSpace.screenH),
@@ -109,7 +114,7 @@ class _DiaryWriteScreenState extends ConsumerState<DiaryWriteScreen> {
               children: [
                 Expanded(
                   child: AppButton.secondary(
-                    label: '사진 찍기',
+                    label: context.l10n.commonTakePhoto,
                     icon: Icons.photo_camera_rounded,
                     onPressed: _busy ? null : () => _pick(ImageSource.camera),
                   ),
@@ -117,7 +122,7 @@ class _DiaryWriteScreenState extends ConsumerState<DiaryWriteScreen> {
                 const SizedBox(width: AppSpace.md),
                 Expanded(
                   child: AppButton.secondary(
-                    label: '앨범',
+                    label: context.l10n.commonAlbum,
                     icon: Icons.photo_library_outlined,
                     onPressed: _busy ? null : () => _pick(ImageSource.gallery),
                   ),
@@ -139,7 +144,7 @@ class _DiaryWriteScreenState extends ConsumerState<DiaryWriteScreen> {
                       child: IconButton.filledTonal(
                         onPressed: () => setState(() => _photoPath = null),
                         icon: const Icon(Icons.close_rounded),
-                        tooltip: '사진 지우기',
+                        tooltip: context.l10n.diaryRemovePhoto,
                       ),
                     ),
                   ],
@@ -152,29 +157,30 @@ class _DiaryWriteScreenState extends ConsumerState<DiaryWriteScreen> {
               value: cover,
               activeThumbColor: c.primary,
               title: Text(
-                '대표 사진으로 설정',
+                context.l10n.diarySetCover,
                 style: AppText.body.copyWith(color: c.textPrimary),
               ),
               onChanged: (v) => setState(() => _setAsCover = v),
             ),
           const SizedBox(height: AppSpace.lg),
 
-          Text('일기', style: AppText.label.copyWith(color: c.textSecondary)),
+          Text(
+            context.l10n.diaryLabel,
+            style: AppText.label.copyWith(color: c.textSecondary),
+          ),
           const SizedBox(height: AppSpace.sm),
           TextField(
             controller: _memo,
             minLines: 3,
             maxLines: 6,
             onChanged: (_) => setState(() {}),
-            decoration: const InputDecoration(
-              hintText: '오늘 식물은 어땠나요? 새잎이 났는지, 잎이 처졌는지…',
-            ),
+            decoration: InputDecoration(hintText: context.l10n.diaryHint),
           ),
           const SizedBox(height: AppSpace.section),
           SafeArea(
             top: false,
             child: AppButton.primary(
-              label: '저장',
+              label: context.l10n.commonSave,
               onPressed: canSave && !_busy ? _save : null,
             ),
           ),

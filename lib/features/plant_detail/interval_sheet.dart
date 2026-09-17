@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/app_locale.dart';
 import '../../app/theme.dart';
 import '../../app/widgets/app_button.dart';
 import '../../data/repositories/plant_repository.dart';
@@ -78,7 +79,10 @@ class _IntervalSheetState extends ConsumerState<_IntervalSheet> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('물주기 조정', style: AppText.title.copyWith(color: c.textPrimary)),
+          Text(
+            context.l10n.intervalTitle,
+            style: AppText.title.copyWith(color: c.textPrimary),
+          ),
           const SizedBox(height: AppSpace.md),
           Container(
             padding: const EdgeInsets.all(AppSpace.cardPadding),
@@ -90,17 +94,23 @@ class _IntervalSheetState extends ConsumerState<_IntervalSheet> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '자동 계산 근거',
+                  context.l10n.intervalBasis,
                   style: AppText.label.copyWith(color: c.textSecondary),
                 ),
                 const SizedBox(height: AppSpace.sm),
                 Text(
-                  '품종 기본 ${r.base}일 × 계절 ${f(r.season)} × 빛 ${f(r.light)} × 화분 ${f(r.pot)} × 피드백 ${f(r.feedback)}',
+                  context.l10n.intervalFormula(
+                    context.l10n.commonDays(r.base),
+                    f(r.season),
+                    f(r.light),
+                    f(r.pot),
+                    f(r.feedback),
+                  ),
                   style: AppText.caption.copyWith(color: c.textSecondary),
                 ),
                 const SizedBox(height: AppSpace.xs),
                 Text(
-                  '= ${auto.days}일',
+                  '= ${context.l10n.commonDays(auto.days)}',
                   style: AppText.title.copyWith(
                     color: c.primary,
                     fontFeatures: AppText.tabularFeatures,
@@ -115,11 +125,13 @@ class _IntervalSheetState extends ConsumerState<_IntervalSheet> {
             value: _manual,
             activeThumbColor: c.primary,
             title: Text(
-              '직접 정하기',
+              context.l10n.intervalManual,
               style: AppText.bodyStrong.copyWith(color: c.textPrimary),
             ),
             subtitle: Text(
-              _manual ? '내가 정한 주기를 그대로 써요' : '계절과 환경에 맞춰 자동으로 계산해요',
+              _manual
+                  ? context.l10n.intervalManualOn
+                  : context.l10n.intervalManualOff,
               style: AppText.caption.copyWith(color: c.textSecondary),
             ),
             onChanged: (v) => setState(() {
@@ -148,7 +160,7 @@ class _IntervalSheetState extends ConsumerState<_IntervalSheet> {
                 SizedBox(
                   width: AppSize.sliderValueWidth,
                   child: Text(
-                    '${_days.round()}일',
+                    context.l10n.commonDays(_days.round()),
                     textAlign: TextAlign.end,
                     style: AppText.title.copyWith(
                       color: c.textPrimary,
@@ -160,7 +172,7 @@ class _IntervalSheetState extends ConsumerState<_IntervalSheet> {
             ),
           ],
           const SizedBox(height: AppSpace.lg),
-          AppButton.primary(label: '저장', onPressed: _save),
+          AppButton.primary(label: context.l10n.commonSave, onPressed: _save),
         ],
       ),
     );

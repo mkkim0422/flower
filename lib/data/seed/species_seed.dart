@@ -64,6 +64,11 @@ class SpeciesSeedLoader {
       category: Value((m['category'] as String?) ?? 'foliage'),
       toxicityNote: Value((m['toxicity_note'] as String?) ?? ''),
       toxicSevere: Value((m['toxic_severe'] as bool?) ?? false),
+      namesEn: Value(((m['names_en'] as List?) ?? const []).cast<String>()),
+      toxicityNoteEn: Value((m['toxicity_note_en'] as String?) ?? ''),
+      commonIssuesEn: Value(
+        ((m['common_issues_en'] as List?) ?? const []).cast<String>(),
+      ),
       imageUrl: Value(m['image_url'] as String?),
       imageAuthor: Value(m['image_author'] as String?),
       imageLicense: Value(m['image_license'] as String?),
@@ -77,7 +82,12 @@ class SpeciesSeedLoader {
         _ =>
           (m['toxic_child'] as bool) ? ChildToxicity.toxic : ChildToxicity.none,
       }),
-      searchText: Value(buildSearchText(sci, koNames)),
+      searchText: Value(
+        buildSearchText(sci, [
+          ...koNames,
+          ...((m['names_en'] as List?) ?? const []).cast<String>(),
+        ]),
+      ),
     );
   }
 

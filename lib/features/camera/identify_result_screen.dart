@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../core/app_locale.dart';
 import '../../app/router.dart';
 import '../../app/theme.dart';
 import '../../app/widgets/app_button.dart';
@@ -53,23 +54,23 @@ class _IdentifyResultScreenState extends ConsumerState<IdentifyResultScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              '사진 추가',
+              context.l10n.identifyAddPhoto,
               style: AppText.title.copyWith(color: ctx.colors.textPrimary),
             ),
             const SizedBox(height: AppSpace.xs),
             Text(
-              '잎을 가까이, 또는 꽃이 있으면 꽃을 찍으면 더 정확해져요',
+              context.l10n.identifyAddPhotoTip,
               style: AppText.caption.copyWith(color: ctx.colors.textSecondary),
             ),
             const SizedBox(height: AppSpace.lg),
             AppButton.primary(
-              label: '사진 찍기',
+              label: context.l10n.commonTakePhoto,
               icon: Icons.photo_camera_rounded,
               onPressed: () => Navigator.pop(ctx, ImageSource.camera),
             ),
             const SizedBox(height: AppSpace.sm),
             AppButton.secondary(
-              label: '앨범에서 고르기',
+              label: context.l10n.commonPickFromAlbum,
               icon: Icons.photo_library_outlined,
               onPressed: () => Navigator.pop(ctx, ImageSource.gallery),
             ),
@@ -87,9 +88,9 @@ class _IdentifyResultScreenState extends ConsumerState<IdentifyResultScreen> {
       if (mounted) setState(() => _paths.add(path));
     } catch (_) {
       if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text('사진을 가져오지 못했어요')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(context.l10n.commonPhotoLoadFailed)),
+        );
       }
     } finally {
       if (mounted) setState(() => _adding = false);
@@ -145,17 +146,17 @@ class _IdentifyResultScreenState extends ConsumerState<IdentifyResultScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              '어떻게 등록할까요?',
+              context.l10n.addHowTo,
               style: AppText.title.copyWith(color: ctx.colors.textPrimary),
             ),
             const SizedBox(height: AppSpace.xs),
             Text(
-              '찍은 사진은 대표 사진으로 들어가요',
+              context.l10n.identifyPhotoGoesCover,
               style: AppText.caption.copyWith(color: ctx.colors.textSecondary),
             ),
             const SizedBox(height: AppSpace.lg),
             AppButton.primary(
-              label: '이름으로 검색',
+              label: context.l10n.commonSearchByName,
               icon: Icons.search_rounded,
               onPressed: () {
                 Navigator.pop(ctx);
@@ -164,7 +165,7 @@ class _IdentifyResultScreenState extends ConsumerState<IdentifyResultScreen> {
             ),
             const SizedBox(height: AppSpace.sm),
             AppButton.secondary(
-              label: '직접 입력',
+              label: context.l10n.commonManualEntry,
               icon: Icons.edit_outlined,
               onPressed: () {
                 Navigator.pop(ctx);
@@ -185,7 +186,7 @@ class _IdentifyResultScreenState extends ConsumerState<IdentifyResultScreen> {
     final draft = AddPlantDraft(photoPath: _cover);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('식별 결과')),
+      appBar: AppBar(title: Text(context.l10n.identifyTitle)),
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: AppSpace.screenH),
         children: [
@@ -328,7 +329,7 @@ class _PhotoStrip extends StatelessWidget {
                             ),
                             const SizedBox(height: AppSpace.xs / 2),
                             Text(
-                              '사진 추가',
+                              context.l10n.identifyAddPhoto,
                               style: AppText.label.copyWith(
                                 color: canAdd
                                     ? c.textSecondary
@@ -361,7 +362,9 @@ class _Identifying extends StatelessWidget {
         const CircularProgressIndicator(),
         const SizedBox(height: AppSpace.lg),
         Text(
-          count > 1 ? '사진 $count장으로 다시 찾고 있어요' : '어떤 식물인지 찾고 있어요',
+          count > 1
+              ? context.l10n.identifySearchingMulti(count)
+              : context.l10n.identifySearching,
           style: AppText.title.copyWith(color: c.textPrimary),
         ),
       ],
@@ -392,7 +395,7 @@ class _AddPhotoHint extends StatelessWidget {
               const SizedBox(width: AppSpace.md),
               Expanded(
                 child: Text(
-                  '잎을 가까이, 또는 꽃을 찍어 추가하면 더 정확해져요',
+                  context.l10n.identifyAddPhotoHint,
                   style: AppText.body.copyWith(color: c.textPrimary),
                 ),
               ),
@@ -436,25 +439,35 @@ class _Results extends StatelessWidget {
             child: _CandidateBody(candidate: top, emphasize: true),
           ),
           const SizedBox(height: AppSpace.lg),
-          AppButton.primary(label: '이 식물이 맞아요', onPressed: () => onSelect(top)),
+          AppButton.primary(
+            label: context.l10n.identifyThisIsIt,
+            onPressed: () => onSelect(top),
+          ),
           const SizedBox(height: AppSpace.sm),
           if (result.candidates.length > 1) ...[
             Text(
-              '다른 후보',
+              context.l10n.identifyOtherCandidates,
               style: AppText.label.copyWith(color: c.textSecondary),
             ),
             const SizedBox(height: AppSpace.sm),
             for (final cand in result.candidates.skip(1))
               _CandidateRow(candidate: cand, onTap: () => onSelect(cand)),
           ],
-          AppButton.text(label: '목록에 없어요', expanded: true, onPressed: onNone),
+          AppButton.text(
+            label: context.l10n.identifyNotListed,
+            expanded: true,
+            onPressed: onNone,
+          ),
         ],
       );
     }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text('이 중에 있나요?', style: AppText.title.copyWith(color: c.textPrimary)),
+        Text(
+          context.l10n.identifyIsItHere,
+          style: AppText.title.copyWith(color: c.textPrimary),
+        ),
         const SizedBox(height: AppSpace.md),
         for (var i = 0; i < result.candidates.length; i++)
           _CandidateRow(
@@ -468,7 +481,11 @@ class _Results extends StatelessWidget {
           const SizedBox(height: AppSpace.sm),
         ],
         const SizedBox(height: AppSpace.sm),
-        AppButton.text(label: '목록에 없어요', expanded: true, onPressed: onNone),
+        AppButton.text(
+          label: context.l10n.identifyNotListed,
+          expanded: true,
+          onPressed: onNone,
+        ),
       ],
     );
   }
@@ -550,14 +567,17 @@ class _CandidateBody extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                candidate.koName ?? candidate.scientificName,
+                candidate.koName ??
+                    (!isKorean(context.l10n) && candidate.commonNames.isNotEmpty
+                        ? candidate.commonNames.first
+                        : candidate.scientificName),
                 style: AppText.title.copyWith(color: c.textPrimary),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
               Text(
                 candidate.koName == null
-                    ? '도감에 없는 품종 · 등록하면 이름을 직접 정할 수 있어요'
+                    ? context.l10n.identifyNotInCatalog
                     : candidate.scientificName,
                 style: AppText.scientificName.copyWith(color: c.textSecondary),
                 maxLines: 1,
@@ -598,20 +618,20 @@ class _Unavailable extends StatelessWidget {
     final c = context.colors;
     final (title, desc) = switch (reason) {
       UnavailableReason.dailyLimit => (
-        '오늘 식별 횟수를 다 썼어요',
-        '내일 다시 시도하거나, 이름 검색으로 등록해 보세요',
+        context.l10n.identifyLimitTitle,
+        context.l10n.identifyLimitBody,
       ),
       UnavailableReason.network => (
-        '인터넷에 연결되지 않았어요',
-        '연결을 확인하고 다시 시도하거나, 이름 검색으로 등록해 보세요',
+        context.l10n.identifyOfflineTitle,
+        context.l10n.identifyOfflineBody,
       ),
       UnavailableReason.noResult => (
-        '식물을 찾지 못했어요',
-        '잎이나 꽃을 가까이 찍어 추가하거나, 이름 검색으로 등록해 보세요',
+        context.l10n.identifyNoResultTitle,
+        context.l10n.identifyNoResultBody,
       ),
       UnavailableReason.modelMissing || UnavailableReason.apiError => (
-        '지금은 식별을 할 수 없어요',
-        '식별 서버 연결이 아직 설정되지 않았어요. 이름 검색으로 등록해 보세요',
+        context.l10n.identifyUnavailableTitle,
+        context.l10n.identifyUnavailableBody,
       ),
     };
     return Column(
@@ -637,17 +657,23 @@ class _Unavailable extends StatelessWidget {
         const SizedBox(height: AppSpace.xl),
         if (onAddPhoto != null) ...[
           AppButton.primary(
-            label: '사진 추가해서 다시 찾기',
+            label: context.l10n.identifyRetryWithPhoto,
             icon: Icons.add_a_photo_outlined,
             onPressed: onAddPhoto,
           ),
           const SizedBox(height: AppSpace.sm),
-          AppButton.secondary(label: '이름으로 검색', onPressed: onSearch),
+          AppButton.secondary(
+            label: context.l10n.commonSearchByName,
+            onPressed: onSearch,
+          ),
         ] else
-          AppButton.primary(label: '이름으로 검색', onPressed: onSearch),
+          AppButton.primary(
+            label: context.l10n.commonSearchByName,
+            onPressed: onSearch,
+          ),
         const SizedBox(height: AppSpace.sm),
         AppButton.text(
-          label: '직접 입력으로 등록',
+          label: context.l10n.identifyManualRegister,
           expanded: true,
           onPressed: onManual,
         ),

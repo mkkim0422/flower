@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/app_locale.dart';
 import '../../app/router.dart';
 import '../../app/theme.dart';
 import '../../app/widgets/app_card.dart';
@@ -13,34 +14,34 @@ class AddMethodScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final c = context.colors;
     return Scaffold(
-      appBar: AppBar(title: const Text('식물 추가')),
+      appBar: AppBar(title: Text(context.l10n.addTitle)),
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: AppSpace.screenH),
         children: [
           const SizedBox(height: AppSpace.sm),
           Text(
-            '어떻게 등록할까요?',
+            context.l10n.addHowTo,
             style: AppText.body.copyWith(color: c.textSecondary),
           ),
           const SizedBox(height: AppSpace.lg),
           _MethodCard(
             icon: Icons.photo_camera_rounded,
-            title: '사진으로 식별',
-            subtitle: '잎 전체가 나오게 찍으면 품종을 찾아드려요',
+            title: context.l10n.addByPhoto,
+            subtitle: context.l10n.addByPhotoSub,
             onTap: () => context.go(AppRoutes.camera),
           ),
           const SizedBox(height: AppSpace.cardGap),
           _MethodCard(
             icon: Icons.search_rounded,
-            title: '이름으로 검색',
-            subtitle: '국내 유통명이나 학명으로 찾아요',
+            title: context.l10n.commonSearchByName,
+            subtitle: context.l10n.addByNameSub,
             onTap: () => context.push(AppRoutes.addSearch),
           ),
           const SizedBox(height: AppSpace.cardGap),
           _MethodCard(
             icon: Icons.edit_outlined,
-            title: '직접 입력',
-            subtitle: '품종을 몰라도 이름만으로 등록해요',
+            title: context.l10n.commonManualEntry,
+            subtitle: context.l10n.addManualSub,
             onTap: () => context.push(AppRoutes.addManual),
           ),
         ],

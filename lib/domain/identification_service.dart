@@ -160,7 +160,7 @@ class OnDeviceIdentifier implements Identifier {
       if (!await modelPresent) {
         return const IdentificationUnavailable(
           UnavailableReason.modelMissing,
-          detail: '온디바이스 모델 파일 없음',
+          detail: 'on-device model file missing',
         );
       }
       return await _infer(images);
@@ -178,7 +178,7 @@ class OnDeviceIdentifier implements Identifier {
   Future<IdentificationOutcome> _infer(List<Uint8List> images) async {
     return const IdentificationUnavailable(
       UnavailableReason.modelMissing,
-      detail: '추론 엔진 미연동',
+      detail: 'inference engine not connected',
     );
   }
 }

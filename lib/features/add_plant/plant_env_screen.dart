@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
+import '../../core/app_locale.dart';
 import '../../app/router.dart';
 import '../../app/theme.dart';
 import '../../app/widgets/app_button.dart';
@@ -10,6 +11,7 @@ import '../../app/widgets/app_chip.dart';
 import '../../app/widgets/plant_card.dart';
 import '../../core/enums.dart';
 import '../../data/repositories/plant_repository.dart';
+import '../../data/species_l10n.dart';
 import '../../data/repositories/species_repository.dart';
 import 'add_plant_draft.dart';
 
@@ -51,7 +53,6 @@ class _PlantEnvScreenState extends ConsumerState<PlantEnvScreen> {
       initialDate: _lastWatered,
       firstDate: now.subtract(const Duration(days: 60)),
       lastDate: now,
-      locale: const Locale('ko', 'KR'),
     );
     if (picked != null) setState(() => _lastWatered = picked);
   }
@@ -111,7 +112,7 @@ class _PlantEnvScreenState extends ConsumerState<PlantEnvScreen> {
     final customDate = ago > 1;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('내 식물로 등록')),
+      appBar: AppBar(title: Text(context.l10n.registerTitle)),
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: AppSpace.screenH),
         children: [
@@ -128,9 +129,9 @@ class _PlantEnvScreenState extends ConsumerState<PlantEnvScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      species?.koNames.first ??
+                      species?.displayName(context.l10n) ??
                           widget.draft.scientificName ??
-                          '품종 미지정',
+                          context.l10n.speciesUnknown,
                       style: AppText.title.copyWith(color: c.textPrimary),
                     ),
                     if (species != null)
@@ -142,7 +143,7 @@ class _PlantEnvScreenState extends ConsumerState<PlantEnvScreen> {
                       )
                     else if (widget.draft.scientificName != null)
                       Text(
-                        '도감에 없는 품종이에요. 이름은 직접 정해 주세요',
+                        context.l10n.registerNotInCatalog,
                         style: AppText.caption.copyWith(color: c.textSecondary),
                       ),
                   ],
@@ -152,20 +153,22 @@ class _PlantEnvScreenState extends ConsumerState<PlantEnvScreen> {
           ),
           const SizedBox(height: AppSpace.section),
 
-          const _Label('이름'),
+          _Label(context.l10n.registerName),
           TextField(
             controller: _nickname,
             onChanged: (_) => setState(() {}),
-            decoration: const InputDecoration(hintText: '예: 거실 몬스테라'),
+            decoration: InputDecoration(
+              hintText: context.l10n.registerNameHint,
+            ),
           ),
           const SizedBox(height: AppSpace.section),
 
-          const _Label('마지막으로 물 준 날'),
+          _Label(context.l10n.registerLastWatered),
           Row(
             children: [
               Expanded(
                 child: AppChip(
-                  label: '오늘',
+                  label: context.l10n.commonToday,
                   selected: ago == 0,
                   onTap: () => setState(() => _lastWatered = DateTime.now()),
                 ),
@@ -173,7 +176,7 @@ class _PlantEnvScreenState extends ConsumerState<PlantEnvScreen> {
               const SizedBox(width: AppSpace.sm),
               Expanded(
                 child: AppChip(
-                  label: '어제',
+                  label: context.l10n.commonYesterday,
                   selected: ago == 1,
                   onTap: () => setState(
                     () => _lastWatered = DateTime.now().subtract(
@@ -186,8 +189,10 @@ class _PlantEnvScreenState extends ConsumerState<PlantEnvScreen> {
               Expanded(
                 child: AppChip(
                   label: customDate
-                      ? DateFormat('M월 d일', 'ko_KR').format(_lastWatered)
-                      : '직접 선택',
+                      ? DateFormat.MMMd(
+                          context.l10n.localeName,
+                        ).format(_lastWatered)
+                      : context.l10n.commonPickDate,
                   selected: customDate,
                   onTap: _pickDate,
                 ),
@@ -212,13 +217,12 @@ class _PlantEnvScreenState extends ConsumerState<PlantEnvScreen> {
                     const SizedBox(width: AppSpace.md),
                     Expanded(
                       child: Text(
-                        '약 $days일마다 물 주는 날을 알려드려요'
-                        '${_manualDays == null ? '' : ' (직접 설정)'}',
+                        '${context.l10n.registerInterval(days)}${_manualDays == null ? '' : context.l10n.registerIntervalManual}',
                         style: AppText.bodyStrong.copyWith(color: c.primary),
                       ),
                     ),
                     IconButton(
-                      tooltip: '주기 수정',
+                      tooltip: context.l10n.registerEditInterval,
                       onPressed: () =>
                           setState(() => _editInterval = !_editInterval),
                       icon: Icon(
@@ -243,7 +247,7 @@ class _PlantEnvScreenState extends ConsumerState<PlantEnvScreen> {
                       ),
                       Expanded(
                         child: Text(
-                          '$days일',
+                          context.l10n.commonDays(days),
                           textAlign: TextAlign.center,
                           style: AppText.headline.copyWith(
                             color: c.primary,
@@ -263,7 +267,7 @@ class _PlantEnvScreenState extends ConsumerState<PlantEnvScreen> {
                     Align(
                       alignment: Alignment.centerRight,
                       child: AppButton.text(
-                        label: '자동($auto일)으로',
+                        label: context.l10n.registerBackToAuto(auto),
                         onPressed: () => setState(() => _manualDays = null),
                       ),
                     ),
@@ -275,20 +279,18 @@ class _PlantEnvScreenState extends ConsumerState<PlantEnvScreen> {
 
           const SizedBox(height: AppSpace.md),
 
-          const _Label('메모 (선택)'),
+          _Label(context.l10n.registerMemo),
           TextField(
             controller: _memo,
             minLines: 2,
             maxLines: 4,
-            decoration: const InputDecoration(
-              hintText: '예: 베란다 왼쪽. 잎이 처지면 물 부족',
-            ),
+            decoration: InputDecoration(hintText: context.l10n.memoHint),
           ),
           const SizedBox(height: AppSpace.section),
           SafeArea(
             top: false,
             child: AppButton.primary(
-              label: '등록하기',
+              label: context.l10n.registerSubmit,
               onPressed: _nickname.text.trim().isEmpty || _saving
                   ? null
                   : _submit,

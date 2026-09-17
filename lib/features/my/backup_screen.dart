@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../core/app_locale.dart';
 import '../../app/theme.dart';
 import '../../app/widgets/app_button.dart';
 import '../../app/widgets/app_card.dart';
@@ -30,6 +31,7 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
       _busy = true;
       _message = null;
     });
+    final l = context.l10n; // await 이후 context 를 쓰지 않도록 먼저 잡아 둔다
     try {
       final svc = ref.read(backupServiceProvider);
       final bytes = await svc.exportZip();
@@ -41,13 +43,15 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
       await SharePlus.instance.share(
         ShareParams(
           files: [XFile(file.path, mimeType: 'application/zip')],
-          subject: '잘자라라 기록 백업',
-          text: '잘자라라 기록 백업 파일이에요. 새 폰에서 MY › 기록 가져오기로 복원할 수 있어요',
+          subject: l.backupShareSubject,
+          text: l.backupShareText,
         ),
       );
-      if (mounted) setState(() => _message = '파일을 만들었어요. 보관할 곳으로 보내 주세요');
+      if (mounted) setState(() => _message = l.backupExported);
     } catch (e) {
-      if (mounted) setState(() => _message = '내보내기에 실패했어요: $e');
+      if (mounted) {
+        setState(() => _message = l.backupExportFailed('$e'));
+      }
     } finally {
       if (mounted) setState(() => _busy = false);
     }
@@ -65,31 +69,40 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
     final summary = BackupService.inspectZip(bytes);
     if (!mounted) return;
     if (summary == null) {
-      setState(() => _message = '잘자라라 백업 파일이 아니에요');
+      setState(() => _message = context.l10n.backupNotOurs);
       return;
     }
     final ok = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('기록을 가져올까요?'),
+        title: Text(context.l10n.backupImportQ),
         content: Text(
-          '${DateFormat('yyyy년 M월 d일', 'ko_KR').format(summary.exportedAt)}에 내보낸 파일이에요.\n'
-          '식물 ${summary.plants}개 · 일기 ${summary.diaries}개 · 사진 ${summary.photos}장\n\n'
-          '지금 이 폰에 있는 기록은 모두 이 파일의 내용으로 바뀌어요.',
+          context.l10n.backupImportSummary(
+            DateFormat.yMMMd(
+              context.l10n.localeName,
+            ).format(summary.exportedAt),
+            summary.plants,
+            summary.diaries,
+            summary.photos,
+          ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('취소'),
+            child: Text(context.l10n.commonCancel),
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),
-            child: Text('가져오기', style: TextStyle(color: ctx.colors.error)),
+            child: Text(
+              context.l10n.backupImport,
+              style: TextStyle(color: ctx.colors.error),
+            ),
           ),
         ],
       ),
     );
-    if (ok != true) return;
+    if (ok != true || !mounted) return;
+    final l = context.l10n;
 
     setState(() {
       _busy = true;
@@ -101,9 +114,11 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
       await ref
           .read(backupServiceProvider)
           .importZip(bytes, photoDir: photoDir);
-      if (mounted) setState(() => _message = '가져왔어요. 홈에서 확인해 보세요');
+      if (mounted) setState(() => _message = l.backupImported);
     } catch (e) {
-      if (mounted) setState(() => _message = '가져오기에 실패했어요: $e');
+      if (mounted) {
+        setState(() => _message = l.backupImportFailed('$e'));
+      }
     } finally {
       if (mounted) setState(() => _busy = false);
     }
@@ -113,7 +128,7 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
   Widget build(BuildContext context) {
     final c = context.colors;
     return Scaffold(
-      appBar: AppBar(title: const Text('기록 내보내기·가져오기')),
+      appBar: AppBar(title: Text(context.l10n.backupTitle)),
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: AppSpace.screenH),
         children: [
@@ -122,17 +137,17 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '내보내기',
+                  context.l10n.backupExport,
                   style: AppText.title.copyWith(color: c.textPrimary),
                 ),
                 const SizedBox(height: AppSpace.sm),
                 Text(
-                  '식물·물 준 기록·일기·사진을 파일 하나로 만들어요. 카카오톡 나에게 보내기, 구글 드라이브 등 원하는 곳에 보관하세요',
+                  context.l10n.backupExportBody,
                   style: AppText.body.copyWith(color: c.textSecondary),
                 ),
                 const SizedBox(height: AppSpace.lg),
                 AppButton.primary(
-                  label: '파일 만들어 보내기',
+                  label: context.l10n.backupExportButton,
                   icon: Icons.ios_share_rounded,
                   onPressed: _busy ? null : _export,
                 ),
@@ -145,17 +160,17 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '가져오기',
+                  context.l10n.backupImport,
                   style: AppText.title.copyWith(color: c.textPrimary),
                 ),
                 const SizedBox(height: AppSpace.sm),
                 Text(
-                  '새 폰에서 내보낸 파일을 고르면 그대로 복원돼요. 지금 폰에 있는 기록은 파일 내용으로 바뀌니 주의하세요',
+                  context.l10n.backupImportBody,
                   style: AppText.body.copyWith(color: c.textSecondary),
                 ),
                 const SizedBox(height: AppSpace.lg),
                 AppButton.secondary(
-                  label: '파일 골라서 가져오기',
+                  label: context.l10n.backupImportButton,
                   icon: Icons.folder_open_rounded,
                   onPressed: _busy ? null : _import,
                 ),
@@ -172,8 +187,7 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
             ),
           const SizedBox(height: AppSpace.section),
           Text(
-            '참고: 폰 자체 백업(구글 계정 백업, iCloud 백업)을 켜 두면 새 폰으로 옮길 때 기록이 자동으로 따라와요. '
-            '안드로이드 자동 백업에는 사진이 빠지니, 사진까지 옮기려면 이 화면의 내보내기를 쓰세요',
+            context.l10n.backupNote,
             style: AppText.caption.copyWith(color: c.textTertiary),
           ),
         ],

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../data/species_l10n.dart';
+import '../../core/app_locale.dart';
 import '../../app/theme.dart';
 import '../../app/widgets/app_card.dart';
 import '../../data/repositories/plant_repository.dart';
@@ -29,10 +31,11 @@ class _SymptomScreenState extends ConsumerState<SymptomScreen> {
   Widget build(BuildContext context) {
     final c = context.colors;
     final entry = ref.watch(plantByIdProvider(widget.plantId)).value;
-    final issues = entry?.species?.commonIssues ?? const <String>[];
+    final issues =
+        entry?.species?.commonIssuesFor(context.l10n) ?? const <String>[];
 
     return Scaffold(
-      appBar: AppBar(title: const Text('증상으로 원인 찾기')),
+      appBar: AppBar(title: Text(context.l10n.symTitle)),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(
           AppSpace.screenH,
@@ -42,14 +45,16 @@ class _SymptomScreenState extends ConsumerState<SymptomScreen> {
         ),
         children: [
           Text(
-            '사진 진단이 아니라 흔한 원인을 안내해요. 여러 원인이 겹칠 수 있으니 확인 방법을 보고 골라 주세요',
+            context.l10n.symDisclaimer,
             style: AppText.caption.copyWith(color: c.textSecondary),
           ),
           const SizedBox(height: AppSpace.section),
 
           if (entry?.species != null && issues.isNotEmpty) ...[
             Text(
-              '${entry!.species!.koNames.first}에 흔한 문제',
+              context.l10n.symSpeciesIssues(
+                entry!.species!.displayName(context.l10n),
+              ),
               style: AppText.label.copyWith(color: c.textSecondary),
             ),
             const SizedBox(height: AppSpace.sm),
@@ -99,11 +104,11 @@ class _SymptomScreenState extends ConsumerState<SymptomScreen> {
           ],
 
           Text(
-            '어떤 증상인가요?',
+            context.l10n.symWhichSymptom,
             style: AppText.label.copyWith(color: c.textSecondary),
           ),
           const SizedBox(height: AppSpace.sm),
-          for (final s in kSymptoms) ...[
+          for (final s in symptomsFor(context.l10n)) ...[
             _SymptomCard(
               symptom: s,
               open: _openId == s.id,
@@ -223,7 +228,7 @@ class _CauseBlock extends StatelessWidget {
           ),
           const SizedBox(height: AppSpace.xs),
           Text(
-            '확인: ${cause.check}',
+            context.l10n.symCheck(cause.check),
             style: AppText.caption.copyWith(color: c.textSecondary),
           ),
           const SizedBox(height: AppSpace.xs),
@@ -235,7 +240,7 @@ class _CauseBlock extends StatelessWidget {
               child: TextButton.icon(
                 onPressed: onAdjustInterval,
                 icon: const Icon(Icons.water_drop_outlined),
-                label: const Text('물주기 간격 조정'),
+                label: Text(context.l10n.symAdjustInterval),
               ),
             ),
         ],

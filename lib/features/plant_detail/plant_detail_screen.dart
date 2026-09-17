@@ -6,6 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
+import '../../data/species_l10n.dart';
+import '../../core/app_locale.dart';
 import '../../app/router.dart';
 import '../../app/theme.dart';
 import '../../app/widgets/app_button.dart';
@@ -38,7 +40,7 @@ class PlantDetailScreen extends ConsumerWidget {
         appBar: AppBar(),
         body: Center(
           child: Text(
-            '불러오지 못했어요',
+            context.l10n.commonLoadFailed,
             style: AppText.body.copyWith(color: c.textSecondary),
           ),
         ),
@@ -49,7 +51,7 @@ class PlantDetailScreen extends ConsumerWidget {
             appBar: AppBar(),
             body: Center(
               child: Text(
-                '삭제된 식물이에요',
+                context.l10n.detailDeleted,
                 style: AppText.body.copyWith(color: c.textSecondary),
               ),
             ),
@@ -71,16 +73,16 @@ class _Body extends ConsumerWidget {
     final name = await showDialog<String>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('이름 바꾸기'),
+        title: Text(context.l10n.detailRename),
         content: TextField(controller: ctrl, autofocus: true),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('취소'),
+            child: Text(context.l10n.commonCancel),
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, ctrl.text.trim()),
-            child: const Text('저장'),
+            child: Text(context.l10n.commonSave),
           ),
         ],
       ),
@@ -97,22 +99,22 @@ class _Body extends ConsumerWidget {
     final memo = await showDialog<String>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('내 메모'),
+        title: Text(context.l10n.detailMyMemo),
         content: TextField(
           controller: ctrl,
           autofocus: true,
           maxLines: 5,
           minLines: 3,
-          decoration: const InputDecoration(hintText: '예: 베란다 왼쪽. 잎이 처지면 물 부족'),
+          decoration: InputDecoration(hintText: context.l10n.memoHint),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('취소'),
+            child: Text(context.l10n.commonCancel),
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, ctrl.text.trim()),
-            child: const Text('저장'),
+            child: Text(context.l10n.commonSave),
           ),
         ],
       ),
@@ -140,7 +142,10 @@ class _Body extends ConsumerWidget {
           AppSpace.xl,
         ),
         children: [
-          Text('놓는 곳', style: AppText.title.copyWith(color: c.textPrimary)),
+          Text(
+            context.l10n.detailPlace,
+            style: AppText.title.copyWith(color: c.textPrimary),
+          ),
           const SizedBox(height: AppSpace.md),
           for (final s in spaces)
             ListTile(
@@ -150,7 +155,7 @@ class _Body extends ConsumerWidget {
                 style: AppText.body.copyWith(color: c.textPrimary),
               ),
               subtitle: Text(
-                '${s.windowDir.label} · ${s.windowDist.label}',
+                '${s.windowDir.label(context.l10n)} · ${s.windowDist.label(context.l10n)}',
                 style: AppText.caption.copyWith(color: c.textSecondary),
               ),
               trailing: entry.plant.spaceId == s.id
@@ -166,7 +171,7 @@ class _Body extends ConsumerWidget {
           ListTile(
             contentPadding: EdgeInsets.zero,
             title: Text(
-              '지정 안 함',
+              context.l10n.detailPlaceNone,
               style: AppText.body.copyWith(color: c.textPrimary),
             ),
             trailing: entry.plant.spaceId == null
@@ -181,7 +186,7 @@ class _Body extends ConsumerWidget {
           ),
           const SizedBox(height: AppSpace.sm),
           AppButton.secondary(
-            label: '+ 새 장소 추가',
+            label: context.l10n.detailAddPlace,
             onPressed: () async {
               Navigator.pop(ctx);
               final id = await context.push<int>(AppRoutes.spaceNew);
@@ -205,15 +210,18 @@ class _Body extends ConsumerWidget {
     final ok = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('이 일기를 지울까요?'),
+        title: Text(context.l10n.detailDeleteDiaryQ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('취소'),
+            child: Text(context.l10n.commonCancel),
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),
-            child: Text('지우기', style: TextStyle(color: ctx.colors.error)),
+            child: Text(
+              context.l10n.commonRemove,
+              style: TextStyle(color: ctx.colors.error),
+            ),
           ),
         ],
       ),
@@ -225,16 +233,19 @@ class _Body extends ConsumerWidget {
     final ok = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: Text('${entry.plant.nickname}을(를) 삭제할까요?'),
-        content: const Text('물 준 기록과 메모도 함께 지워져요'),
+        title: Text(context.l10n.detailDeletePlantQ(entry.plant.nickname)),
+        content: Text(context.l10n.detailDeletePlantBody),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('취소'),
+            child: Text(context.l10n.commonCancel),
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),
-            child: Text('삭제', style: TextStyle(color: ctx.colors.error)),
+            child: Text(
+              context.l10n.commonDelete,
+              style: TextStyle(color: ctx.colors.error),
+            ),
           ),
         ],
       ),
@@ -275,11 +286,20 @@ class _Body extends ConsumerWidget {
               }
             },
             itemBuilder: (_) => [
-              const PopupMenuItem(value: 'rename', child: Text('이름 바꾸기')),
-              const PopupMenuItem(value: 'space', child: Text('놓는 곳 바꾸기')),
+              PopupMenuItem(
+                value: 'rename',
+                child: Text(context.l10n.detailRename),
+              ),
+              PopupMenuItem(
+                value: 'space',
+                child: Text(context.l10n.detailChangePlace),
+              ),
               PopupMenuItem(
                 value: 'delete',
-                child: Text('삭제', style: TextStyle(color: c.error)),
+                child: Text(
+                  context.l10n.commonDelete,
+                  style: TextStyle(color: c.error),
+                ),
               ),
             ],
           ),
@@ -326,7 +346,7 @@ class _Body extends ConsumerWidget {
                             borderRadius: BorderRadius.circular(AppRadius.chip),
                           ),
                           child: Text(
-                            '도감 사진',
+                            context.l10n.detailCatalogPhoto,
                             style: AppText.label.copyWith(
                               color: c.textSecondary,
                             ),
@@ -345,7 +365,9 @@ class _Body extends ConsumerWidget {
           ),
           const SizedBox(height: AppSpace.xs),
           Text(
-            s == null ? '품종 미지정' : s.koNames.first,
+            s == null
+                ? context.l10n.speciesUnknown
+                : s.displayName(context.l10n),
             style: AppText.caption.copyWith(color: c.textSecondary),
           ),
           if (s != null)
@@ -371,15 +393,19 @@ class _Body extends ConsumerWidget {
                     Expanded(
                       child: Text(
                         dDay < 0
-                            ? '물 주는 날이 ${-dDay}일 지났어요'
-                            : (dDay == 0 ? '오늘 물 주는 날이에요' : '다음 물 주는 날까지'),
+                            ? context.l10n.detailOverdue(-dDay)
+                            : (dDay == 0
+                                  ? context.l10n.detailDueToday
+                                  : context.l10n.detailUntilNext),
                         style: AppText.body.copyWith(color: c.textSecondary),
                       ),
                     ),
                     Text(
                       dDay < 0
-                          ? 'D+${-dDay}'
-                          : (dDay == 0 ? 'D-day' : 'D-$dDay'),
+                          ? context.l10n.statusOverdue(-dDay)
+                          : (dDay == 0
+                                ? context.l10n.detailDDay
+                                : context.l10n.statusDaysLeft(dDay)),
                       style: AppText.headline.copyWith(
                         color: dDay <= 0 ? c.statusNeedCheck : c.primary,
                         fontFeatures: AppText.tabularFeatures,
@@ -392,13 +418,13 @@ class _Body extends ConsumerWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        '${p.waterIntervalDays}일마다 ${p.manualOverride ? '(직접 설정)' : '(자동)'}'
-                        ' · 마지막 ${DateFormat('M월 d일', 'ko_KR').format(p.lastWateredAt)}',
+                        '${context.l10n.commonEveryDays(p.waterIntervalDays)}${p.manualOverride ? context.l10n.detailIntervalManual : context.l10n.detailIntervalAuto}'
+                        '${context.l10n.detailLastWatered(DateFormat.MMMd(context.l10n.localeName).format(p.lastWateredAt))}',
                         style: AppText.caption.copyWith(color: c.textSecondary),
                       ),
                     ),
                     AppButton.text(
-                      label: '주기 조정',
+                      label: context.l10n.detailAdjust,
                       onPressed: () => showIntervalSheet(
                         context,
                         entry: entry,
@@ -444,7 +470,7 @@ class _Body extends ConsumerWidget {
             Align(
               alignment: Alignment.centerLeft,
               child: AppButton.text(
-                label: '+ 메모 남기기',
+                label: context.l10n.detailAddMemo,
                 icon: Icons.sticky_note_2_outlined,
                 onPressed: () => _editMemo(context, ref),
               ),
@@ -461,19 +487,19 @@ class _Body extends ConsumerWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        '일기',
+                        context.l10n.diaryLabel,
                         style: AppText.title.copyWith(color: c.textPrimary),
                       ),
                     ),
                     AppButton.text(
-                      label: '+ 쓰기',
+                      label: context.l10n.detailDiaryWrite,
                       onPressed: () => context.push(AppRoutes.diaryNew(p.id)),
                     ),
                   ],
                 ),
                 if (diary.isEmpty)
                   Text(
-                    '사진과 한 줄 메모로 자라는 모습을 남겨 보세요',
+                    context.l10n.detailDiaryEmpty,
                     style: AppText.body.copyWith(color: c.textTertiary),
                   )
                 else ...[
@@ -485,7 +511,7 @@ class _Body extends ConsumerWidget {
                     ),
                   if (diary.length > 3)
                     Text(
-                      '외 ${diary.length - 3}개',
+                      context.l10n.detailDiaryMore(diary.length - 3),
                       style: AppText.caption.copyWith(color: c.textTertiary),
                     ),
                 ],
@@ -501,7 +527,7 @@ class _Body extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '알아두면 좋은 정보',
+                    context.l10n.detailGoodToKnow,
                     style: AppText.title.copyWith(color: c.textPrimary),
                   ),
                   const SizedBox(height: AppSpace.md),
@@ -509,11 +535,11 @@ class _Body extends ConsumerWidget {
                     ToxicBadge(
                       toxicPet: s.toxicPet,
                       childLevel: s.toxicChildLevel,
-                      note: s.toxicityNote,
+                      note: s.toxicityNoteFor(context.l10n),
                     ),
                     const SizedBox(height: AppSpace.md),
                   ],
-                  for (final tip in careTips(s))
+                  for (final tip in careTips(s, context.l10n))
                     _InfoLine(icon: tip.icon, text: tip.text),
                 ],
               ),
@@ -521,7 +547,7 @@ class _Body extends ConsumerWidget {
           else
             AppCard(
               child: Text(
-                '품종을 지정하면 키우기 정보를 보여드려요. 카메라로 식별하거나 이름으로 검색해 보세요',
+                context.l10n.detailNoSpeciesInfo,
                 style: AppText.body.copyWith(color: c.textSecondary),
               ),
             ),
@@ -537,7 +563,7 @@ class _Body extends ConsumerWidget {
                 const SizedBox(width: AppSpace.md),
                 Expanded(
                   child: Text(
-                    '식물이 아파 보이나요? 증상으로 원인 찾기',
+                    context.l10n.detailSymptomEntry,
                     style: AppText.bodyStrong.copyWith(color: c.textPrimary),
                   ),
                 ),
@@ -569,15 +595,19 @@ class _Body extends ConsumerWidget {
               borderRadius: BorderRadius.circular(AppRadius.button),
             ),
             onPressed: wateredToday
-                ? () => ScaffoldMessenger.of(
-                    context,
-                  ).showSnackBar(const SnackBar(content: Text('오늘은 이미 물을 줬어요')))
+                ? () => ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(context.l10n.detailAlreadyWatered)),
+                  )
                 : () => showSoilCheckSheet(context, entries: [entry]),
             icon: Icon(
               wateredToday ? Icons.check_rounded : Icons.water_drop_rounded,
             ),
             label: Text(
-              wateredToday ? '오늘 물 줬어요' : (dDay <= 0 ? '물 줬어요' : '오늘 물 줬어요'),
+              wateredToday
+                  ? context.l10n.detailWateredToday
+                  : (dDay <= 0
+                        ? context.l10n.detailWatered
+                        : context.l10n.detailWateredToday),
               style: AppText.bodyStrong,
             ),
           ),
@@ -623,7 +653,7 @@ class _DiaryLine extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  DateFormat('M월 d일 (E)', 'ko_KR').format(entry.at),
+                  DateFormat.MMMEd(context.l10n.localeName).format(entry.at),
                   style: AppText.caption.copyWith(color: c.textSecondary),
                 ),
                 if (entry.tags.isNotEmpty)
@@ -645,7 +675,7 @@ class _DiaryLine extends StatelessWidget {
                               ),
                             ),
                             child: Text(
-                              t.label,
+                              t.label(context.l10n),
                               style: AppText.label.copyWith(color: c.primary),
                             ),
                           ),
@@ -664,7 +694,7 @@ class _DiaryLine extends StatelessWidget {
             ),
           ),
           IconButton(
-            tooltip: '지우기',
+            tooltip: context.l10n.commonRemove,
             onPressed: onDelete,
             icon: Icon(
               Icons.close_rounded,
@@ -710,7 +740,7 @@ class PhotoViewerScreen extends StatelessWidget {
                 child: IconButton.filledTonal(
                   onPressed: () => Navigator.of(context).pop(),
                   icon: const Icon(Icons.close_rounded),
-                  tooltip: '닫기',
+                  tooltip: context.l10n.commonClose,
                 ),
               ),
             ),
@@ -721,17 +751,20 @@ class PhotoViewerScreen extends StatelessWidget {
   }
 }
 
-/// 온도 문장: 적정 범위(있으면) + 최저 한계
-String temperatureTip(SpeciesRow s) {
+/// 온도 문장: 적정 범위(있으면) + 최저 한계. 화씨 국가는 °F
+String temperatureTip(SpeciesRow s, AppLocalizations l) {
   final optMin = s.tempOptMin ?? s.tempMin;
   final optMax = s.tempOptMax ?? s.tempMax;
   final low = s.tempMin;
   if (optMin == null || optMax == null) return '';
-  final opt = '적정 $optMin~$optMax°C';
+  final opt = l.tipTempOptimal(
+    formatTemperature(optMin),
+    formatTemperature(optMax),
+  );
   if (low == null) return opt;
-  if (low <= 0) return '$opt. 추위에 강해 바깥 월동도 되지만 실내에서는 찬바람이 직접 닿지 않게 해 주세요';
-  if (low <= 5) return '$opt. $low°C까지는 견디니 겨울 베란다도 괜찮아요';
-  return '$opt. $low°C 아래로 내려가면 잎이 상하니 겨울에는 창가에서 떨어뜨려 주세요';
+  if (low <= 0) return l.tipTempHardy(opt);
+  if (low <= 5) return l.tipTempCool(opt, formatTemperature(low));
+  return l.tipTempTender(opt, formatTemperature(low));
 }
 
 /// 품종 정보 → 알아두면 좋은 정보 문장 (비료·분갈이는 2026-09-16 사용자 지시로 제외)
@@ -742,26 +775,22 @@ class CareTip {
   final String text;
 }
 
-List<CareTip> careTips(SpeciesRow s) {
+List<CareTip> careTips(SpeciesRow s, AppLocalizations l) {
   return [
     CareTip(Icons.water_drop_outlined, switch (s.category) {
-      'succulent' =>
-        '물은 ${s.baseWaterDays}일쯤에 한 번, 흙이 속까지 완전히 마른 뒤 흠뻑 주세요. 과습이 가장 흔한 실패 원인이에요',
-      'herb' =>
-        '물은 ${s.baseWaterDays}일쯤에 한 번, 겉흙이 마르면 바로 주세요. 허브는 마르면 잎이 금방 처져요',
-      'flower' =>
-        '물은 ${s.baseWaterDays}일쯤에 한 번, 겉흙이 마르면 주세요. 꽃이 피는 동안은 조금 더 자주 살펴 주세요',
-      _ =>
-        '물은 ${s.baseWaterDays}일쯤에 한 번, 화분 밑으로 흘러나올 만큼 흠뻑 주세요. 받침에 고인 물은 버려 주세요',
+      'succulent' => l.tipWaterSucculent(s.baseWaterDays),
+      'herb' => l.tipWaterHerb(s.baseWaterDays),
+      'flower' => l.tipWaterFlower(s.baseWaterDays),
+      _ => l.tipWaterFoliage(s.baseWaterDays),
     }),
     CareTip(Icons.wb_sunny_outlined, switch (s.lightPref) {
-      LightPref.low => '빛이 적은 곳에서도 잘 자라요. 직사광선은 잎을 태울 수 있으니 창가에서 조금 떨어뜨려 두세요',
-      LightPref.med => '밝은 간접광을 좋아해요. 커튼을 친 창가나 창에서 1m 안쪽이 좋아요',
-      LightPref.high => '햇빛을 많이 받아야 해요. 남향이나 동향 창가에 두고, 빛이 부족하면 웃자라요',
+      LightPref.low => l.tipLightLow,
+      LightPref.med => l.tipLightMed,
+      LightPref.high => l.tipLightHigh,
     }),
     if (s.tempMin != null && s.tempMax != null)
-      CareTip(Icons.thermostat_outlined, temperatureTip(s)),
-    for (final issue in s.commonIssues)
+      CareTip(Icons.thermostat_outlined, temperatureTip(s, l)),
+    for (final issue in s.commonIssuesFor(l))
       CareTip(Icons.error_outline_rounded, issue),
   ];
 }

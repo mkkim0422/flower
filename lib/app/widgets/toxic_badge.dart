@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../core/app_locale.dart';
 import '../../core/enums.dart';
 import '../theme.dart';
 
@@ -19,11 +20,11 @@ class ToxicBadge extends StatelessWidget {
   /// 원인·증상·대처 설명
   final String? note;
 
-  String get _label {
+  String _label(AppLocalizations l) {
     if (childLevel == ChildToxicity.toxic) {
-      return toxicPet ? '반려동물·아이에게 위험해요' : '아이에게 위험해요';
+      return toxicPet ? l.dangerPetAndChild : l.dangerChild;
     }
-    return '반려동물에게 위험해요';
+    return l.dangerPet;
   }
 
   @override
@@ -39,7 +40,7 @@ class ToxicBadge extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                _label,
+                _label(context.l10n),
                 style: AppText.bodyStrong.copyWith(color: c.textPrimary),
               ),
               if (note != null && note!.isNotEmpty)

@@ -10,7 +10,7 @@ import 'domain/notification_service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initializeDateFormatting('ko_KR');
+  await initializeDateFormatting(); // 모든 언어의 날짜 형식
 
   final db = AppDatabase();
   final settings = await db.getSettings();

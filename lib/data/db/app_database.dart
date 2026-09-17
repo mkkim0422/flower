@@ -25,7 +25,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.executor);
 
   @override
-  int get schemaVersion => 9;
+  int get schemaVersion => 10;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -69,6 +69,11 @@ class AppDatabase extends _$AppDatabase {
         await m.addColumn(species, species.imageLicense);
         await m.addColumn(species, species.imagePage);
         await m.addColumn(settings, settings.notifyPausedUntil);
+      }
+      if (from < 10) {
+        await m.addColumn(species, species.namesEn);
+        await m.addColumn(species, species.toxicityNoteEn);
+        await m.addColumn(species, species.commonIssuesEn);
       }
     },
     beforeOpen: (details) async {

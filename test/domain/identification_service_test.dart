@@ -1,7 +1,9 @@
 import 'dart:typed_data';
 
 import 'package:drift/native.dart';
+import 'package:flutter/widgets.dart' show Locale;
 import 'package:flutter_test/flutter_test.dart';
+import 'package:plant_app/l10n/app_localizations.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 import 'package:plant_app/data/db/app_database.dart';
@@ -381,7 +383,10 @@ void main() {
             '"family":"Araceae","base_water_days":7,"light_pref":"med","toxic_pet":true,"toxic_child":true,'
             '"temp_min":12,"temp_max":30,"fert_days":30,"repot_months":18,"common_issues":[]}]}',
       );
-      final matcher = SpeciesMatcher(SpeciesRepository(db));
+      final matcher = SpeciesMatcher(
+        SpeciesRepository(db),
+        l10n: lookupAppLocalizations(const Locale('ko')),
+      );
       final out = await matcher.attach([
         _c('Monstera deliciosa Liebm.', 0.9),
         _c('Unknownus plantus', 0.1),

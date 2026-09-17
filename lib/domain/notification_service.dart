@@ -12,6 +12,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:timezone/timezone.dart' as tz;
 
+import '../core/app_locale.dart';
 import '../data/db/app_database.dart';
 import '../data/repositories/plant_repository.dart';
 import '../domain/watering_rules.dart';
@@ -28,8 +29,6 @@ const String _categoryToday = 'water_today';
 const String _categoryDayBefore = 'water_day_before';
 
 const String _channelId = 'daily_check';
-const String _channelName = '물 주기 알림';
-const String _channelDesc = '물 줄 날에 식물 이름과 함께 알려드려요';
 
 /// 예약할 알림 한 건 (순수 데이터, 테스트 대상)
 class PlannedReminder {
@@ -84,6 +83,7 @@ class NotificationService {
     Future<void> Function(NotificationResponse response)? onForegroundAction,
   }) async {
     if (_initialized) return;
+    final l = deviceL10n();
     const android = AndroidInitializationSettings('@mipmap/ic_launcher');
     final ios = DarwinInitializationSettings(
       requestAlertPermission: false,
@@ -93,14 +93,20 @@ class NotificationService {
         DarwinNotificationCategory(
           _categoryToday,
           actions: [
-            DarwinNotificationAction.plain(kActionWatered, '물 줬어요'),
-            DarwinNotificationAction.plain(kActionSnooze, '내일 할게요'),
+            DarwinNotificationAction.plain(
+              kActionWatered,
+              l.notifActionWatered,
+            ),
+            DarwinNotificationAction.plain(kActionSnooze, l.notifActionSnooze),
           ],
         ),
         DarwinNotificationCategory(
           _categoryDayBefore,
           actions: [
-            DarwinNotificationAction.plain(kActionWatered, '오늘 미리 줬어요'),
+            DarwinNotificationAction.plain(
+              kActionWatered,
+              l.notifActionWateredEarly,
+            ),
           ],
         ),
       ],
@@ -206,18 +212,26 @@ class NotificationService {
         )
       : fireAt;
 
-  /// 이름으로 본문 만들기.
-  /// 1개: "몬스테라 물 줄 날이에요" / 2~3개: "A·B·C 물 줄 날이에요" / 4개+: "A·B 외 2개 물 줄 날이에요"
-  /// 하루 전이면 앞에 "내일은 "을 붙인다.
+  /// 이름으로 본문 만들기 (언어별).
+  /// 1개: "몬스테라 물 줄 날이에요" / 2~3개: "A·B·C …" / 4개+: "A·B 외 2개 …". 하루 전이면 "내일은 …".
   @visibleForTesting
-  static String bodyForNames(List<String> names, {required bool dayBefore}) {
+  static String bodyForNames(
+    List<String> names, {
+    required bool dayBefore,
+    required AppLocalizations l,
+  }) {
     final String who;
     if (names.length <= 3) {
-      who = names.join('·');
+      who = names.join(l.nameSeparator);
     } else {
-      who = '${names.take(2).join('·')} 외 ${names.length - 2}개';
+      who = l.notifWhoMore(
+        names.take(2).join(l.nameSeparator),
+        names.length - 2,
+      );
     }
-    return '${dayBefore ? '내일은 ' : ''}$who 물 줄 날이에요';
+    return dayBefore
+        ? l.notifBodyTomorrow(who, names.length)
+        : l.notifBodyToday(who, names.length);
   }
 
   /// 예약 계획 (순수 함수)
@@ -226,6 +240,7 @@ class NotificationService {
     required Setting settings,
     required List<PlantEntry> plants,
     required DateTime now,
+    required AppLocalizations l,
   }) {
     final out = <PlannedReminder>[];
     final times = fireTimes(settings, now);
@@ -253,6 +268,7 @@ class NotificationService {
           body: bodyForNames(
             due.map((e) => e.plant.nickname).toList(),
             dayBefore: settings.notifyDayBefore,
+            l: l,
           ),
           plantIds: due.map((e) => e.plant.id).toList(),
           dayBefore: settings.notifyDayBefore,
@@ -262,25 +278,32 @@ class NotificationService {
     return out;
   }
 
-  NotificationDetails _details({required bool dayBefore}) =>
-      NotificationDetails(
-        android: AndroidNotificationDetails(
-          _channelId,
-          _channelName,
-          channelDescription: _channelDesc,
-          importance: Importance.defaultImportance,
-          priority: Priority.defaultPriority,
-          actions: dayBefore
-              ? const [AndroidNotificationAction(kActionWatered, '오늘 미리 줬어요')]
-              : const [
-                  AndroidNotificationAction(kActionWatered, '물 줬어요'),
-                  AndroidNotificationAction(kActionSnooze, '내일 할게요'),
-                ],
-        ),
-        iOS: DarwinNotificationDetails(
-          categoryIdentifier: dayBefore ? _categoryDayBefore : _categoryToday,
-        ),
-      );
+  NotificationDetails _details({
+    required bool dayBefore,
+    required AppLocalizations l,
+  }) => NotificationDetails(
+    android: AndroidNotificationDetails(
+      _channelId,
+      l.notifChannelName,
+      channelDescription: l.notifChannelDesc,
+      importance: Importance.defaultImportance,
+      priority: Priority.defaultPriority,
+      actions: dayBefore
+          ? [
+              AndroidNotificationAction(
+                kActionWatered,
+                l.notifActionWateredEarly,
+              ),
+            ]
+          : [
+              AndroidNotificationAction(kActionWatered, l.notifActionWatered),
+              AndroidNotificationAction(kActionSnooze, l.notifActionSnooze),
+            ],
+    ),
+    iOS: DarwinNotificationDetails(
+      categoryIdentifier: dayBefore ? _categoryDayBefore : _categoryToday,
+    ),
+  );
 
   /// 앞으로 7일치 예약. 각 날짜에 대상이 0개면 그 날은 예약하지 않음.
   Future<void> reschedule({
@@ -290,6 +313,7 @@ class NotificationService {
   }) async {
     await init();
     if (!_initialized) return;
+    final l = deviceL10n();
     try {
       for (var i = 1; i <= kScheduleDays; i++) {
         await _plugin.cancel(id: i);
@@ -298,15 +322,16 @@ class NotificationService {
         settings: settings,
         plants: plants,
         now: now ?? DateTime.now(),
+        l: l,
       )) {
         await _plugin.zonedSchedule(
           id: r.id,
-          title: '잘자라라',
+          title: l.appName,
           body: r.body,
           payload: r.payload,
           // 절대 시각을 UTC로 변환: 로컬 타임존 DB 없이도 정확
           scheduledDate: tz.TZDateTime.from(r.fireAt, tz.UTC),
-          notificationDetails: _details(dayBefore: r.dayBefore),
+          notificationDetails: _details(dayBefore: r.dayBefore, l: l),
           androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
         );
       }
@@ -321,20 +346,22 @@ class NotificationService {
     Duration delay = const Duration(seconds: 10),
   }) async {
     await init();
+    final l = deviceL10n();
     final now = DateTime.now();
     final due = plants.where((e) => e.isDue(now)).toList();
     final target = due.isEmpty ? plants : due;
     if (target.isEmpty) return;
     await _plugin.zonedSchedule(
       id: kDebugNotificationId,
-      title: '잘자라라',
+      title: l.appName,
       body: bodyForNames(
         target.map((e) => e.plant.nickname).toList(),
         dayBefore: false,
+        l: l,
       ),
       payload: jsonEncode({'ids': target.map((e) => e.plant.id).toList()}),
       scheduledDate: tz.TZDateTime.from(now.add(delay), tz.UTC),
-      notificationDetails: _details(dayBefore: false),
+      notificationDetails: _details(dayBefore: false, l: l),
       androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
     );
   }

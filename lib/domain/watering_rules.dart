@@ -23,6 +23,10 @@ const int kDryStreakThreshold = 2;
 enum SoilCheckResult { dry, wet }
 
 /// 계절 계수: 3~5월 1.0 / 6~8월 0.8 / 9~10월 1.0 / 11~2월 1.4
+/// 남반구(호주 등)는 계절이 반대라서 6개월 밀어서 계산한다
+int hemisphereMonth(int month, {required bool southern}) =>
+    southern ? (month + 5) % 12 + 1 : month;
+
 double seasonCoef(int month) {
   assert(month >= 1 && month <= 12);
   if (month >= 6 && month <= 8) return 0.8;

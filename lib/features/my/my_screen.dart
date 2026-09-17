@@ -2,7 +2,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
+import '../../core/app_locale.dart';
 import '../../app/router.dart';
 
 import '../../app/theme.dart';
@@ -32,14 +34,20 @@ class MyScreen extends ConsumerWidget {
         AppSpace.xl +
         MediaQuery.paddingOf(context).bottom;
 
-    String two(int v) => v.toString().padLeft(2, '0');
+    final l = context.l10n;
     final notifyLabel = settings == null
         ? '-'
-        : '${settings.notifyHour < 12 ? '오전' : '오후'} '
-              '${settings.notifyHour % 12 == 0 ? 12 : settings.notifyHour % 12}:${two(settings.notifyMinute)}';
+        : TimeOfDay(
+            hour: settings.notifyHour,
+            minute: settings.notifyMinute,
+          ).format(context);
     final skipLabel = settings == null || settings.skipWeekdays.isEmpty
-        ? '매일'
-        : '제외: ${settings.skipWeekdays.map(_weekdayLabel).join(' ')}';
+        ? l.myEveryDay
+        : l.mySkipDays(
+            settings.skipWeekdays
+                .map((w) => _weekdayLabel(w, l.localeName))
+                .join(' '),
+          );
 
     return Scaffold(
       body: SafeArea(
@@ -52,7 +60,10 @@ class MyScreen extends ConsumerWidget {
             bottomPad,
           ),
           children: [
-            Text('MY', style: AppText.headline.copyWith(color: c.textPrimary)),
+            Text(
+              l.myTitle,
+              style: AppText.headline.copyWith(color: c.textPrimary),
+            ),
             const SizedBox(height: AppSpace.section),
 
             // 통계 3칸
@@ -61,18 +72,21 @@ class MyScreen extends ConsumerWidget {
                 children: [
                   _Stat(
                     value: stats?.wateringsThisMonth,
-                    label: '이번 달\n물 준 횟수',
+                    label: l.myStatWaterings,
                   ),
                   _Divider(),
-                  _Stat(value: stats?.diaryCount, label: '일기'),
+                  _Stat(value: stats?.diaryCount, label: l.myStatDiary),
                   _Divider(),
-                  _Stat(value: stats?.streakDays, label: '연속 관리일'),
+                  _Stat(value: stats?.streakDays, label: l.myStatStreak),
                 ],
               ),
             ),
             const SizedBox(height: AppSpace.section),
 
-            Text('알림', style: AppText.label.copyWith(color: c.textSecondary)),
+            Text(
+              l.mySectionNotifications,
+              style: AppText.label.copyWith(color: c.textSecondary),
+            ),
             const SizedBox(height: AppSpace.sm),
             AppCard(
               padding: EdgeInsets.zero,
@@ -80,7 +94,7 @@ class MyScreen extends ConsumerWidget {
                 children: [
                   _Row(
                     icon: Icons.notifications_outlined,
-                    title: '알림 시간',
+                    title: l.myNotifyTime,
                     value: notifyLabel,
                     onTap: settings == null
                         ? null
@@ -94,10 +108,12 @@ class MyScreen extends ConsumerWidget {
                   const Divider(),
                   _Row(
                     icon: Icons.schedule_outlined,
-                    title: '알림 시점',
+                    title: l.myNotifyTiming,
                     value: settings == null
                         ? '-'
-                        : (settings.notifyDayBefore ? '하루 전' : '당일'),
+                        : (settings.notifyDayBefore
+                              ? l.myNotifyDayBefore
+                              : l.myNotifySameDay),
                     onTap: settings == null
                         ? null
                         : () => ref
@@ -107,12 +123,16 @@ class MyScreen extends ConsumerWidget {
                   const Divider(),
                   _Row(
                     icon: Icons.pause_circle_outline_rounded,
-                    title: '알림 잠시 멈추기',
+                    title: l.myPause,
                     value:
                         settings == null ||
                             !isNotifyPaused(settings, DateTime.now())
-                        ? '꺼짐'
-                        : '${settings.notifyPausedUntil!.month}월 ${settings.notifyPausedUntil!.day}일까지',
+                        ? l.myPauseOff
+                        : l.myPauseUntil(
+                            DateFormat.MMMd(
+                              l.localeName,
+                            ).format(settings.notifyPausedUntil!),
+                          ),
                     onTap: settings == null
                         ? null
                         : () => showPauseSheet(context, ref),
@@ -120,7 +140,7 @@ class MyScreen extends ConsumerWidget {
                   const Divider(),
                   _Row(
                     icon: Icons.event_busy_outlined,
-                    title: '알림 요일',
+                    title: l.myNotifyDays,
                     value: skipLabel,
                     onTap: settings == null
                         ? null
@@ -135,7 +155,10 @@ class MyScreen extends ConsumerWidget {
             ),
             const SizedBox(height: AppSpace.section),
 
-            Text('데이터', style: AppText.label.copyWith(color: c.textSecondary)),
+            Text(
+              l.mySectionData,
+              style: AppText.label.copyWith(color: c.textSecondary),
+            ),
             const SizedBox(height: AppSpace.sm),
             AppCard(
               padding: EdgeInsets.zero,
@@ -143,15 +166,15 @@ class MyScreen extends ConsumerWidget {
                 children: [
                   _Row(
                     icon: Icons.save_alt_rounded,
-                    title: '기록 내보내기·가져오기',
-                    value: '파일',
+                    title: l.myBackup,
+                    value: l.myBackupValue,
                     onTap: () => context.push(AppRoutes.backup),
                   ),
                   const Divider(),
                   _Row(
                     icon: Icons.add_circle_outline_rounded,
-                    title: '품종 추가 요청',
-                    value: '준비 중',
+                    title: l.myRequestSpecies,
+                    value: l.commonComingSoon,
                     onTap: null,
                   ),
                 ],
@@ -164,8 +187,8 @@ class MyScreen extends ConsumerWidget {
                 padding: EdgeInsets.zero,
                 child: _Row(
                   icon: Icons.bug_report_outlined,
-                  title: '(개발용) 10초 뒤 알림',
-                  value: '테스트',
+                  title: l.myDebugNotify,
+                  value: l.myDebugTest,
                   onTap: () async {
                     final plants = await ref
                         .read(plantRepositoryProvider)
@@ -178,7 +201,10 @@ class MyScreen extends ConsumerWidget {
               ),
               const SizedBox(height: AppSpace.section),
             ],
-            Text('정보', style: AppText.label.copyWith(color: c.textSecondary)),
+            Text(
+              l.mySectionInfo,
+              style: AppText.label.copyWith(color: c.textSecondary),
+            ),
             const SizedBox(height: AppSpace.sm),
             AppCard(
               padding: EdgeInsets.zero,
@@ -186,28 +212,28 @@ class MyScreen extends ConsumerWidget {
                 children: [
                   _Row(
                     icon: Icons.description_outlined,
-                    title: '약관·개인정보 처리방침',
-                    value: '준비 중',
+                    title: l.myTermsPrivacy,
+                    value: l.commonComingSoon,
                     onTap: null,
                   ),
                   const Divider(),
                   _Row(
                     icon: Icons.photo_outlined,
-                    title: '도감 사진 출처',
+                    title: l.myPhotoCredits,
                     value: '',
                     onTap: () => context.push(AppRoutes.photoCredits),
                   ),
                   const Divider(),
                   _Row(
                     icon: Icons.mail_outline_rounded,
-                    title: '문의',
-                    value: '준비 중',
+                    title: l.myContact,
+                    value: l.commonComingSoon,
                     onTap: null,
                   ),
                   const Divider(),
                   _Row(
                     icon: Icons.info_outline_rounded,
-                    title: '버전',
+                    title: l.myVersion,
                     value: kAppVersion,
                     onTap: null,
                   ),
@@ -216,7 +242,7 @@ class MyScreen extends ConsumerWidget {
             ),
             const SizedBox(height: AppSpace.md),
             Text(
-              '기록은 이 기기에만 저장돼요. 폰 백업(구글·iCloud)에 기록이 포함되고, 사진까지 옮기려면 내보내기를 쓰세요',
+              l.myLocalOnly,
               style: AppText.caption.copyWith(color: c.textTertiary),
               textAlign: TextAlign.center,
             ),
@@ -226,8 +252,9 @@ class MyScreen extends ConsumerWidget {
     );
   }
 
-  static String _weekdayLabel(int w) =>
-      const ['월', '화', '수', '목', '금', '토', '일'][w - 1];
+  /// 요일 짧은 이름 (월=1 … 일=7), 언어별
+  static String _weekdayLabel(int w, String locale) =>
+      DateFormat.E(locale).format(DateTime(2024, 1, w)); // 2024-01-01 은 월요일
 
   Future<void> _pickTime(
     BuildContext context,
@@ -238,7 +265,7 @@ class MyScreen extends ConsumerWidget {
     final t = await showTimePicker(
       context: context,
       initialTime: TimeOfDay(hour: h, minute: m),
-      helpText: '물 주는 날 알림 시간',
+      helpText: context.l10n.myNotifyTimeHelp,
     );
     if (t != null) {
       await ref
@@ -269,7 +296,7 @@ class MyScreen extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '알림을 받지 않을 요일',
+                ctx.l10n.mySkipDaysTitle,
                 style: AppText.title.copyWith(color: ctx.colors.textPrimary),
               ),
               const SizedBox(height: AppSpace.md),
@@ -279,7 +306,7 @@ class MyScreen extends ConsumerWidget {
                 children: [
                   for (var w = 1; w <= 7; w++)
                     AppChip(
-                      label: _weekdayLabel(w),
+                      label: _weekdayLabel(w, ctx.l10n.localeName),
                       selected: selected.contains(w),
                       onTap: () => setState(() {
                         if (!selected.remove(w)) selected.add(w);
@@ -289,7 +316,7 @@ class MyScreen extends ConsumerWidget {
               ),
               const SizedBox(height: AppSpace.lg),
               AppButton.primary(
-                label: '저장',
+                label: ctx.l10n.commonSave,
                 onPressed: selected.length == 7
                     ? null
                     : () async {
@@ -303,7 +330,7 @@ class MyScreen extends ConsumerWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: AppSpace.sm),
                   child: Text(
-                    '모든 요일을 제외하면 알림이 오지 않아요',
+                    ctx.l10n.mySkipAllWarning,
                     style: AppText.caption.copyWith(color: ctx.colors.error),
                   ),
                 ),
