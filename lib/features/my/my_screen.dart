@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -8,7 +9,9 @@ import '../../app/theme.dart';
 import '../../app/widgets/app_button.dart';
 import '../../app/widgets/app_card.dart';
 import '../../app/widgets/app_chip.dart';
+import '../../data/repositories/plant_repository.dart';
 import '../../data/repositories/settings_repository.dart';
+import '../../domain/notification_service.dart';
 import '../../domain/stats_service.dart';
 
 const String kAppVersion = '0.1.0';
@@ -142,6 +145,25 @@ class MyScreen extends ConsumerWidget {
             ),
             const SizedBox(height: AppSpace.section),
 
+            if (kDebugMode) ...[
+              AppCard(
+                padding: EdgeInsets.zero,
+                child: _Row(
+                  icon: Icons.bug_report_outlined,
+                  title: '(개발용) 10초 뒤 알림',
+                  value: '테스트',
+                  onTap: () async {
+                    final plants = await ref
+                        .read(plantRepositoryProvider)
+                        .getAll();
+                    await ref
+                        .read(notificationServiceProvider)
+                        .scheduleDebug(plants: plants);
+                  },
+                ),
+              ),
+              const SizedBox(height: AppSpace.section),
+            ],
             Text('정보', style: AppText.label.copyWith(color: c.textSecondary)),
             const SizedBox(height: AppSpace.sm),
             AppCard(

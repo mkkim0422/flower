@@ -1,21 +1,28 @@
+import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:plant_app/core/enums.dart';
+import 'package:plant_app/data/repositories/plant_repository.dart';
 import 'package:plant_app/data/db/app_database.dart';
 import 'package:plant_app/domain/notification_service.dart';
 
-Setting _s({int hour = 9, int minute = 0, List<int> skip = const []}) =>
-    Setting(
-      id: 1,
-      notifyHour: hour,
-      notifyMinute: minute,
-      skipWeekdays: skip,
-      backupUserId: null,
-      onboardingDone: true,
-      plantnetDay: 0,
-      plantnetCount: 0,
-      homeGrid: true,
-      notifyDayBefore: false,
-      themeVariant: 0,
-    );
+Setting _s({
+  int hour = 9,
+  int minute = 0,
+  List<int> skip = const [],
+  bool dayBefore = false,
+}) => Setting(
+  id: 1,
+  notifyHour: hour,
+  notifyMinute: minute,
+  skipWeekdays: skip,
+  backupUserId: null,
+  onboardingDone: true,
+  plantnetDay: 0,
+  plantnetCount: 0,
+  homeGrid: true,
+  notifyDayBefore: dayBefore,
+  themeVariant: 0,
+);
 
 void main() {
   group('nextFireTime', () {
@@ -66,16 +73,6 @@ void main() {
         DateTime(2026, 10, 1, 9),
       );
     });
-    test('문구', () {
-      expect(
-        NotificationService.bodyFor(2, dayBefore: false),
-        '오늘 물 줄 식물이 2개 있어요',
-      );
-      expect(
-        NotificationService.bodyFor(2, dayBefore: true),
-        '내일 물 줄 식물이 2개 있어요',
-      );
-    });
   });
 
   group('fireTimes', () {
@@ -97,6 +94,140 @@ void main() {
         ),
         isEmpty,
       );
+    });
+  });
+
+  group('식물 이름 알림', () {
+    test('문구: 1개 / 3개 / 4개 이상 / 하루 전', () {
+      expect(
+        NotificationService.bodyForNames(['몬스테라'], dayBefore: false),
+        '몬스테라 물 줄 날이에요',
+      );
+      expect(
+        NotificationService.bodyForNames(['A', 'B', 'C'], dayBefore: false),
+        'A·B·C 물 줄 날이에요',
+      );
+      expect(
+        NotificationService.bodyForNames([
+          'A',
+          'B',
+          'C',
+          'D',
+        ], dayBefore: false),
+        'A·B 외 2개 물 줄 날이에요',
+      );
+      expect(
+        NotificationService.bodyForNames(['금전수'], dayBefore: true),
+        '내일은 금전수 물 줄 날이에요',
+      );
+    });
+
+    test('payload 왕복·잘못된 값', () {
+      expect(plantIdsFromPayload('{"ids":[3,5]}'), [3, 5]);
+      expect(plantIdsFromPayload(null), isEmpty);
+      expect(plantIdsFromPayload('broken'), isEmpty);
+    });
+  });
+
+  group('알림 계획과 버튼 처리 (DB)', () {
+    late AppDatabase db;
+    late PlantRepository repo;
+    final now = DateTime(2026, 9, 17, 8); // 목요일 08:00, 알림 09:00
+
+    setUp(() {
+      db = AppDatabase.forTesting(NativeDatabase.memory());
+      repo = PlantRepository(db, clock: () => now);
+    });
+    tearDown(() => db.close());
+
+    Future<int> add(String name, DateTime lastWatered) => repo.create(
+      nickname: name,
+      potSize: PotSize.m,
+      hasDrainage: true,
+      lastWateredAt: lastWatered,
+      manualDays: 7,
+    );
+
+    test('당일 알림: 그날 물 줄 식물 이름과 id 가 들어간다', () async {
+      final a = await add('몬스테라', DateTime(2026, 9, 10)); // 9/17 due
+      await add('금전수', DateTime(2026, 9, 15)); // 9/22 due
+      final plans = NotificationService.plan(
+        settings: _s(),
+        plants: await repo.getAll(),
+        now: now,
+      );
+      final today = plans.first;
+      expect(today.fireAt, DateTime(2026, 9, 17, 9));
+      expect(today.body, '몬스테라 물 줄 날이에요');
+      expect(today.plantIds, [a]);
+      expect(today.dayBefore, isFalse);
+      // 9/22 에는 금전수 (+ 밀린 몬스테라)
+      final d22 = plans.firstWhere((p) => p.fireAt.day == 22);
+      expect(d22.body, contains('금전수'));
+    });
+
+    test('하루 전 알림: 내일 대상 이름으로 "내일은 …"', () async {
+      await add('행운목', DateTime(2026, 9, 11)); // 9/18 due
+      final plans = NotificationService.plan(
+        settings: _s(dayBefore: true),
+        plants: await repo.getAll(),
+        now: now,
+      );
+      expect(plans.first.fireAt, DateTime(2026, 9, 17, 9));
+      expect(plans.first.body, '내일은 행운목 물 줄 날이에요');
+      expect(plans.first.dayBefore, isTrue);
+    });
+
+    test('"물 줬어요" 버튼: 기록되고 다음 날짜가 밀린다, 두 번 눌러도 1건', () async {
+      final a = await add('몬스테라', DateTime(2026, 9, 10));
+      await applyNotificationAction(
+        repo: repo,
+        actionId: kActionWatered,
+        plantIds: [a],
+        now: now,
+      );
+      await applyNotificationAction(
+        repo: repo,
+        actionId: kActionWatered,
+        plantIds: [a],
+        now: now,
+      );
+      final e = (await repo.getById(a))!;
+      expect(e.isDue(now), isFalse);
+      expect(await repo.hasWaterEventOn(a, now), isTrue);
+      final waters = (await repo.watchCareEvents(a).first).where(
+        (x) => x.type == CareType.water,
+      );
+      expect(waters.length, 1);
+    });
+
+    test('"내일 할게요" 버튼: 오늘 대상만 내일로, 주기·기록은 그대로', () async {
+      final a = await add('몬스테라', DateTime(2026, 9, 10)); // due
+      final b = await add('금전수', DateTime(2026, 9, 15)); // not due
+      final before = (await repo.getById(a))!;
+      final n = await applyNotificationAction(
+        repo: repo,
+        actionId: kActionSnooze,
+        plantIds: [a, b],
+        now: now,
+      );
+      expect(n, 1);
+      final after = (await repo.getById(a))!;
+      expect(after.plant.nextCheckAt, DateTime(2026, 9, 18));
+      expect(after.plant.waterIntervalDays, before.plant.waterIntervalDays);
+      expect(after.plant.feedbackCoef, before.plant.feedbackCoef);
+      expect(await repo.watchCareEvents(a).first, isEmpty);
+      expect((await repo.getById(b))!.plant.nextCheckAt, DateTime(2026, 9, 22));
+    });
+
+    test('삭제된 식물 id 는 무시', () async {
+      final n = await applyNotificationAction(
+        repo: repo,
+        actionId: kActionWatered,
+        plantIds: [999],
+        now: now,
+      );
+      expect(n, 0);
     });
   });
 }

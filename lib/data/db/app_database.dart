@@ -74,6 +74,8 @@ class AppDatabase extends _$AppDatabase {
       name: 'plant_app',
       native: DriftNativeOptions(
         databaseDirectory: getApplicationSupportDirectory,
+        // 알림 버튼(백그라운드 isolate)에서 쓴 기록이 앱 화면에 바로 반영되도록
+        shareAcrossIsolates: true,
       ),
     );
   }

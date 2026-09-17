@@ -15,7 +15,10 @@ Future<void> main() async {
   final db = AppDatabase();
   final settings = await db.getSettings();
   final notifications = NotificationService();
-  await notifications.init();
+  await notifications.init(
+    onForegroundAction: (response) =>
+        handleNotificationResponse(response, db: db, service: notifications),
+  );
 
   runApp(
     ProviderScope(

@@ -449,6 +449,16 @@ class PlantRepository {
     });
   }
 
+  /// 알림 "내일 할게요": 주기·계수는 그대로 두고 다음 날짜만 내일로
+  Future<void> snoozeToTomorrow(int id, {DateTime? at}) async {
+    final now = at ?? _now();
+    await (db.update(db.plants)..where((t) => t.id.equals(id))).write(
+      PlantsCompanion(
+        nextCheckAt: Value(DateTime(now.year, now.month, now.day + 1)),
+      ),
+    );
+  }
+
   /// 다중 선택 일괄 완료
   Future<void> recordSoilCheckBatch(
     Iterable<int> ids,
