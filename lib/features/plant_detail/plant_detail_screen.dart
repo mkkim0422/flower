@@ -478,7 +478,10 @@ class _Body extends ConsumerWidget {
                     style: AppText.title.copyWith(color: c.textPrimary),
                   ),
                   const SizedBox(height: AppSpace.md),
-                  ToxicBadge(toxicPet: s.toxicPet, toxicChild: s.toxicChild),
+                  ToxicBadge(
+                    toxicPet: s.toxicPet,
+                    childLevel: s.toxicChildLevel,
+                  ),
                   const SizedBox(height: AppSpace.md),
                   for (final tip in careTips(s))
                     _InfoLine(icon: tip.icon, text: tip.text),
@@ -670,6 +673,19 @@ class PhotoViewerScreen extends StatelessWidget {
   }
 }
 
+/// 온도 문장: 적정 범위(있으면) + 최저 한계
+String temperatureTip(SpeciesRow s) {
+  final optMin = s.tempOptMin ?? s.tempMin;
+  final optMax = s.tempOptMax ?? s.tempMax;
+  final low = s.tempMin;
+  if (optMin == null || optMax == null) return '';
+  final opt = '적정 $optMin~$optMax°C';
+  if (low == null) return opt;
+  if (low <= 0) return '$opt. 추위에 강해 바깥 월동도 되지만 실내에서는 찬바람이 직접 닿지 않게 해 주세요';
+  if (low <= 5) return '$opt. $low°C까지는 견디니 겨울 베란다도 괜찮아요';
+  return '$opt. $low°C 아래로 내려가면 잎이 상하니 겨울에는 창가에서 떨어뜨려 주세요';
+}
+
 /// 품종 정보 → 알아두면 좋은 정보 문장 (비료·분갈이는 2026-09-16 사용자 지시로 제외)
 class CareTip {
   const CareTip(this.icon, this.text);
@@ -696,12 +712,7 @@ List<CareTip> careTips(SpeciesRow s) {
       LightPref.high => '햇빛을 많이 받아야 해요. 남향이나 동향 창가에 두고, 빛이 부족하면 웃자라요',
     }),
     if (s.tempMin != null && s.tempMax != null)
-      CareTip(
-        Icons.thermostat_outlined,
-        s.tempMin! <= 5
-            ? '${s.tempMin}~${s.tempMax}°C에서 자라요. 추위에 강한 편이지만 찬바람이 직접 닿지 않게 해 주세요'
-            : '${s.tempMin}~${s.tempMax}°C가 알맞아요. 겨울에는 ${s.tempMin}°C 아래로 내려가지 않게 창가에서 떨어뜨려 주세요',
-      ),
+      CareTip(Icons.thermostat_outlined, temperatureTip(s)),
     for (final issue in s.commonIssues)
       CareTip(Icons.error_outline_rounded, issue),
   ];

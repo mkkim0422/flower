@@ -11,6 +11,7 @@ import '../../core/enums.dart';
 import '../../data/db/app_database.dart';
 import '../../data/repositories/species_repository.dart';
 import '../add_plant/add_plant_draft.dart';
+import '../plant_detail/plant_detail_screen.dart' show temperatureTip;
 
 /// INFO-01 도감 정보. 순서 고정: 독성 → 물 → 빛 → 온도 → 흔한 문제 → "내 식물로 등록"
 /// (비료·분갈이는 2026-09-16 사용자 지시로 표시하지 않음)
@@ -102,7 +103,10 @@ class _Body extends StatelessWidget {
 
           // 1. 독성 (항상 최상단)
           AppCard(
-            child: ToxicBadge(toxicPet: s.toxicPet, toxicChild: s.toxicChild),
+            child: ToxicBadge(
+              toxicPet: s.toxicPet,
+              childLevel: s.toxicChildLevel,
+            ),
           ),
           const SizedBox(height: AppSpace.cardGap),
 
@@ -148,10 +152,7 @@ class _Body extends StatelessWidget {
               icon: Icons.thermostat_outlined,
               title: '온도·습도',
               lines: [
-                '${s.tempMin}~${s.tempMax}°C',
-                s.tempMin! <= 5
-                    ? '추위에 강한 편이에요. 실내에서는 찬바람이 직접 닿지 않게만 해 주세요'
-                    : '겨울에는 ${s.tempMin}°C 아래로 내려가지 않게 창가에서 떨어뜨려 주세요',
+                temperatureTip(s),
                 if (s.category == 'foliage' || s.category == 'other')
                   '건조한 겨울 실내에서는 잎에 분무하거나 가습기를 곁에 두면 좋아요',
               ],

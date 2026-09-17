@@ -62,6 +62,16 @@ class SpeciesSeedLoader {
         ((m['common_issues'] as List?) ?? const []).cast<String>(),
       ),
       category: Value((m['category'] as String?) ?? 'foliage'),
+      toxicityNote: Value((m['toxicity_note'] as String?) ?? ''),
+      tempOptMin: Value(m['temp_opt_min'] as int?),
+      tempOptMax: Value(m['temp_opt_max'] as int?),
+      toxicChildLevel: Value(switch (m['toxic_child_level'] as String?) {
+        'toxic' => ChildToxicity.toxic,
+        'irritant' => ChildToxicity.irritant,
+        'none' => ChildToxicity.none,
+        _ =>
+          (m['toxic_child'] as bool) ? ChildToxicity.toxic : ChildToxicity.none,
+      }),
       searchText: Value(buildSearchText(sci, koNames)),
     );
   }

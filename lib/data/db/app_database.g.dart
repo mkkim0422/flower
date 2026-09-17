@@ -177,6 +177,50 @@ class $SpeciesTable extends Species with TableInfo<$SpeciesTable, SpeciesRow> {
     requiredDuringInsert: false,
     defaultValue: const Constant(''),
   );
+  static const VerificationMeta _tempOptMinMeta = const VerificationMeta(
+    'tempOptMin',
+  );
+  @override
+  late final GeneratedColumn<int> tempOptMin = GeneratedColumn<int>(
+    'temp_opt_min',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _tempOptMaxMeta = const VerificationMeta(
+    'tempOptMax',
+  );
+  @override
+  late final GeneratedColumn<int> tempOptMax = GeneratedColumn<int>(
+    'temp_opt_max',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _toxicityNoteMeta = const VerificationMeta(
+    'toxicityNote',
+  );
+  @override
+  late final GeneratedColumn<String> toxicityNote = GeneratedColumn<String>(
+    'toxicity_note',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(''),
+  );
+  @override
+  late final GeneratedColumnWithTypeConverter<ChildToxicity, String>
+  toxicChildLevel = GeneratedColumn<String>(
+    'toxic_child_level',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('none'),
+  ).withConverter<ChildToxicity>($SpeciesTable.$convertertoxicChildLevel);
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -194,6 +238,10 @@ class $SpeciesTable extends Species with TableInfo<$SpeciesTable, SpeciesRow> {
     commonIssues,
     category,
     searchText,
+    tempOptMin,
+    tempOptMax,
+    toxicityNote,
+    toxicChildLevel,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -293,6 +341,33 @@ class $SpeciesTable extends Species with TableInfo<$SpeciesTable, SpeciesRow> {
         searchText.isAcceptableOrUnknown(data['search_text']!, _searchTextMeta),
       );
     }
+    if (data.containsKey('temp_opt_min')) {
+      context.handle(
+        _tempOptMinMeta,
+        tempOptMin.isAcceptableOrUnknown(
+          data['temp_opt_min']!,
+          _tempOptMinMeta,
+        ),
+      );
+    }
+    if (data.containsKey('temp_opt_max')) {
+      context.handle(
+        _tempOptMaxMeta,
+        tempOptMax.isAcceptableOrUnknown(
+          data['temp_opt_max']!,
+          _tempOptMaxMeta,
+        ),
+      );
+    }
+    if (data.containsKey('toxicity_note')) {
+      context.handle(
+        _toxicityNoteMeta,
+        toxicityNote.isAcceptableOrUnknown(
+          data['toxicity_note']!,
+          _toxicityNoteMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -368,6 +443,24 @@ class $SpeciesTable extends Species with TableInfo<$SpeciesTable, SpeciesRow> {
         DriftSqlType.string,
         data['${effectivePrefix}search_text'],
       )!,
+      tempOptMin: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}temp_opt_min'],
+      ),
+      tempOptMax: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}temp_opt_max'],
+      ),
+      toxicityNote: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}toxicity_note'],
+      )!,
+      toxicChildLevel: $SpeciesTable.$convertertoxicChildLevel.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}toxic_child_level'],
+        )!,
+      ),
     );
   }
 
@@ -382,6 +475,10 @@ class $SpeciesTable extends Species with TableInfo<$SpeciesTable, SpeciesRow> {
       const EnumNameConverter<LightPref>(LightPref.values);
   static TypeConverter<List<String>, String> $convertercommonIssues =
       const StringListConverter();
+  static JsonTypeConverter2<ChildToxicity, String, String>
+  $convertertoxicChildLevel = const EnumNameConverter<ChildToxicity>(
+    ChildToxicity.values,
+  );
 }
 
 class SpeciesRow extends DataClass implements Insertable<SpeciesRow> {
@@ -404,6 +501,16 @@ class SpeciesRow extends DataClass implements Insertable<SpeciesRow> {
 
   /// 검색용: ko_names를 공백으로 이어붙인 소문자 문자열
   final String searchText;
+
+  /// 적정 생육 온도 (없으면 temp_min~temp_max 로 대체)
+  final int? tempOptMin;
+  final int? tempOptMax;
+
+  /// 독성 설명: 원인 부위·성분, 증상, 대처 (1~2문장)
+  final String toxicityNote;
+
+  /// 아이 독성 3단계 (toxic_child 는 == toxic 인지의 요약)
+  final ChildToxicity toxicChildLevel;
   const SpeciesRow({
     required this.id,
     required this.scientificName,
@@ -420,6 +527,10 @@ class SpeciesRow extends DataClass implements Insertable<SpeciesRow> {
     required this.commonIssues,
     required this.category,
     required this.searchText,
+    this.tempOptMin,
+    this.tempOptMax,
+    required this.toxicityNote,
+    required this.toxicChildLevel,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -461,6 +572,18 @@ class SpeciesRow extends DataClass implements Insertable<SpeciesRow> {
     }
     map['category'] = Variable<String>(category);
     map['search_text'] = Variable<String>(searchText);
+    if (!nullToAbsent || tempOptMin != null) {
+      map['temp_opt_min'] = Variable<int>(tempOptMin);
+    }
+    if (!nullToAbsent || tempOptMax != null) {
+      map['temp_opt_max'] = Variable<int>(tempOptMax);
+    }
+    map['toxicity_note'] = Variable<String>(toxicityNote);
+    {
+      map['toxic_child_level'] = Variable<String>(
+        $SpeciesTable.$convertertoxicChildLevel.toSql(toxicChildLevel),
+      );
+    }
     return map;
   }
 
@@ -491,6 +614,14 @@ class SpeciesRow extends DataClass implements Insertable<SpeciesRow> {
       commonIssues: Value(commonIssues),
       category: Value(category),
       searchText: Value(searchText),
+      tempOptMin: tempOptMin == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tempOptMin),
+      tempOptMax: tempOptMax == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tempOptMax),
+      toxicityNote: Value(toxicityNote),
+      toxicChildLevel: Value(toxicChildLevel),
     );
   }
 
@@ -517,6 +648,12 @@ class SpeciesRow extends DataClass implements Insertable<SpeciesRow> {
       commonIssues: serializer.fromJson<List<String>>(json['commonIssues']),
       category: serializer.fromJson<String>(json['category']),
       searchText: serializer.fromJson<String>(json['searchText']),
+      tempOptMin: serializer.fromJson<int?>(json['tempOptMin']),
+      tempOptMax: serializer.fromJson<int?>(json['tempOptMax']),
+      toxicityNote: serializer.fromJson<String>(json['toxicityNote']),
+      toxicChildLevel: $SpeciesTable.$convertertoxicChildLevel.fromJson(
+        serializer.fromJson<String>(json['toxicChildLevel']),
+      ),
     );
   }
   @override
@@ -540,6 +677,12 @@ class SpeciesRow extends DataClass implements Insertable<SpeciesRow> {
       'commonIssues': serializer.toJson<List<String>>(commonIssues),
       'category': serializer.toJson<String>(category),
       'searchText': serializer.toJson<String>(searchText),
+      'tempOptMin': serializer.toJson<int?>(tempOptMin),
+      'tempOptMax': serializer.toJson<int?>(tempOptMax),
+      'toxicityNote': serializer.toJson<String>(toxicityNote),
+      'toxicChildLevel': serializer.toJson<String>(
+        $SpeciesTable.$convertertoxicChildLevel.toJson(toxicChildLevel),
+      ),
     };
   }
 
@@ -559,6 +702,10 @@ class SpeciesRow extends DataClass implements Insertable<SpeciesRow> {
     List<String>? commonIssues,
     String? category,
     String? searchText,
+    Value<int?> tempOptMin = const Value.absent(),
+    Value<int?> tempOptMax = const Value.absent(),
+    String? toxicityNote,
+    ChildToxicity? toxicChildLevel,
   }) => SpeciesRow(
     id: id ?? this.id,
     scientificName: scientificName ?? this.scientificName,
@@ -575,6 +722,10 @@ class SpeciesRow extends DataClass implements Insertable<SpeciesRow> {
     commonIssues: commonIssues ?? this.commonIssues,
     category: category ?? this.category,
     searchText: searchText ?? this.searchText,
+    tempOptMin: tempOptMin.present ? tempOptMin.value : this.tempOptMin,
+    tempOptMax: tempOptMax.present ? tempOptMax.value : this.tempOptMax,
+    toxicityNote: toxicityNote ?? this.toxicityNote,
+    toxicChildLevel: toxicChildLevel ?? this.toxicChildLevel,
   );
   SpeciesRow copyWithCompanion(SpeciesCompanion data) {
     return SpeciesRow(
@@ -605,6 +756,18 @@ class SpeciesRow extends DataClass implements Insertable<SpeciesRow> {
       searchText: data.searchText.present
           ? data.searchText.value
           : this.searchText,
+      tempOptMin: data.tempOptMin.present
+          ? data.tempOptMin.value
+          : this.tempOptMin,
+      tempOptMax: data.tempOptMax.present
+          ? data.tempOptMax.value
+          : this.tempOptMax,
+      toxicityNote: data.toxicityNote.present
+          ? data.toxicityNote.value
+          : this.toxicityNote,
+      toxicChildLevel: data.toxicChildLevel.present
+          ? data.toxicChildLevel.value
+          : this.toxicChildLevel,
     );
   }
 
@@ -625,7 +788,11 @@ class SpeciesRow extends DataClass implements Insertable<SpeciesRow> {
           ..write('repotMonths: $repotMonths, ')
           ..write('commonIssues: $commonIssues, ')
           ..write('category: $category, ')
-          ..write('searchText: $searchText')
+          ..write('searchText: $searchText, ')
+          ..write('tempOptMin: $tempOptMin, ')
+          ..write('tempOptMax: $tempOptMax, ')
+          ..write('toxicityNote: $toxicityNote, ')
+          ..write('toxicChildLevel: $toxicChildLevel')
           ..write(')'))
         .toString();
   }
@@ -647,6 +814,10 @@ class SpeciesRow extends DataClass implements Insertable<SpeciesRow> {
     commonIssues,
     category,
     searchText,
+    tempOptMin,
+    tempOptMax,
+    toxicityNote,
+    toxicChildLevel,
   );
   @override
   bool operator ==(Object other) =>
@@ -666,7 +837,11 @@ class SpeciesRow extends DataClass implements Insertable<SpeciesRow> {
           other.repotMonths == this.repotMonths &&
           other.commonIssues == this.commonIssues &&
           other.category == this.category &&
-          other.searchText == this.searchText);
+          other.searchText == this.searchText &&
+          other.tempOptMin == this.tempOptMin &&
+          other.tempOptMax == this.tempOptMax &&
+          other.toxicityNote == this.toxicityNote &&
+          other.toxicChildLevel == this.toxicChildLevel);
 }
 
 class SpeciesCompanion extends UpdateCompanion<SpeciesRow> {
@@ -685,6 +860,10 @@ class SpeciesCompanion extends UpdateCompanion<SpeciesRow> {
   final Value<List<String>> commonIssues;
   final Value<String> category;
   final Value<String> searchText;
+  final Value<int?> tempOptMin;
+  final Value<int?> tempOptMax;
+  final Value<String> toxicityNote;
+  final Value<ChildToxicity> toxicChildLevel;
   const SpeciesCompanion({
     this.id = const Value.absent(),
     this.scientificName = const Value.absent(),
@@ -701,6 +880,10 @@ class SpeciesCompanion extends UpdateCompanion<SpeciesRow> {
     this.commonIssues = const Value.absent(),
     this.category = const Value.absent(),
     this.searchText = const Value.absent(),
+    this.tempOptMin = const Value.absent(),
+    this.tempOptMax = const Value.absent(),
+    this.toxicityNote = const Value.absent(),
+    this.toxicChildLevel = const Value.absent(),
   });
   SpeciesCompanion.insert({
     this.id = const Value.absent(),
@@ -718,6 +901,10 @@ class SpeciesCompanion extends UpdateCompanion<SpeciesRow> {
     this.commonIssues = const Value.absent(),
     this.category = const Value.absent(),
     this.searchText = const Value.absent(),
+    this.tempOptMin = const Value.absent(),
+    this.tempOptMax = const Value.absent(),
+    this.toxicityNote = const Value.absent(),
+    this.toxicChildLevel = const Value.absent(),
   }) : scientificName = Value(scientificName),
        koNames = Value(koNames),
        baseWaterDays = Value(baseWaterDays),
@@ -740,6 +927,10 @@ class SpeciesCompanion extends UpdateCompanion<SpeciesRow> {
     Expression<String>? commonIssues,
     Expression<String>? category,
     Expression<String>? searchText,
+    Expression<int>? tempOptMin,
+    Expression<int>? tempOptMax,
+    Expression<String>? toxicityNote,
+    Expression<String>? toxicChildLevel,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -757,6 +948,10 @@ class SpeciesCompanion extends UpdateCompanion<SpeciesRow> {
       if (commonIssues != null) 'common_issues': commonIssues,
       if (category != null) 'category': category,
       if (searchText != null) 'search_text': searchText,
+      if (tempOptMin != null) 'temp_opt_min': tempOptMin,
+      if (tempOptMax != null) 'temp_opt_max': tempOptMax,
+      if (toxicityNote != null) 'toxicity_note': toxicityNote,
+      if (toxicChildLevel != null) 'toxic_child_level': toxicChildLevel,
     });
   }
 
@@ -776,6 +971,10 @@ class SpeciesCompanion extends UpdateCompanion<SpeciesRow> {
     Value<List<String>>? commonIssues,
     Value<String>? category,
     Value<String>? searchText,
+    Value<int?>? tempOptMin,
+    Value<int?>? tempOptMax,
+    Value<String>? toxicityNote,
+    Value<ChildToxicity>? toxicChildLevel,
   }) {
     return SpeciesCompanion(
       id: id ?? this.id,
@@ -793,6 +992,10 @@ class SpeciesCompanion extends UpdateCompanion<SpeciesRow> {
       commonIssues: commonIssues ?? this.commonIssues,
       category: category ?? this.category,
       searchText: searchText ?? this.searchText,
+      tempOptMin: tempOptMin ?? this.tempOptMin,
+      tempOptMax: tempOptMax ?? this.tempOptMax,
+      toxicityNote: toxicityNote ?? this.toxicityNote,
+      toxicChildLevel: toxicChildLevel ?? this.toxicChildLevel,
     );
   }
 
@@ -850,6 +1053,20 @@ class SpeciesCompanion extends UpdateCompanion<SpeciesRow> {
     if (searchText.present) {
       map['search_text'] = Variable<String>(searchText.value);
     }
+    if (tempOptMin.present) {
+      map['temp_opt_min'] = Variable<int>(tempOptMin.value);
+    }
+    if (tempOptMax.present) {
+      map['temp_opt_max'] = Variable<int>(tempOptMax.value);
+    }
+    if (toxicityNote.present) {
+      map['toxicity_note'] = Variable<String>(toxicityNote.value);
+    }
+    if (toxicChildLevel.present) {
+      map['toxic_child_level'] = Variable<String>(
+        $SpeciesTable.$convertertoxicChildLevel.toSql(toxicChildLevel.value),
+      );
+    }
     return map;
   }
 
@@ -870,7 +1087,11 @@ class SpeciesCompanion extends UpdateCompanion<SpeciesRow> {
           ..write('repotMonths: $repotMonths, ')
           ..write('commonIssues: $commonIssues, ')
           ..write('category: $category, ')
-          ..write('searchText: $searchText')
+          ..write('searchText: $searchText, ')
+          ..write('tempOptMin: $tempOptMin, ')
+          ..write('tempOptMax: $tempOptMax, ')
+          ..write('toxicityNote: $toxicityNote, ')
+          ..write('toxicChildLevel: $toxicChildLevel')
           ..write(')'))
         .toString();
   }
@@ -4165,6 +4386,10 @@ typedef $$SpeciesTableCreateCompanionBuilder =
       Value<List<String>> commonIssues,
       Value<String> category,
       Value<String> searchText,
+      Value<int?> tempOptMin,
+      Value<int?> tempOptMax,
+      Value<String> toxicityNote,
+      Value<ChildToxicity> toxicChildLevel,
     });
 typedef $$SpeciesTableUpdateCompanionBuilder =
     SpeciesCompanion Function({
@@ -4183,6 +4408,10 @@ typedef $$SpeciesTableUpdateCompanionBuilder =
       Value<List<String>> commonIssues,
       Value<String> category,
       Value<String> searchText,
+      Value<int?> tempOptMin,
+      Value<int?> tempOptMax,
+      Value<String> toxicityNote,
+      Value<ChildToxicity> toxicChildLevel,
     });
 
 final class $$SpeciesTableReferences
@@ -4320,6 +4549,27 @@ class $$SpeciesTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
+  ColumnFilters<int> get tempOptMin => $composableBuilder(
+    column: $table.tempOptMin,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get tempOptMax => $composableBuilder(
+    column: $table.tempOptMax,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get toxicityNote => $composableBuilder(
+    column: $table.toxicityNote,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<ChildToxicity, ChildToxicity, String>
+  get toxicChildLevel => $composableBuilder(
+    column: $table.toxicChildLevel,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
+
   Expression<bool> plantsRefs(
     Expression<bool> Function($$PlantsTableFilterComposer f) f,
   ) {
@@ -4454,6 +4704,26 @@ class $$SpeciesTableOrderingComposer
     column: $table.searchText,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<int> get tempOptMin => $composableBuilder(
+    column: $table.tempOptMin,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get tempOptMax => $composableBuilder(
+    column: $table.tempOptMax,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get toxicityNote => $composableBuilder(
+    column: $table.toxicityNote,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get toxicChildLevel => $composableBuilder(
+    column: $table.toxicChildLevel,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$SpeciesTableAnnotationComposer
@@ -4522,6 +4792,27 @@ class $$SpeciesTableAnnotationComposer
     column: $table.searchText,
     builder: (column) => column,
   );
+
+  GeneratedColumn<int> get tempOptMin => $composableBuilder(
+    column: $table.tempOptMin,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get tempOptMax => $composableBuilder(
+    column: $table.tempOptMax,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get toxicityNote => $composableBuilder(
+    column: $table.toxicityNote,
+    builder: (column) => column,
+  );
+
+  GeneratedColumnWithTypeConverter<ChildToxicity, String> get toxicChildLevel =>
+      $composableBuilder(
+        column: $table.toxicChildLevel,
+        builder: (column) => column,
+      );
 
   Expression<T> plantsRefs<T extends Object>(
     Expression<T> Function($$PlantsTableAnnotationComposer a) f,
@@ -4618,6 +4909,10 @@ class $$SpeciesTableTableManager
                 Value<List<String>> commonIssues = const Value.absent(),
                 Value<String> category = const Value.absent(),
                 Value<String> searchText = const Value.absent(),
+                Value<int?> tempOptMin = const Value.absent(),
+                Value<int?> tempOptMax = const Value.absent(),
+                Value<String> toxicityNote = const Value.absent(),
+                Value<ChildToxicity> toxicChildLevel = const Value.absent(),
               }) => SpeciesCompanion(
                 id: id,
                 scientificName: scientificName,
@@ -4634,6 +4929,10 @@ class $$SpeciesTableTableManager
                 commonIssues: commonIssues,
                 category: category,
                 searchText: searchText,
+                tempOptMin: tempOptMin,
+                tempOptMax: tempOptMax,
+                toxicityNote: toxicityNote,
+                toxicChildLevel: toxicChildLevel,
               ),
           createCompanionCallback:
               ({
@@ -4652,6 +4951,10 @@ class $$SpeciesTableTableManager
                 Value<List<String>> commonIssues = const Value.absent(),
                 Value<String> category = const Value.absent(),
                 Value<String> searchText = const Value.absent(),
+                Value<int?> tempOptMin = const Value.absent(),
+                Value<int?> tempOptMax = const Value.absent(),
+                Value<String> toxicityNote = const Value.absent(),
+                Value<ChildToxicity> toxicChildLevel = const Value.absent(),
               }) => SpeciesCompanion.insert(
                 id: id,
                 scientificName: scientificName,
@@ -4668,6 +4971,10 @@ class $$SpeciesTableTableManager
                 commonIssues: commonIssues,
                 category: category,
                 searchText: searchText,
+                tempOptMin: tempOptMin,
+                tempOptMax: tempOptMax,
+                toxicityNote: toxicityNote,
+                toxicChildLevel: toxicChildLevel,
               ),
           withReferenceMapper: (p0) => p0
               .map(

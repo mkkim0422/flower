@@ -20,23 +20,18 @@ jobs:
           cache: true
 
       - name: Install dependencies
-        working-directory: plant_app
         run: flutter pub get
 
       - name: Generate code (drift)
-        working-directory: plant_app
         run: dart run build_runner build --delete-conflicting-outputs
 
       - name: Analyze
-        working-directory: plant_app
         run: flutter analyze --no-fatal-infos
 
       - name: Test
-        working-directory: plant_app
         run: flutter test
 
       - name: Forbidden paid services check (HANDOFF 9장 DoD)
-        working-directory: plant_app
         run: |
           if grep -rEi "api\.plant\.id|plant\.id/api|vision\.googleapis|admob|billing" lib/ ; then
             echo "유료 서비스 호출 흔적이 발견되었습니다."

@@ -75,6 +75,17 @@ class Species extends Table {
 
   /// 검색용: ko_names를 공백으로 이어붙인 소문자 문자열
   TextColumn get searchText => text().withDefault(const Constant(''))();
+
+  /// 적정 생육 온도 (없으면 temp_min~temp_max 로 대체)
+  IntColumn get tempOptMin => integer().nullable()();
+  IntColumn get tempOptMax => integer().nullable()();
+
+  /// 독성 설명: 원인 부위·성분, 증상, 대처 (1~2문장)
+  TextColumn get toxicityNote => text().withDefault(const Constant(''))();
+
+  /// 아이 독성 3단계 (toxic_child 는 == toxic 인지의 요약)
+  TextColumn get toxicChildLevel =>
+      textEnum<ChildToxicity>().withDefault(const Constant('none'))();
 }
 
 /// 공간 (거실/베란다 …)

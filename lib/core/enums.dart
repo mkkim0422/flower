@@ -12,6 +12,9 @@ enum PotSize { s, m, l }
 /// 품종 빛 선호도
 enum LightPref { low, med, high }
 
+/// 아이(사람) 독성 단계: 없음 / 자극(삼키면 입·피부 자극) / 독성
+enum ChildToxicity { none, irritant, toxic }
+
 /// 관리 이벤트 종류
 enum CareType { water, fert, repot, wipe, checkDry, checkWet }
 
