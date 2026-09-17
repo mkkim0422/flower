@@ -75,10 +75,8 @@ class PlantNetClient {
 
   bool get hasKey => apiKey.isNotEmpty;
 
-  Future<PlantNetResponse> identify(
-    Uint8List jpegBytes, {
-    String organ = 'auto', // 잎·꽃·열매 자동 판별
-  }) async {
+  /// 여러 장을 한 번에 보낸다 (요청 1회 = 한도 1회). 부위는 사진마다 auto(잎·꽃·열매 자동 판별).
+  Future<PlantNetResponse> identify(List<Uint8List> images) async {
     final uri = Uri.parse(endpoint).replace(
       queryParameters: {
         'api-key': apiKey,
@@ -86,15 +84,18 @@ class PlantNetClient {
         'lang': 'en',
       },
     );
-    final req = http.MultipartRequest('POST', uri)
-      ..fields['organs'] = organ
-      ..files.add(
+    final req = http.MultipartRequest('POST', uri);
+    for (var i = 0; i < images.length; i++) {
+      req.files.add(
         http.MultipartFile.fromBytes(
           'images',
-          jpegBytes,
-          filename: 'plant.jpg',
+          images[i],
+          filename: 'plant$i.jpg',
         ),
       );
+      // organs 는 사진 수만큼 반복해야 하므로 fields(Map) 대신 이름 있는 파트로 추가
+      req.files.add(http.MultipartFile.fromString('organs', 'auto'));
+    }
     final streamed = await _client
         .send(req)
         .timeout(const Duration(seconds: 30));
@@ -118,7 +119,10 @@ class PlantNetIdentifier implements Identifier {
   final DailyQuota quota;
 
   @override
-  Future<IdentificationOutcome> identify(Uint8List jpegBytes) async {
+  Future<IdentificationOutcome> identify(List<Uint8List> images) async {
+    if (images.isEmpty) {
+      return const IdentificationUnavailable(UnavailableReason.noResult);
+    }
     if (!client.hasKey) {
       return const IdentificationUnavailable(
         UnavailableReason.apiError,
@@ -129,7 +133,9 @@ class PlantNetIdentifier implements Identifier {
       return const IdentificationUnavailable(UnavailableReason.dailyLimit);
     }
     try {
-      final res = await client.identify(jpegBytes);
+      final res = await client.identify(
+        images.take(kMaxIdentifyPhotos).toList(),
+      );
       if (res.candidates.isEmpty) {
         return const IdentificationUnavailable(UnavailableReason.noResult);
       }

@@ -17,9 +17,20 @@ class _FakeIdentifier implements Identifier {
   int calls = 0;
 
   @override
-  Future<IdentificationOutcome> identify(Uint8List jpegBytes) async {
+  Future<IdentificationOutcome> identify(List<Uint8List> images) async {
     calls++;
     return outcome;
+  }
+}
+
+class _CountingQuota implements DailyQuota {
+  _CountingQuota(this.onConsume);
+  final void Function() onConsume;
+
+  @override
+  Future<bool> tryConsume() async {
+    onConsume();
+    return true;
   }
 }
 
@@ -46,7 +57,9 @@ const _plantNetBody = '''
 ''';
 
 void main() {
-  final bytes = Uint8List.fromList([1, 2, 3]);
+  final bytes = [
+    Uint8List.fromList([1, 2, 3]),
+  ];
 
   group('IdentificationPipeline', () {
     test('온디바이스 모델 없음 → PlantNet 결과 사용', () async {
@@ -238,6 +251,50 @@ void main() {
       expect((r as IdentificationSuccess).top.percent, 87);
       expect(sent!.url.queryParameters['api-key'], 'k');
       expect(sent!.headers['content-type'], startsWith('multipart/form-data'));
+    });
+
+    test('사진 여러 장: images·organs 파트가 사진 수만큼, 요청은 1회·한도 1회', () async {
+      final bodies = <String>[];
+      var consumed = 0;
+      final client = PlantNetClient(
+        apiKey: 'k',
+        client: MockClient((req) async {
+          bodies.add(req.body);
+          return http.Response(_plantNetBody, 200);
+        }),
+      );
+      final quota = _CountingQuota(() => consumed++);
+      final three = [
+        Uint8List.fromList([1]),
+        Uint8List.fromList([2]),
+        Uint8List.fromList([3]),
+      ];
+      final r = await PlantNetIdentifier(
+        client: client,
+        quota: quota,
+      ).identify(three);
+      expect(r, isA<IdentificationSuccess>());
+      expect(bodies.length, 1);
+      expect(consumed, 1);
+      expect('name="images"'.allMatches(bodies.single).length, 3);
+      expect('name="organs"'.allMatches(bodies.single).length, 3);
+    });
+
+    test('사진이 없으면 호출하지 않음', () async {
+      var called = false;
+      final client = PlantNetClient(
+        apiKey: 'k',
+        client: MockClient((_) async {
+          called = true;
+          return http.Response('{}', 200);
+        }),
+      );
+      final r = await PlantNetIdentifier(
+        client: client,
+        quota: _FakeQuota(true),
+      ).identify(const []);
+      expect(r, isA<IdentificationUnavailable>());
+      expect(called, isFalse);
     });
 
     test(

@@ -105,12 +105,14 @@ final identificationPipelineProvider = Provider<IdentificationPipeline>((ref) {
 });
 
 /// 사진 경로 → 식별 결과 (species 매칭 포함). CAM-02/03/04 가 watch.
+/// 키: 사진 경로들을 '|' 로 이어붙인 문자열 (사진을 추가하면 키가 바뀌어 다시 식별)
 final identifyPhotoProvider = FutureProvider.autoDispose
-    .family<IdentificationOutcome, String>((ref, path) async {
-      final bytes = await File(path).readAsBytes();
+    .family<IdentificationOutcome, String>((ref, pathsKey) async {
+      final paths = pathsKey.split('|').where((p) => p.isNotEmpty).toList();
+      final images = [for (final p in paths) await File(p).readAsBytes()];
       final outcome = await ref
           .watch(identificationPipelineProvider)
-          .run(bytes);
+          .run(images);
       if (outcome is IdentificationSuccess) {
         final matcher = SpeciesMatcher(ref.watch(speciesRepositoryProvider));
         return outcome.withCandidates(await matcher.attach(outcome.candidates));

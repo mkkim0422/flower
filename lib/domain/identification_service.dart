@@ -13,6 +13,9 @@ const int kMaxCandidates = 5;
 /// 이 확률 미만 후보는 숨김 (단, 1순위는 항상 표시) — 2026-09-16 사용자 지시
 const double kMinShownScore = 0.30;
 
+/// 한 번에 보낼 수 있는 사진 수 (PlantNet 제한)
+const int kMaxIdentifyPhotos = 5;
+
 /// PlantNet 무료 한도 500회/일 → 480회에서 호출 중단
 const int kPlantNetDailyCap = 480;
 
@@ -121,7 +124,8 @@ class IdentificationUnavailable extends IdentificationOutcome {
 
 /// 식별기 공통 인터페이스. 입력은 1024px 리사이즈·EXIF 제거된 JPEG.
 abstract class Identifier {
-  Future<IdentificationOutcome> identify(Uint8List jpegBytes);
+  /// [images]: 같은 식물의 사진 1~5장 (1024px, EXIF 제거된 JPEG)
+  Future<IdentificationOutcome> identify(List<Uint8List> images);
 }
 
 /// 에셋 존재 확인 (테스트에서 교체)
@@ -151,7 +155,7 @@ class OnDeviceIdentifier implements Identifier {
       _modelPresent ??= await _probe(modelAsset);
 
   @override
-  Future<IdentificationOutcome> identify(Uint8List jpegBytes) async {
+  Future<IdentificationOutcome> identify(List<Uint8List> images) async {
     try {
       if (!await modelPresent) {
         return const IdentificationUnavailable(
@@ -159,7 +163,7 @@ class OnDeviceIdentifier implements Identifier {
           detail: '온디바이스 모델 파일 없음',
         );
       }
-      return await _infer(jpegBytes);
+      return await _infer(images);
     } catch (e) {
       debugPrint('on-device inference failed: $e');
       return IdentificationUnavailable(
@@ -171,7 +175,7 @@ class OnDeviceIdentifier implements Identifier {
 
   /// TODO(M2 후속): tflite_flutter Interpreter 로드 → 전처리 → 추론 → 라벨 매핑.
   /// 지금은 모델이 있어도 엔진이 없으므로 modelMissing 으로 우회한다.
-  Future<IdentificationOutcome> _infer(Uint8List jpegBytes) async {
+  Future<IdentificationOutcome> _infer(List<Uint8List> images) async {
     return const IdentificationUnavailable(
       UnavailableReason.modelMissing,
       detail: '추론 엔진 미연동',
@@ -186,11 +190,11 @@ class IdentificationPipeline {
   final Identifier onDevice;
   final Identifier remote;
 
-  Future<IdentificationOutcome> run(Uint8List jpegBytes) async {
-    final local = await onDevice.identify(jpegBytes);
+  Future<IdentificationOutcome> run(List<Uint8List> images) async {
+    final local = await onDevice.identify(images);
     if (local is IdentificationSuccess && local.isConfident) return local;
 
-    final fallback = await remote.identify(jpegBytes);
+    final fallback = await remote.identify(images);
     if (fallback is IdentificationSuccess) return fallback;
 
     // 원격도 실패: 로컬 저신뢰 후보라도 있으면 보여준다
