@@ -303,10 +303,37 @@ class _Body extends ConsumerWidget {
               aspectRatio: 4 / 3,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(AppRadius.card),
-                child: PlantThumb(
-                  size: double.infinity,
-                  photoPath: p.photoPath,
-                  radius: 0,
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    PlantThumb(
+                      size: double.infinity,
+                      photoPath: p.photoPath,
+                      fallbackUrl: s?.imageUrl,
+                      radius: 0,
+                    ),
+                    if (p.photoPath == null && s?.imageUrl != null)
+                      Positioned(
+                        left: AppSpace.sm,
+                        bottom: AppSpace.sm,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: AppSpace.sm,
+                            vertical: AppSpace.xs / 2,
+                          ),
+                          decoration: BoxDecoration(
+                            color: c.surface.withValues(alpha: 0.85),
+                            borderRadius: BorderRadius.circular(AppRadius.chip),
+                          ),
+                          child: Text(
+                            '도감 사진',
+                            style: AppText.label.copyWith(
+                              color: c.textSecondary,
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
               ),
             ),

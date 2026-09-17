@@ -120,6 +120,7 @@ class _PlantEnvScreenState extends ConsumerState<PlantEnvScreen> {
               PlantThumb(
                 size: AppSize.candidateThumb,
                 photoPath: widget.draft.photoPath,
+                fallbackUrl: species?.imageUrl,
               ),
               const SizedBox(width: AppSpace.md),
               Expanded(

@@ -50,6 +50,17 @@ class PlannedReminder {
   String get payload => jsonEncode({'ids': plantIds});
 }
 
+/// 멈춤이 오늘 이후까지 유효한지
+bool isNotifyPaused(Setting s, DateTime now) {
+  final p = s.notifyPausedUntil;
+  if (p == null) return false;
+  return !DateTime(
+    now.year,
+    now.month,
+    now.day,
+  ).isAfter(DateTime(p.year, p.month, p.day));
+}
+
 /// 알림 payload → 식물 id 목록
 List<int> plantIdsFromPayload(String? payload) {
   if (payload == null || payload.isEmpty) return const [];
@@ -218,8 +229,18 @@ class NotificationService {
   }) {
     final out = <PlannedReminder>[];
     final times = fireTimes(settings, now);
+    final paused = settings.notifyPausedUntil;
     for (var i = 0; i < times.length; i++) {
       final at = times[i];
+      // 알림 멈춤 기간(마지막 날 포함)에는 예약하지 않는다
+      if (paused != null &&
+          !DateTime(
+            at.year,
+            at.month,
+            at.day,
+          ).isAfter(DateTime(paused.year, paused.month, paused.day))) {
+        continue;
+      }
       final target = targetDay(at, dayBefore: settings.notifyDayBefore);
       final due = plants
           .where((e) => isDueToday(e.plant.nextCheckAt, target))

@@ -6,6 +6,7 @@ import '../../app/router.dart';
 import '../../app/theme.dart';
 import '../../app/widgets/app_button.dart';
 import '../../app/widgets/app_card.dart';
+import '../../app/widgets/plant_card.dart';
 import '../../app/widgets/toxic_badge.dart';
 import '../../core/enums.dart';
 import '../../data/db/app_database.dart';
@@ -80,6 +81,29 @@ class _Body extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: AppSpace.screenH),
         children: [
+          if (s.imageUrl != null) ...[
+            AspectRatio(
+              aspectRatio: 4 / 3,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(AppRadius.card),
+                child: PlantThumb(
+                  size: double.infinity,
+                  fallbackUrl: s.imageUrl,
+                  radius: 0,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: AppSpace.xs),
+              child: Text(
+                '사진: ${s.imageAuthor ?? '작가 미상'} · ${s.imageLicense ?? ''} · Wikimedia Commons',
+                style: AppText.label.copyWith(color: c.textTertiary),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            const SizedBox(height: AppSpace.lg),
+          ],
           Text(
             s.koNames.first,
             style: AppText.headline.copyWith(color: c.textPrimary),

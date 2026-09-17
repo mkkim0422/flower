@@ -23,8 +23,11 @@ class PlantGridCard extends StatelessWidget {
     required this.status,
     required this.statusLabel,
     this.photoPath,
+    this.fallbackUrl,
     this.onTap,
   });
+
+  final String? fallbackUrl;
 
   final String nickname;
   final String speciesName;
@@ -56,6 +59,7 @@ class PlantGridCard extends StatelessWidget {
                   child: PlantThumb(
                     size: box.maxWidth,
                     photoPath: photoPath,
+                    fallbackUrl: fallbackUrl,
                     radius: 0,
                   ),
                 ),

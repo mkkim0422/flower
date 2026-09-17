@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import '../../app/router.dart';
 import '../../app/theme.dart';
 import '../../app/widgets/app_button.dart';
+import '../../app/widgets/plant_card.dart';
 import '../../data/db/app_database.dart';
 import '../../data/repositories/species_repository.dart';
 import '../../data/seed/species_seed.dart';
@@ -181,6 +182,11 @@ class _Results extends ConsumerWidget {
                 padding: const EdgeInsets.symmetric(vertical: AppSpace.md),
                 child: Row(
                   children: [
+                    PlantThumb(
+                      size: AppSize.plantThumb,
+                      fallbackUrl: s.imageUrl,
+                    ),
+                    const SizedBox(width: AppSpace.md),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

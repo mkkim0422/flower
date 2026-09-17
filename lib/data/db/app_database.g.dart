@@ -199,6 +199,50 @@ class $SpeciesTable extends Species with TableInfo<$SpeciesTable, SpeciesRow> {
     type: DriftSqlType.int,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _imageUrlMeta = const VerificationMeta(
+    'imageUrl',
+  );
+  @override
+  late final GeneratedColumn<String> imageUrl = GeneratedColumn<String>(
+    'image_url',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _imageAuthorMeta = const VerificationMeta(
+    'imageAuthor',
+  );
+  @override
+  late final GeneratedColumn<String> imageAuthor = GeneratedColumn<String>(
+    'image_author',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _imageLicenseMeta = const VerificationMeta(
+    'imageLicense',
+  );
+  @override
+  late final GeneratedColumn<String> imageLicense = GeneratedColumn<String>(
+    'image_license',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _imagePageMeta = const VerificationMeta(
+    'imagePage',
+  );
+  @override
+  late final GeneratedColumn<String> imagePage = GeneratedColumn<String>(
+    'image_page',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _toxicSevereMeta = const VerificationMeta(
     'toxicSevere',
   );
@@ -255,6 +299,10 @@ class $SpeciesTable extends Species with TableInfo<$SpeciesTable, SpeciesRow> {
     searchText,
     tempOptMin,
     tempOptMax,
+    imageUrl,
+    imageAuthor,
+    imageLicense,
+    imagePage,
     toxicSevere,
     toxicityNote,
     toxicChildLevel,
@@ -375,6 +423,36 @@ class $SpeciesTable extends Species with TableInfo<$SpeciesTable, SpeciesRow> {
         ),
       );
     }
+    if (data.containsKey('image_url')) {
+      context.handle(
+        _imageUrlMeta,
+        imageUrl.isAcceptableOrUnknown(data['image_url']!, _imageUrlMeta),
+      );
+    }
+    if (data.containsKey('image_author')) {
+      context.handle(
+        _imageAuthorMeta,
+        imageAuthor.isAcceptableOrUnknown(
+          data['image_author']!,
+          _imageAuthorMeta,
+        ),
+      );
+    }
+    if (data.containsKey('image_license')) {
+      context.handle(
+        _imageLicenseMeta,
+        imageLicense.isAcceptableOrUnknown(
+          data['image_license']!,
+          _imageLicenseMeta,
+        ),
+      );
+    }
+    if (data.containsKey('image_page')) {
+      context.handle(
+        _imagePageMeta,
+        imagePage.isAcceptableOrUnknown(data['image_page']!, _imagePageMeta),
+      );
+    }
     if (data.containsKey('toxic_severe')) {
       context.handle(
         _toxicSevereMeta,
@@ -476,6 +554,22 @@ class $SpeciesTable extends Species with TableInfo<$SpeciesTable, SpeciesRow> {
         DriftSqlType.int,
         data['${effectivePrefix}temp_opt_max'],
       ),
+      imageUrl: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}image_url'],
+      ),
+      imageAuthor: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}image_author'],
+      ),
+      imageLicense: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}image_license'],
+      ),
+      imagePage: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}image_page'],
+      ),
       toxicSevere: attachedDatabase.typeMapping.read(
         DriftSqlType.bool,
         data['${effectivePrefix}toxic_severe'],
@@ -535,6 +629,12 @@ class SpeciesRow extends DataClass implements Insertable<SpeciesRow> {
   final int? tempOptMin;
   final int? tempOptMax;
 
+  /// 도감 대표 사진 (위키미디어 공용, 자유 라이선스). 없으면 null
+  final String? imageUrl;
+  final String? imageAuthor;
+  final String? imageLicense;
+  final String? imagePage;
+
   /// 경고할 만큼 위험한지 (앱은 이 값이 true 일 때만 독성 경고를 띄운다)
   final bool toxicSevere;
 
@@ -561,6 +661,10 @@ class SpeciesRow extends DataClass implements Insertable<SpeciesRow> {
     required this.searchText,
     this.tempOptMin,
     this.tempOptMax,
+    this.imageUrl,
+    this.imageAuthor,
+    this.imageLicense,
+    this.imagePage,
     required this.toxicSevere,
     required this.toxicityNote,
     required this.toxicChildLevel,
@@ -611,6 +715,18 @@ class SpeciesRow extends DataClass implements Insertable<SpeciesRow> {
     if (!nullToAbsent || tempOptMax != null) {
       map['temp_opt_max'] = Variable<int>(tempOptMax);
     }
+    if (!nullToAbsent || imageUrl != null) {
+      map['image_url'] = Variable<String>(imageUrl);
+    }
+    if (!nullToAbsent || imageAuthor != null) {
+      map['image_author'] = Variable<String>(imageAuthor);
+    }
+    if (!nullToAbsent || imageLicense != null) {
+      map['image_license'] = Variable<String>(imageLicense);
+    }
+    if (!nullToAbsent || imagePage != null) {
+      map['image_page'] = Variable<String>(imagePage);
+    }
     map['toxic_severe'] = Variable<bool>(toxicSevere);
     map['toxicity_note'] = Variable<String>(toxicityNote);
     {
@@ -654,6 +770,18 @@ class SpeciesRow extends DataClass implements Insertable<SpeciesRow> {
       tempOptMax: tempOptMax == null && nullToAbsent
           ? const Value.absent()
           : Value(tempOptMax),
+      imageUrl: imageUrl == null && nullToAbsent
+          ? const Value.absent()
+          : Value(imageUrl),
+      imageAuthor: imageAuthor == null && nullToAbsent
+          ? const Value.absent()
+          : Value(imageAuthor),
+      imageLicense: imageLicense == null && nullToAbsent
+          ? const Value.absent()
+          : Value(imageLicense),
+      imagePage: imagePage == null && nullToAbsent
+          ? const Value.absent()
+          : Value(imagePage),
       toxicSevere: Value(toxicSevere),
       toxicityNote: Value(toxicityNote),
       toxicChildLevel: Value(toxicChildLevel),
@@ -685,6 +813,10 @@ class SpeciesRow extends DataClass implements Insertable<SpeciesRow> {
       searchText: serializer.fromJson<String>(json['searchText']),
       tempOptMin: serializer.fromJson<int?>(json['tempOptMin']),
       tempOptMax: serializer.fromJson<int?>(json['tempOptMax']),
+      imageUrl: serializer.fromJson<String?>(json['imageUrl']),
+      imageAuthor: serializer.fromJson<String?>(json['imageAuthor']),
+      imageLicense: serializer.fromJson<String?>(json['imageLicense']),
+      imagePage: serializer.fromJson<String?>(json['imagePage']),
       toxicSevere: serializer.fromJson<bool>(json['toxicSevere']),
       toxicityNote: serializer.fromJson<String>(json['toxicityNote']),
       toxicChildLevel: $SpeciesTable.$convertertoxicChildLevel.fromJson(
@@ -715,6 +847,10 @@ class SpeciesRow extends DataClass implements Insertable<SpeciesRow> {
       'searchText': serializer.toJson<String>(searchText),
       'tempOptMin': serializer.toJson<int?>(tempOptMin),
       'tempOptMax': serializer.toJson<int?>(tempOptMax),
+      'imageUrl': serializer.toJson<String?>(imageUrl),
+      'imageAuthor': serializer.toJson<String?>(imageAuthor),
+      'imageLicense': serializer.toJson<String?>(imageLicense),
+      'imagePage': serializer.toJson<String?>(imagePage),
       'toxicSevere': serializer.toJson<bool>(toxicSevere),
       'toxicityNote': serializer.toJson<String>(toxicityNote),
       'toxicChildLevel': serializer.toJson<String>(
@@ -741,6 +877,10 @@ class SpeciesRow extends DataClass implements Insertable<SpeciesRow> {
     String? searchText,
     Value<int?> tempOptMin = const Value.absent(),
     Value<int?> tempOptMax = const Value.absent(),
+    Value<String?> imageUrl = const Value.absent(),
+    Value<String?> imageAuthor = const Value.absent(),
+    Value<String?> imageLicense = const Value.absent(),
+    Value<String?> imagePage = const Value.absent(),
     bool? toxicSevere,
     String? toxicityNote,
     ChildToxicity? toxicChildLevel,
@@ -762,6 +902,10 @@ class SpeciesRow extends DataClass implements Insertable<SpeciesRow> {
     searchText: searchText ?? this.searchText,
     tempOptMin: tempOptMin.present ? tempOptMin.value : this.tempOptMin,
     tempOptMax: tempOptMax.present ? tempOptMax.value : this.tempOptMax,
+    imageUrl: imageUrl.present ? imageUrl.value : this.imageUrl,
+    imageAuthor: imageAuthor.present ? imageAuthor.value : this.imageAuthor,
+    imageLicense: imageLicense.present ? imageLicense.value : this.imageLicense,
+    imagePage: imagePage.present ? imagePage.value : this.imagePage,
     toxicSevere: toxicSevere ?? this.toxicSevere,
     toxicityNote: toxicityNote ?? this.toxicityNote,
     toxicChildLevel: toxicChildLevel ?? this.toxicChildLevel,
@@ -801,6 +945,14 @@ class SpeciesRow extends DataClass implements Insertable<SpeciesRow> {
       tempOptMax: data.tempOptMax.present
           ? data.tempOptMax.value
           : this.tempOptMax,
+      imageUrl: data.imageUrl.present ? data.imageUrl.value : this.imageUrl,
+      imageAuthor: data.imageAuthor.present
+          ? data.imageAuthor.value
+          : this.imageAuthor,
+      imageLicense: data.imageLicense.present
+          ? data.imageLicense.value
+          : this.imageLicense,
+      imagePage: data.imagePage.present ? data.imagePage.value : this.imagePage,
       toxicSevere: data.toxicSevere.present
           ? data.toxicSevere.value
           : this.toxicSevere,
@@ -833,6 +985,10 @@ class SpeciesRow extends DataClass implements Insertable<SpeciesRow> {
           ..write('searchText: $searchText, ')
           ..write('tempOptMin: $tempOptMin, ')
           ..write('tempOptMax: $tempOptMax, ')
+          ..write('imageUrl: $imageUrl, ')
+          ..write('imageAuthor: $imageAuthor, ')
+          ..write('imageLicense: $imageLicense, ')
+          ..write('imagePage: $imagePage, ')
           ..write('toxicSevere: $toxicSevere, ')
           ..write('toxicityNote: $toxicityNote, ')
           ..write('toxicChildLevel: $toxicChildLevel')
@@ -841,7 +997,7 @@ class SpeciesRow extends DataClass implements Insertable<SpeciesRow> {
   }
 
   @override
-  int get hashCode => Object.hash(
+  int get hashCode => Object.hashAll([
     id,
     scientificName,
     koNames,
@@ -859,10 +1015,14 @@ class SpeciesRow extends DataClass implements Insertable<SpeciesRow> {
     searchText,
     tempOptMin,
     tempOptMax,
+    imageUrl,
+    imageAuthor,
+    imageLicense,
+    imagePage,
     toxicSevere,
     toxicityNote,
     toxicChildLevel,
-  );
+  ]);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -884,6 +1044,10 @@ class SpeciesRow extends DataClass implements Insertable<SpeciesRow> {
           other.searchText == this.searchText &&
           other.tempOptMin == this.tempOptMin &&
           other.tempOptMax == this.tempOptMax &&
+          other.imageUrl == this.imageUrl &&
+          other.imageAuthor == this.imageAuthor &&
+          other.imageLicense == this.imageLicense &&
+          other.imagePage == this.imagePage &&
           other.toxicSevere == this.toxicSevere &&
           other.toxicityNote == this.toxicityNote &&
           other.toxicChildLevel == this.toxicChildLevel);
@@ -907,6 +1071,10 @@ class SpeciesCompanion extends UpdateCompanion<SpeciesRow> {
   final Value<String> searchText;
   final Value<int?> tempOptMin;
   final Value<int?> tempOptMax;
+  final Value<String?> imageUrl;
+  final Value<String?> imageAuthor;
+  final Value<String?> imageLicense;
+  final Value<String?> imagePage;
   final Value<bool> toxicSevere;
   final Value<String> toxicityNote;
   final Value<ChildToxicity> toxicChildLevel;
@@ -928,6 +1096,10 @@ class SpeciesCompanion extends UpdateCompanion<SpeciesRow> {
     this.searchText = const Value.absent(),
     this.tempOptMin = const Value.absent(),
     this.tempOptMax = const Value.absent(),
+    this.imageUrl = const Value.absent(),
+    this.imageAuthor = const Value.absent(),
+    this.imageLicense = const Value.absent(),
+    this.imagePage = const Value.absent(),
     this.toxicSevere = const Value.absent(),
     this.toxicityNote = const Value.absent(),
     this.toxicChildLevel = const Value.absent(),
@@ -950,6 +1122,10 @@ class SpeciesCompanion extends UpdateCompanion<SpeciesRow> {
     this.searchText = const Value.absent(),
     this.tempOptMin = const Value.absent(),
     this.tempOptMax = const Value.absent(),
+    this.imageUrl = const Value.absent(),
+    this.imageAuthor = const Value.absent(),
+    this.imageLicense = const Value.absent(),
+    this.imagePage = const Value.absent(),
     this.toxicSevere = const Value.absent(),
     this.toxicityNote = const Value.absent(),
     this.toxicChildLevel = const Value.absent(),
@@ -977,6 +1153,10 @@ class SpeciesCompanion extends UpdateCompanion<SpeciesRow> {
     Expression<String>? searchText,
     Expression<int>? tempOptMin,
     Expression<int>? tempOptMax,
+    Expression<String>? imageUrl,
+    Expression<String>? imageAuthor,
+    Expression<String>? imageLicense,
+    Expression<String>? imagePage,
     Expression<bool>? toxicSevere,
     Expression<String>? toxicityNote,
     Expression<String>? toxicChildLevel,
@@ -999,6 +1179,10 @@ class SpeciesCompanion extends UpdateCompanion<SpeciesRow> {
       if (searchText != null) 'search_text': searchText,
       if (tempOptMin != null) 'temp_opt_min': tempOptMin,
       if (tempOptMax != null) 'temp_opt_max': tempOptMax,
+      if (imageUrl != null) 'image_url': imageUrl,
+      if (imageAuthor != null) 'image_author': imageAuthor,
+      if (imageLicense != null) 'image_license': imageLicense,
+      if (imagePage != null) 'image_page': imagePage,
       if (toxicSevere != null) 'toxic_severe': toxicSevere,
       if (toxicityNote != null) 'toxicity_note': toxicityNote,
       if (toxicChildLevel != null) 'toxic_child_level': toxicChildLevel,
@@ -1023,6 +1207,10 @@ class SpeciesCompanion extends UpdateCompanion<SpeciesRow> {
     Value<String>? searchText,
     Value<int?>? tempOptMin,
     Value<int?>? tempOptMax,
+    Value<String?>? imageUrl,
+    Value<String?>? imageAuthor,
+    Value<String?>? imageLicense,
+    Value<String?>? imagePage,
     Value<bool>? toxicSevere,
     Value<String>? toxicityNote,
     Value<ChildToxicity>? toxicChildLevel,
@@ -1045,6 +1233,10 @@ class SpeciesCompanion extends UpdateCompanion<SpeciesRow> {
       searchText: searchText ?? this.searchText,
       tempOptMin: tempOptMin ?? this.tempOptMin,
       tempOptMax: tempOptMax ?? this.tempOptMax,
+      imageUrl: imageUrl ?? this.imageUrl,
+      imageAuthor: imageAuthor ?? this.imageAuthor,
+      imageLicense: imageLicense ?? this.imageLicense,
+      imagePage: imagePage ?? this.imagePage,
       toxicSevere: toxicSevere ?? this.toxicSevere,
       toxicityNote: toxicityNote ?? this.toxicityNote,
       toxicChildLevel: toxicChildLevel ?? this.toxicChildLevel,
@@ -1111,6 +1303,18 @@ class SpeciesCompanion extends UpdateCompanion<SpeciesRow> {
     if (tempOptMax.present) {
       map['temp_opt_max'] = Variable<int>(tempOptMax.value);
     }
+    if (imageUrl.present) {
+      map['image_url'] = Variable<String>(imageUrl.value);
+    }
+    if (imageAuthor.present) {
+      map['image_author'] = Variable<String>(imageAuthor.value);
+    }
+    if (imageLicense.present) {
+      map['image_license'] = Variable<String>(imageLicense.value);
+    }
+    if (imagePage.present) {
+      map['image_page'] = Variable<String>(imagePage.value);
+    }
     if (toxicSevere.present) {
       map['toxic_severe'] = Variable<bool>(toxicSevere.value);
     }
@@ -1145,6 +1349,10 @@ class SpeciesCompanion extends UpdateCompanion<SpeciesRow> {
           ..write('searchText: $searchText, ')
           ..write('tempOptMin: $tempOptMin, ')
           ..write('tempOptMax: $tempOptMax, ')
+          ..write('imageUrl: $imageUrl, ')
+          ..write('imageAuthor: $imageAuthor, ')
+          ..write('imageLicense: $imageLicense, ')
+          ..write('imagePage: $imagePage, ')
           ..write('toxicSevere: $toxicSevere, ')
           ..write('toxicityNote: $toxicityNote, ')
           ..write('toxicChildLevel: $toxicChildLevel')
@@ -3817,6 +4025,18 @@ class $SettingsTable extends Settings with TableInfo<$SettingsTable, Setting> {
     requiredDuringInsert: false,
     defaultValue: const Constant(0),
   );
+  static const VerificationMeta _notifyPausedUntilMeta = const VerificationMeta(
+    'notifyPausedUntil',
+  );
+  @override
+  late final GeneratedColumn<DateTime> notifyPausedUntil =
+      GeneratedColumn<DateTime>(
+        'notify_paused_until',
+        aliasedName,
+        true,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: false,
+      );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -3830,6 +4050,7 @@ class $SettingsTable extends Settings with TableInfo<$SettingsTable, Setting> {
     homeGrid,
     notifyDayBefore,
     themeVariant,
+    notifyPausedUntil,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -3921,6 +4142,15 @@ class $SettingsTable extends Settings with TableInfo<$SettingsTable, Setting> {
         ),
       );
     }
+    if (data.containsKey('notify_paused_until')) {
+      context.handle(
+        _notifyPausedUntilMeta,
+        notifyPausedUntil.isAcceptableOrUnknown(
+          data['notify_paused_until']!,
+          _notifyPausedUntilMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -3976,6 +4206,10 @@ class $SettingsTable extends Settings with TableInfo<$SettingsTable, Setting> {
         DriftSqlType.int,
         data['${effectivePrefix}theme_variant'],
       )!,
+      notifyPausedUntil: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}notify_paused_until'],
+      ),
     );
   }
 
@@ -4008,6 +4242,9 @@ class Setting extends DataClass implements Insertable<Setting> {
 
   /// (미사용) 라이트 시안 비교용이었음. 2026-09-17 화이트로 확정되어 읽지 않는다.
   final int themeVariant;
+
+  /// 알림 잠시 멈추기: 이 날짜(포함)까지 알림을 보내지 않는다. null 이면 켜짐
+  final DateTime? notifyPausedUntil;
   const Setting({
     required this.id,
     required this.notifyHour,
@@ -4020,6 +4257,7 @@ class Setting extends DataClass implements Insertable<Setting> {
     required this.homeGrid,
     required this.notifyDayBefore,
     required this.themeVariant,
+    this.notifyPausedUntil,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -4041,6 +4279,9 @@ class Setting extends DataClass implements Insertable<Setting> {
     map['home_grid'] = Variable<bool>(homeGrid);
     map['notify_day_before'] = Variable<bool>(notifyDayBefore);
     map['theme_variant'] = Variable<int>(themeVariant);
+    if (!nullToAbsent || notifyPausedUntil != null) {
+      map['notify_paused_until'] = Variable<DateTime>(notifyPausedUntil);
+    }
     return map;
   }
 
@@ -4059,6 +4300,9 @@ class Setting extends DataClass implements Insertable<Setting> {
       homeGrid: Value(homeGrid),
       notifyDayBefore: Value(notifyDayBefore),
       themeVariant: Value(themeVariant),
+      notifyPausedUntil: notifyPausedUntil == null && nullToAbsent
+          ? const Value.absent()
+          : Value(notifyPausedUntil),
     );
   }
 
@@ -4079,6 +4323,9 @@ class Setting extends DataClass implements Insertable<Setting> {
       homeGrid: serializer.fromJson<bool>(json['homeGrid']),
       notifyDayBefore: serializer.fromJson<bool>(json['notifyDayBefore']),
       themeVariant: serializer.fromJson<int>(json['themeVariant']),
+      notifyPausedUntil: serializer.fromJson<DateTime?>(
+        json['notifyPausedUntil'],
+      ),
     );
   }
   @override
@@ -4096,6 +4343,7 @@ class Setting extends DataClass implements Insertable<Setting> {
       'homeGrid': serializer.toJson<bool>(homeGrid),
       'notifyDayBefore': serializer.toJson<bool>(notifyDayBefore),
       'themeVariant': serializer.toJson<int>(themeVariant),
+      'notifyPausedUntil': serializer.toJson<DateTime?>(notifyPausedUntil),
     };
   }
 
@@ -4111,6 +4359,7 @@ class Setting extends DataClass implements Insertable<Setting> {
     bool? homeGrid,
     bool? notifyDayBefore,
     int? themeVariant,
+    Value<DateTime?> notifyPausedUntil = const Value.absent(),
   }) => Setting(
     id: id ?? this.id,
     notifyHour: notifyHour ?? this.notifyHour,
@@ -4123,6 +4372,9 @@ class Setting extends DataClass implements Insertable<Setting> {
     homeGrid: homeGrid ?? this.homeGrid,
     notifyDayBefore: notifyDayBefore ?? this.notifyDayBefore,
     themeVariant: themeVariant ?? this.themeVariant,
+    notifyPausedUntil: notifyPausedUntil.present
+        ? notifyPausedUntil.value
+        : this.notifyPausedUntil,
   );
   Setting copyWithCompanion(SettingsCompanion data) {
     return Setting(
@@ -4155,6 +4407,9 @@ class Setting extends DataClass implements Insertable<Setting> {
       themeVariant: data.themeVariant.present
           ? data.themeVariant.value
           : this.themeVariant,
+      notifyPausedUntil: data.notifyPausedUntil.present
+          ? data.notifyPausedUntil.value
+          : this.notifyPausedUntil,
     );
   }
 
@@ -4171,7 +4426,8 @@ class Setting extends DataClass implements Insertable<Setting> {
           ..write('plantnetCount: $plantnetCount, ')
           ..write('homeGrid: $homeGrid, ')
           ..write('notifyDayBefore: $notifyDayBefore, ')
-          ..write('themeVariant: $themeVariant')
+          ..write('themeVariant: $themeVariant, ')
+          ..write('notifyPausedUntil: $notifyPausedUntil')
           ..write(')'))
         .toString();
   }
@@ -4189,6 +4445,7 @@ class Setting extends DataClass implements Insertable<Setting> {
     homeGrid,
     notifyDayBefore,
     themeVariant,
+    notifyPausedUntil,
   );
   @override
   bool operator ==(Object other) =>
@@ -4204,7 +4461,8 @@ class Setting extends DataClass implements Insertable<Setting> {
           other.plantnetCount == this.plantnetCount &&
           other.homeGrid == this.homeGrid &&
           other.notifyDayBefore == this.notifyDayBefore &&
-          other.themeVariant == this.themeVariant);
+          other.themeVariant == this.themeVariant &&
+          other.notifyPausedUntil == this.notifyPausedUntil);
 }
 
 class SettingsCompanion extends UpdateCompanion<Setting> {
@@ -4219,6 +4477,7 @@ class SettingsCompanion extends UpdateCompanion<Setting> {
   final Value<bool> homeGrid;
   final Value<bool> notifyDayBefore;
   final Value<int> themeVariant;
+  final Value<DateTime?> notifyPausedUntil;
   const SettingsCompanion({
     this.id = const Value.absent(),
     this.notifyHour = const Value.absent(),
@@ -4231,6 +4490,7 @@ class SettingsCompanion extends UpdateCompanion<Setting> {
     this.homeGrid = const Value.absent(),
     this.notifyDayBefore = const Value.absent(),
     this.themeVariant = const Value.absent(),
+    this.notifyPausedUntil = const Value.absent(),
   });
   SettingsCompanion.insert({
     this.id = const Value.absent(),
@@ -4244,6 +4504,7 @@ class SettingsCompanion extends UpdateCompanion<Setting> {
     this.homeGrid = const Value.absent(),
     this.notifyDayBefore = const Value.absent(),
     this.themeVariant = const Value.absent(),
+    this.notifyPausedUntil = const Value.absent(),
   });
   static Insertable<Setting> custom({
     Expression<int>? id,
@@ -4257,6 +4518,7 @@ class SettingsCompanion extends UpdateCompanion<Setting> {
     Expression<bool>? homeGrid,
     Expression<bool>? notifyDayBefore,
     Expression<int>? themeVariant,
+    Expression<DateTime>? notifyPausedUntil,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -4270,6 +4532,7 @@ class SettingsCompanion extends UpdateCompanion<Setting> {
       if (homeGrid != null) 'home_grid': homeGrid,
       if (notifyDayBefore != null) 'notify_day_before': notifyDayBefore,
       if (themeVariant != null) 'theme_variant': themeVariant,
+      if (notifyPausedUntil != null) 'notify_paused_until': notifyPausedUntil,
     });
   }
 
@@ -4285,6 +4548,7 @@ class SettingsCompanion extends UpdateCompanion<Setting> {
     Value<bool>? homeGrid,
     Value<bool>? notifyDayBefore,
     Value<int>? themeVariant,
+    Value<DateTime?>? notifyPausedUntil,
   }) {
     return SettingsCompanion(
       id: id ?? this.id,
@@ -4298,6 +4562,7 @@ class SettingsCompanion extends UpdateCompanion<Setting> {
       homeGrid: homeGrid ?? this.homeGrid,
       notifyDayBefore: notifyDayBefore ?? this.notifyDayBefore,
       themeVariant: themeVariant ?? this.themeVariant,
+      notifyPausedUntil: notifyPausedUntil ?? this.notifyPausedUntil,
     );
   }
 
@@ -4339,6 +4604,9 @@ class SettingsCompanion extends UpdateCompanion<Setting> {
     if (themeVariant.present) {
       map['theme_variant'] = Variable<int>(themeVariant.value);
     }
+    if (notifyPausedUntil.present) {
+      map['notify_paused_until'] = Variable<DateTime>(notifyPausedUntil.value);
+    }
     return map;
   }
 
@@ -4355,7 +4623,8 @@ class SettingsCompanion extends UpdateCompanion<Setting> {
           ..write('plantnetCount: $plantnetCount, ')
           ..write('homeGrid: $homeGrid, ')
           ..write('notifyDayBefore: $notifyDayBefore, ')
-          ..write('themeVariant: $themeVariant')
+          ..write('themeVariant: $themeVariant, ')
+          ..write('notifyPausedUntil: $notifyPausedUntil')
           ..write(')'))
         .toString();
   }
@@ -4444,6 +4713,10 @@ typedef $$SpeciesTableCreateCompanionBuilder =
       Value<String> searchText,
       Value<int?> tempOptMin,
       Value<int?> tempOptMax,
+      Value<String?> imageUrl,
+      Value<String?> imageAuthor,
+      Value<String?> imageLicense,
+      Value<String?> imagePage,
       Value<bool> toxicSevere,
       Value<String> toxicityNote,
       Value<ChildToxicity> toxicChildLevel,
@@ -4467,6 +4740,10 @@ typedef $$SpeciesTableUpdateCompanionBuilder =
       Value<String> searchText,
       Value<int?> tempOptMin,
       Value<int?> tempOptMax,
+      Value<String?> imageUrl,
+      Value<String?> imageAuthor,
+      Value<String?> imageLicense,
+      Value<String?> imagePage,
       Value<bool> toxicSevere,
       Value<String> toxicityNote,
       Value<ChildToxicity> toxicChildLevel,
@@ -4614,6 +4891,26 @@ class $$SpeciesTableFilterComposer
 
   ColumnFilters<int> get tempOptMax => $composableBuilder(
     column: $table.tempOptMax,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get imageUrl => $composableBuilder(
+    column: $table.imageUrl,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get imageAuthor => $composableBuilder(
+    column: $table.imageAuthor,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get imageLicense => $composableBuilder(
+    column: $table.imageLicense,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get imagePage => $composableBuilder(
+    column: $table.imagePage,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -4778,6 +5075,26 @@ class $$SpeciesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get imageUrl => $composableBuilder(
+    column: $table.imageUrl,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get imageAuthor => $composableBuilder(
+    column: $table.imageAuthor,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get imageLicense => $composableBuilder(
+    column: $table.imageLicense,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get imagePage => $composableBuilder(
+    column: $table.imagePage,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<bool> get toxicSevere => $composableBuilder(
     column: $table.toxicSevere,
     builder: (column) => ColumnOrderings(column),
@@ -4870,6 +5187,22 @@ class $$SpeciesTableAnnotationComposer
     column: $table.tempOptMax,
     builder: (column) => column,
   );
+
+  GeneratedColumn<String> get imageUrl =>
+      $composableBuilder(column: $table.imageUrl, builder: (column) => column);
+
+  GeneratedColumn<String> get imageAuthor => $composableBuilder(
+    column: $table.imageAuthor,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get imageLicense => $composableBuilder(
+    column: $table.imageLicense,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get imagePage =>
+      $composableBuilder(column: $table.imagePage, builder: (column) => column);
 
   GeneratedColumn<bool> get toxicSevere => $composableBuilder(
     column: $table.toxicSevere,
@@ -4984,6 +5317,10 @@ class $$SpeciesTableTableManager
                 Value<String> searchText = const Value.absent(),
                 Value<int?> tempOptMin = const Value.absent(),
                 Value<int?> tempOptMax = const Value.absent(),
+                Value<String?> imageUrl = const Value.absent(),
+                Value<String?> imageAuthor = const Value.absent(),
+                Value<String?> imageLicense = const Value.absent(),
+                Value<String?> imagePage = const Value.absent(),
                 Value<bool> toxicSevere = const Value.absent(),
                 Value<String> toxicityNote = const Value.absent(),
                 Value<ChildToxicity> toxicChildLevel = const Value.absent(),
@@ -5005,6 +5342,10 @@ class $$SpeciesTableTableManager
                 searchText: searchText,
                 tempOptMin: tempOptMin,
                 tempOptMax: tempOptMax,
+                imageUrl: imageUrl,
+                imageAuthor: imageAuthor,
+                imageLicense: imageLicense,
+                imagePage: imagePage,
                 toxicSevere: toxicSevere,
                 toxicityNote: toxicityNote,
                 toxicChildLevel: toxicChildLevel,
@@ -5028,6 +5369,10 @@ class $$SpeciesTableTableManager
                 Value<String> searchText = const Value.absent(),
                 Value<int?> tempOptMin = const Value.absent(),
                 Value<int?> tempOptMax = const Value.absent(),
+                Value<String?> imageUrl = const Value.absent(),
+                Value<String?> imageAuthor = const Value.absent(),
+                Value<String?> imageLicense = const Value.absent(),
+                Value<String?> imagePage = const Value.absent(),
                 Value<bool> toxicSevere = const Value.absent(),
                 Value<String> toxicityNote = const Value.absent(),
                 Value<ChildToxicity> toxicChildLevel = const Value.absent(),
@@ -5049,6 +5394,10 @@ class $$SpeciesTableTableManager
                 searchText: searchText,
                 tempOptMin: tempOptMin,
                 tempOptMax: tempOptMax,
+                imageUrl: imageUrl,
+                imageAuthor: imageAuthor,
+                imageLicense: imageLicense,
+                imagePage: imagePage,
                 toxicSevere: toxicSevere,
                 toxicityNote: toxicityNote,
                 toxicChildLevel: toxicChildLevel,
@@ -7276,6 +7625,7 @@ typedef $$SettingsTableCreateCompanionBuilder =
       Value<bool> homeGrid,
       Value<bool> notifyDayBefore,
       Value<int> themeVariant,
+      Value<DateTime?> notifyPausedUntil,
     });
 typedef $$SettingsTableUpdateCompanionBuilder =
     SettingsCompanion Function({
@@ -7290,6 +7640,7 @@ typedef $$SettingsTableUpdateCompanionBuilder =
       Value<bool> homeGrid,
       Value<bool> notifyDayBefore,
       Value<int> themeVariant,
+      Value<DateTime?> notifyPausedUntil,
     });
 
 class $$SettingsTableFilterComposer
@@ -7354,6 +7705,11 @@ class $$SettingsTableFilterComposer
 
   ColumnFilters<int> get themeVariant => $composableBuilder(
     column: $table.themeVariant,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get notifyPausedUntil => $composableBuilder(
+    column: $table.notifyPausedUntil,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -7421,6 +7777,11 @@ class $$SettingsTableOrderingComposer
     column: $table.themeVariant,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<DateTime> get notifyPausedUntil => $composableBuilder(
+    column: $table.notifyPausedUntil,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$SettingsTableAnnotationComposer
@@ -7483,6 +7844,11 @@ class $$SettingsTableAnnotationComposer
     column: $table.themeVariant,
     builder: (column) => column,
   );
+
+  GeneratedColumn<DateTime> get notifyPausedUntil => $composableBuilder(
+    column: $table.notifyPausedUntil,
+    builder: (column) => column,
+  );
 }
 
 class $$SettingsTableTableManager
@@ -7524,6 +7890,7 @@ class $$SettingsTableTableManager
                 Value<bool> homeGrid = const Value.absent(),
                 Value<bool> notifyDayBefore = const Value.absent(),
                 Value<int> themeVariant = const Value.absent(),
+                Value<DateTime?> notifyPausedUntil = const Value.absent(),
               }) => SettingsCompanion(
                 id: id,
                 notifyHour: notifyHour,
@@ -7536,6 +7903,7 @@ class $$SettingsTableTableManager
                 homeGrid: homeGrid,
                 notifyDayBefore: notifyDayBefore,
                 themeVariant: themeVariant,
+                notifyPausedUntil: notifyPausedUntil,
               ),
           createCompanionCallback:
               ({
@@ -7550,6 +7918,7 @@ class $$SettingsTableTableManager
                 Value<bool> homeGrid = const Value.absent(),
                 Value<bool> notifyDayBefore = const Value.absent(),
                 Value<int> themeVariant = const Value.absent(),
+                Value<DateTime?> notifyPausedUntil = const Value.absent(),
               }) => SettingsCompanion.insert(
                 id: id,
                 notifyHour: notifyHour,
@@ -7562,6 +7931,7 @@ class $$SettingsTableTableManager
                 homeGrid: homeGrid,
                 notifyDayBefore: notifyDayBefore,
                 themeVariant: themeVariant,
+                notifyPausedUntil: notifyPausedUntil,
               ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))

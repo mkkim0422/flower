@@ -12,6 +12,7 @@ import '../../app/widgets/app_chip.dart';
 import '../../data/repositories/plant_repository.dart';
 import '../../data/repositories/settings_repository.dart';
 import '../../domain/notification_service.dart';
+import 'pause_sheet.dart';
 import '../../domain/stats_service.dart';
 
 const String kAppVersion = '0.1.0';
@@ -105,6 +106,19 @@ class MyScreen extends ConsumerWidget {
                   ),
                   const Divider(),
                   _Row(
+                    icon: Icons.pause_circle_outline_rounded,
+                    title: '알림 잠시 멈추기',
+                    value:
+                        settings == null ||
+                            !isNotifyPaused(settings, DateTime.now())
+                        ? '꺼짐'
+                        : '${settings.notifyPausedUntil!.month}월 ${settings.notifyPausedUntil!.day}일까지',
+                    onTap: settings == null
+                        ? null
+                        : () => showPauseSheet(context, ref),
+                  ),
+                  const Divider(),
+                  _Row(
                     icon: Icons.event_busy_outlined,
                     title: '알림 요일',
                     value: skipLabel,
@@ -175,6 +189,13 @@ class MyScreen extends ConsumerWidget {
                     title: '약관·개인정보 처리방침',
                     value: '준비 중',
                     onTap: null,
+                  ),
+                  const Divider(),
+                  _Row(
+                    icon: Icons.photo_outlined,
+                    title: '도감 사진 출처',
+                    value: '',
+                    onTap: () => context.push(AppRoutes.photoCredits),
                   ),
                   const Divider(),
                   _Row(

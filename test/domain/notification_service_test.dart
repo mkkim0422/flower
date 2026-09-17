@@ -10,6 +10,7 @@ Setting _s({
   int minute = 0,
   List<int> skip = const [],
   bool dayBefore = false,
+  DateTime? pausedUntil,
 }) => Setting(
   id: 1,
   notifyHour: hour,
@@ -22,6 +23,7 @@ Setting _s({
   homeGrid: true,
   notifyDayBefore: dayBefore,
   themeVariant: 0,
+  notifyPausedUntil: pausedUntil,
 );
 
 void main() {
@@ -220,6 +222,21 @@ void main() {
       expect((await repo.getById(b))!.plant.nextCheckAt, DateTime(2026, 9, 22));
     });
 
+    test('멈춤 기간의 알림은 계획에서 빠진다', () async {
+      await add('몬스테라', DateTime(2026, 9, 10)); // 9/17부터 계속 대상
+      final plans = NotificationService.plan(
+        settings: _s(pausedUntil: DateTime(2026, 9, 19)),
+        plants: await repo.getAll(),
+        now: now,
+      );
+      expect(plans, isNotEmpty);
+      expect(plans.first.fireAt, DateTime(2026, 9, 20, 9));
+      expect(
+        plans.every((p) => p.fireAt.isAfter(DateTime(2026, 9, 20))),
+        isTrue,
+      );
+    });
+
     test('삭제된 식물 id 는 무시', () async {
       final n = await applyNotificationAction(
         repo: repo,
@@ -228,6 +245,19 @@ void main() {
         now: now,
       );
       expect(n, 0);
+    });
+  });
+
+  group('알림 잠시 멈추기', () {
+    test('멈춤 마지막 날까지는 예약하지 않고 다음 날부터 다시 예약', () {
+      final now = DateTime(2026, 9, 17, 8);
+      final times = NotificationService.fireTimes(_s(), now);
+      expect(times.first, DateTime(2026, 9, 17, 9));
+      // 계획은 식물 없이도 시각 필터만 검증: 멈춤 설정 시 9/19 이전 시각 제외
+      final s = _s(pausedUntil: DateTime(2026, 9, 19));
+      expect(isNotifyPaused(s, DateTime(2026, 9, 19, 23)), isTrue);
+      expect(isNotifyPaused(s, DateTime(2026, 9, 20)), isFalse);
+      expect(isNotifyPaused(_s(), now), isFalse);
     });
   });
 }

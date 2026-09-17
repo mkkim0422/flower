@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../theme.dart';
@@ -11,36 +12,49 @@ class PlantThumb extends StatelessWidget {
     super.key,
     required this.size,
     this.photoPath,
+    this.fallbackUrl,
     this.radius = AppRadius.thumbnail,
   });
 
   final double size;
   final String? photoPath;
+
+  /// 내 사진이 없을 때 보여줄 도감 사진 주소
+  final String? fallbackUrl;
   final double radius;
 
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
     final file = photoPath == null ? null : File(photoPath!);
+    final placeholder = ColoredBox(
+      color: c.surfaceVariant,
+      child: Center(
+        child: Icon(
+          Icons.eco_outlined,
+          // 헤더처럼 크기가 무한(부모에 맞춤)이면 고정 크기
+          size: size.isFinite ? size * 0.45 : AppSize.emptyIllustration * 0.6,
+          color: c.textTertiary,
+        ),
+      ),
+    );
+    final Widget child;
+    if (file != null && file.existsSync()) {
+      child = Image.file(file, fit: BoxFit.cover);
+    } else if (fallbackUrl != null) {
+      child = CachedNetworkImage(
+        imageUrl: fallbackUrl!,
+        fit: BoxFit.cover,
+        httpHeaders: const {'User-Agent': 'JaljararaPlantApp/0.1'},
+        placeholder: (_, _) => placeholder,
+        errorWidget: (_, _, _) => placeholder,
+      );
+    } else {
+      child = placeholder;
+    }
     return ClipRRect(
       borderRadius: BorderRadius.circular(radius),
-      child: SizedBox(
-        width: size,
-        height: size,
-        child: file != null && file.existsSync()
-            ? Image.file(file, fit: BoxFit.cover)
-            : ColoredBox(
-                color: c.surfaceVariant,
-                child: Icon(
-                  Icons.eco_outlined,
-                  // 헤더처럼 크기가 무한(부모에 맞춤)이면 고정 크기
-                  size: size.isFinite
-                      ? size * 0.45
-                      : AppSize.emptyIllustration * 0.6,
-                  color: c.textTertiary,
-                ),
-              ),
-      ),
+      child: SizedBox(width: size, height: size, child: child),
     );
   }
 }
@@ -54,9 +68,11 @@ class PlantCard extends StatelessWidget {
     required this.status,
     required this.statusLabel,
     this.photoPath,
+    this.fallbackUrl,
     this.onTap,
   });
 
+  final String? fallbackUrl;
   final String nickname;
   final String speciesName;
   final PlantStatus status;
@@ -84,7 +100,11 @@ class PlantCard extends StatelessWidget {
             ),
             child: Row(
               children: [
-                PlantThumb(size: AppSize.plantThumb, photoPath: photoPath),
+                PlantThumb(
+                  size: AppSize.plantThumb,
+                  photoPath: photoPath,
+                  fallbackUrl: fallbackUrl,
+                ),
                 const SizedBox(width: AppSpace.md),
                 Expanded(
                   child: Column(

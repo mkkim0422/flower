@@ -12,6 +12,7 @@ import '../../app/widgets/plant_grid_card.dart';
 import '../../app/widgets/today_check_tile.dart';
 import '../../data/repositories/plant_repository.dart';
 import '../../data/repositories/settings_repository.dart';
+import '../../domain/notification_service.dart' show isNotifyPaused;
 import 'soil_check_sheet.dart';
 
 /// HOME-01
@@ -39,7 +40,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final now = DateTime.now();
     final dateLabel = DateFormat('M월 d일 EEEE', 'ko_KR').format(now);
     final plantsAsync = ref.watch(plantsProvider);
-    final grid = ref.watch(settingsProvider).value?.homeGrid ?? true;
+    final settings = ref.watch(settingsProvider).value;
+    final grid = settings?.homeGrid ?? true;
 
     return Scaffold(
       body: SafeArea(
@@ -92,6 +94,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         children: [
                           _Header(dateLabel: dateLabel, padded: false),
                           const SizedBox(height: AppSpace.section),
+                          if (settings != null &&
+                              isNotifyPaused(settings, now)) ...[
+                            _PausedBanner(
+                              until: settings.notifyPausedUntil!,
+                              onResume: () => ref
+                                  .read(settingsRepositoryProvider)
+                                  .setNotifyPausedUntil(null),
+                            ),
+                            const SizedBox(height: AppSpace.md),
+                          ],
                           if (due.isNotEmpty) ...[
                             Row(
                               children: [
@@ -272,6 +284,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     nickname: e.plant.nickname,
     speciesName: e.displaySpeciesName,
     photoPath: e.plant.photoPath,
+    fallbackUrl: e.species?.imageUrl,
     status: e.status(now),
     statusLabel: e.statusLabel(now),
     onTap: () => context.push(AppRoutes.plant(e.plant.id)),
@@ -281,6 +294,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     nickname: e.plant.nickname,
     speciesName: e.displaySpeciesName,
     photoPath: e.plant.photoPath,
+    fallbackUrl: e.species?.imageUrl,
     status: e.status(now),
     statusLabel: e.statusLabel(now),
     onTap: () => context.push(AppRoutes.plant(e.plant.id)),
@@ -364,6 +378,39 @@ class _ViewToggle extends StatelessWidget {
         children: [
           item(Icons.grid_view_rounded, '앨범', true),
           item(Icons.view_list_rounded, '목록', false),
+        ],
+      ),
+    );
+  }
+}
+
+/// 알림 멈춤 안내
+class _PausedBanner extends StatelessWidget {
+  const _PausedBanner({required this.until, required this.onResume});
+
+  final DateTime until;
+  final VoidCallback onResume;
+
+  @override
+  Widget build(BuildContext context) {
+    final c = context.colors;
+    return Container(
+      padding: const EdgeInsets.only(left: AppSpace.cardPadding),
+      decoration: BoxDecoration(
+        color: c.accentSoft,
+        borderRadius: BorderRadius.circular(AppRadius.card),
+      ),
+      child: Row(
+        children: [
+          Icon(Icons.pause_circle_outline_rounded, color: c.textSecondary),
+          const SizedBox(width: AppSpace.md),
+          Expanded(
+            child: Text(
+              '알림이 ${until.month}월 ${until.day}일까지 멈춰 있어요',
+              style: AppText.body.copyWith(color: c.textPrimary),
+            ),
+          ),
+          AppButton.text(label: '다시 켜기', onPressed: onResume),
         ],
       ),
     );

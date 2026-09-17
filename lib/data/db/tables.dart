@@ -80,6 +80,12 @@ class Species extends Table {
   IntColumn get tempOptMin => integer().nullable()();
   IntColumn get tempOptMax => integer().nullable()();
 
+  /// 도감 대표 사진 (위키미디어 공용, 자유 라이선스). 없으면 null
+  TextColumn get imageUrl => text().nullable()();
+  TextColumn get imageAuthor => text().nullable()();
+  TextColumn get imageLicense => text().nullable()();
+  TextColumn get imagePage => text().nullable()();
+
   /// 경고할 만큼 위험한지 (앱은 이 값이 true 일 때만 독성 경고를 띄운다)
   BoolColumn get toxicSevere => boolean().withDefault(const Constant(false))();
 
@@ -199,6 +205,9 @@ class Settings extends Table {
 
   /// (미사용) 라이트 시안 비교용이었음. 2026-09-17 화이트로 확정되어 읽지 않는다.
   IntColumn get themeVariant => integer().withDefault(const Constant(0))();
+
+  /// 알림 잠시 멈추기: 이 날짜(포함)까지 알림을 보내지 않는다. null 이면 켜짐
+  DateTimeColumn get notifyPausedUntil => dateTime().nullable()();
 
   @override
   Set<Column> get primaryKey => {id};

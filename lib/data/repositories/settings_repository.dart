@@ -37,6 +37,18 @@ class SettingsRepository {
     );
   }
 
+  /// 알림 잠시 멈추기. null 이면 다시 켬
+  Future<void> setNotifyPausedUntil(DateTime? until) async {
+    await db.getSettings();
+    await (db.update(db.settings)..where((t) => t.id.equals(1))).write(
+      SettingsCompanion(
+        notifyPausedUntil: Value(
+          until == null ? null : DateTime(until.year, until.month, until.day),
+        ),
+      ),
+    );
+  }
+
   Future<void> setHomeGrid(bool grid) async {
     await db.getSettings();
     await (db.update(db.settings)..where((t) => t.id.equals(1))).write(
