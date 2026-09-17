@@ -125,7 +125,8 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: 'search',
             parentNavigatorKey: _rootKey,
-            builder: (_, _) => const SpeciesSearchScreen(),
+            builder: (_, state) =>
+                SpeciesSearchScreen(draft: state.extra as AddPlantDraft?),
           ),
           GoRoute(
             path: 'manual',

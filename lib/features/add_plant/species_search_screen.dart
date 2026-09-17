@@ -14,7 +14,10 @@ import 'add_plant_draft.dart';
 
 /// ADD-02 이름 검색 (국내명·학명 동시)
 class SpeciesSearchScreen extends ConsumerStatefulWidget {
-  const SpeciesSearchScreen({super.key});
+  const SpeciesSearchScreen({super.key, this.draft});
+
+  /// 식별 흐름에서 넘어온 사진 등 (선택)
+  final AddPlantDraft? draft;
 
   @override
   ConsumerState<SpeciesSearchScreen> createState() =>
@@ -83,6 +86,7 @@ class _SpeciesSearchScreenState extends ConsumerState<SpeciesSearchScreen> {
                   extra: AddPlantDraft(
                     speciesId: s.id,
                     nicknameHint: s.koNames.first,
+                    photoPath: widget.draft?.photoPath,
                   ),
                 ),
               ),
@@ -102,6 +106,7 @@ class _SpeciesSearchScreenState extends ConsumerState<SpeciesSearchScreen> {
                   AppRoutes.addManual,
                   extra: AddPlantDraft(
                     nicknameHint: _query.isEmpty ? null : _query,
+                    photoPath: widget.draft?.photoPath,
                   ),
                 ),
               ),

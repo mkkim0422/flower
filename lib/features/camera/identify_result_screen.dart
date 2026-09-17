@@ -32,11 +32,8 @@ class IdentifyResultScreen extends ConsumerWidget {
         );
     if (!context.mounted) return;
     if (chosen == null) {
-      // 목록에 없어요 → 직접 입력
-      context.push(
-        AppRoutes.addManual,
-        extra: AddPlantDraft(photoPath: photoPath),
-      );
+      // 목록에 없어요 → 이름 검색 / 직접 입력 중 사용자가 선택 (사진은 그대로 넘김)
+      await _askHowToRegister(context);
       return;
     }
     context.push(
@@ -46,6 +43,55 @@ class IdentifyResultScreen extends ConsumerWidget {
         nicknameHint: chosen.koName ?? chosen.scientificName,
         photoPath: photoPath,
         scientificName: chosen.scientificName,
+      ),
+    );
+  }
+
+  Future<void> _askHowToRegister(BuildContext context) async {
+    final draft = AddPlantDraft(photoPath: photoPath);
+    await showModalBottomSheet<void>(
+      context: context,
+      useSafeArea: true,
+      builder: (ctx) => Padding(
+        padding: const EdgeInsets.fromLTRB(
+          AppSpace.screenH,
+          0,
+          AppSpace.screenH,
+          AppSpace.xl,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              '어떻게 등록할까요?',
+              style: AppText.title.copyWith(color: ctx.colors.textPrimary),
+            ),
+            const SizedBox(height: AppSpace.xs),
+            Text(
+              '찍은 사진은 대표 사진으로 들어가요',
+              style: AppText.caption.copyWith(color: ctx.colors.textSecondary),
+            ),
+            const SizedBox(height: AppSpace.lg),
+            AppButton.primary(
+              label: '이름으로 검색',
+              icon: Icons.search_rounded,
+              onPressed: () {
+                Navigator.pop(ctx);
+                context.push(AppRoutes.addSearch, extra: draft);
+              },
+            ),
+            const SizedBox(height: AppSpace.sm),
+            AppButton.secondary(
+              label: '직접 입력',
+              icon: Icons.edit_outlined,
+              onPressed: () {
+                Navigator.pop(ctx);
+                context.push(AppRoutes.addManual, extra: draft);
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -73,7 +119,10 @@ class IdentifyResultScreen extends ConsumerWidget {
             loading: () => const _Identifying(),
             error: (e, _) => _Unavailable(
               reason: UnavailableReason.apiError,
-              onSearch: () => context.push(AppRoutes.addSearch),
+              onSearch: () => context.push(
+                AppRoutes.addSearch,
+                extra: AddPlantDraft(photoPath: photoPath),
+              ),
               onManual: () => context.push(
                 AppRoutes.addManual,
                 extra: AddPlantDraft(photoPath: photoPath),
@@ -87,7 +136,10 @@ class IdentifyResultScreen extends ConsumerWidget {
               ),
               IdentificationUnavailable u => _Unavailable(
                 reason: u.reason,
-                onSearch: () => context.push(AppRoutes.addSearch),
+                onSearch: () => context.push(
+                  AppRoutes.addSearch,
+                  extra: AddPlantDraft(photoPath: photoPath),
+                ),
                 onManual: () => context.push(
                   AppRoutes.addManual,
                   extra: AddPlantDraft(photoPath: photoPath),
