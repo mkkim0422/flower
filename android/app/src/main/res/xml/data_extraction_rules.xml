@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android 12+ : 클라우드 백업 + 기기 간 전송(Smart Switch 등) 모두 DB 포함 -->
+<data-extraction-rules>
+    <cloud-backup>
+        <include domain="file" path="." />
+    </cloud-backup>
+    <device-transfer>
+        <include domain="file" path="." />
+    </device-transfer>
+</data-extraction-rules>

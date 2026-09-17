@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../app/router.dart';
 
 import '../../app/theme.dart';
 import '../../app/widgets/app_button.dart';
@@ -122,10 +125,10 @@ class MyScreen extends ConsumerWidget {
               child: Column(
                 children: [
                   _Row(
-                    icon: Icons.cloud_upload_outlined,
-                    title: '백업·복원',
-                    value: '준비 중',
-                    onTap: null,
+                    icon: Icons.save_alt_rounded,
+                    title: '기록 내보내기·가져오기',
+                    value: '파일',
+                    onTap: () => context.push(AppRoutes.backup),
                   ),
                   const Divider(),
                   _Row(
@@ -170,7 +173,7 @@ class MyScreen extends ConsumerWidget {
             ),
             const SizedBox(height: AppSpace.md),
             Text(
-              '기록은 이 기기에만 저장돼요. 사진은 서버에 백업되지 않아요',
+              '기록은 이 기기에만 저장돼요. 폰 백업(구글·iCloud)에 기록이 포함되고, 사진까지 옮기려면 내보내기를 쓰세요',
               style: AppText.caption.copyWith(color: c.textTertiary),
               textAlign: TextAlign.center,
             ),

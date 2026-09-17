@@ -234,5 +234,14 @@
 ### 남은 M4 (사용자 입력 필요)
 - 패키지명 확정, 운영자·문의 이메일, 처리방침 GitHub Pages URL, 릴리스 keystore 생성(비밀번호), Supabase 프로젝트(백업·탈퇴), Google/Apple(/Kakao) 로그인 설정, PlantNet 키.
 
+## 백업 (2026-09-17, 로그인 없이) — M4 5-4 Override
+
+사용자 결정: 로그인 백업 대신 ① OS 기본 백업 ② 파일 내보내기·가져오기 먼저. 로그인 백업(Supabase)은 사용자 요청이 생기면 이후 업데이트로.
+
+- Android 자동 백업: `allowBackup` + `xml/backup_rules.xml`(≤11) + `xml/data_extraction_rules.xml`(12+). files/ 의 Drift DB만 포함(25MB 한도), 사진(app_flutter/photos)은 제외. Smart Switch 등 기기 전송도 포함.
+- iOS: Application Support(DB)·Documents(사진) 모두 iCloud 백업 기본 포함 → 추가 설정 없음.
+- 내보내기·가져오기(`domain/backup_service.dart`, `features/my/backup_screen.dart`): `jaljarara-backup-YYYYMMDD.zip` = backup.json(공간·식물·물 준 기록·일기·설정, 품종은 학명으로 저장해 설치 간 id 차이 무관) + photos/. share_plus 로 공유, file_picker 로 가져오기(요약 확인 후 전체 교체). 테스트 3건(JSON 왕복·전체 교체·zip 왕복).
+- 패키지: archive(MIT), share_plus(BSD-3), file_picker(MIT) — 비용 0.
+
 ## 다음: M4 — 백업 · 인증 · 스토어 준비
 - AUTH-01(Google/Apple/Kakao), latest.json 백업·복원, MY-04 탈퇴, 개인정보 처리방침, 앱 아이콘, 릴리스 서명, 패키지명 확정

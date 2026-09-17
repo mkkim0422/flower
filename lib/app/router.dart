@@ -13,6 +13,7 @@ import '../features/camera/identify_result_screen.dart';
 import '../features/diary/diary_write_screen.dart';
 import '../features/species_info/species_info_screen.dart';
 import '../features/home/home_screen.dart';
+import '../features/my/backup_screen.dart';
 import '../features/my/my_screen.dart';
 import '../features/onboarding/onboarding_screen.dart';
 import '../features/plant_detail/plant_detail_screen.dart';
@@ -34,6 +35,7 @@ class AppRoutes {
   static const addEnv = '/add/env'; // ADD-04
   static const spaceNew = '/spaces/new'; // SPC-02
   static const identify = '/identify'; // CAM-02~04 (extra: 사진 경로)
+  static const backup = '/my/backup'; // 내보내기·가져오기
   static String plant(int id) => '/home/plant/$id'; // PLT-01
   static String spaceEdit(int id) => '/spaces/$id'; // SPC-02
   static String diaryNew(int plantId) =>
@@ -142,6 +144,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             ),
           ),
         ],
+      ),
+      GoRoute(
+        path: AppRoutes.backup,
+        parentNavigatorKey: _rootKey,
+        builder: (_, _) => const BackupScreen(),
       ),
       GoRoute(
         path: '/species/:id',
