@@ -500,6 +500,24 @@ class _Body extends ConsumerWidget {
             ),
           const SizedBox(height: AppSpace.cardGap),
 
+          const SizedBox(height: AppSpace.cardGap),
+          // 증상으로 원인 찾기
+          AppCard(
+            onTap: () => context.push(AppRoutes.symptoms(p.id)),
+            child: Row(
+              children: [
+                Icon(Icons.healing_outlined, color: c.textSecondary),
+                const SizedBox(width: AppSpace.md),
+                Expanded(
+                  child: Text(
+                    '식물이 아파 보이나요? 증상으로 원인 찾기',
+                    style: AppText.bodyStrong.copyWith(color: c.textPrimary),
+                  ),
+                ),
+                Icon(Icons.chevron_right_rounded, color: c.textTertiary),
+              ],
+            ),
+          ),
           // 플로팅 버튼 자리
           SizedBox(
             height:

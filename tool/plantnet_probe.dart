@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_print
 // 개발용: 실제 PlantNet 서버가 사진 여러 장 요청을 받는지 확인.
 // lib/data/remote/plantnet_client.dart 의 요청 구성과 동일하게 만든다.
 import 'dart:convert';

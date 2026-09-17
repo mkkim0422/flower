@@ -12,6 +12,7 @@ import '../features/camera/camera_screen.dart';
 import '../features/camera/identify_result_screen.dart';
 import '../features/diary/diary_write_screen.dart';
 import '../features/species_info/species_info_screen.dart';
+import '../features/symptom/symptom_screen.dart';
 import '../features/home/home_screen.dart';
 import '../features/my/backup_screen.dart';
 import '../features/my/my_screen.dart';
@@ -41,6 +42,8 @@ class AppRoutes {
   static String diaryNew(int plantId) =>
       '/home/plant/$plantId/diary/new'; // DIA-01
   static String species(int id) => '/species/$id'; // INFO-01
+  static String symptoms(int plantId) =>
+      '/home/plant/$plantId/symptoms'; // 증상으로 찾기
 }
 
 final _rootKey = GlobalKey<NavigatorState>(debugLabel: 'root');
@@ -90,6 +93,13 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                       plantId: int.parse(state.pathParameters['id']!),
                     ),
                     routes: [
+                      GoRoute(
+                        path: 'symptoms',
+                        parentNavigatorKey: _rootKey,
+                        builder: (_, state) => SymptomScreen(
+                          plantId: int.parse(state.pathParameters['id']!),
+                        ),
+                      ),
                       GoRoute(
                         path: 'diary/new',
                         parentNavigatorKey: _rootKey,
